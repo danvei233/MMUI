@@ -1,11 +1,13 @@
 
 
-# MMUI Template for Qzsystem
+# 轻舟云主机系统MMUI模板 MMUI Template for Qzsystem
 
 欢迎使用轻舟云主机系统MMUI模板！本模板是专为轻舟云系统用户设计的前台界面模板，提供三种不同的主题样式供用户选择：毛玻璃模式、正常模式和黑暗模式。
-![d7e1a2114cb5c207ac24041d5693fd1f.png](https://img.picui.cn/free/2024/07/11/668ff82d383d3.png)
-![8e7d1540cbc32c28db1a2a4dd984557a.png](https://img.picui.cn/free/2024/07/11/668ff82d58fbb.png)
-![5108c3e6133f493eca846a078c0e2742.png](https://img.picui.cn/free/2024/07/11/668ff82d4439c.png)
+<p align="center">
+  <img src="https://img.picui.cn/free/2024/07/11/668ff82d383d3.png" alt="Image 1" style="width: auto; max-height: 100px; margin-right: 10px;">
+  <img src="https://img.picui.cn/free/2024/07/11/668ff82d58fbb.png" alt="Image 2" style="width: auto; max-height: 100px; margin-right: 10px;">
+  <img src="https://img.picui.cn/free/2024/07/11/668ff82d4439c.png" alt="Image 3" style="width: auto; max-height: 100px;">
+</p>
 ## 特性
 
 - **毛玻璃模式**：现代而典雅，提供半透明效果，增强视觉体验。
