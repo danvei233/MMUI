@@ -747,8 +747,10 @@ body.glass-mode .mdui-color-theme-accent:hover {
                     <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
                         <li value="5" class="mdui-list-item mdui-ripple">网络</li>
                         <li value="9" class="mdui-list-item mdui-ripple">策略</li>
+                         {if $host.is_nat==1}
                         <li value="10" class="mdui-list-item mdui-ripple">端口映射</li>
-                        <li value="1" id="eggButton" class="mdui-text-color-red mdui-list-item mdui-ripple">点我助力丁薇跑路</li>
+                        {/if}
+                        <li value="1" id="eggButton" class="mdui-text-color-red mdui-list-item mdui-ripple">？？？？</li>
                     </ul>
                 </li>
 
@@ -932,11 +934,13 @@ body.glass-mode .mdui-color-theme-accent:hover {
             <i class="material-icons">flash_off</i> 断电
         </button>
     </div>
+     {if $host.is_nat==1}
     <div class="mdui-col mdui-col-sm-4">
         <button class="mdui-btn-block fcrea mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad" lay-filter="forwardPort-create" lay-submit>
             <i class="material-icons">add_link</i> 创建映射
         </button>
     </div>
+    {/if}
     <div class="mdui-col mdui-col-sm-4">
         <button class="mdui-btn-block snapshot-create mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
             <i class="material-icons">camera_enhance</i> 创建快照
