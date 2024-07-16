@@ -3,6 +3,7 @@
 # 轻舟云主机系统MMUI模板 MMUI Template for Qzsystem
 
 欢迎使用轻舟云主机系统MMUI模板！本模板是专为轻舟云系统用户设计的前台界面模板，提供三种不同的主题样式供用户选择：毛玻璃模式、正常模式和黑暗模式。
+快捷下载地址（https://wwt.lanzouv.com/ix0Jd24l8sqf）
 <p align="center">
   <img src="https://img.picui.cn/free/2024/07/11/668ff82d383d3.png" alt="Image 1" style="width: auto; max-height: 100px; margin-right: 10px;">
   <img src="https://github.com/danvei233/MMUI/assets/122994609/bb6e1ccb-19dc-494e-aefa-858733c5ee25" alt="Image 1" style="width: auto; max-height: 100px; margin-right: 10px;">
