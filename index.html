@@ -1444,19 +1444,7 @@ body.glass-mode .mdui-color-theme-accent:hover {
                                 </div></div>
                                <div>
                                 {/if}
-       <div class="mdui-p-a-2 mdui-container" id="tab-11">
-                                    <div class="layui-col-xs8 layui-col-md8 danvei-form"   style="float: right;">
-                                        <table class="layui-table layui-text">
-                                            <thead>
-                                            <th><i class="fa fa-cube"></i> (可建站个数 {$host.domain_num}，步骤1：域名解析到IP{if $host.is_nat==1}{$network['eth1'][0]->public_ip} {else}{$network['eth1'][0]->ip}{/if}；步骤2：添加域名白名单；步骤3：云主机中绑定域名)</th>
-                                            </thead>
-                                            <tbody>
-                                            <tr><td style="text-align: center; width:100%"><button  class="layui-btn layui-btn-sm layui-btn-normal" id="forwardDomain-create" lay-filter="forwardDomain-create" lay-submit > <i class=" fa fa-plus fa-2x"> </i>添加域名白名单</button></td></tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <table style="min-height: 428.3px ;" class="layui-table"  id="forwardDomainTable" lay-filter="forwardDomainTable" ></table>
-                                </div>    </div>    
+      
                                 
    </div>
 
