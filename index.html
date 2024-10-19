@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-         <!---modern material design Alpha-1.0.2--->
+         <!---modern material design Alpha-1.0.3--->
     <!--主题BY：Danvei qq484883303  ---->
     <!---本软件完全免费发布，并且提供给用户免费使用。任何形式的重新销售或倒卖本软件都是被明确禁止的。如果您发现有人出售本软件，请立即向我们举报。我们对此类行为保留采取法律行动的权利。
 感谢您的支持与合作！--->
    <!--本仓库地址：下一版加--->
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/css/mdui.min.css">
+<link rel="stylesheet" href="https://t.netmc.icu/public/static/mdui/1.0.2/css/mdui.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap" rel="stylesheet">
 
-<script src="https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/js/mdui.min.js"></script>
+<script src="https://t.netmc.icu/public/static/mdui/1.0.2/js/mdui.min.js"></script>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/component/pear/css/pear.css"/>
     <link rel="stylesheet" href="/static/component/awesome/css/control.css"/>
@@ -30,19 +30,41 @@
             animation-delay: 0s, 5s; /* 第一个动画没有延迟，第二个动画延迟5秒开始 */
         }
 
-        .page-loading {
-            
-            position: fixed;
-            display: block;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 19891017;
-            background-color: #f4d2fc
-        }
+.page-loading {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 19891017;
+    background-color: rgba(255, 255, 255, 0.5); /* 半透明背景 */
+    backdrop-filter: blur(5px); /* 背景模糊 */
+}
+
+.page-loading .loader-container {
+    padding: 20px;
+    border-radius: 10px; /* 圆角 */
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 阴影 */
+}
+.loader {
+    border: 6px solid #f3f3f3; /* Light grey */
+    border-top: 6px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
         .ball-loader,.signal-loader {
             position: absolute;
@@ -133,6 +155,10 @@
         }
     </style>     <!---Qzsystem css--->
     <style>
+    .mdui-theme-accent-indigo .mdui-color-theme-accent {
+    background-color: rgb(90 ,182,255) !important;
+    color: rgb(255, 255, 255) !important;
+}
        .mdui-list-item{
      border-radius: 25px;
 }
@@ -149,8 +175,13 @@
     .mdui-card-actions-stacked{
             margin: 8px
     }
+     @font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'San Francisco Display';
 }
 
     .layui-btn{
@@ -177,18 +208,27 @@ body {
         animation-duration: 0.5s; 
         
         border-radius: 15px;
-    box-shadow: 5px 9px 20px 0px #00000054;
+    box-shadow: 5px 9px 20px 0px #00000000;
     }
+            body.dark-mode .cada:hover {
+        background-color: #5a5e73 !important;}
+    body.dark-mode .cada:focus {
+        background-color: #5a5e73 !important;}
+        body.dark-mode .cad:hover {
+        background-color: #5a5e73 !important;}
+    body.dark-mode .cad:focus {
+        background-color: #5a5e73 !important;}
+        
     .cad{
         margin: 8px;
-        border-radius: 15px !important;
+        border-radius: 12px !important;
     /*box-shadow: 0px 3px 8px 0px #0691ff70 !important;*/
         
     }
     
         .mdui-card{
        border-radius: 15px;
-    box-shadow: 5px 9px 20px 0px #00000054;
+    box-shadow: 5px 9px 20px 0px #00000008;
     }
     .mdui-card-primary {
     position: relative;
@@ -232,6 +272,7 @@ body {
             
         }
             .mdui-container {
+            background-color: #fafafa;
          width: 100%; 
          min-height: calc(100vh - 64px);
          max-width: 1145141919px;
@@ -244,6 +285,7 @@ body {
     @media only screen and (min-width: 1000px){
         
             .mdui-container {
+                background-color:#fafafa   ;
          width: 100%; 
          min-height:  calc(100vh - 64px);
          max-width: 1145141919px;
@@ -265,28 +307,49 @@ body {
         right: 20px;
         bottom: 20px;
          z-index: 99999;
-    }}
+    }
+        .bj {
+            display: flex;
+        }
+        
+        
+    }
     </style>     <!---mdui mixin css--->
     <style>
     
 /* 暗模式下的样式覆盖 */
 /* 特定覆盖 layui-select-tips 和其内部的 dd 元素 */
+   body.dark-mode          .mdui-container {
+ background-color: #1d2033;
+         width: 100%; 
+         min-height: calc(100vh - 64px);
+         max-width: 1145141919px;
+             padding-right:8px; 
+          padding-left: 8px;
+         
+         
+    }
+body.dark-mode .mdui-theme-accent-indigo,
+body.dark-mode .mdui-color-theme-accent {
+    background-color: rgb(62 66 87) !important;
+    color: rgb(255, 255, 255) !important;
+}
 body.dark-mode .layui-select-tips {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 body.dark-mode .layui-layer-setwin,
 body.dark-mode .layui-layer-ico,
 body.dark-mode .layui-layer-title,
 body.dark-mode .layui-select-tips dd {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 /* 额外覆盖 .layui-form-select 的样式 */
 body.dark-mode .layui-form-select dl dd {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .layui-form-select dl dd:hover {
@@ -299,32 +362,35 @@ body.dark-mode .layui-form-select dl dd.layui-this {
 
 body.dark-mode .layui-input-inline {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .layui-form-label {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
+}
+body.dark-mode .mdui-drawer {
+    background-color: #282b3d;
 }
 
 body.dark-mode .layui-tab-item {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .layui-tab-content {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .layui-tab {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .layui-input {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 
@@ -336,7 +402,7 @@ body.dark-mode .layui-anim,
 body.dark-mode .layui-anim-upbit,
 body.dark-mode .layui-header,
 body.dark-mode .layui-body {
-    background-color: #1e1e1e;
+    background-color: #282b3d;
 }
 
 body.dark-mode .layui-logo,
@@ -345,21 +411,21 @@ body.dark-mode .layui-nav-item a {
 }
 
 body.dark-mode .mdui-appbar {
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .mdui-card {
     animation: backInLeft;
     animation-duration: 0.5s;
-    background-color: #1e1e1e;
+    background-color: #282b3d;
 }
 
 body.dark-mode .mdui-toolbar {
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .mdui-panel-item {
-    background-color: #1e1e1e;
+    background-color: #282b3d;
     /*outline: 1px solid white;*/
 }
 body.dark-mode .layui-form-select,
@@ -367,16 +433,16 @@ body.dark-mode .layui-layer,
 body.dark-mode .layui-table,
 body.dark-mode .mdui-table {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .layui-form {
     color: #ffffff !important;
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
 }
 
 body.dark-mode .mdui-table tbody tr {
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
     color: #ffffff !important;
 }
 
@@ -386,12 +452,12 @@ body.dark-mode .mdui-table thead {
 }
 
 body.dark-mode .layui-table tbody tr {
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
     color: #ffffff !important;
 }
 
 body.dark-mode .layui-table tbody tr th {
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
     color: #ffffff !important;
 }
 
@@ -401,12 +467,12 @@ body.dark-mode .layui-table thead {
 }
 
 body.dark-mode .layui-table thead th {
-    background-color: #333333 !important;
+    background-color: #282b3d !important;
     color: #ffffff !important;
 }
 
 body.dark-mode .mdui-table tbody tr td {
-    background-color: #1e1e1e !important;
+    background-color: #282b3d !important;
     color: #ffffff !important;
 }
 
@@ -414,7 +480,9 @@ body.dark-mode .mdui-table thead th {
     background-color: #333333 !important;
     color: #ffffff !important;
 }
-
+body.dark-mode .tittle{
+    color: #64b5f6;
+}
 body.dark-mode .mdui-select,
 body.dark-mode .mdui-card-content,
 body.dark-mode .mdui-card-primary-title,
@@ -425,6 +493,14 @@ body.dark-mode li,
 body.dark-mode p,
 body.dark-mode a {
     color: #ffffff;
+}
+body.dark-mode .layui-form-autocomplete dl dd:hover {
+    background-color: #2e3247;
+}
+body.dark-mode layui-badge,
+body.dark-mode layui-bg-gray {
+    color: #ffffff !important;
+    background-color: #1d2033 !important;
 }
 
 </style><!---darkmode css--->
@@ -625,35 +701,69 @@ body.glass-mode .mdui-color-theme-accent {
     color: #fff; /* 白色文字 */
     border-radius: 10px; /* 更大的圆角 */
     padding: 20px 30px; /* 增加内边距 */
-    box-shadow: 0 6px 10px rgba(0,0,0,0.15); /* 更大的阴影效果 */
+    /*box-shadow: 0 6px 10px rgba(0,0,0,0.15);  更大的阴影效果 */
     font-size: 18px; /* 增大字体大小 */
     line-height: 1.5; /* 调整行高 */
 } 
 body.glass-mode .mdui-color-theme-accent:hover {
     background: rgba(255, 255, 255, 0.3); /* 鼠标悬浮时增加背景透明度 */
+
+
 }
+body.glass-mode .mdui-container {
+   background-color: #1d203300;/* 鼠标悬浮时增加背景透明度 */
+
+
+}
+
+
 
 </style><!---glass mode css--->
    <style>
+   .layui-table-cell {
+    height: 39px !important;
+    line-height: 34px;
+}
+   .mdui-table-fluid {
+       
+       border:none !important;
+   }
+   
+   .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+    border-width: 0px;
+    border-style: none !important;
+    border-color: #eee;
+    border-top: none;
+}
         .container {
          display: flex;
             justify-content: space-between; /* 将子元素分布在两端 */
             align-items: center; /* 垂直居中 */
             width: 100%;* 垂直居中 */
         }
-        
-      
+ .mdui-panel-item {
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}       
+       .mdui-panel-item-open {
+    height: auto;
+    margin-bottom: 8px;
+}       
     </style><!---微调 css--->
 </head>
 
     
 <div class="page-loading">
-    <div class="ball-loader">
-        <img src="https://t.netmc.icu/i/2024/07/03/ihqekv.gif">
-        <br>
+    <div class="loader-container">
         
+            <div class="mdui-center loader"></div>
+            
+      
     </div>
 </div>
+
+
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-auto mdui-theme-layout-auto mdui-theme-primary-blue mdui-theme-accent-indigo mdui-loaded pear-container ">
 <!--   菜单栏   -->
 
@@ -664,21 +774,21 @@ body.glass-mode .mdui-color-theme-accent:hover {
     </a>
     <a style="color:#FFFFFF" href="javascript:;" class="mdui-typo-title mdui-ripple">{$host.host_name}</a>
     <div class="mdui-toolbar-spacer"></div>
-    <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" >
+   <!-- <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" >
       <i style="color:#FFFFFF" class="mdui-icon material-icons mdui-ripple">search</i>
-    </a>
-        <button id="glass-mode-toggle" class="mdui-btn mdui-btn-icon">
+    </a>-->
+        <button style="color:#FFFFFF" id="glass-mode-toggle" class="mdui-btn mdui-btn-icon">
                 <i class="mdui-icon material-icons">windows</i>
             </button>
-    <button id="dark-mode-toggle" class="mdui-btn mdui-btn-icon">
+    <button style="color:#FFFFFF" id="dark-mode-toggle" class="mdui-btn mdui-btn-icon">
                 <i class="mdui-icon material-icons">brightness_4</i>
             </button>
     <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" onclick="location.reload();">
       <i style="color:#FFFFFF" class="mdui-icon material-icons">refresh</i>
     </a>
-    <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple">
+    <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple">
       <i style="color:#FFFFFF" onclick="mdui.snackbar('别点了，啥也没');" class="mdui-icon material-icons">more_vert</i>
-    </a>
+    </a>-->
   </div>
  
 </div>
@@ -716,7 +826,7 @@ body.glass-mode .mdui-color-theme-accent:hover {
 
                 <li class="mdui-collapse-item mdui-collapse-item-open">
                     <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
-                        <i class="mdui-text-color-orange mdui-list-item-icon mdui-icon material-icons">windows</i>
+                        <i class="mdui-text-color-orange mdui-list-item-icon mdui-icon material-icons">center_focus_weak</i>
                         <div class="mdui-list-item-content">系统</div>
                         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
                     </div>
@@ -750,7 +860,7 @@ body.glass-mode .mdui-color-theme-accent:hover {
                          {if $host.is_nat==1}
                         <li value="10" class="mdui-list-item mdui-ripple">端口映射</li>
                         {/if}
-                        <li value="1" id="eggButton" class="mdui-text-color-red mdui-list-item mdui-ripple">？？？？</li>
+                        <li value="1" id="eggButton" class="mdui-text-color-red mdui-list-item mdui-ripple">      </li>
                     </ul>
                 </li>
 
@@ -763,20 +873,64 @@ body.glass-mode .mdui-color-theme-accent:hover {
     </div>
 <div class="mdui-container">
     
-                              <div class="mdui-p-a-2 mdui-container" id="tab-1">
- <div class=" mdui-col-md-12">
+    
+    <div class="mdui-p-a-2 mdui-container" id="tab-1"  >
+        <div class="mdui-row">                  
+            <div class=" bj mdui-col-md-12" >
      
-          <div class="mdui-card">  
-           <div class="mdui-card-media" style="bottom: 0;">
-                                     
-                                
-                             </div>
+         
+           
+      
           
-           <div class=" mdui-col-md-4" style="margin:0px ;padding: 0px;">
-                <div id="img"  style="width:100%;height:100%;bottom: 0;"></div></div>      
+           <div class=" mdui-col-md-4" style="display: flex;margin:0px;padding: 0px;flex-direction: column-reverse; margin-top: 10px;">
+                   <div class="mdui-card" style="    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;">
+  <div class="mdui-card-media">
+      
+   
+    <div id="img"  style=" width:100%;height:100%;bottom: 0; z-index: 2;" style="background-image:url(http://t.netmc.icu/i/2024/07/03/8ltsf4.jpg)">
         
-    <div class=" mdui-col-md-8">  
-<div class="mdui-row-md-3">
+        <img height="100%" width="100%" src="http://t.netmc.icu/i/2024/07/03/8ltsf4.jpg">
+    </div>
+    
+    <div class="mdui-card-media-covered">
+      <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">{$host.host_name}</div>
+        
+        <div class="mdui-card-primary-subtitle"> 主机状态：<span id="status">运行中</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="mdui-card-actions">
+    <div class="mdui-row-xs-3">
+    
+    <div class="mdui-col mdui-col-xs-1">
+    <div style="display:none; "  mdui-tooltip="{content: '关机',delay: 300, position: 'top'}" class="ptc"><button style="" class="ptc mdui-center  mdui-btn mdui-btn-icon mdui-color-red mdui-ripple close">
+  <i class="mdui-icon material-icons">power_settings_new</i>
+</button></div>
+    <div class="stc"><button mdui-tooltip="{content: '开机',delay: 300, position: 'top'}" class="   mdui-center mdui-btn mdui-btn-icon mdui-color-green-600 mdui-ripple start">
+  <i class="mdui-icon material-icons">power_settings_new</i>
+</button></div>
+    </div>
+  <div class="mdui-col mdui-col-xs-1">
+    <button mdui-tooltip="{content: '重启',delay: 300, position: 'top'}" class="mdui-center mdui-btn mdui-btn-icon mdui-color-blue-a200 mdui-ripple restart">
+  <i class="mdui-icon material-icons">restart_alt</i>
+</button>
+  </div>
+<div class="mdui-col mdui-col-xs-1">
+<button mdui-tooltip="{content: '强制关机',delay: 300, position: 'top'}" class="mdui-center mdui-btn mdui-btn-icon mdui-color-deep-purple-500 mdui-ripple power">
+  <i class="mdui-icon material-icons">power_off</i>
+</button>
+    </div>
+  
+  </div>
+</div></div>
+                </div>      
+       
+    <div class=" mdui-col-md-8" style="display: flex;flex-direction: row;align-items: stretch; margin-top: 10px;">  
+     <div class="mdui-card" style="width:100%; margin: 0;"> 
+<div class="mdui-row-md-3" style="width:100%">
         <div class=" mdui-col mdui-col-sm-4">
             
 
@@ -803,7 +957,7 @@ body.glass-mode .mdui-color-theme-accent:hover {
                         <li class="mdui-list-item mdui-ripple" ondblclick="ctc(this)">虚拟方案：{$host.virtual_type}
                         </li>
                         <li class="mdui-list-item mdui-ripple" ondblclick="ctc(this)">
-                            主机状态：<span id="status">运行中</span>
+                            主机状态：{$host.host_status}
                         </li>                </ul>
                 </li>
       
@@ -836,7 +990,7 @@ body.glass-mode .mdui-color-theme-accent:hover {
                         <li class="mdui-list-item mdui-ripple" ondblclick="ctc(this)">
                             数据硬盘：{$host.hard_disks}GB
                         </li>
-                        <li class="mdui-list-item mdui-ripple" ondblclick="ctc(this)">面板地址：api.duncai.top
+                        <li class="mdui-list-item mdui-ripple" ondblclick="ctc(this)">面板地址：{$rootUrl}
                         </li>
                         <li class="mdui-list-item mdui-ripple" ondblclick="ctc(this)">
                             远程地址：{if $host.is_nat==1}{$network['eth1'][0]['public_ip']} {else}{$network['eth1'][0]['ip']}{/if}{if $host.is_nat==1}:{$port}{/if}
@@ -869,20 +1023,20 @@ body.glass-mode .mdui-color-theme-accent:hover {
                     <li class="mdui-list-item mdui-ripple" ondblclick="ctc(this)">
                         到期日期：{$host.end_time|datetime=###,'Y-m-d'}
                     </li>
-                      <li class="mdui-list-item mdui-ripple" >调试信息：alpha-0.0.1 </li>
+                      <li class="mdui-list-item mdui-ripple" >调试信息：alpha-1.0.3 </li>
                       <li class="mdui-list-item mdui-ripple" >&nbsp </li>
-                    <li class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$host.panel_password}")'>
-                        面板密码：<code class="password" style="font-family: auto;margin-right: 5px;">•••••••••</code>
-                        <i class="fa fa-eye password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="显示密码" data-password="{$host.panel_password}" style="cursor: pointer;"></i>
-                        <i class="fa fa-eye-slash password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" title="隐藏密码" data-password="•••••••••" style="cursor: pointer;display: none;"></i>&nbsp 
-                        <a style="height=3px" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-dense" id="panel-pass" style="margin-left: 10px;">重置</a>
+                    <li  class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$host.panel_password}")'>
+                        面板密码：<code mdui-tooltip="{content: '双击复制',delay: 300, position: 'top'}"  class="password" style="font-family: auto;margin-right: 5px;">•••••••</code>
+                        <i class="fa fa-eye password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '显示密码',delay: 300, position: 'top'}" data-password="{$host.panel_password}" style="cursor: pointer;"></i>
+                        <i class="fa fa-eye-slash password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '隐藏密码',delay: 300, position: 'top'}" data-password="•••••••••" style="cursor: pointer;display: none;"></i>&nbsp 
+                        <a style="height=3px" class="cada mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-icon" id="panel-pass" mdui-tooltip="{content: '修改密码',delay: 300, position: 'top'}" style="margin-left: 10px;"><i class="mdui-icon material-icons">create</i></a>
                     </li>
                    
                   <li class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$host.os_password}")'>
-                            系统密码：<code class="password" style="font-family: auto;margin-right: 5px;">•••••••••</code>
-                            <i class="fa fa-eye password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="显示密码" data-password="{$host.os_password}" style="cursor: pointer;"></i>
-                            <i class="fa fa-eye-slash password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" title="隐藏密码" data-password="•••••••••" style="cursor: pointer;display: none;"></i>&nbsp 
-                            <a style="height=3px" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-dense" id="system-pass" style="margin-left: 10px;">重置</a>
+                            系统密码：<code mdui-tooltip="{content: '双击复制',delay: 300, position: 'top'}"  class="password" style="font-family: auto;margin-right: 5px;">•••••••</code>
+                            <i class="fa fa-eye password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '显示密码',delay: 300, position: 'top'}" data-password="{$host.os_password}" style="cursor: pointer;"></i>
+                            <i class="fa fa-eye-slash password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '隐藏密码',delay: 300, position: 'top'}" data-password="•••••••••" style="cursor: pointer;display: none;"></i>&nbsp 
+                            <a style="height=3px" mdui-tooltip="{content: '修改密码',delay: 300, position: 'top'}" class=" cada mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-icon" id="system-pass" style="margin-left: 10px;"><i class="mdui-icon material-icons">create</i></a>
                         </li>
                    
                     </ul>
@@ -902,58 +1056,247 @@ body.glass-mode .mdui-color-theme-accent:hover {
                                    
                                    
                      </div>              
-                   </div>       
-      <div style="min-height=100px" class=" mdui-col-md-12">
+                   </div> 
+        </div>   
+        <div  class="mdui-row">  
+        <div class="mdui-col-md-12" style="
+    padding: 0;
+">
+            
+        {if $host.is_nat==1}
+                      
+                         
+<div class="mdui-col-sm-3" style=""><div class="mdui-card" style="
+    display: flex;
+    margin-left: 8px !important;
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class=" tittle mdui-typo-title">端口映射 </div>
+        <div class="mdui-card-primary-subtitle">数目：<span id="portCount">0</span>/{$host.port_num}</div> 
+    <button class="mdui-btn fcrea  mdui-btn-icon cada mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="margin-top: 4px;" lay-filter="forwardPort-create" lay-submit="">
+ <i class="mdui-icon material-icons">add</i>   
+</button>
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(10))" class="mdui-btn  cada mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+    color: #64b8f6;
+">
+<i class="mdui-icon material-icons" style="font-size: 47px !important;!i;!;margin-right:12px;/* margin-left:12px; */"></i></div></div></div>
+{else}  
+<div class="mdui-col-sm-3" style=""><div class="mdui-card" style="
+    display: flex;
+    margin-left: 8px !important;
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class=" tittle mdui-typo-title">网络 </div>
+        <div class="mdui-card-primary-subtitle">network</div> 
+    <button class="mdui-btn fcrea  mdui-btn-icon cada mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="margin-top: 4px;" lay-filter="forwardPort-create" lay-submit="">
+ <i class="mdui-icon material-icons">network_check</i>   
+</button>
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(5))" class="mdui-btn  cada mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+    color: #64b8f6;
+">
+<i class="mdui-icon material-icons" style="font-size: 47px !important;!i;!;margin-right:12px;/* margin-left:12px; */"></i></div></div></div>
+  {/if}  
+
+
+
+<div class="mdui-col-sm-3" style=""><div class="mdui-card" style="
+    display: flex;
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class=" tittle mdui-typo-title">快照</div>
+        <div class="mdui-card-primary-subtitle">数目：<span id="snapshotCount">0</span>/{$host.snapshot_num}</div> 
+    <button class="mdui-btn snapshot-create cada mdui-btn-icon mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="
+    margin-top: 4px;
+">
+ <i class="mdui-icon material-icons">add</i>   
+</button>
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(7))" class="mdui-btn  cada mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+    color: #64b5f6;
+">
+<i class="mdui-icon material-icons" style="font-size: 47px !important;!i;!;margin-right:12px;/* margin-left:12px; */">add_a_photo</i></div></div></div><div class="mdui-col-sm-3" style=""><div class="mdui-card" style="
+    display: flex;
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class="tittle mdui-typo-title">备份</div>
+        <div class="mdui-card-primary-subtitle">数目：<span id="backupCount">0</span>/{$host.backup_num}</div> 
+    <button class="mdui-btn backup-create  mdui-btn-icon mdui-btn-dense cada mdui-color-theme-accent mdui-ripple" style="
+    margin-top: 4px;
+">
+ <i class="mdui-icon material-icons">add</i>   
+</button>
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(8))" class="mdui-btn  cada mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+">
+<i class="mdui-icon material-icons" style="font-size: 47px !important;!i;!;margin-right:12px;/* margin-left:12px; */color: #64b5f6;">content_copy</i></div></div></div><div class="mdui-col-sm-3" style="">
+    <div class="mdui-card" style="
+    margin-right: 8px !important;
+    display: flex;
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class="tittle mdui-typo-title">安全策略</div>
+        <div class="mdui-card-primary-subtitle">数目：<span id="safeCount">0</span></div> 
+    <button class="cada mdui-btn mdui-btn-icon btnfirewallAdd mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="
+    margin-top: 4px;
+">
+ <i class="mdui-icon material-icons">add</i>   
+</button>
+
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(9))" class="mdui-btn cada  mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+">
+<i class="mdui-icon material-icons" style="font-size: 47px !important;!i;!;margin-right:12px;/* margin-left:12px; */color: #64b5f6;">call_merge</i></div></div></div>
+  </div>
+  </div>
+  
+  <div  class="mdui-row">  
+            <div  class=" mdui-col-md-12">
+                
+                
+                
+                
         <div class="mdui-col-md-12">
         <div class="mdui-panel" mdui-panel>
 
-  <div class="mdui-panel-item mdui-panel-item-open">
+  <div class="mdui-panel-item mdui-panel-item-open" style="box-shadow: 5px 9px 20px 0px #00000008;">
     <div class="mdui-panel-item-header">
       <div style="color:#64b5f6" class="mdui-typo-title">便携操作</div>
       <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
     </div>
     <div class="mdui-panel-item-body">
 <div class="mdui-row-md-8 mdui-row-xs-2">
-    <div class="mdui-col mdui-col-sm-4">
-        <button class="mdui-btn-block start mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
-            <i class="material-icons">power_settings_new</i> 开机
-        </button>
-    </div>
-    <div class="mdui-col mdui-col-sm-4">
-        <button class="mdui-btn-block restart mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
-            <i class="material-icons">restart_alt</i> 重启
-        </button>
-    </div>
-    <div class="mdui-col mdui-col-sm-4">
-        <button class="mdui-btn-block close mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
-            <i class="material-icons">power_off</i> 关机
-        </button>
-    </div>
-    <div class="mdui-col mdui-col-sm-4">
-        <button class="mdui-btn-block power mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
-            <i class="material-icons">flash_off</i> 断电
-        </button>
-    </div>
+
      {if $host.is_nat==1}
     <div class="mdui-col mdui-col-sm-4">
-        <button class="mdui-btn-block fcrea mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad" lay-filter="forwardPort-create" lay-submit>
-            <i class="material-icons">add_link</i> 创建映射
+        <button class="mdui-btn-block fcrea mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad" lay-filter="vnc-view" lay-submit="">
+            <i class="material-icons">aspect_ratio</i> VNC
         </button>
     </div>
     {/if}
     <div class="mdui-col mdui-col-sm-4">
-        <button class="mdui-btn-block snapshot-create mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
-            <i class="material-icons">camera_enhance</i> 创建快照
+        <button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(4))" class="mdui-btn-block mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
+            <i class="material-icons">sync_problem</i> 快速救援
         </button>
     </div>
     <div class="mdui-col mdui-col-sm-4">
-        <button class="mdui-btn-block backup-create mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
-            <i class="material-icons">backup</i> 创建备份
+        <button id="downloadBtn" class="mdui-btn-block  mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
+            <i class="material-icons">chevron_left</i> 一键远程
         </button>
     </div>
     <div class="mdui-col mdui-col-sm-4">
-        <button class="mdui-btn-block btnfirewallAdd mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
-            <i class="material-icons">security</i> 创建策略
+        
+        
+        
+        
+        
+        
+        <button onclick='
+         let txa = document.createElement("textarea");
+         let txav =`VPS Information
+============
+核心：{$host.cpu}核心
+内存：{$host.memory}GB
+带宽：{$host.bandwidth}MB
+数据盘：{$host.hard_disks}GB
+地区   ：{$area.area_name}
+============
+系统：{$image_info.os_name}({$image_info.os_type})
+地址：{if $host.is_nat==1}{$network['eth1'][0]['public_ip']} {else}{$network['eth1'][0]['ip']}{/if}{if $host.is_nat==1}:{$port}{/if}
+账号：{if $image_info.os_type==1}administrator{else}root{/if}
+密码：{$host.os_password}
+============
+面板：{$rootUrl}
+账号：{$host.host_name}
+密码：{$host.panel_password}
+============
+{$host.buy_time|datetime=###,'Y-m-d'}To{$host.end_time|datetime=###,'Y-m-d'}`;
+       txa.value = txav
+        
+            document.body.appendChild(txa);
+      txa.select();
+      let res = document.execCommand("copy");
+      document.body.removeChild(txa);
+        
+         mdui.snackbar({
+  message: "已复制"
+});
+        
+        
+        
+        ' class="mdui-btn-block mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
+            <i class="material-icons">share</i> 一键分享
+            
+          
+          
+          
+          
+            
+            
+            
+            
+            
         </button>
     </div>
 </div>
@@ -1029,13 +1372,25 @@ body.glass-mode .mdui-color-theme-accent:hover {
                                         
                                                   
                                               
-                                    </div></div>
+                                    </div>
+        </div>                             
+                                    
+    </div>                 
+                                    
+                                    
+                                    
+                                    
+                                    
                               <div class="mdui-p-a-2 mdui-container" style='height:100%;'  id="tab-0">
+                                 
+                                 <div class="mdui-row">
                                   <iframe id="eggweb"></iframe>
   
-                                  
+                                  </div>
                               </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-2">
+                                  <div class="mdui-row">
+                                  
 <div class=" mdui-col-md-3"><div class="mdui-card">
   <div class="mdui-card-media">
     <img src="http://t.netmc.icu/i/2024/07/03/8ltsf4.jpg"/>
@@ -1081,9 +1436,10 @@ body.glass-mode .mdui-color-theme-accent:hover {
    
   </div>
 </div></div>
-                                   
+                                   </div>
                                 </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-3">
+                                  <div class="mdui-row">
 <div class=" mdui-col-md-3"><div class="mdui-card form-1">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <!-- 卡片的标题和副标题 -->
@@ -1195,11 +1551,11 @@ body.glass-mode .mdui-color-theme-accent:hover {
 
 
 
-
+</div>
                                 </div>
                                 {if $host.virtual_type!="kvm"}
                               <div class="mdui-p-a-2 mdui-container" id="tab-4">
-
+<div class="mdui-row">
 <div class=" mdui-col-md-3"><div class="mdui-card">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <!-- 卡片的标题和副标题 -->
@@ -1264,9 +1620,10 @@ body.glass-mode .mdui-color-theme-accent:hover {
                           
                                     
                                 </div>
+                                </div>
                                 </div>{/if}
                               <div class="mdui-p-a-2 mdui-container" id="tab-5">
-                                   
+                                   <div class="mdui-row">
 <div class="mdui-card gt"> <div class="mdui-table-fluid ">
                                             <table class="mdui-table mdui-table-hoverable">
                                                 <thead>
@@ -1311,9 +1668,9 @@ body.glass-mode .mdui-color-theme-accent:hover {
                                                 </tbody>
                                             </table>  </div></div>
                                 </div>
-                               
+                               </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-6">
-                                    
+                                <div class="mdui-row">    
  <div class=" mdui-col-md-3"><div class="mdui-card">
 <div class="mdui-card-media">
     <img src="https://t.netmc.icu/i/2024/07/03/cfqy78.jpg"/></div>
@@ -1329,7 +1686,7 @@ body.glass-mode .mdui-color-theme-accent:hover {
  </div>
 </div> </div>
 
-                                    
+                                    </div>
                                 </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-7">
   <div class=" mdui-col-md-3"><div class="mdui-card">
@@ -1356,6 +1713,7 @@ body.glass-mode .mdui-color-theme-accent:hover {
                                 </div>
                                 </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-8">
+                                  <div class="mdui-row">
  <div class=" mdui-col-md-3"><div class="mdui-card">
 <div class="mdui-card-media">
     <img src="https://t.netmc.icu/i/2024/07/03/df4syy.jpg"/></div>
@@ -1373,7 +1731,12 @@ body.glass-mode .mdui-color-theme-accent:hover {
                                 <div class="mdui-card gt">    <div class="mdui-table-fluid">
                                     <table class="layui-table mdui-table-hoverable mdui-table"  id="backupTable" lay-filter="backupTable" ></table>
                                 </div></div></div></div>
-                              <div class="mdui-p-a-2 mdui-container" id="tab-9">
+                              
+                              
+                              
+                              </div>
+                              <div class="mdui-p-a-2 mdui-container" id="tab-9"><div class="mdui-row">
+                                  
   <div class=" mdui-col-md-3"><div class="mdui-card">
 <div class="mdui-card-media">
     <img src="https://t.netmc.icu/i/2024/07/03/df4op7.jpg"/></div>
@@ -1420,11 +1783,11 @@ body.glass-mode .mdui-color-theme-accent:hover {
                                 
                                 
                                 
-                                
+                                </div>
                                 </div>
                                 
                                 {if $host.is_nat==1}
-                              <div class="mdui-p-a-2 mdui-container" id="tab-10">
+                              <div class="mdui-p-a-2 mdui-container" id="tab-10"><div class="mdui-row">
                                   
 <div class=" mdui-col-md-3"><div class="mdui-card">
 <div class="mdui-card-media">
@@ -1445,8 +1808,8 @@ body.glass-mode .mdui-color-theme-accent:hover {
     <div class="mdui-card gt">
     <div class="mdui-table-fluid ">
                                     <table class="mdui-table mdui-table-hoverable"  id="forwardPortTable" lay-filter="forwardPortTable" ></table></div></div>
-                                </div></div>
-                               <div>
+                                </div></div></div>
+                               
                                 {/if}
       
                                 
@@ -1456,6 +1819,22 @@ body.glass-mode .mdui-color-theme-accent:hover {
 <!--重新安装系统-->
 
 <script>
+function copyToClipA(content, message) {
+var aux = document.createElement("input");
+aux.setAttribute("value", content);
+document.body.appendChild(aux);
+aux.select();
+document.execCommand("copy");
+document.body.removeChild(aux);
+if (message == null) {
+        mdui.snackbar({
+  message: '密码已复制到粘贴板'
+});
+} else{
+    mdui.snackbar({
+  message: message
+});
+}}
 
 function copyToClip(content, message) {
 var aux = document.createElement("input");
@@ -1479,7 +1858,7 @@ function ctc(bos){
 }
 </script>
 
-<script type="text/html" id="modelreinstall">
+<script type="text/html " id="modelreinstall">
     <div class="layui-card-body">
         <form id="reinstallForm" lay-filter="reinstallForm" class="layui-form model-form">
             <input name="id" type="hidden" />
@@ -1501,8 +1880,8 @@ function ctc(bos){
 </script>
 <!--快照还原删除-->
 <script type="text/html" id="tableBar">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="re-snapshot">恢复</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del-snapshot">删除</a>
+    <a class="mdui-btn   mdui-btn-icon" lay-event="re-snapshot"><i class="mdui-icon material-icons">skip_previous</i></a>
+    <a class="mdui-btn mdui-btn-icon mdui-color-red " lay-event="del-snapshot"><i class="mdui-icon material-icons">close</i></a>
 </script>
 <!--备份还原删除-->
 <script type="text/html" id="tableBar1">
@@ -1583,8 +1962,9 @@ function ctc(bos){
     </form>
 </script>
 <!--端口-->
-<script type="text/html" id="modelforwardPort">
-    <div class="layui-card-body">
+<script type="text/html " id="modelforwardPort">
+
+    <div class="layui-card-body ">
         <form id="forwardPortForm" lay-filter="forwardPort" class="layui-form model-form">
             <input name="id" type="hidden" />
             <div class="layui-form-item">
@@ -1620,13 +2000,13 @@ function ctc(bos){
 <!--删除端口-->
 <script type="text/html" id="tableBar3">
     {{#  if(d.sys === 1){ }}
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del-forwardPort">删除</a>
+    <a class=" mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" lay-event="del-forwardPort"><i class="mdui-icon material-icons">close</i></a>
     {{#  } }}
 </script>
 
 <!--删除端口-->
 <script type="text/html" id="tableBar4">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del-forwardDomain">删除</a>
+    <a class="mdui-btn mdui-btn-icon layui-btn mdui-color-red" lay-event="del-forwardDomain"><i class="mdui-icon material-icons">close</i></a>
 </script>
 
 <!--域名-->
@@ -1652,7 +2032,7 @@ function ctc(bos){
 </script>
 <!--策略删除-->
 <script type="text/html" id="tableBar2">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del-firewall">删除</a>
+    <a class="mdui-btn mdui-btn-icon layui-btn mdui-color-red" lay-event="del-firewall"><i class="mdui-icon material-icons">close</i></a>
 </script>
 <!--设置系统密码-->
 <script type="text/html" id="modelsystempassword">
@@ -1700,6 +2080,7 @@ function ctc(bos){
 <!--弹窗模板区end-->
 
 <script>
+     var onece = false
     let rootUrl = "{$rootUrl}";
     function RandomNum(Min, Max) {
         var Range = Max - Min;
@@ -2322,9 +2703,18 @@ function ctc(bos){
                         dataType: 'json',
                         success: function(data){
                             if(data.code==1){
-                                $("#img").html("<img height='100%' width='100%' src='data:image/png;base64,"+data.data.pic+"'/>");
+                                                                    if(data.data.pic==""){
+                                    if(onece==false){
+                                    $("#img").html("<img height='100%' width='100%' src='"+"http://t.netmc.icu/i/2024/07/03/8ltsf4.jpg"+"'/>");
+                                    }    
+                                      onece=true
+                                    }else{
+                                         $("#img").html("<img height='100%' width='100%' src='data:image/png;base64,"+data.data.pic+"'/>");
+                                    
+                                        onece=false
+                                    }
                             }else{
-                                $("#img").html("<p style='height='100%' display: block; text-align: center; width:100%; color: red;'>"+data.msg+"</p>");
+                                $("#img").html("<p style='height='100%' text-align: center; width:100%; color: red;'>"+data.msg+"</p>");
                             }
                         }
                     });
@@ -2337,7 +2727,16 @@ function ctc(bos){
                             dataType: 'json',
                             success: function(data){
                                 if(data.code==1){
-                                    $("#img").html("<img height='100%' width='100%' src='data:image/png;base64,"+data.data.pic+"'/>");
+                                                                    if(data.data.pic==""){
+                                    if(onece==false){
+                                    $("#img").html("<img height='100%' width='100%' src='"+"http://t.netmc.icu/i/2024/07/03/8ltsf4.jpg"+"'/>");
+                                    }    
+                                      onece=true
+                                    }else{
+                                         $("#img").html("<img height='100%' width='100%' src='data:image/png;base64,"+data.data.pic+"'/>");
+                                    
+                                        onece=false
+                                    }
                                 }
                             }
                         });
@@ -2662,7 +3061,12 @@ function ctc(bos){
                 {field: 'create_time', title: '快照时间'},
                 {field: 'state', title: '状态',templet:cloud.api.toolstatus},
                 {align: 'center', toolbar: '#tableBar', title: '操作'}
-            ]]
+            ]],
+            done: function (res, curr) {
+    var count = res.data.length;
+    console.log("Count of entries:", count);
+    document.getElementById('snapshotCount').innerText = count;
+}
         });
         // 渲染备份表格列表
         var insTbBp = table.render({
@@ -2674,7 +3078,12 @@ function ctc(bos){
                 {field: 'create_time', title: '备份时间'},
                 {field: 'state', title: '状态',templet:cloud.api.toolstatus},
                 {align: 'center', toolbar: '#tableBar1', title: '操作'}
-            ]]
+            ]],
+            done: function (res, curr) {
+    var count = res.data.length;
+    console.log("Count of entries:", count);
+    document.getElementById('backupCount').innerText = count;
+}
         });
         //列表工具
         //快照创建
@@ -2815,7 +3224,12 @@ function ctc(bos){
                     }},
                 {field: 'priority', title: '优先级'},
                 {align: 'center', toolbar: '#tableBar2', title: '操作'}
-            ]]
+            ]],
+            done: function (res, curr) {
+    var count = res.data.length;
+    console.log("Count of entries:", count);
+    document.getElementById('safeCount').innerText = count;
+}
         });
         $('#btnSearch').click(function () {
             firewallinsTb.reload({where: {protocol: $('#protocol').val(),direction:$('#direction').val(),method:$('#method').val()}});
@@ -2874,21 +3288,26 @@ function ctc(bos){
             }
         });
         //映射端口列表
-        var insPortTb = table.render({
-            elem: '#forwardPortTable',
-            url: rootUrl+'port_host?hostid='+hostid,
-            page:false,
-            cols: [[
-                {field: 'name', title: '服务'},
-                {field: 'sport', title: '外网端口'},
-                {field: 'api_url', title: '外网IP'},
-                {field: 'dport', title: '内网端口'},
-                {title: '类型',templet:function (d) {
-                        return d.sys==1?'自定义':'系统默认';
-                    }},
-                {align: 'center', toolbar: '#tableBar3', title: '操作'}
-            ]]
-        });
+var insPortTb = table.render({
+    elem: '#forwardPortTable',
+    url: rootUrl + 'port_host?hostid=' + hostid,
+    page: false,
+    cols: [[
+        {field: 'name', title: '服务'},
+        {field: 'sport', title: '外网端口'},
+        {field: 'api_url', title: '外网IP'},
+        {field: 'dport', title: '内网端口'},
+        {title: '类型', templet: function (d) {
+            return d.sys == 1 ? '自定义' : '系统默认';
+        }},
+        {align: 'center', toolbar: '#tableBar3', title: '操作'}
+    ]],
+done: function (res, curr) {
+    var count = res.data.length;
+    console.log("Count of entries:", count);
+    document.getElementById('portCount').innerText = count;
+}
+});
         //添加端口
         form.on('submit(forwardPort-create)', function (data) {
             layer.open({
@@ -3042,13 +3461,45 @@ function ctc(bos){
                 layer.closeAll('loading');
                 if (data.code == 1) {
                     var data = data.data;
+                    
                     $('#status').html(data[1]);
+                    if ($('#status').html() === "运行中") {
+    // 如果内容是"运行中"，则使具有ptc类的按钮可见
+                                 $('.ptc').show();
+                                 $('.stc').hide();
+            } else {
+    // 否则，隐藏这些按钮
+                      $('.ptc').hide();
+                      $('.stc').show();
+                        }
                     return false;
                 } else {
                     $('#status').html(data.msg);
                 }
             },'json');
         },3000);
+        var tabs = new mdui.Tab('#wd');
+        document.querySelector('#wd').addEventListener('show.mdui.tab', function (event) {
+ var activeIndex = event.detail.inst.activeIndex;
+ console.log('Active tab index:', activeIndex);
+  if (activeIndex === 7) {
+    // 如果是，执行表格的重新加载
+    insTbSp.reload();
+  }
+    if (activeIndex === 8) {
+    // 如果是，执行表格的重新加载
+    insTbBp.reload();
+  }
+    if (activeIndex === 9) {
+    // 如果是，执行表格的重新加载
+    firewallinsTb.reload();
+  }
+    if (activeIndex === 10) {
+
+    insPortTb.reload();
+    
+  }
+});
         var monitorhy = cloud.api.monitorhy(hostid);
         monitorhy.vmid = hostid;
         monitorhy.cpu.init();
@@ -3061,6 +3512,8 @@ function ctc(bos){
     })
 </script>
 <script>
+
+
 // 初始化一个对象来存储字段数据
 const danvei = {
     field: {}
@@ -3093,6 +3546,9 @@ console.log(danvei);
 
 </script>
 <script>
+function isDarkMode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     const darkModeToggle = document.getElementById('dark-mode-toggle');
@@ -3100,12 +3556,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const body = document.body;
 
     // 检查 localStorage 中是否有暗模式的设置
-    if (localStorage.getItem('darkMode') === 'enabled') {
+    if (localStorage.getItem('darkMode') === 'enabled' || isDarkMode() ) {
         body.classList.add('dark-mode');
     }
 
     // 检查 localStorage 中是否有毛玻璃模式的设置
-    if (localStorage.getItem('glassMode') === 'enabled') {
+    if (localStorage.getItem('glassMode') === 'enabled' && !isDarkMode()) {
         body.classList.add('glass-mode');
     }
 
@@ -3147,7 +3603,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (mutation.attributeName === "class" && loadingElement.classList.contains('hidden')) {
                 // 当 page-loading 元素隐藏时触发所有动画
                 document.querySelectorAll('.animate__animated').forEach(function(element) {
-                    animateCSS(element, 'bounce'); // 示例使用 'bounce' 动画
+                    animateCSS(element, 'zoomIn'); // 示例使用 'bounce' 动画
                 });
                 observer.disconnect(); // 停止观察
             }
@@ -3203,10 +3659,10 @@ document.addEventListener('DOMContentLoaded', function() {
     '你发现了秘密通道',
     '继续点，还有惊喜',
     '是不是感觉自己很幸运',
-    '别停，丁薇快跑了',
     '再点我就跑了哦',
     '太好了，你又找到我了',
     '你是不是很好奇',
+      'Material Design UI For Qzsystem v1.0.3 by Danvei',
     '点赞成功，感谢支持！'
   ];
 
@@ -3298,6 +3754,16 @@ $(document).ready(function() {
         });
     </script>
 <script>
+// 初始化 Tab 组件
+
+
+
+// 如果需要程序化地切换到第10个标签页
+
+
+
+
+
     document.addEventListener('DOMContentLoaded', function () {
         var isMobile = window.matchMedia("(max-width: 768px)").matches;
 
@@ -3360,6 +3826,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 3000);
 });
 
+
+
+
+</script>
+
+<script>
+document.getElementById('downloadBtn').addEventListener('click', function() {
+    // 静态的 RDP 文件内容
+    const rdpContent = [
+        "full address:s:{if $host.is_nat==1}{$network['eth1'][0]['public_ip']} {else}{$network['eth1'][0]['ip']}{/if}{if $host.is_nat==1}:{$port}{/if}",
+        "username:s:administrator",
+        "prompt for credentials:i:1"
+    ].join('\r\n');
+
+    // 创建 Blob 对象
+    const blob = new Blob([rdpContent], { type: 'application/rdp' });
+
+    // 创建下载链接并触发下载
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'connection.rdp';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url); // 清除内存中的引用
+    copyToClipA('{$host.os_password}');
+    
+});
 </script>
 <!---- 界面切换彩蛋 ---->
 </body>
