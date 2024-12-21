@@ -1,37 +1,34 @@
 
 
-# 轻舟云主机系统MMUI模板 MMUI Template for Qzsystem
+# 轻舟云主机系统MMUI模板 MMUI Template for Qzsystem - LightingBoat
 
 欢迎使用轻舟云主机系统MMUI模板！本模板是专为轻舟云系统用户设计的前台界面模板，提供三种不同的主题样式供用户选择：毛玻璃模式、正常模式和黑暗模式。
 快捷下载地址（https://wwt.lanzouv.com/ix0Jd24l8sqf）
-<p align="center">
-  <img src="https://img.picui.cn/free/2024/07/11/668ff82d383d3.png" alt="Image 1" style="width: auto; max-height: 100px; margin-right: 10px;">
-  <img src="https://github.com/danvei233/MMUI/assets/122994609/bb6e1ccb-19dc-494e-aefa-858733c5ee25" alt="Image 1" style="width: auto; max-height: 100px; margin-right: 10px;">
-  
-  <img src="https://img.picui.cn/free/2024/07/11/668ff82d4439c.png" alt="Image 3" style="width: auto; max-height: 100px;">
-</p>
+![image](https://github.com/user-attachments/assets/3e23255e-91eb-4588-a421-04e76efc548a)
+![image](https://github.com/user-attachments/assets/2b5847ce-40e6-43d8-9b5e-295fc15f647c)
+
 
 
 ## 特性
 
-- **毛玻璃模式**：现代而典雅，提供半透明效果，增强视觉体验。
+- **毛玻璃模式**：现代而典雅，提供半透明效果，增强视觉体验。(lightingboat已经舍弃)
 - **正常模式**：标准的亮色界面，清晰简洁。
 - **黑暗模式**：护眼的暗色主题，适合在低光环境下使用。
 
 ## 安装方法
 
-1. 下载模板文件。
-2. 将下载的文件解压，找到`index`文件。
-3. 将此`index`文件复制到您的网站目录`/www/wwwroot/你的网站/view/control/ecs`中，替换原有文件。
+1. 下载压缩包文件。
+2. 把压缩包放到您的网站根目录。(`/www/wwwroot/你的网站地址`)
+3. 将下载的文件解压，替换原有文件。
 
 ## 自托管静态资源
 
+新版资源已经完全由用户托管！以下作废：
 如果您不信任外部CDN提供的CSS、JS文件或我的图床的图片，您可以选择将这些资源下载到本地服务器，并更新资源链接以指向这些本地文件。这样可以更好地控制这些资源，确保网站的安全性和可靠性。
 
 ## 注意事项
 
 - 请确保在替换文件前备份原有文件，以防万一需要恢复。
-- 如果您使用自托管静态资源，由于您的的网站基于ThinkPHP，可能需要更新相关路由配置以确保新模板正常工作。
 - 我的QQ号484883303，有问题可以联系我，如果您信任的话我可以免费指导您安装，我们的用户交流QQ群526385986。
 ## 许可证
 
