@@ -1,0 +1,52 @@
+/* 全屏加载容器 */
+.mmui-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(0 0 0 / 10%);
+  z-index: 9999;
+  display: none;
+  backdrop-filter: blur(2px);
+}
+
+/* 加载动画主体 */
+.mmui-loading__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* 现代环形动画 */
+.mmui-loading__ring {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 15px;
+}
+
+.mmui-loading__ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 4px solid #2d8cf0;
+  border-color: #2d8cf0 transparent #2d8cf0 transparent;
+  animation: mmui-loading-ring 1.2s linear infinite;
+}
+
+@keyframes mmui-loading-ring {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 文字提示 */
+.mmui-loading__text {
+  color: #606266;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+}

@@ -1,0 +1,2834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <link rel="stylesheet" href="/static/component/mmui/mdui/1.0.2/css/mdui.min.css">
+    <link rel="stylesheet" href="/static/component/pear/css/pear.css"/>
+    <link rel="stylesheet" href="/static/component/awesome/css/control.css"/>
+    <script src="/static/component/layui/layui.js"></script>
+    <script src="/static/component/pear/pear.js"></script>
+    <script src="/static/component/echarts/echarts.min.js"></script>
+    <script src="/static/component/echarts/moment.js"></script>
+        <script src="/static/component/mmui/echart/echarts.min.js"></script>
+    <script src="/static/component/mmui/mdui/1.0.2/js/mdui.min.js" defer></script>
+   <style>
+    button.dark-mode-active {
+  animation: expandAnimation 0.5s ease-out forwards;
+}
+
+@keyframes expandAnimation {
+  0% {
+    width: 40px;
+    height: 40px;
+    top: 20px;
+    left: 20px;
+    border-radius: 50%;
+  }
+  100% {
+    width: 3000px;
+    height: 3000px;
+    top: -1500px;
+    left: -1500px;
+    border-radius: 0%;
+  }
+}
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+#dark-mode-toggle, #glass-mode-toggle {
+    position: relative;
+    z-index: 10;
+}
+
+/* 按钮的扩展动画 */
+#dark-mode-toggle, #glass-mode-toggle {
+    border-radius: 50%;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle:focus {
+    outline: none;
+}
+
+/* 在按钮点击时进行动画 */
+.dark-mode-toggle:active {
+    transform: scale(0.9);
+}
+.glass-mode-toggle:focus {
+    outline: none;
+}
+
+/* 在按钮点击时进行动画 */
+.glass-mode-toggle:active {
+    transform: scale(0.9);
+}
+
+::view-transition-new(root),
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+     /* 追求性能请自行压碎css alpha版本不做压缩！ */
+   body.dark-mode .mdui-drawer .mdui-list-item-icon{
+    color: rgba(255, 255, 255, 0.65);
+   }
+   .mdui-card-primary-title{
+        user-select: none;
+  -webkit-user-select: none; /* Chrome, Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer */
+
+    } 
+    .mdui-card-primary-subtitle{
+        user-select: none;
+  -webkit-user-select: none; /* Chrome, Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer */  
+    }
+    .mdui-typo-title{
+        user-select: none;
+  -webkit-user-select: none; /* Chrome, Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer */ 
+    }
+    
+
+ #tab-1 .mdui-list-item-icon~.mdui-list-item-content {
+    /* margin-left: 32px; */
+    margin-left: 2% !important;
+}
+    #tab-1 .mdui-panel  .mdui-color-theme-accent {
+     background-color: white !important; 
+    color:  rgba(0, 0, 0, 0.88) !important;
+    border: 1px solid #d9d9d9;
+    background: #ffffff!;
+}
+body.dark-mode #tab-1 .mdui-panel .mdui-color-theme-accent {
+     background-color: #141414 !important; 
+    color: rgba(255, 255, 255, 0.85) !important;
+    border: 1px solid #d9d9d9;
+    background: #141414;
+}
+.mdui-list-item {
+  display: flex;
+  justify-content: space-between; /* 左右对齐 */
+  align-items: center; /* 垂直居中 */
+}
+
+.label {
+  flex-shrink: 0; /* 防止标签部分压缩 */
+  margin-right: 8px; /* 标签与内容间距 */
+}
+
+
+.value {
+  margin-left: auto; /* 将右边内容对齐到最右 */
+  text-align: right; /* 内容文字靠右对齐 */
+}
+.cc12 .mdui-card-primary-subtitle{
+    
+    margin: 10px 0;
+
+}
+.cc12 div:has(.mdui-card-primary-subtitle){
+    margin: 11px;
+    display: flex;
+    flex-direction: column;
+
+}
+.cc12 .mdui-card-primary-subtitle{
+    flex:1 1 auto;
+}
+.mdui-card-media-covered .mdui-card-primary{
+    background: linear-gradient(to bottom, #f0f8ff61, rgba(255, 255, 255, 0));
+}
+
+#tab-2 .mdui-card-media-covered .mdui-card-primary{
+    background: #f0f8ff61;
+}
+body.dark-mode .mdui-card-media-covered .mdui-card-primary{
+
+     background: rgba(0, 0, 0, .2);
+}
+.mdui-list-item-active .mdui-list-item-content {
+     font-weight: normal;
+}
+    .cc12 .bi{
+        font-size: 128px !important;
+    margin-right: 12px;
+    /* margin-left: 12px; */
+    position: absolute;
+    bottom: -58px;
+    right: -66px;
+    color: #536dfd5e;
+    user-select: none;
+    }
+
+    .loaderLIST {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 4px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        z-index: 1001; /* 确保在遮罩层之上 */
+    }
+
+    #device-details-container {
+        position: relative; /* 作为定位的参考点 */
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 1000; /* 遮罩层次 */
+        display: none; /* 初始隐藏 */
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+
+   
+
+
+  .page-loading {
+            --animate-duration: 2s; /* 动画持续时间 */
+            animation-name: animate__fadeIn, animate__fadeOut;
+            animation-timing-function: ease, ease;
+            animation-duration: 2s, 2s;
+            animation-fill-mode: forwards, forwards;
+            animation-delay: 0s, 5s; /* 第一个动画没有延迟，第二个动画延迟5秒开始 */
+        }
+body.dark-mode .page-loading {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 19891017;
+    background-color: rgba(0, 0, 0, 0.3); /* 半透明背景 */
+    backdrop-filter: blur(5px); /* 背景模糊 */
+}        
+body.glass-mode .page-loading {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 19891017;
+    background-color: rgba(255, 255, 255, 0.0); /* 半透明背景 */
+    backdrop-filter: blur(5px); /* 背景模糊 */
+}
+.page-loading {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 19891017;
+    background-color: rgba(255, 255, 255, 0.5); /* 半透明背景 */
+    backdrop-filter: blur(5px); /* 背景模糊 */
+}
+
+
+body.dark-mode .mdui-toolbar{    border-block-end: 1px solid rgba(5, 5, 5, 0.06);
+    
+    background-color: rgba(31, 31, 31, 0.6);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    transition: background-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)}
+body.dark-mode .mdui-appbar{
+    border-block-end: 1px solid rgba(253, 253, 253, 0.12);
+         box-shadow:none !important;
+             -webkit-box-shadow:none !important;
+             height: 56px;
+}
+body.dark-mode .mdui-drawer{
+    flex: 0 0 256px;
+    max-width: 256px;
+    min-width: 256px;
+    width: 256px;
+    overflow-x: visible;
+    height: 100%;
+    padding-inline: 8px;
+    padding-block: 0;
+    border-inline-end: 1px solid rgba(5, 5, 5, 0.06);
+    margin-inline-end: -1px;
+    color: rgba(0, 0, 0, 0.65);
+}
+body.dark-mode .mdui-list-item-active{
+    color: #fff;
+    background-color: #536dfe!important;
+    font-weight: normal;
+}
+body.dark-mode .mdui-list-item{
+    color: rgba(255, 255, 255, 0.65);
+
+
+}
+
+body.dark-mode .layui-layer-content{
+    padding-bottom: 16px;
+}
+
+.loading-text {
+  font-style: italic;
+  color: gray;
+}
+
+
+
+
+
+body.glass-mode .page-loading .loader-container {
+    padding: 20px;
+    border-radius: 10px; /* 圆角 */
+    background:  rgba(255, 255, 255, 0.28);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 阴影 */
+}
+body.dark-mode .page-loading .loader-container {
+    padding: 20px;
+    border-radius: 10px; /* 圆角 */
+    background: #141414;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 阴影 */
+}
+.page-loading .loader-container {
+    padding: 20px;
+    border-radius: 10px; /* 圆角 */
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 阴影 */
+}
+.loader {
+    border: 6px solid #f3f3f3; /* Light grey */
+    border-top: 6px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+        .ball-loader,.signal-loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            -webkit-transform: translate(-50%,-50%)
+        }
+
+        .ball-loader>span,.signal-loader>span {
+            background-color: #4aca85;
+            display: inline-block
+        }
+
+        .ball-loader>span:nth-child(1),.ball-loader.sm>span:nth-child(1),.signal-loader>span:nth-child(1),.signal-loader.sm>span:nth-child(1) {
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s
+        }
+
+        .ball-loader>span:nth-child(2),.ball-loader.sm>span:nth-child(2),.signal-loader>span:nth-child(2),.signal-loader.sm>span:nth-child(2) {
+            -webkit-animation-delay: .1s;
+            animation-delay: .1s
+        }
+
+        .ball-loader>span:nth-child(3),.ball-loader.sm>span:nth-child(3),.signal-loader>span:nth-child(3),.signal-loader.sm>span:nth-child(3) {
+            -webkit-animation-delay: .15s;
+            animation-delay: .15s
+        }
+
+        .ball-loader>span:nth-child(4),.ball-loader.sm>span:nth-child(4),.signal-loader>span:nth-child(4),.signal-loader.sm>span:nth-child(4) {
+            -webkit-animation-delay: .2s;
+            animation-delay: .2s
+        }
+
+        .ball-loader>span {
+            width: 20px;
+            height: 20px;
+            margin: 0 3px;
+            border-radius: 50%;
+            transform: scale(0);
+            -ms-transform: scale(0);
+            -webkit-transform: scale(0);
+            animation: ball-load 1s ease-in-out infinite;
+            -webkit-animation: 1s ball-load ease-in-out infinite
+        }
+
+        @-webkit-keyframes ball-load {
+            0% {
+                transform: scale(0);
+                -webkit-transform: scale(0)
+            }
+
+            50% {
+                transform: scale(1);
+                -webkit-transform: scale(1)
+            }
+
+            100% {
+                transform: scale(0);
+                -webkit-transform: scale(0)
+            }
+        }
+
+        @keyframes ball-load {
+            0% {
+                transform: scale(0);
+                -webkit-transform: scale(0)
+            }
+
+            50% {
+                transform: scale(1);
+                -webkit-transform: scale(1)
+            }
+
+            100% {
+                transform: scale(0);
+                -webkit-transform: scale(0)
+            }
+        }
+        .mdui-toolbar {
+            z-index: 999999;
+        }
+        .ball-loader.sm>span {
+            width: 15px;
+            height: 15px;
+            margin: 0 2px
+        }
+        <!---Qzsystem css--->
+   
+
+    .mdui-container .mdui-theme-accent-indigo .mdui-color-theme-accent {
+    background-color: #0A97FF !important;
+    color: rgb(255, 255, 255) !important;
+    }
+.mdui-col-md-8 .mdui-collapse-item-body .mdui-list-item {
+    padding-left: 14% !important;
+
+}
+
+
+
+
+       .mdui-list-item{
+        border-radius: 8px;
+        margin: 0 8px 0 8px;
+}
+    .mdui-collapse-item:hover{
+    background-color: rgba(0, 0, 0,0)!important;
+     border-radius: 0px;
+}
+    .mdui-list-item:hover{
+     border-radius: 8px;
+     margin: 0 8px 0 8px;
+     background-color: rgba(0, 0, 0, 0.04);
+}
+    .mdui-card-actions-stacked{
+            margin: 8px
+    }
+     @font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+body {
+    font-family: 'San Francisco Display';
+}
+
+    .layui-btn{
+         border-radius: 6px;
+    }
+    .layui-layer-page.closing {
+    animation: zoomOut 0.5s forwards; /* 使用 forwards 使动画完成后元素保持在动画结束的状态 */
+}
+    .layui-layer-page{
+             animation:zoomIn; 
+        animation-duration: 0.5s; 
+        border-radius: 8px;
+    /*box-shadow: 5px 9px 20px 0px #30658f8f;*/
+    /*outline: #e0e0e0 solid 1px;*/
+    }
+    
+    .mdui-col-md-4{
+        
+     padding-right: 0px; 
+    padding-left: 0px;
+    }
+    .mdui-panel-item{
+       border-radius: 6px; 
+    } 
+    .mdui-panel{
+           animation:fadeInDown; 
+        animation-duration: 0.5s; 
+        
+        border-radius: 8px;
+    box-shadow: 5px 9px 20px 0px #00000000;
+    }
+            body.dark-mode .cada:hover {
+        background-color: #5a5e73 !important;}
+    body.dark-mode .cada:focus {
+        background-color: #5a5e73 !important;}
+        body.dark-mode .cad:hover {
+        background-color: #5a5e73 !important;}
+    body.dark-mode .cad:focus {
+        background-color: #5a5e73 !important;}
+         body.dark-mode .layui-btn-primary {       background-color: #141414!important;}
+         
+      .layui-btn-primary {       background-color: #ffffff!important;}  
+        
+        
+       body.dark-mode .layui-btn-primary:hover {
+    border-color: #536dfe;
+    
+}   
+    body.dark-mode .layui-btn {       background-color: #5a5e73;}
+      .layui-btn {       background-color: #536dfe;}  
+        
+        
+       body.dark-mode .layui-btn-primary:hover {
+    border-color: #536dfe;
+    color: #536dfe;
+}
+
+body.dark-mode .layui-input:focus, .layui-textarea:focus {
+    border-color: #536dfe !important;
+    box-shadow: 0 0 0 3px #536dfe !important;
+}
+    .cad{
+        margin: 8px;
+        border-radius: 12px !important;
+    /*box-shadow: 0px 3px 8px 0px #0691ff70 !important;*/
+        
+    }
+    
+        .mdui-card{
+            height: 100%;
+            box-shadow: none !important;
+    background-color: #ffffff;
+    border-radius: 6px;
+    transition: all 0.3s;
+    }
+    .mdui-card-primary {
+    position: relative;
+    padding: 10px 5px 7px 11px;
+}
+    .rgg{
+            justify-content: flex-end;
+    display: flex;
+    padding-right: 28px;
+}
+    
+.mdui-drawer .mdui-list-item{
+    
+}
+    
+       .mdui-btn{
+           border-radius: 25px;
+       }
+           iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            min-height:860px
+        }
+
+        .layui-table-view .layui-table {width:100%}
+        .layui-table-view .layui-table {
+            width: 100%
+        }
+        .mdui-card {
+         animation:fadeInDown; /* referring directly to the animation's @keyframe declaration */
+        animation-duration: 0.7s; /* don't forget to set a duration! */
+        margin:8px;
+       
+        /*outline: #e0e0e0 solid 1px;*/
+        
+    }
+  
+    #tab-1 .mdui-card{
+        margin:8px;
+    }
+
+
+    @media   (max-width: 800px){
+            .mdui-panel {
+            width: 100% !important;
+            
+        }
+            .mdui-container {
+            background-color: #fafafa;
+         width: 100%; 
+         min-height: calc(100vh - 64px);
+         max-width: 1145141919px;
+             padding-right:8px; 
+          padding-left: 8px;
+         
+    }
+    }
+    
+    @media (min-width: 1000px){
+        
+            .mdui-container {
+                background-color:#fafafa   ;
+         width: 100%; 
+         min-height:  calc(100vh - 64px);
+         max-width: 1145141919px;
+             padding-right:8px; 
+          padding-left: 8px;
+         
+    }
+        
+        .mdui-table-fluid {
+        
+    }
+    .mdui-table {
+    
+    }
+
+    .fab-container {
+        
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+         z-index: 99999;
+    }
+        .bj {
+            /* display: flex; */
+        }
+        
+        
+    }
+    
+    .layui-layer-title {
+    padding: 0 80px 0 20px;
+    height: 73px;
+    line-height: 67px;
+   
+    font-size: 17px;
+    color: #333;
+    overflow: hidden;
+    border-radius: 2px 2px 0 0;
+}
+
+        <!---mdui mixin css--->
+   
+    
+/* 暗模式下的样式覆盖 */
+/* 特定覆盖 layui-select-tips 和其内部的 dd 元素 */
+   body.dark-mode          .mdui-container {
+ background-color: #1d2033;
+         width: 100%; 
+         min-height: calc(100vh - 64px);
+         max-width: 1145141919px;
+             padding-right:8px; 
+          padding-left: 8px;
+         
+         
+    }
+    
+    
+  .layui-laypage-em{
+    background-color: #536dfe !important;
+
+
+  }
+  .layui-laypage input:focus, .layui-laypage select:focus {
+    border-color: #536dfe!important;
+}
+.layui-input:focus, .layui-textarea:focus {
+    border-color: #536dfe !important;
+    box-shadow: 0 0 0 3px #c8d1ff!important;
+}
+.layui-laypage a:hover {
+
+    color: #536dfe !important;
+}  
+    
+ body.dark-mode .layui-layer-title {
+ border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom: 1px solid rgb(40 43 61)!important;
+
+}   
+ .layui-layer4{
+    width: 340px !important;
+ }   
+    
+body.dark-mode .mdui-theme-accent-indigo,
+body.dark-mode .mdui-color-theme-accent {
+    background-color: rgb(62 66 87) !important;
+    color: rgb(255, 255, 255) !important;
+}
+body.dark-mode .layui-select-tips {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+body.dark-mode .layui-layer-setwin,
+body.dark-mode .layui-layer-ico,
+body.dark-mode .layui-layer-title,
+body.dark-mode .layui-select-tips dd {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+/* 额外覆盖 .layui-form-select 的样式 */
+body.dark-mode .layui-form-select dl dd {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+body.dark-mode .layui-form-select dl dd:hover {
+    background-color: #333333 !important;
+}
+
+body.dark-mode .layui-form-select dl dd.layui-this {
+    background-color: #444444 !important;
+}
+
+body.dark-mode .layui-input-inline {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+body.dark-mode .layui-form-label {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+
+body.dark-mode .layui-tab-item {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+body.dark-mode .layui-tab-content {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+body.dark-mode .layui-tab {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+body.dark-mode .layui-input {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+body.dark-mode .layui-anim,
+body.dark-mode .layui-anim-upbit,
+body.dark-mode .layui-header,
+body.dark-mode .layui-body {
+    background-color: #141414;
+}
+
+body.dark-mode .layui-logo,
+body.dark-mode .layui-nav-item a {
+    color: #ffffff;
+}
+body.dark-mode #memory div,
+body.dark-mode #CPU div,
+body.dark-mode #NetImg div
+{
+    background-color: #141414 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+
+body.dark-mode .mdui-card ,
+body.dark-mode .introjs-tooltip{
+    animation: fadeInDown;
+    animation-duration: 0.5s;
+    background-color: #141414;
+    margin:8px;
+}
+.introjs-tooltip .bottom{
+    width: auto !important;
+    height: auto !important;
+    background-color: rgb(0 0 0 / 0%) !important;
+}
+
+
+body.dark-mode .mdui-panel-item {
+    background-color: #141414;
+    /*outline: 1px solid white;*/
+}
+body.dark-mode .layui-form-select,
+body.dark-mode .layui-layer,
+body.dark-mode .mdui-select-menu ，
+body.dark-mode .layui-table,
+body.dark-mode .mdui-select-menu-item,
+body.dark-mode .mdui-table {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+body.dark-mode .layui-form {
+    color: #ffffff !important;
+    background-color: #141414 !important;
+}
+
+body.dark-mode .mdui-table tbody tr {
+    background-color: #141414 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .mdui-table thead {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .layui-table tbody tr {
+    background-color: #141414 !important;
+    color: #ffffff !important;
+}
+body.cark-mode  .layui-laypage-em,
+body.dark-mode .layui-table tbody tr th {
+    background-color: #141414 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .layui-table thead {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .layui-table thead th {
+    background-color: #141414 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .mdui-table tbody tr td {
+    background-color: #141414 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .mdui-table thead th {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+}
+body.dark-mode .mdui-typo-title,
+body.dark-mode #tab-1 .mdui-card-primary-title,
+body.dark-mode .tittle{
+    color: #0A97FF;
+}
+body.dark-mode .ant-pro-layout-bg-list {
+    pointer-events: none;
+    position: fixed;
+    overflow: hidden;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(#141414, #000000 28%);}
+body.dark-mode .mdui-select-selected,
+body.dark-mode .mdui-select,
+body.dark-mode .mdui-card-content,
+body.dark-mode .introjs-tooltip,
+body.dark-mode .mdui-card-primary-title,
+body.dark-mode .mdui-card-primary-subtitle,
+body.dark-mode .mdui-btn,
+body.dark-mode h1,
+body.dark-mode li,
+body.dark-mode p,
+body.dark-mode a {
+    color: #ffffff;
+}
+body.dark-mode .layui-form-autocomplete dl dd:hover {
+    background-color: #2e3247;
+}
+body.dark-mode layui-badge,
+body.dark-mode layui-bg-gray {
+    color: #ffffff !important;
+    background-color: #1d2033 !important;
+}
+
+
+   
+    /* 毛玻璃模式下的样式覆盖 */
+body.glass-mode .layui-select-tips {
+    color: #333333 !important;
+    background-color: rgba(255, 255, 255, 0.28) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+body.glass-mode .layui-layer-title{
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+        background-color: rgba(255, 255, 255, 0.28) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+      border-radius: 8px;
+}
+body.glass-mode .layui-layer-setwin{
+      /* background-color: rgba(255, 255, 255, 0.28) !important;*/
+
+      border-radius: 8px;
+}
+body.glass-mode .layui-layer-ico,
+body.glass-mode .layui-layer-title,
+body.glass-mode .layui-select-tips dd {
+    color: #333333 !important;
+    background-color: rgba(255, 255, 255, 0.28) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+ .layui-select-tips dd {
+    color: #536dfe !important;
+
+}
+/* 额外覆盖 .layui-form-select 的样式 */
+body.glass-mode .layui-form-select dl dd {
+    color: #333333 !important;
+    background-color: rgba(255, 255, 255, 0.28) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .layui-form-select dl dd:hover {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+body.glass-mode .layui-form-select dl dd.layui-this {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.glass-mode .layui-input-inline {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.0) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .layui-form-label {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.0) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .layui-tab-item {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.0) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .layui-tab-content {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.0) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .layui-tab {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.0) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .layui-input {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.28) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode {
+    background: url('/static/component/mmui/img/2024/07/11/skdk7y.jpg') no-repeat center center fixed;
+    background-size: cover;
+  color: #333333;
+}
+
+body.glass-mode .layui-anim,
+body.glass-mode .layui-anim-upbit,
+body.glass-mode .layui-header,
+body.glass-mode .layui-body {
+    background-color: rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .layui-logo,
+body.glass-mode .layui-nav-item a {
+    color: #333333;
+}
+
+body.glass-mode .mdui-appbar {
+    /*background-color: rgba(255, 255, 255, 0.28) !important;*/
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .mdui-card {
+    animation: fadeInDown;
+    animation-duration: 0.5s;
+    background-color: rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .mdui-toolbar {
+    background-color: rgba(255, 255, 255, 0) !important;
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+}
+
+body.glass-mode .mdui-panel-item {
+    background-color: rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    /*outline: 1px solid white;*/
+}
+
+body.glass-mode .layui-form-select,
+body.glass-mode .layui-layer,
+body.glass-mode .layui-table,
+body.glass-mode .mdui-select-menu,
+body.glass-mode  .layui-laypage-em,
+body.glass-mode .mdui-table {
+    color: #333333 !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+body.glass-mode .layui-form,
+body.glass-mode .mdui-table tbody tr,
+body.glass-mode .mdui-table thead,
+body.glass-mode .mdui-table tbody tr td,
+body.glass-mode .mdui-table thead th,
+body.glass-mode .layui-table tbody tr,
+body.glass-mode .layui-table tbody tr th,
+body.glass-mode .layui-table thead,
+body.glass-mode .layui-table thead th {
+    background-color: rgba(255, 255, 255, 0) !important;
+    color: #333333 !important;
+
+}
+
+body.glass-mode .gt{
+        background-color: rgb(255 255 255 / 46%)!important;
+}
+body.glass-mode .mdui-select,
+body.glass-mode .mdui-card-content,
+body.glass-mode .mdui-card-primary-title,
+body.glass-mode .mdui-card-primary-subtitle,
+body.glass-mode .mdui-btn,
+body.glass-mode h1,
+body.glass-mode li,
+body.glass-mode p,
+body.glass-mode a {
+    color: #333333;
+}
+body.glass-mode .mdui-drawer {
+    background-color: rgba(255, 255, 255, 0.1); /* 设置背景颜色为半透明白色 */
+    backdrop-filter: blur(5px); /* 应用模糊效果 */
+    -webkit-backdrop-filter: blur(5px); /* 针对旧版 Safari 浏览器的兼容性写法 */
+}
+body.glass-mode .mdui-color-theme-accent {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.3)!important;
+    font-size: 16px;
+    border: none;
+   
+    background: rgba(255, 255, 255, 0.2); /* 半透明白色背景 */
+    color: #fff; /* 白色文本 */
+    backdrop-filter: blur(50px); /* 模糊效果 */
+    border: 1px solid rgba(255, 255, 255, 0.5); /* 半透明边框 */
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.mdui-snackbar {
+    background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色背景 */
+    backdrop-filter: blur(8px); /* 毛玻璃效果 */
+    -webkit-backdrop-filter: blur(8px); /* 兼容旧版 Safari */
+    color: #fff; /* 白色文字 */
+    border-radius: 10px; /* 更大的圆角 */
+    padding: 20px 30px; /* 增加内边距 */
+    /*box-shadow: 0 6px 10px rgba(0,0,0,0.15);  更大的阴影效果 */
+    font-size: 18px; /* 增大字体大小 */
+    line-height: 1.5; /* 调整行高 */
+} 
+body.glass-mode .mdui-color-theme-accent:hover {
+    background: rgba(255, 255, 255, 0.3); /* 鼠标悬浮时增加背景透明度 */
+
+
+}
+body.glass-mode .mdui-container {
+   background-color: #1d203300;/* 鼠标悬浮时增加背景透明度 */
+
+
+}
+
+
+
+
+  
+   @keyframes fadeInc {
+    0% {
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0);
+    }
+    100% {
+        opacity: 1;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+}
+
+   @keyframes fadeOutc {
+    0% {
+        opacity: 1; /* 或当前的透明度 */
+        background-color: rgba(0, 0, 0, 0.3); /* 或当前的背景颜色 */
+    }
+    100% {
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0);
+    }
+}
+
+   .layui-layer-shade {
+    animation: fadeInc 0.5s forwards;
+}
+
+.layui-layer-shade.fading-out {
+    animation: fadeOutc 0.5s forwards;
+}
+   .layui-table-cell {
+    height: 39px !important;
+    line-height: 34px;
+    width: 100% !important;
+}   
+   .mdui-table-fluid {
+       
+       border:none !important;
+   }
+   
+   .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+    border-width: 0px;
+    border-style: none !important;
+    border-color: #eee;
+    border-top: none;
+}
+        .container {
+         display: flex;
+            justify-content: space-between; /* 将子元素分布在两端 */
+            align-items: center; /* 垂直居中 */
+            width: 100%;
+        }
+        
+ .mdui-panel-item {
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}       
+       .mdui-panel-item-open {
+    height: auto;
+    margin-bottom: 8px;
+}      
+
+.layui-form-label {
+    float: left;
+    display: block;
+    padding: 10px 3px!important;
+    width: 79px;
+    font-weight: 400;
+    line-height: 11px !important;
+    /* text-align: right; */
+}
+.layui-input-block {
+    margin-left: 89px!important;
+    min-height: 36px!important;
+}
+.ant-pro-layout-bg-list {
+    pointer-events: none;
+    position: fixed;
+    overflow: hidden;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(#ffffff, #f5f5f5 28%);}
+.mdui-toolbar{    border-block-end: 1px solid rgba(5, 5, 5, 0.06);
+    background-color: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    height: 56px;
+    transition: background-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);}
+.mdui-appbar{
+    border-block-end: 1px solid rgba(5, 5, 5, 0.06);
+         box-shadow:none !important;
+             -webkit-box-shadow:none !important;
+             height: 56px;
+}
+.mdui-drawer{
+    flex: 0 0 256px;
+    max-width: 256px;
+    min-width: 256px;
+    width: 256px;
+    overflow-x: visible;
+    height: 100%;
+    padding-inline: 8px;
+    padding-block: 0;
+    border-inline-end: 1px solid rgba(5, 5, 5, 0.06);
+    margin-inline-end: -1px;
+    color: rgba(0, 0, 0, 0.65);
+}
+.mdui-list-item-active{
+    color: rgba(0, 0, 0, 0.88);
+    background-color: rgba(0, 0, 0,0.04)!important;
+    font-weight: normal;
+}
+.layui-layer-content{
+    padding-bottom: 16px;
+}
+@media(max-width: 1024px){
+    body.dark-mode .mdui-drawer {
+                background-color: #141414;
+            }
+}
+
+  @media(max-width: 768px){
+    
+            #tab-1 .mdui-col-sm-4{
+                width: 100%;
+            }
+
+            #tab-1  .mdui-card .t11 {
+        margin-top: 8px;
+        
+    }
+    #tab-1  .mdui-card .b11 {
+        margin-bottom: 8px;
+       
+    }
+
+  }
+   
+        @media (min-width: 768px) {
+            .mdui-collapse-item-arrow {
+                display: none;
+            }
+     
+            
+            #tab-1 .mdui-panel  .mdui-col-sm-4{
+    width: fit-content;
+}
+   
+
+
+#tab-2 .mdui-row,
+#tab-3 .mdui-row,
+#tab-4 .mdui-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px)); /* 自动折行，最小宽度为 250px */
+    gap: 16px; /* 网格间距 */
+    align-items: stretch;
+}
+        }
+/* 手机宽度下的样式 */
+
+  
+
+
+#tab-2 .mdui-card-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* 对于 #tab-3 使用 grid 布局 */
+
+.mdui-card-media img {
+    border-radius: 6px 6px 0 0;
+}
+
+#tab-3 .mdui-card{
+    display: flex;
+    flex-direction: column;
+}
+
+
+#tab-3 .mdui-card .mdui-card-content{
+    flex: 1 0 auto;
+
+
+}
+
+.mdui-select-position-auto{
+    width: 95%;
+}
+#tab-3 .mdui-card button{
+    
+    margin-bottom: 8px;
+
+}
+#tab-4 .mdui-card{
+    display: flex;
+    flex-direction: column;
+}
+
+
+#tab-4 .mdui-card .mdui-card-content{
+    flex: 1 0 auto;
+
+
+}
+
+
+#tab-4 .mdui-card button{
+    
+    margin-bottom: 8px;
+
+}
+
+
+#tab-2 .mdui-col-md-3{
+    width: 100%;
+}
+#tab-3 .mdui-col-md-3{
+    width: 100%;
+}
+@media (min-width:768px){
+#tab-2 .mdui-col-md-3 .mdui-card{
+    width: 100%;
+}
+#tab-3 .mdui-col-md-3 .mdui-card{
+    width: 100%;
+}
+#tab-4 .mdui-col-md-3 .mdui-card{
+    width: 100%;
+}
+}
+#tab-4 .mdui-col-md-3{
+    width: 100%;
+}
+#tab-1 .mdui-list-item  .mdui-btn-icon {
+    width: 18px;
+    min-width: 26px;
+    height: 26px;}
+
+.mdui-panel i{
+    font-size: inherit !important;
+}
+.mdui-panel button{
+    min-width: fit-content;
+}
+
+.btlist{
+    display: flex;
+}
+.cc12{
+    min-height: 123px;
+    max-height:250px ;
+    width: 100%;
+    padding: 8px;
+}
+body.dark-mode .appbar i{
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+body.dark-mode .appbar a{
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+body.dark-mode #refreshtk{
+    color: white !important;
+}
+
+#tab-9 .mdui-select {
+    width: 100%;
+}
+
+#tab-9  .mdui-table-fluid {
+    width: 100%;
+     overflow-x:clip  !important;
+
+}
+
+#tab-9 .mdui-select-selected {
+    width: 100%;
+}
+.mdui-card:has(.mdui-select-selected) {
+    overflow: visible !important;
+}
+
+
+
+
+@media only screen and (min-width: 768px) {
+    
+#tab-1 .mdui-list-dense{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+#tab-1 .mdui-list{
+    height: 100%;
+}
+#tab-1 .mdui-collapse-item{
+    height: 100%;
+    width: 100%;
+    
+}
+#tab-1 .mdui-collapse-item-body{
+    height: calc(100% - 64px )!important;
+    
+}
+#tab-1  .mdui-col-sm-4{
+
+    height: 100%;
+}
+}
+
+
+
+#tab-1 .mdui-list-item {
+  display: flex; /* 使用 flex 布局 */
+  justify-content: flex-start; /* 确保内容从左对齐 */
+  align-items: center; /* 垂直方向居中对齐 */
+}
+
+#tab-1 .mdui-list-item .content {
+  margin-left: 8px; /* 给冒号后面的内容添加间距 */
+  text-align: left; /* 确保内容居左显示 */
+  flex-grow: 1; /* 内容自动扩展，保持对齐 */
+}
+
+#slec1{
+    display: flex;
+}
+#slec1 .blank{
+    flex: 1 1 auto;
+}
+.introjs-button:hover {
+    outline: 0;
+    text-decoration: none;
+    border-color: #536dfe !important;
+    background-color: #fff ;
+    color: #536dfe !important;
+}
+.introjs-button {
+    box-sizing: content-box;
+    position: relative;
+    overflow: visible;
+    padding: .5rem 1rem;
+    border: 1px solid #d9d9d9 ;
+    text-decoration: none;
+    text-shadow: 1px 1px 0 #fff;
+    font-size: 14px;
+    color: #424242;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: 0;
+    background-color: #fff;
+    border-radius: .2em;
+    zoom: 1;
+    display: inline;
+}
+
+.introjs-button:focus {
+    outline: 0;
+    text-decoration: none;
+    background-color: #fff;
+    box-shadow: 0 0 0 .2rem #536dfe4d;
+    border: 1px solid #536dfe;
+    color: #536dfe;
+}
+.introjs-bullets ul li a {
+    transition: width .1s ease-in;
+    box-sizing: content-box;
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: #9baafd;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.introjs-bullets ul li a.active {
+    width: 15px;
+    background: #5a73ff;
+}
+
+.introjs-bullets ul li a {
+    transition: width .1s ease-in;
+    box-sizing: content-box;
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: #9baafd;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.introjs-skipbutton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    color: #61616154;
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+}
+.introjs-helperLayer{
+    box-shadow: rgb(145 162 255) 0px 0px 1px 2px, rgb(33 33 33 / 28%) 0px 0px 0px 5000px !important;
+   
+}
+
+
+
+
+
+
+body.dark-mode .introjs-button:hover {
+    outline: 0;
+    text-decoration: none;
+    border-color: #536dfe !important;
+    background-color: #2e3247 ;
+    color: #536dfe !important;
+}
+body.dark-mode .introjs-button {
+    box-sizing: content-box;
+    position: relative;
+    overflow: visible;
+    padding: .5rem 1rem;
+    border: 1px solid #d9d9d926 ;
+    text-decoration: none;
+    text-shadow: 1px 1px 0 #000000;
+    font-size: 14px;
+    color: #fff;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: 0;
+    background-color: #141414;
+    border-radius: .2em;
+    zoom: 1;
+    display: inline;
+}
+
+body.dark-mode .introjs-button:focus {
+    outline: 0;
+    text-decoration: none;
+    background-color: #424242;
+    box-shadow: 0 0 0 .2rem #536dfe4d;
+    border: 1px solid #536dfe;
+    color: #536dfe;
+}
+
+
+body.dark-mode .introjs-skipbutton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    color: #61616154;
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+}
+body.glass-mode .ant-pro-layout-bg-list {
+
+    display: none;
+}
+
+    </style>
+    
+
+</head>
+
+<script>
+   var _paq = window._paq = window._paq || [];
+
+// 简单哈希函数，用于生成 siteId
+function hashCode(str) {
+  var hash = 0, i, chr;
+  if (str.length === 0) return hash;
+  for (i = 0; i < str.length; i++) {
+    chr = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0; // 转为 32 位整数
+  }
+  return Math.abs(hash); // 返回正整数
+} 
+
+// 使用当前域名生成唯一的 siteId
+var currentDomain = window.location.hostname;
+var matomoSiteId = hashCode(currentDomain);
+
+// 初始化 Matomo 基本配置
+_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+_paq.push(["setCookieDomain", currentDomain]);
+
+// 使用预处理器注入的后端变量
+var isNat = ""; // 是否使用 NAT
+var virtualType = ""; // 虚拟化类型
+var imageOS = "dicm"; // 虚拟机操作系统
+
+// 调用 GeoIP API 获取用户 IP 和地区
+fetch('https://ipapi.co/json/')
+  .then(response => response.json())
+  .then(data => {
+    var userIP = data.ip || "Unknown"; // 用户 IP
+    var userRegion = data.region || "Unknown"; // 用户地区
+
+    // 获取当前的主题模式（暗色模式、亮色模式或毛玻璃模式）
+    function getCurrentTheme() {
+        if (localStorage.getItem('darkMode') === 'enabled' || isDarkMode()) {
+            return 'dark';
+        }
+        if (localStorage.getItem('glassMode') === 'enabled') {
+            return 'glass';
+        }
+        return 'light';  // 默认值为亮色模式
+    }
+
+    var currentTheme = getCurrentTheme();
+
+    // 动态传递用户 IP、地区和后端变量到 Matomo 如果你觉得不合适或者侵犯您的的隐私 ，请自行删除
+    _paq.push(['disableCookies']);
+    _paq.push(['setCustomDimension', 4, isNat]);             // 自定义维度 1：是否 NAT
+    _paq.push(['setCustomDimension', 1, virtualType]);       // 自定义维度 2：虚拟化类型
+    _paq.push(['setCustomDimension', 2, imageOS]);           // 自定义维度 3：虚拟机操作系统
+    _paq.push(['setCustomDimension', 3, "2.0.3"]);           // 自定义维度 4：模板版本
+    _paq.push(['setCustomDimension', 6, "NotAllowed"]);            // 自定义维度 5：IP 地址（删除）
+    _paq.push(['setCustomDimension', 5, userRegion]);        // 自定义维度 6：地区
+    _paq.push(["setCustomDimension", 7,  "Debug Mode Disabled. InnerVersion:Lightingboat00b2"]); // 调试信息
+    _paq.push(["setCustomDimension", 8, currentDomain]);     // 当前域名
+    _paq.push(['setCustomDimension', 9, currentTheme]);      // 自定义维度 9：主题模式（dark/light/glass）
+
+    // 启用页面视图和链接追踪
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+
+    // 动态加载 Matomo 脚本
+    (function() {
+      var u = "//static.netmc.icu/";
+      _paq.push(["setTrackerUrl", u + "matomo.php"]);
+      _paq.push(["setSiteId", 1]); // 使用动态生成的 siteId
+      var d = document, g = d.createElement("script"), s = d.getElementsByTagName("script")[0];
+      g.async = true; g.src = u + "matomo.js"; s.parentNode.insertBefore(g, s);
+    })();
+  })
+  .catch(error => {
+    console.error("无法获取用户 IP 和地区信息", error);
+
+    // 如果获取失败，也加载 Matomo 脚本，并传递后端变量
+    _paq.push(["setCustomVariable", 1, "IsNAT", isNat, "visit"]); // 自定义变量：是否 NAT
+    _paq.push(["setCustomVariable", 2, "VirtualType", virtualType, "visit"]); // 自定义变量：虚拟化类型
+    _paq.push(["setCustomVariable", 3, "ImageOS", imageOS, "visit"]); // 自定义变量：虚拟机操作系统
+    _paq.push(["setCustomVariable", 8, "SiteDomain", currentDomain, "visit"]); // 当前域名
+
+    (function() {
+      var u = "//static.netmc.icu/";
+      _paq.push(["setTrackerUrl", u + "matomo.php"]);
+      _paq.push(["setSiteId", matomoSiteId]); // 使用动态生成的 siteId
+      var d = document, g = d.createElement("script"), s = d.getElementsByTagName("script")[0];
+      g.async = true; g.src = u + "matomo.js"; s.parentNode.insertBefore(g, s);
+    })();
+  });
+
+  </script>
+    
+<div class="page-loading">
+    <div class="loader-container">
+        
+            <div class="mdui-center loader"></div>
+            
+      
+    </div>
+</div>
+
+
+
+
+
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-auto mdui-theme-accent-indigo mdui-loaded pear-container ">
+    <div class="ant-pro-layout-bg-list css-dev-only-do-not-override-5fybr3"><img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr" style="position: absolute; left: 85px; bottom: 100px; height: 303px;"><img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/C2TWRpJpiC0AAAAAAAAAAAAAFl94AQBr" style="position: absolute; bottom: -68px; right: -45px; height: 303px;"><img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/F6vSTbj8KpYAAAAAAAAAAAAAFl94AQBr" style="position: absolute; bottom: 0px; left: 0px; width: 331px;"></div>
+
+
+
+<div class="appbar mdui-appbar mdui-appbar-fixed">
+  <div class="mdui-toolbar mdui-color-theme">
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon" id="menu1">
+      <i style="color:#000000e0"  data-step="8" data-intro="打开/关闭菜单，在菜单里您可以快速访问其他页面，包括重装系统，安全配置。" mdui-drawer="{target: '#leftdrawer'}" class="mdui-icon material-icons"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-lg mx-2 text-token-text-secondary"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></i>
+    </a>
+    <a style="color:#000000e0" href="javascript:;" class="mdui-typo-title mdui-ripple"><i class="mdui-icon material-icons  "><span role="img" aria-label="code-sandbox" class="anticon anticon-code-sandbox"><svg viewBox="64 64 896 896" focusable="false" data-icon="code-sandbox"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M709.6 210l.4-.2h.2L512 96 313.9 209.8h-.2l.7.3L151.5 304v416L512 928l360.5-208V304l-162.9-94zM482.7 843.6L339.6 761V621.4L210 547.8V372.9l272.7 157.3v313.4zM238.2 321.5l134.7-77.8 138.9 79.7 139.1-79.9 135.2 78-273.9 158-274-158zM814 548.3l-128.8 73.1v139.1l-143.9 83V530.4L814 373.1v175.2z"></path></svg></span></i>云管理系统</a>
+    <div class="mdui-toolbar-spacer"></div>
+   <!-- <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" >
+      <i style="color:#FFFFFF" class="mdui-icon material-icons mdui-ripple">search</i>
+    </a>-->
+        <!-- <button style="color:#00000073" id="glass-mode-toggle" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons">windows</i>
+            </button> -->
+            <button style="color:#00000073;" id="glass-mode-toggle" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons"><span role="img" aria-label="moon" class="anticon anticon-moon"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M120.1 770.6L443 823.2V543.8H120.1v226.8zm63.4-163.5h196.2v141.6l-196.2-31.9V607.1zm340.3 226.5l382 62.2v-352h-382v289.8zm63.4-226.5h255.3v214.4l-255.3-41.6V607.1zm-63.4-415.7v288.8h382V128.1l-382 63.3zm318.7 225.5H587.3V245l255.3-42.3v214.2zm-722.4 63.3H443V201.9l-322.9 53.5v224.8zM183.5 309l196.2-32.5v140.4H183.5V309z"></path></svg></span></i>
+    <button style="color:#00000073" id="dark-mode-toggle" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons"><span role="img" aria-label="moon" class="anticon anticon-moon"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M489.5 111.66c30.65-1.8 45.98 36.44 22.58 56.33A243.35 243.35 0 00426 354c0 134.76 109.24 244 244 244 72.58 0 139.9-31.83 186.01-86.08 19.87-23.38 58.07-8.1 56.34 22.53C900.4 745.82 725.15 912 512.5 912 291.31 912 112 732.69 112 511.5c0-211.39 164.29-386.02 374.2-399.65l.2-.01zm-81.15 79.75l-4.11 1.36C271.1 237.94 176 364.09 176 511.5 176 697.34 326.66 848 512.5 848c148.28 0 274.94-96.2 319.45-230.41l.63-1.93-.11.07a307.06 307.06 0 01-159.73 46.26L670 662c-170.1 0-308-137.9-308-308 0-58.6 16.48-114.54 46.27-162.47z"></path></svg></span></i>
+            </button>
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" onclick="location.reload();">
+      <i style="color:#00000073" class="mdui-icon material-icons"><span role="img" aria-label="reload" class="anticon anticon-reload"><svg viewBox="64 64 896 896" focusable="false" data-icon="reload"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M909.1 209.3l-56.4 44.1C775.8 155.1 656.2 92 521.9 92 290 92 102.3 279.5 102 511.5 101.7 743.7 289.8 932 521.9 932c181.3 0 335.8-115 394.6-276.1 1.5-4.2-.7-8.9-4.9-10.3l-56.7-19.5a8 8 0 00-10.1 4.8c-1.8 5-3.8 10-5.9 14.9-17.3 41-42.1 77.8-73.7 109.4A344.77 344.77 0 01655.9 829c-42.3 17.9-87.4 27-133.8 27-46.5 0-91.5-9.1-133.8-27A341.5 341.5 0 01279 755.2a342.16 342.16 0 01-73.7-109.4c-17.9-42.4-27-87.4-27-133.9s9.1-91.5 27-133.9c17.3-41 42.1-77.8 73.7-109.4 31.6-31.6 68.4-56.4 109.3-73.8 42.3-17.9 87.4-27 133.8-27 46.5 0 91.5 9.1 133.8 27a341.5 341.5 0 01109.3 73.8c9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47a8 8 0 003 14.1l175.6 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c-.1-6.6-7.8-10.3-13-6.2z"></path></svg></span></i>
+    </a>
+    <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple">
+      <i style="color:#FFFFFF" onclick="mdui.snackbar('别点了，啥也没');" class="mdui-icon material-icons">more_vert</i>
+    </a>-->
+  </div>
+ 
+</div>
+ <div id="wd" class="mdui-tab" style="display:none"  mdui-tab>
+
+  <a href="#tab-1" id="refreshtk" class="mdui-ripple mdui-ripple-white">监控</a>
+   <a href="#tab-0" id="refreshtk" class="mdui-ripple mdui-ripple-white">信息</a> 
+<a href="#tab-2" class="mdui-ripple mdui-ripple-white">电源</a>
+<a href="#tab-3" class="mdui-ripple mdui-ripple-white">重装</a>
+<a href="#tab-4" class="mdui-ripple mdui-ripple-white">光驱</a>
+<a href="#tab-5" class="mdui-ripple mdui-ripple-white">网络</a>
+<a href="#tab-6" class="mdui-ripple mdui-ripple-white">VNC</a>
+<a href="#tab-7" class="mdui-ripple mdui-ripple-white">快照</a>
+<a href="#tab-8" class="mdui-ripple mdui-ripple-white">备份</a>
+<a href="#tab-9" class="mdui-ripple mdui-ripple-white">策略</a>
+<a href="#tab-10" class="mdui-ripple mdui-ripple-white">端口映射</a>
+<a href="#tab-11" class="mdui-ripple mdui-ripple-white">挂机宝建站</a>
+<a href="#tab-12" id="refreshtk" class="mdui-ripple mdui-ripple-white">信息</a> 
+<!--<a href="#tab-11" class="mdui-ripple mdui-ripple-white">挂机宝建站</a>-->
+
+
+
+  </div>
+
+
+
+  <!-- 默认抽屉栏在左侧 -->
+  <div class="mdui-drawer" id="leftdrawer">
+
+    <ul class="mdui-list" mdui-collapse="{accordion: false}">
+      
+      <!-- 面板 -->
+      <li value="0" class="mdui-list-item mdui-ripple mdui-list-item-active">
+        <i class="mdui-list-item-icon mdui-icon material-icons "><span role="img" aria-label="dashboard" class="anticon anticon-dashboard"><svg viewBox="64 64 896 896" focusable="false" data-icon="dashboard"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M924.8 385.6a446.7 446.7 0 00-96-142.4 446.7 446.7 0 00-142.4-96C631.1 123.8 572.5 112 512 112s-119.1 11.8-174.4 35.2a446.7 446.7 0 00-142.4 96 446.7 446.7 0 00-96 142.4C75.8 440.9 64 499.5 64 560c0 132.7 58.3 257.7 159.9 343.1l1.7 1.4c5.8 4.8 13.1 7.5 20.6 7.5h531.7c7.5 0 14.8-2.7 20.6-7.5l1.7-1.4C901.7 817.7 960 692.7 960 560c0-60.5-11.9-119.1-35.2-174.4zM761.4 836H262.6A371.12 371.12 0 01140 560c0-99.4 38.7-192.8 109-263 70.3-70.3 163.7-109 263-109 99.4 0 192.8 38.7 263 109 70.3 70.3 109 163.7 109 263 0 105.6-44.5 205.5-122.6 276zM623.5 421.5a8.03 8.03 0 00-11.3 0L527.7 506c-18.7-5-39.4-.2-54.1 14.5a55.95 55.95 0 000 79.2 55.95 55.95 0 0079.2 0 55.87 55.87 0 0014.5-54.1l84.5-84.5c3.1-3.1 3.1-8.2 0-11.3l-28.3-28.3zM490 320h44c4.4 0 8-3.6 8-8v-80c0-4.4-3.6-8-8-8h-44c-4.4 0-8 3.6-8 8v80c0 4.4 3.6 8 8 8zm260 218v44c0 4.4 3.6 8 8 8h80c4.4 0 8-3.6 8-8v-44c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8zm12.7-197.2l-31.1-31.1a8.03 8.03 0 00-11.3 0l-56.6 56.6a8.03 8.03 0 000 11.3l31.1 31.1c3.1 3.1 8.2 3.1 11.3 0l56.6-56.6c3.1-3.1 3.1-8.2 0-11.3zm-458.6-31.1a8.03 8.03 0 00-11.3 0l-31.1 31.1a8.03 8.03 0 000 11.3l56.6 56.6c3.1 3.1 8.2 3.1 11.3 0l31.1-31.1c3.1-3.1 3.1-8.2 0-11.3l-56.6-56.6zM262 530h-80c-4.4 0-8 3.6-8 8v44c0 4.4 3.6 8 8 8h80c4.4 0 8-3.6 8-8v-44c0-4.4-3.6-8-8-8z"></path></svg></span></i>
+        <div id="refreshtk" class="mdui-list-item-content">面板</div>
+      </li>
+
+      <!-- 系统 -->
+      <li class="mdui-collapse-item mdui-collapse-item-open">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple t11" >
+          <i class="mdui-list-item-icon mdui-icon material-icons"><span role="img" aria-label="setting" class="anticon anticon-setting"><svg viewBox="64 64 896 896" focusable="false" data-icon="setting"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M924.8 625.7l-65.5-56c3.1-19 4.7-38.4 4.7-57.8s-1.6-38.8-4.7-57.8l65.5-56a32.03 32.03 0 009.3-35.2l-.9-2.6a443.74 443.74 0 00-79.7-137.9l-1.8-2.1a32.12 32.12 0 00-35.1-9.5l-81.3 28.9c-30-24.6-63.5-44-99.7-57.6l-15.7-85a32.05 32.05 0 00-25.8-25.7l-2.7-.5c-52.1-9.4-106.9-9.4-159 0l-2.7.5a32.05 32.05 0 00-25.8 25.7l-15.8 85.4a351.86 351.86 0 00-99 57.4l-81.9-29.1a32 32 0 00-35.1 9.5l-1.8 2.1a446.02 446.02 0 00-79.7 137.9l-.9 2.6c-4.5 12.5-.8 26.5 9.3 35.2l66.3 56.6c-3.1 18.8-4.6 38-4.6 57.1 0 19.2 1.5 38.4 4.6 57.1L99 625.5a32.03 32.03 0 00-9.3 35.2l.9 2.6c18.1 50.4 44.9 96.9 79.7 137.9l1.8 2.1a32.12 32.12 0 0035.1 9.5l81.9-29.1c29.8 24.5 63.1 43.9 99 57.4l15.8 85.4a32.05 32.05 0 0025.8 25.7l2.7.5a449.4 449.4 0 00159 0l2.7-.5a32.05 32.05 0 0025.8-25.7l15.7-85a350 350 0 0099.7-57.6l81.3 28.9a32 32 0 0035.1-9.5l1.8-2.1c34.8-41.1 61.6-87.5 79.7-137.9l.9-2.6c4.5-12.3.8-26.3-9.3-35zM788.3 465.9c2.5 15.1 3.8 30.6 3.8 46.1s-1.3 31-3.8 46.1l-6.6 40.1 74.7 63.9a370.03 370.03 0 01-42.6 73.6L721 702.8l-31.4 25.8c-23.9 19.6-50.5 35-79.3 45.8l-38.1 14.3-17.9 97a377.5 377.5 0 01-85 0l-17.9-97.2-37.8-14.5c-28.5-10.8-55-26.2-78.7-45.7l-31.4-25.9-93.4 33.2c-17-22.9-31.2-47.6-42.6-73.6l75.5-64.5-6.5-40c-2.4-14.9-3.7-30.3-3.7-45.5 0-15.3 1.2-30.6 3.7-45.5l6.5-40-75.5-64.5c11.3-26.1 25.6-50.7 42.6-73.6l93.4 33.2 31.4-25.9c23.7-19.5 50.2-34.9 78.7-45.7l37.9-14.3 17.9-97.2c28.1-3.2 56.8-3.2 85 0l17.9 97 38.1 14.3c28.7 10.8 55.4 26.2 79.3 45.8l31.4 25.8 92.8-32.9c17 22.9 31.2 47.6 42.6 73.6L781.8 426l6.5 39.9zM512 326c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm79.2 255.2A111.6 111.6 0 01512 614c-29.9 0-58-11.7-79.2-32.8A111.6 111.6 0 01400 502c0-29.9 11.7-58 32.8-79.2C454 401.6 482.1 390 512 390c29.9 0 58 11.6 79.2 32.8A111.6 111.6 0 01624 502c0 29.9-11.7 58-32.8 79.2z"></path></svg></span></i>
+          <div class="mdui-list-item-content">系统</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+          <li value="2" class="mdui-list-item mdui-ripple">电源</li>
+          <li value="3" class="mdui-list-item mdui-ripple">重装</li>
+          <li value="4" class="mdui-list-item mdui-ripple">管理</li>
+        </ul>
+      </li>
+
+      <!-- 数据 -->
+  
+
+      <!-- 网络 -->
+      <li class="mdui-collapse-item mdui-collapse-item-open">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons"><span role="img" aria-label="wifi" class="anticon anticon-wifi"><svg viewBox="64 64 896 896" focusable="false" data-icon="wifi"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M723 620.5C666.8 571.6 593.4 542 513 542s-153.8 29.6-210.1 78.6a8.1 8.1 0 00-.8 11.2l36 42.9c2.9 3.4 8 3.8 11.4.9C393.1 637.2 450.3 614 513 614s119.9 23.2 163.5 61.5c3.4 2.9 8.5 2.5 11.4-.9l36-42.9c2.8-3.3 2.4-8.3-.9-11.2zm117.4-140.1C751.7 406.5 637.6 362 513 362s-238.7 44.5-327.5 118.4a8.05 8.05 0 00-1 11.3l36 42.9c2.8 3.4 7.9 3.8 11.2 1C308 472.2 406.1 434 513 434s205 38.2 281.2 101.6c3.4 2.8 8.4 2.4 11.2-1l36-42.9c2.8-3.4 2.4-8.5-1-11.3zm116.7-139C835.7 241.8 680.3 182 511 182c-168.2 0-322.6 59-443.7 157.4a8 8 0 00-1.1 11.4l36 42.9c2.8 3.3 7.8 3.8 11.1 1.1C222 306.7 360.3 254 511 254c151.8 0 291 53.5 400 142.7 3.4 2.8 8.4 2.3 11.2-1.1l36-42.9c2.9-3.4 2.4-8.5-1.1-11.3zM448 778a64 64 0 10128 0 64 64 0 10-128 0z"></path></svg></span></i>
+          <div class="mdui-list-item-content">网络</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+          <li value="5" class="mdui-list-item mdui-ripple">分配IP</li>
+
+          <li value="12" class="mdui-list-item mdui-ripple">AiChat</li>
+          <li value="1" id="eggButton" class="mdui-text-color-red mdui-list-item mdui-ripple">      </li>
+        </ul>
+      </li>
+
+      <!-- 退出 -->
+      <li href="/" class="mdui-list-item mdui-ripple" val="exit">
+        <i class="mdui-list-item-icon mdui-icon material-icons"><span role="img" aria-label="logout" class="anticon anticon-logout"><svg viewBox="64 64 896 896" focusable="false" data-icon="logout"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M868 732h-70.3c-4.8 0-9.3 2.1-12.3 5.8-7 8.5-14.5 16.7-22.4 24.5a353.84 353.84 0 01-112.7 75.9A352.8 352.8 0 01512.4 866c-47.9 0-94.3-9.4-137.9-27.8a353.84 353.84 0 01-112.7-75.9 353.28 353.28 0 01-76-112.5C167.3 606.2 158 559.9 158 512s9.4-94.2 27.8-137.8c17.8-42.1 43.4-80 76-112.5s70.5-58.1 112.7-75.9c43.6-18.4 90-27.8 137.9-27.8 47.9 0 94.3 9.3 137.9 27.8 42.2 17.8 80.1 43.4 112.7 75.9 7.9 7.9 15.3 16.1 22.4 24.5 3 3.7 7.6 5.8 12.3 5.8H868c6.3 0 10.2-7 6.7-12.3C798 160.5 663.8 81.6 511.3 82 271.7 82.6 79.6 277.1 82 516.4 84.4 751.9 276.2 942 512.4 942c152.1 0 285.7-78.8 362.3-197.7 3.4-5.3-.4-12.3-6.7-12.3zm88.9-226.3L815 393.7c-5.3-4.2-13-.4-13 6.3v76H488c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h314v76c0 6.7 7.8 10.5 13 6.3l141.9-112a8 8 0 000-12.6z"></path></svg></span></i>
+        <div class="mdui-list-item-content">退出</div>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<div class="mdui-container">
+    
+    
+    
+    
+    
+    <div class="mdui-p-a-2 mdui-container" id="tab-1"  >    
+     <div class="mdui-row">                  
+            <div class=" bj mdui-col-md-12">
+                
+                
+                
+            </div>
+    </div>
+    
+    
+    
+    </div>
+    </div>
+    
+<div class="layui-row layui-col-space10"  style="max-width:1200px;margin:0 auto">
+    <div class="layui-col-xs12 layui-col-md3">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">基本信息</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space5">
+                            <div class="layui-form-item">
+                                产品名称：机房自动化美化</br>
+                                <p style="padding-left: 60px;"></p>
+                            </div>
+                            <div class="layui-form-item">
+                                所在区域：晋中                            </div>
+                            <div class="layui-form-item">
+                                操作系统：                            </div>
+                            <div class="layui-form-item">
+                                主机状态：<span id="status">运行中</span>
+                            </div>
+                            <div class="layui-form-item">
+                                远程信息：192.168.1.2:                            </div>
+                            <div class="layui-form-item">
+                                系统密码：<code class="password" style="font-family: auto;margin-right: 5px;">•••••••••</code>
+                                <i class="fa fa-eye password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="显示密码" data-password="" style="cursor: pointer;"></i>
+                                <i class="fa fa-eye-slash password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" title="隐藏密码" data-password="•••••••••" style="cursor: pointer;display: none;"></i>
+                                <a class="layui-btn  layui-btn-xs" id="system-pass" style="margin-left: 10px;">重置密码</a>
+                            </div>
+
+                            <div class="layui-form-item">
+                                面板用户：                            </div>
+                            <div class="layui-form-item">
+                                面板密码：<code class="password" style="font-family: auto;margin-right: 5px;">•••••••••</code>
+                                <i class="fa fa-eye password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="显示密码" data-password="" style="cursor: pointer;"></i>
+                                <i class="fa fa-eye-slash password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" title="隐藏密码" data-password="•••••••••" style="cursor: pointer;display: none;"></i>
+                                <a class="layui-btn  layui-btn-xs" id="panel-pass" style="margin-left: 10px;">重置密码</a>
+                            </div>
+                            <div class="layui-form-item">
+                                开通日期：                            </div>
+                            <div class="layui-form-item">
+                                到期日期：                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-xs12 layui-col-md9">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <div class="layui-tab layui-tab-brief layadmin-latestData" lay-filter="tabZZT">
+                            <ul class="layui-tab-title ">
+                                <li  class="layui-this" id="chartLi"><i class="fa fa-line-chart"></i>网络监控</li>
+                                <li><i class="fa fa-sitemap"></i>分配IP</li>
+                                <li><i class="fa fa-power-off"></i>管理控制</li>
+                                <li><i class="fa fa-retweet"></i>重装系统</li>
+                                <li><i class="fa fa-desktop"></i>远程VNC</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-xs12 layui-col-md12">
+                                             <div  id="home1">
+                                                 <select  id="chartSelect">
+                                                     <option value="24" selected>24小时</option>
+                                                     <option value="3">3天</option>
+                                                 </select>
+                                                 <div style="height: 500px" class="w-100 h-100 d-flex justify-content-center" id="balanceCharts"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-xs12 layui-col-md12">
+                                            <table class="layui-table layui-text" id="dataTable" lay-filter="dataTable">
+                                                <thead>
+                                                <th colspan="3"><p style="float: left;padding: 10px 0px"><i class="fa fa-sitemap"></i>分配IP列表</p> <p style="float: right" id="copy"  ><i class="fa fa-copy"></i>点击复制所有IP </p></th>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-row layui-col-space30">
+                                        <div class="layui-col-xs12 layui-col-md12 layui-col-space20">
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body"><i class="fa fa-power-off"> 开机</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body" style="text-align: center">
+                                                    <button class="layui-btn layui-btn-normal ajax" id="start">开机</button>
+                                                </div>
+                                            </div>
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body"><i class="fa fa-plug"> 关机</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body">
+                                                    <button class="layui-btn layui-btn-danger ajax" id="power">关机</button>
+                                                </div>
+                                            </div>
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body" ><i class="fa fa-refresh"> 重启</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body" style="text-align: center">
+                                                    <button class="layui-btn layui-btn-warm ajax" id="restart">重启</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body" ><i class="fa fa-refresh"> 重启BMC</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body" style="text-align: center">
+                                                    <button class="layui-btn layui-btn-warm ajax" id="resetbmc">重启BMC</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body" ><i class="fa fa-medkit"> 救援</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body" style="text-align: center">
+                                                    <button class="layui-btn layui-btn-warm ajax" id="rescue">救援</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-row layui-col-space5">
+                                        <div class="layui-col-md3">
+                                            <div class="grid-bg-1">
+                                                <i class=" fa fa-windows  fa-3x"> </i>
+                                                <p>Windows</p></div>
+                                            <div class="grid-bg-2">
+                                                <form id="form1" class="layui-form" style="text-align: center">
+                                                    <input type="hidden" name="host_id" value="2">
+                                                    <input type="hidden" name="os_type" value="windows">
+                                                    <select name="template">
+                                                        <option value="">请选择系统镜像</option>
+                                                                                                            </select>
+                                                    <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md3">
+                                            <div class="grid-bg-1">
+                                                <i class="icon-centos fa-3x"></i>
+                                                <p>Centos</p>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <form id="form2" class="layui-form" style="text-align: center">
+                                                    <input type="hidden" name="host_id" value="2">
+                                                    <input type="hidden" name="os_type" value="centos">
+                                                    <select name="template">
+                                                        <option value="">请选择系统镜像</option>
+                                                                                                            </select>
+                                                    <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md3">
+                                            <div class="grid-bg-1"><i class="fa icon-ubuntu fa-3x"></i>
+                                                <p>Ubuntu</p>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <form id="form3" class="layui-form" style="text-align: center">
+                                                    <input type="hidden" name="host_id" value="2">
+                                                    <input type="hidden" name="os_type" value="ubuntu">
+                                                    <select name="template">
+                                                        <option value="">请选择系统镜像</option>
+                                                                                                            </select>
+                                                    <button  style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md3">
+                                            <div class="grid-bg-1">
+                                                <i class="icon-debian fa-3x"></i>
+                                                <p>Debian</p>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <form id="form4" class="layui-form" style="text-align: center">
+                                                    <input type="hidden" name="host_id" value="2">
+                                                    <input type="hidden" name="os_type" value="debian">
+                                                    <select name="template">
+                                                        <option value="">请选择系统镜像</option>
+                                                                                                            </select>
+                                                    <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-xs12">
+                                            <div class="grid-bg-1">
+                                                <i class=" fa fa-desktop fa-4x"> </i>
+                                                <p>HTML5远程桌面可以从下面启动。HTML5查看器将在新窗口打开</p>
+                                                <a target="_blank" href="" id="govnc"></a>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="vnc-view" lay-submit >连接VNC</button>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="flushVnc" lay-submit >强制刷新vnc</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹窗模板区start-->
+<!--救援-->
+<script type="text/html" id="modelrescue">
+    <div class="layui-card-body">
+        <form id="rescueForm" lay-filter="reinstallForm" class="layui-form model-form">
+            <input name="hostid" type="hidden" value="2" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-block">
+                    <select name="rescue_os_type">
+                        <option value="linux">linux</option>
+                        <option value="windows">windows</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary closePageDialog"  type="button" >取消</button>
+                    <button class="layui-btn" lay-filter="modelrescueSubmit" lay-submit>确认</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--设置系统密码-->
+<script type="text/html" id="modelsystempassword">
+    <div class="layui-card-body">
+        <form id="systemForm" lay-filter="systemForm" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">系统密码</label>
+                <div class="layui-input-block">
+                    <input name="password" placeholder="请输入系统密码" type="text" class="layui-input" maxlength="20"
+                           lay-verType="tips" lay-verify="required|host_system_password" required/>
+                </div>
+            </div>
+            <div class="layui-form-item text-right">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary closePageDialog " type="button" ew-event="closePageDialog">取消</button>
+                    <button class="layui-btn" lay-filter="modelSystemSubmit" lay-submit>重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--设置版面密码-->
+<script type="text/html" id="modelpanelpassword">
+    <div class="layui-card-body">
+        <form id="panelForm" lay-filter="panelForm" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">控制台密码</label>
+                <div class="layui-input-block">
+                    <input name="passwd" placeholder="请输入控制台密码" type="text" class="layui-input" maxlength="20"
+                           lay-verType="tips" lay-verify="required|host_panel_password" required/>
+                </div>
+            </div>
+            <div class="layui-form-item text-right">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary closePageDialog " type="button" ew-event="closePageDialog">取消</button>
+                    <button class="layui-btn" lay-filter="modelPanelSubmit" lay-submit>重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--弹窗模板区end-->
+<script>
+    function copyText (text) {
+        //生成一个textarea对象
+        var textArea = document.createElement('textarea');
+        //设置属性
+        textArea.style.position = 'fixed';
+        textArea.style.top = 0;
+        textArea.style.left = 0;
+        textArea.style.width = '2em';
+        textArea.style.height = '2em';
+        textArea.style.padding = 0;
+        textArea.style.border = 'none';
+        textArea.style.outline = 'none';
+        textArea.style.boxShadow = 'none';
+        textArea.style.background = 'transparent';
+        textArea.value = text;
+        //添加到页面body
+        document.body.appendChild(textArea);
+        textArea.select();
+        //执行
+        var msg = document.execCommand('copy') ? '成功' : '失败';
+        Popup('复制内容' + msg);
+        //移除对象
+        document.body.removeChild(textArea);
+    }
+    function Popup(message){
+        var span=document.createElement('span')
+        span.innerHTML=message || 'default'
+        span.className='popupStyle'
+        span.style.display='block'
+        document.body.appendChild(span)
+        setTimeout(()=>{
+            span.remove()
+        },1000)
+    }
+    layui.link(rootPath+'css/module/autocomplete.css');
+    layui.use(['table','form', 'jquery','autocomplete'], function () {
+        var hostid ='2';
+        let form = layui.form;
+        let $ = layui.jquery;
+        var table = layui.table;
+        var autocomplete = layui.autocomplete;
+        let common = layui.common;
+        let laydate = layui.laydate;
+        let rootUrl = "http://43.134.34.163/index.php/control/baremeta/";
+        let cols = [
+            [{
+                field: "ip",
+                title: "IP",
+                unresize: "true",
+                align: "center"
+            }, {
+                field: "gateway",
+                title: "网关",
+                unresize: "true",
+                align: "center"
+            }, {
+                field: "netmask",
+                title: "掩码",
+                unresize: "true",
+                align: "center"
+            }
+            ]
+        ]
+        table.render({
+            elem: '#dataTable',
+            url: rootUrl + 'allotIp?hostid='+hostid,
+            page: true,
+            cols: cols,
+            cellMinWidth: 100,
+            skin: 'line',
+            limit: 30,
+            limits:[50,100,200,400],
+            defaultToolbar: [{
+                title: '刷新',
+                layEvent: 'refresh',
+                icon: 'layui-icon-refresh',
+            }, 'filter', 'print', 'exports']
+        });
+
+        //显示密码
+        $('.password-show').click(function() {
+            var password = $(this).data('password');
+            $(this).hide();
+            $(this).siblings('.password').html(password);
+            $(this).siblings('.password-hide').show();
+        });
+        //前台隐藏密码
+        $('.password-hide').click(function() {
+            var password = $(this).data('password');
+            $(this).hide();
+            $(this).siblings('.password').html(password);
+            $(this).siblings('.password-show').show();
+        });
+        //设置云主机系统密码
+        $('#system-pass').click(function (data) {
+            layer.open({
+                type: 1,
+                title: '重置系统密码',
+                content: $('#modelsystempassword').html(),
+                success: function (layero, dIndex) {
+                    form.on('submit(modelSystemSubmit)',function (data) {
+                        layer.load(2);
+                        $.post(rootUrl+'systemPasswd', {
+                            hostid: hostid,
+                            password:data.field.password
+                        }, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 200) {
+                                layer.msg(res.msg, {icon: 1});
+                                layer.close(dIndex);
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'json');
+                        return false;
+                    });
+                    $('.closePageDialog').click(function () {
+                        layer.close(dIndex);
+                    });
+
+                }
+            });
+            return false;
+        })
+        //设置
+        $('#panel-pass').click(function (data) {
+            layer.open({
+                type: 1,
+                title: '重置控制台密码',
+                content: $('#modelpanelpassword').html(),
+                success: function (layero, dIndex) {
+                    form.on('submit(modelPanelSubmit)',function (data) {
+                        layer.load(2);
+                        $.post(rootUrl+'panelPassword', {
+                            hostid: hostid,
+                            passwd:data.field.passwd
+                        }, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 1) {
+                                layer.msg(res.msg, {icon: 1});
+                                layer.close(dIndex);
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'json');
+                        return false;
+                    });
+                    $('.closePageDialog').click(function () {
+                        layer.close(dIndex);
+                    });
+
+                }
+            });
+            return false;
+        })
+        //开机
+        $('#start').click(function () {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            layer.load(2);
+            $.post(rootUrl+'powerOn',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+
+        //断电源
+        $('#power').click(function () {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            layer.load(2);
+            $.post(rootUrl+'powerOff',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+        //重启
+        $('#restart').click(function () {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            layer.load(2);
+            $.post(rootUrl+'restart',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+
+        $('#resetbmc').click(function () {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            layer.load(2);
+            $.post(rootUrl+'resetbmc',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+
+        //救援
+        $('#rescue').click(function () {
+            layer.open({
+                type: 1,
+                title: '救援',
+                area: ['450px','250px'],
+                content: $('#modelrescue').html(),
+                success: function (layero, dIndex) {
+                    form.render();
+                    form.on('submit(modelrescueSubmit)',function (data) {
+                        layer.load(2);
+                        var rescue_os_type =data.field.rescue_os_type ;
+                        $.post(rootUrl+'rescue', {
+                            hostid: hostid,
+                            rescue_os_type:rescue_os_type,
+                        }, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 200) {
+                                layer.msg(res.msg, {icon: 1});
+                                layer.close(dIndex);
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'json');
+                        return false;
+                    });
+                    $('.closePageDialog').click(function () {
+                        layer.close(dIndex);
+                    });
+                }
+            });
+        });
+
+        form.on('submit(vnc-view)', function (data) {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            //layer.load(2);
+            var index2 = layer.load(3, {
+                shade: [0.1, '#fff'],
+                content: '<span class="loadtip">正在打开vnc，长时间没反应，可刷新</span>',
+                success: function (layer) {
+                    layer.find('.layui-layer-content').css({
+                        'padding-top': '30px',
+                        'width': '350px',
+                    });
+                    layer.find('.loadtip').css({
+                        'font-size':'18px',
+                        'color':'red',
+                        'margin-left':'5px'
+                    });
+                }
+            });
+
+
+            $.post(rootUrl+'startVnc',{hostid:hostid},function (data) {
+                //
+                if (data.code == 1) {
+                    setTimeout(function(){
+                        layer.closeAll('loading');
+                        //window.open(data.data.url);
+                        $('#govnc').attr("href",data.data);
+                        $('#govnc')[0].click();
+                    },1000);
+
+                    return false;
+                } else {
+                    layer.closeAll('loading');
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+
+        form.on('submit(flushVnc)', function (data) {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            //layer.load(2);
+            var index2 = layer.load(3, {
+                shade: [0.1, '#fff'],
+                content: '<span class="loadtip">正在强制刷新并打开vnc，长时间没反应，可刷新</span>',
+                success: function (layer) {
+                    layer.find('.layui-layer-content').css({
+                        'padding-top': '30px',
+                        'width': '350px',
+                    });
+                    layer.find('.loadtip').css({
+                        'font-size':'18px',
+                        'color':'red',
+                        'margin-left':'5px'
+                    });
+                }
+            });
+
+
+            $.post(rootUrl+'flushVnc',{hostid:hostid},function (data) {
+                //
+                if (data.code == 1) {
+                    setTimeout(function(){
+                        layer.closeAll('loading');
+                        //window.open(data.data.url);
+                        $('#govnc').attr("href",data.data);
+                        $('#govnc')[0].click();
+                    },1000);
+
+                    return false;
+                } else {
+                    layer.closeAll('loading');
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+        //重新安装操作系统
+        form.on('submit(reinstallSubmit)', function (data) {
+            var template_id=data.field.template;
+            var host_id=data.field.host_id;
+
+            layer.open({
+                type: 2,
+                maxmin: true,
+                title: '重装系统',
+                shade: 0.1,
+                area: [ '800px','600px'],
+                content: rootUrl +'/reinstallOs/hostid/'+host_id+'/os_id/'+template_id
+            });
+            return false;
+        });
+
+        $('#copy').click(function () {
+            layer.load(2);
+            $.get(rootUrl+'allotIp',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                console.log(data.data);
+                ip = '';
+                $(data.data).each(function (index,elem) {
+                    ip+=elem.ip+"\r\n"
+                });
+                copyText(ip)
+            },'json')
+        });
+
+        setInterval(function () {
+            $('.page-loading').hide();
+        },2000);
+
+        $.post(rootUrl+'runingStatus',{hostid:hostid},function (data) {
+            layer.closeAll('loading');
+            var data = data.data;
+            if (data.status=='on'){
+                $('#status').html('运行中');
+            }else if(data.status=='off'){
+                $('#status').html('关机');
+            }else{
+                $('#status').html(data.status);
+            }
+        },'json');
+
+        setInterval(function () {
+            $.post(rootUrl+'runingStatus',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                var data = data.data;
+                if (data.status=='on'){
+                    $('#status').html('运行中');
+                }else if(data.status=='off'){
+                    $('#status').html('关机');
+                }else{
+                    $('#status').html(data.status);
+                }
+            },'json');
+        },3000);
+
+        // 图表tabs
+        getComponentData()
+        let myChart = null
+
+        $('#chartLi').on('click', function () {
+            setTimeout(function () {
+                myChart.resize()
+            }, 0);
+        });
+
+        async function getChartDataFn(index) {
+            let startTime = []
+            if (index === '7') { // 7天
+                startTime = moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD')
+            } else if (index === '3') { // 3天
+                startTime = moment(Date.now() - 3 * 24 * 3600 * 1000).format('YYYY-MM-DD')
+            } else if (index === '30') { // 30天
+                startTime = moment(Date.now() - 30 * 24 * 3600 * 1000).format('YYYY-MM-DD')
+            } else if (index === '24') { // 24h
+                startTime = moment(Date.now() - 24 * 3600 * 1000).format('YYYY-MM-DD')
+            } else if (index === '999') { // q全部
+                startTime = ''
+            }
+            const queryObj = {
+                host_id: hostid,
+                start_time: moment(startTime).valueOf()
+            }
+            $.ajax({
+                type: "post",
+                url: rootUrl+'/traffic',
+                data: queryObj,
+                success: function (data) {
+                    var obj = data.data.traffic || []
+                    var xName = []
+                    var inVal = []
+                    var outVal = []
+                    for (const item of obj) {
+                        xName.push(moment(item.time).format('MM-DD HH:mm:ss'))
+                        inVal.push(item.bindwidth_in)
+                        outVal.push(item.bindwidth_out)
+                    }
+                    chartFunc(index, xName, inVal, outVal, data.data.unit)
+                    if (data.code === 200) {
+                        var obj = data.data.traffic
+                        var xName = []
+                        var inVal = []
+                        var outVal = []
+                        for (const item of obj) {
+                            xName.push(moment(item.time).format('MM-DD HH:mm:ss'))
+                            inVal.push(item.bindwidth_in)
+                            outVal.push(item.bindwidth_out)
+                        }
+                        chartFunc(index, xName, inVal, outVal, data.data.unit)
+                    }
+                }
+            });
+        }
+
+        async function getComponentData() {
+            getChartDataFn('24');
+        }
+
+        function chartFunc(index, xNameArray, inValArray, outValArray, unitY) {
+            var inflow = '流入流量'
+            var outflow = '流出流量'
+            // 基于准备好的dom，初始化echarts实例
+            myChart = echarts.init(document.getElementById('balanceCharts'))
+            var option = {
+                tooltip: {
+                    show: true,
+                    backgroundColor: '#fff',
+                    borderColor: '#eee',
+                    showContent: true,
+                    extraCssText: 'box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);',
+                    textStyle: {
+                        color: '#1e1e2d',
+                        textBorderWidth: 1
+                    },
+                    trigger: 'axis',
+                    axisPointer: {
+                        color: '#D9DAEA'
+                    }
+                },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    bottom: '10%',
+                    top: '8%',
+                    containLabel: true
+                },
+                color: ['#007bfc', '#3fbf70'],
+                dataZoom: [ // 缩放
+                    {
+                        type: 'inside',
+                        throttle: 50
+                    }
+                ],
+                xAxis: {
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#1e1e2d'
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    type: 'category',
+                    boundaryGap: false,
+                    data: xNameArray
+                },
+                yAxis: {
+                    axisLabel: {
+                        // formatter: '{value}' + unitY
+                        formatter: function (value) {
+                            return value + unitY
+                        }
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    minorTick: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#f5f4f8'
+                        }
+                    },
+                    type: 'value'
+                },
+                series: [{
+                    name: inflow,
+                    type: 'line',
+                    smooth: true,
+                    data: inValArray
+                },
+                    {
+                        name: outflow,
+                        type: 'line',
+                        smooth: true,
+                        data: outValArray
+                    }
+                ]
+            }
+            myChart.setOption(option, true) // true重绘
+            window.addEventListener('resize', function () {
+                myChart.resize()
+            })
+        }
+
+        $('#chartSelect').change(function() {
+           let index =  $(this).val();
+            getChartDataFn(index);
+        });
+
+    })
+    <script>
+    function isDarkMode() {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const glassModeToggle = document.getElementById('glass-mode-toggle');
+        const body = document.body;
+    
+        // 检查 localStorage 中是否有暗模式的设置
+        if (localStorage.getItem('darkMode') === 'enabled' || isDarkMode()) {
+            body.classList.add('dark-mode');
+        }
+    
+        // 检查 localStorage 中是否有毛玻璃模式的设置
+        if (localStorage.getItem('glassMode') === 'enabled' && !isDarkMode()) {
+            body.classList.add('glass-mode');
+        }
+    
+        // 切换暗模式
+        darkModeToggle.addEventListener('click', function () {
+            document.startViewTransition(() => {
+                // 切换暗模式
+                body.classList.toggle('dark-mode');
+                body.classList.remove('glass-mode');
+                localStorage.setItem('glassMode', 'disabled');
+    
+                // 根据当前状态更新 localStorage
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        });
+    
+        // 切换毛玻璃模式
+        glassModeToggle.addEventListener('click', function () {
+            document.startViewTransition(() => {
+                body.classList.toggle('glass-mode');
+                body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+    
+                // 更新 localStorage
+                if (body.classList.contains('glass-mode')) {
+                    localStorage.setItem('glassMode', 'enabled');
+                } else {
+                    localStorage.setItem('glassMode', 'disabled');
+                }
+            });
+        });
+    });
+    
+</script>
+
+<script>
+
+</script>
+<div id="think_page_trace" style="position: fixed;bottom:0;right:0;font-size:14px;width:100%;z-index: 999999;color: #000;text-align:left;font-family:'微软雅黑';">
+    <div id="think_page_trace_tab" style="display: none;background:white;margin:0;height: 250px;">
+        <div id="think_page_trace_tab_tit" style="height:30px;padding: 6px 12px 0;border-bottom:1px solid #ececec;border-top:1px solid #ececec;font-size:16px">
+                        <span style="color:#000;padding-right:12px;height:30px;line-height:30px;display:inline-block;margin-right:3px;cursor:pointer;font-weight:700">基本</span>
+                        <span style="color:#000;padding-right:12px;height:30px;line-height:30px;display:inline-block;margin-right:3px;cursor:pointer;font-weight:700">文件</span>
+                        <span style="color:#000;padding-right:12px;height:30px;line-height:30px;display:inline-block;margin-right:3px;cursor:pointer;font-weight:700">流程</span>
+                        <span style="color:#000;padding-right:12px;height:30px;line-height:30px;display:inline-block;margin-right:3px;cursor:pointer;font-weight:700">错误</span>
+                        <span style="color:#000;padding-right:12px;height:30px;line-height:30px;display:inline-block;margin-right:3px;cursor:pointer;font-weight:700">SQL</span>
+                        <span style="color:#000;padding-right:12px;height:30px;line-height:30px;display:inline-block;margin-right:3px;cursor:pointer;font-weight:700">调试</span>
+                    </div>
+        <div id="think_page_trace_tab_cont" style="overflow:auto;height:212px;padding:0;line-height: 24px">
+                        <div style="display:none;">
+                <ol style="padding: 0; margin:0">
+                    <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">请求信息 : 2025-01-26 00:04:20 HTTP/1.1 GET : http://43.134.34.163/index.php/control/baremeta?hostid=2</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">运行时间 : 0.073497s [ 吞吐率：13.61req/s ] 内存消耗：4,496.56kb 文件加载：213</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">查询信息 : 9 queries</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">缓存信息 : 0 reads,0 writes</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">会话信息 : SESSION_ID=307cb3bbd7534593d6a28aac32a330f8</li>                </ol>
+            </div>
+                        <div style="display:none;">
+                <ol style="padding: 0; margin:0">
+                    <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/public/index.php ( 1.04 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/autoload.php ( 0.17 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/composer/autoload_real.php ( 2.36 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/composer/ClassLoader.php ( 13.14 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/composer/autoload_static.php ( 16.60 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-helper/src/helper.php ( 7.35 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/symfony/polyfill-php80/bootstrap.php ( 1.50 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/symfony/polyfill-mbstring/bootstrap.php ( 7.07 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/symfony/deprecation-contracts/function.php ( 0.98 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/stubs/load_stubs.php ( 0.16 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Exception.php ( 1.69 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Facade.php ( 2.71 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/ralouphie/getallheaders/src/getallheaders.php ( 1.60 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/guzzlehttp/promises/src/functions_include.php ( 0.16 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/guzzlehttp/promises/src/functions.php ( 9.89 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/guzzlehttp/guzzle/src/functions_include.php ( 0.16 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/guzzlehttp/guzzle/src/functions.php ( 5.56 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/symfony/translation/Resources/functions.php ( 0.55 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/ezyang/htmlpurifier/library/HTMLPurifier.composer.php ( 0.10 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/abs.php ( 0.88 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/acos.php ( 1.17 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/acosh.php ( 1.00 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/acot.php ( 0.82 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/acoth.php ( 0.84 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/acsc.php ( 0.94 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/acsch.php ( 0.96 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/argument.php ( 0.89 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/asec.php ( 0.93 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/asech.php ( 0.96 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/asin.php ( 1.13 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/asinh.php ( 1.03 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/atan.php ( 1.47 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/atanh.php ( 1.21 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/conjugate.php ( 0.84 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/cos.php ( 1.03 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/cosh.php ( 1.01 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/cot.php ( 0.92 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/coth.php ( 0.82 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/csc.php ( 0.92 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/csch.php ( 0.94 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/exp.php ( 1.03 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/inverse.php ( 0.97 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/ln.php ( 1.04 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/log2.php ( 1.16 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/log10.php ( 1.18 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/negative.php ( 0.86 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/pow.php ( 1.40 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/rho.php ( 0.92 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/sec.php ( 0.79 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/sech.php ( 0.82 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/sin.php ( 0.98 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/sinh.php ( 1.00 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/sqrt.php ( 0.90 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/tan.php ( 1.34 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/tanh.php ( 1.23 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/functions/theta.php ( 1.37 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/operations/add.php ( 1.41 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/operations/subtract.php ( 1.43 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/operations/multiply.php ( 1.57 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/operations/divideby.php ( 1.94 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/complex/classes/src/operations/divideinto.php ( 1.94 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/adjoint.php ( 0.79 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/antidiagonal.php ( 0.85 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/cofactors.php ( 0.80 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/determinant.php ( 0.81 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/diagonal.php ( 0.80 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/identity.php ( 0.80 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/inverse.php ( 0.79 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/minors.php ( 0.79 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/trace.php ( 0.79 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Functions/transpose.php ( 0.81 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Operations/add.php ( 1.06 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Operations/directsum.php ( 1.08 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Operations/subtract.php ( 1.10 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Operations/multiply.php ( 1.11 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Operations/divideby.php ( 1.09 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/markbaker/matrix/classes/src/Operations/divideinto.php ( 1.14 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/symfony/polyfill-php72/bootstrap.php ( 1.89 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/symfony/var-dumper/Resources/functions/dump.php ( 0.79 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-captcha/src/helper.php ( 1.37 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-queue/src/common.php ( 1.01 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/App.php ( 14.77 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Container.php ( 14.97 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/psr/container/src/ContainerInterface.php ( 1.02 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/provider.php ( 0.19 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Http.php ( 6.12 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-helper/src/helper/Str.php ( 7.27 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Env.php ( 4.15 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/common.php ( 16.27 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/helper.php ( 18.36 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Config.php ( 5.03 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/app.php ( 1.45 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/facade/Env.php ( 1.67 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/cache.php ( 0.80 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/captcha.php ( 1.03 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/console.php ( 0.37 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/cookie.php ( 0.56 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/database.php ( 2.33 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/filesystem.php ( 0.63 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/lang.php ( 0.81 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/log.php ( 1.37 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/middleware.php ( 0.33 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/queue.php ( 1.29 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/route.php ( 1.54 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/session.php ( 0.57 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/trace.php ( 0.34 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/view.php ( 0.82 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/config/web.php ( 0.48 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/event.php ( 0.25 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Event.php ( 6.96 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/service.php ( 0.13 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/AppService.php ( 0.26 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Service.php ( 1.67 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Lang.php ( 8.29 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/lang/zh-cn.php ( 12.88 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/initializer/Error.php ( 3.19 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/initializer/RegisterService.php ( 1.33 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/services.php ( 0.25 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/service/PaginatorService.php ( 1.52 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/service/ValidateService.php ( 0.99 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/service/ModelService.php ( 1.76 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-captcha/src/CaptchaService.php ( 0.52 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-multi-app/src/Service.php ( 1.08 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-queue/src/queue/Service.php ( 1.24 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-trace/src/Service.php ( 0.77 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Middleware.php ( 6.78 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/initializer/BootService.php ( 0.77 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/Paginator.php ( 11.40 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Validate.php ( 46.10 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/Model.php ( 26.19 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/model/concern/Attribute.php ( 17.00 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/model/concern/RelationShip.php ( 26.12 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/model/concern/ModelEvent.php ( 2.27 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/model/concern/TimeStamp.php ( 5.70 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/model/concern/Conversion.php ( 9.54 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-helper/src/contract/Arrayable.php ( 0.09 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-helper/src/contract/Jsonable.php ( 0.13 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Db.php ( 2.87 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/DbManager.php ( 8.31 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Log.php ( 8.50 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Manager.php ( 3.98 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/psr/log/Psr/Log/LoggerInterface.php ( 3.04 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Cache.php ( 4.79 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/psr/simple-cache/src/CacheInterface.php ( 4.50 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-helper/src/helper/Arr.php ( 15.54 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/cache/driver/File.php ( 7.41 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/cache/Driver.php ( 8.01 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/contract/CacheHandlerInterface.php ( 2.25 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Console.php ( 22.63 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/Request.php ( 0.09 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Request.php ( 53.80 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/middleware.php ( 0.25 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Pipeline.php ( 2.61 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-trace/src/TraceDebug.php ( 2.94 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/middleware/SessionInit.php ( 2.02 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Session.php ( 1.80 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/session/driver/File.php ( 6.28 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/contract/SessionHandlerInterface.php ( 0.87 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/session/Store.php ( 7.26 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-multi-app/src/MultiApp.php ( 7.39 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Route.php ( 23.45 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/route/RuleName.php ( 5.30 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/route/Domain.php ( 5.41 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/route/RuleGroup.php ( 13.91 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/route/Rule.php ( 22.52 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/route/RuleItem.php ( 9.22 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/route/dispatch/Url.php ( 3.42 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/route/dispatch/Controller.php ( 6.33 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/route/Dispatch.php ( 6.58 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/control/controller/Baremeta.php ( 11.91 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/BaseController.php ( 3.42 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/common/traits/Base.php ( 6.95 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/facade/View.php ( 1.71 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/View.php ( 4.41 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/common/model/BaremetalHost.php ( 7.76 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/model/concern/SoftDelete.php ( 6.48 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/connector/Mysql.php ( 4.37 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/PDOConnection.php ( 49.30 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/Connection.php ( 7.67 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/ConnectionInterface.php ( 4.56 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/builder/Mysql.php ( 14.22 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/Builder.php ( 39.51 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/Query.php ( 11.10 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/BaseQuery.php ( 35.67 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/TimeFieldQuery.php ( 7.50 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/AggregateQuery.php ( 2.83 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/ModelRelationQuery.php ( 15.49 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/ResultOperation.php ( 7.28 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/Transaction.php ( 2.77 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/WhereQuery.php ( 16.36 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/JoinAndViewQuery.php ( 6.88 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/ParamsBind.php ( 2.75 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/db/concern/TableFieldInfo.php ( 2.51 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/log/driver/File.php ( 6.04 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/contract/LogHandlerInterface.php ( 0.86 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/log/Channel.php ( 6.54 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/event/LogRecord.php ( 0.86 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/facade/Session.php ( 1.15 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/common/model/BaremetalBusiness.php ( 2.19 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/common/model/ServersArea.php ( 1.03 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/common/model/BaremetalMirrors.php ( 5.34 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/app/common/model/BaremetalMirrorsDetail.php ( 0.57 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/facade/Config.php ( 1.37 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-orm/src/model/Collection.php ( 6.42 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-helper/src/Collection.php ( 15.88 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-view/src/Think.php ( 8.42 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-template/src/Template.php ( 46.82 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-template/src/template/driver/File.php ( 2.33 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/runtime/control/temp/acf897b4ab541ca2c2804eead11b818a.php ( 99.91 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Response.php ( 8.54 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/response/Html.php ( 0.98 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/framework/src/think/Cookie.php ( 6.15 KB )</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/www/wwwroot/idc.duncai.top/vendor/topthink/think-trace/src/Html.php ( 4.49 KB )</li>                </ol>
+            </div>
+                        <div style="display:none;">
+                <ol style="padding: 0; margin:0">
+                                    </ol>
+            </div>
+                        <div style="display:none;">
+                <ol style="padding: 0; margin:0">
+                                    </ol>
+            </div>
+                        <div style="display:none;">
+                <ol style="padding: 0; margin:0">
+                    <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">CONNECT:[ UseTime:0.000290s ] mysql:host=127.0.0.1;port=3306;dbname=idc_duncai_top;charset=utf8</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SHOW FULL COLUMNS FROM `cloud_baremetal_host` [ RunTime:0.002201s ]</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SELECT * FROM `cloud_baremetal_host` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000319s ]</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SHOW FULL COLUMNS FROM `cloud_baremetal_business` [ RunTime:0.001163s ]</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SELECT * FROM `cloud_baremetal_host` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000208s ]</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SHOW FULL COLUMNS FROM `cloud_servers_area` [ RunTime:0.002239s ]</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SELECT * FROM `cloud_servers_area` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000131s ]</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SELECT * FROM `cloud_baremetal_business` WHERE  `host_id` = 2 LIMIT 1 [ RunTime:0.000133s ]</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SHOW FULL COLUMNS FROM `cloud_baremetal_mirrors_detail` [ RunTime:0.004372s ]</li><li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">SELECT `a`.`id`,`a`.`node_id`,`a`.`state`,`a`.`create_time`,`b`.`os_type`,`b`.`os_index`,`b`.`os_name`,`b`.`os_ver`,`b`.`install_key`,`b`.`os_lang`,`b`.`os_root`,`b`.`os_passwd`,`b`.`os_port`,`b`.`os_timezone`,`b`.`is_desktop`,`b`.`package`,`b`.`install_script`,`b`.`install_source`,`b`.`source_type`,`b`.`os_partition`,`b`.`os_drive_dir`,`b`.`diy_command`,`a`.`os_dir` FROM `cloud_baremetal_mirrors_detail` as a LEFT JOIN `cloud_baremetal_mirrors` `b` ON `a`.`mirrors_id`=`b`.`id` WHERE  `state` = 3  AND `node_id` = 1 ORDER BY `state` ASC [ RunTime:0.006249s ]</li>                </ol>
+            </div>
+                        <div style="display:none;">
+                <ol style="padding: 0; margin:0">
+                                    </ol>
+            </div>
+                    </div>
+    </div>
+    <div id="think_page_trace_close" style="display:none;text-align:right;height:15px;position:absolute;top:10px;right:12px;cursor:pointer;"><img style="vertical-align:top;" src="data:image/gif;base64,R0lGODlhDwAPAJEAAAAAAAMDA////wAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MUQxMjc1MUJCQUJDMTFFMTk0OUVGRjc3QzU4RURFNkEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MUQxMjc1MUNCQUJDMTFFMTk0OUVGRjc3QzU4RURFNkEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoxRDEyNzUxOUJBQkMxMUUxOTQ5RUZGNzdDNThFREU2QSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoxRDEyNzUxQUJBQkMxMUUxOTQ5RUZGNzdDNThFREU2QSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAAAAAAALAAAAAAPAA8AAAIdjI6JZqotoJPR1fnsgRR3C2jZl3Ai9aWZZooV+RQAOw==" /></div>
+</div>
+<div id="think_page_trace_open" style="height:30px;float:right;text-align:right;overflow:hidden;position:fixed;bottom:0;right:0;color:#000;line-height:30px;cursor:pointer;">
+    <div style="background:#232323;color:#FFF;padding:0 6px;float:right;line-height:30px;font-size:14px">0.074277s </div>
+    <img width="30" style="" title="ShowPageTrace" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjVERDVENkZGQjkyNDExRTE5REY3RDQ5RTQ2RTRDQUJCIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjVERDVENzAwQjkyNDExRTE5REY3RDQ5RTQ2RTRDQUJCIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NURENUQ2RkRCOTI0MTFFMTlERjdENDlFNDZFNENBQkIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NURENUQ2RkVCOTI0MTFFMTlERjdENDlFNDZFNENBQkIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5fx6IRAAAMCElEQVR42sxae3BU1Rk/9+69+8xuNtkHJAFCSIAkhMgjCCJQUi0GtEIVbP8Qq9LH2No6TmfaztjO2OnUdvqHFMfOVFTqIK0vUEEeqUBARCsEeYQkEPJoEvIiELLvvc9z+p27u2F3s5tsBB1OZiebu5dzf7/v/L7f952zMM8cWIwY+Mk2ulCp92Fnq3XvnzArr2NZnYNldDp0Gw+/OEQ4+obQn5D+4Ubb22+YOGsWi/Todh8AHglKEGkEsnHBQ162511GZFgW6ZCBM9/W4H3iNSQqIe09O196dLKX7d1O39OViP/wthtkND62if/wj/DbMpph8BY/m9xy8BoBmQk+mHqZQGNy4JYRwCoRbwa8l4JXw6M+orJxpU0U6ToKy/5bQsAiTeokGKkTx46RRxxEUgrwGgF4MWNNEJCGgYTvpgnY1IJWg5RzfqLgvcIgktX0i8dmMlFA8qCQ5L0Z/WObPLUxT1i4lWSYDISoEfBYGvM+LlMQQdkLHoWRRZ8zYQI62Thswe5WTORGwNXDcGjqeOA9AF7B8rhzsxMBEoJ8oJKaqPu4hblHMCMPwl9XeNWyb8xkB/DDGYKfMAE6aFL7xesZ389JlgG3XHEMI6UPDOP6JHHu67T2pwNPI69mCP4rEaBDUAJaKc/AOuXiwH07VCS3w5+UQMAuF/WqGI+yFIwVNBwemBD4r0wgQiKoFZa00sEYTwss32lA1tPwVxtc8jQ5/gWCwmGCyUD8vRT0sHBFW4GJDvZmrJFWRY1EkrGA6ZB8/10fOZSSj0E6F+BSP7xidiIzhBmKB09lEwHPkG+UQIyEN44EBiT5vrv2uJXyPQqSqO930fxvcvwbR/+JAkD9EfASgI9EHlp6YiHO4W+cAB20SnrFqxBbNljiXf1Pl1K2S0HCWfiog3YlAD5RGwwxK6oUjTweuVigLjyB0mX410mAFnMoVK1lvvUvgt8fUJH0JVyjuvcmg4dE5mUiFtD24AZ4qBVELxXKS+pMxN43kSdzNwudJ+bQbLlmnxvPOQoCugSap1GnSRoG8KOiKbH+rIA0lEeSAg3y6eeQ6XI2nrYnrPM89bUTgI0Pdqvl50vlNbtZxDUBcLBK0kPd5jPziyLdojJIN0pq5/mdzwL4UVvVInV5ncQEPNOUxa9d0TU+CW5l+FoI0GSDKHVVSOs+0KOsZoxwOzSZNFGv0mQ9avyLCh2Hpm+70Y0YJoJVgmQv822wnDC8Miq6VjJ5IFed0QD1YiAbT+nQE8v/RMZfmgmcCRHIIu7Bmcp39oM9fqEychcA747KxQ/AEyqQonl7hATtJmnhO2XYtgcia01aSbVMenAXrIomPcLgEBA4liGBzFZAT8zBYqW6brI67wg8sFVhxBhwLwBP2+tqBQqqK7VJKGh/BRrfTr6nWL7nYBaZdBJHqrX3kPEPap56xwE/GvjJTRMADeMCdcGpGXL1Xh4ZL8BDOlWkUpegfi0CeDzeA5YITzEnddv+IXL+UYCmqIvqC9UlUC/ki9FipwVjunL3yX7dOTLeXmVMAhbsGporPfyOBTm/BJ23gTVehsvXRnSewagUfpBXF3p5pygKS7OceqTjb7h2vjr/XKm0ZofKSI2Q/J102wHzatZkJPYQ5JoKsuK+EoHJakVzubzuLQDepCKllTZi9AG0DYg9ZLxhFaZsOu7bvlmVI5oPXJMQJcHxHClSln1apFTvAimeg48u0RWFeZW4lVcjbQWZuIQK1KozZfIDO6CSQmQQXdpBaiKZyEWThVK1uEc6v7V7uK0ysduExPZx4vysDR+4SelhBYm0R6LBuR4PXts8MYMcJPsINo4YZCDLj0sgB0/vLpPXvA2Tn42Cv5rsLulGubzW0sEd3d4W/mJt2Kck+DzDMijfPLOjyrDhXSh852B+OvflqAkoyXO1cYfujtc/i3jJSAwhgfFlp20laMLOku/bC7prgqW7lCn4auE5NhcXPd3M7x70+IceSgZvNljCd9k3fLjYsPElqLR14PXQZqD2ZNkkrAB79UeJUebFQmXpf8ZcAQt2XrMQdyNUVBqZoUzAFyp3V3xi/MubUA/mCT4Fhf038PC8XplhWnCmnK/ZzyC2BSTRSqKVOuY2kB8Jia0lvvRIVoP+vVWJbYarf6p655E2/nANBMCWkgD49DA0VAMyI1OLFMYCXiU9bmzi9/y5i/vsaTpHPHidTofzLbM65vMPva9HlovgXp0AvjtaqYMfDD0/4mAsYE92pxa+9k1QgCnRVObCpojpzsKTPvayPetTEgBdwnssjuc0kOBFX+q3HwRQxdrOLAqeYRjkMk/trTSu2Z9Lik7CfF0AvjtqAhS4NHobGXUnB5DQs8hG8p/wMX1r4+8xkmyvQ50JVq72TVeXbz3HvpWaQJi57hJYTw4kGbtS+C2TigQUtZUX+X27QQq2ePBZBru/0lxTm8fOOQ5yaZOZMAV+he4FqIMB+LQB0UgMSajANX29j+vbmly8ipRvHeSQoQOkM5iFXcPQCVwDMs5RBCQmaPOyvbNd6uwvQJ183BZQG3Zc+Eiv7vQOKu8YeDmMcJlt2ckyftVeMIGLBCmdMHl/tFILYwGPjXWO3zOfSq/+om+oa7Mlh2fpSsRGLp7RAW3FUVjNHgiMhyE6zBFjM2BdkdJGO7nP1kJXWAtBuBpPIAu7f+hhu7bFXIuC5xWrf0X2xreykOsUyKkF2gwadbrXDcXrfKxR43zGcSj4t/cCgr+a1iy6EjE5GYktUCl9fwfMeylyooGF48bN2IGLTw8x7StS7sj8TF9FmPGWQhm3rRR+o9lhvjJvSYAdfDUevI1M6bnX/OwWaDMOQ8RPgKRo0eulBTdT8AW2kl8e9L7UHghHwMfLiZPNoSpx0yugpQZaFqKWqxVSM3a2pN1SAhC2jf94I7ybBI7EL5A2Wvu5ht3xsoEt4+Ay/abXgCQAxyOeDsDlTCQzy75ohcGgv9Tra9uiymRUYTLrswOLlCdfAQf7HPDQQ4ErAH5EDXB9cMxWYpjtXApRncojS0sbV/cCgHTHwGNBJy+1PQE2x56FpaVR7wfQGZ37V+V+19EiHNvR6q1fRUjqvbjbMq1/qfHxbTrE10ePY2gPFk48D2CVMTf1AF4PXvyYR9dV6Wf7H413m3xTWQvYGhQ7mfYwA5mAX+18Vue05v/8jG/fZX/IW5MKPKtjSYlt0ellxh+/BOCPAwYaeVr0QofZFxJWVWC8znG70au6llVmktsF0bfHF6k8fvZ5esZJbwHwwnjg59tXz6sL/P0NUZDuSNu1mnJ8Vab17+cy005A9wtOpp3i0bZdpJLUil00semAwN45LgEViZYe3amNye0B6A9chviSlzXVsFtyN5/1H3gaNmMpn8Fz0GpYFp6Zw615H/LpUuRQQDMCL82n5DpBSawkvzIdN2ypiT8nSLth8Pk9jnjwdFzH3W4XW6KMBfwB569NdcGX93mC16tTflcArcYUc/mFuYbV+8zY0SAjAVoNErNgWjtwumJ3wbn/HlBFYdxHvSkJJEc+Ngal9opSwyo9YlITX2C/P/+gf8sxURSLR+mcZUmeqaS9wrh6vxW5zxFCOqFi90RbDWq/YwZmnu1+a6OvdpvRqkNxxe44lyl4OobEnpKA6Uox5EfH9xzPs/HRKrTPWdIQrK1VZDU7ETiD3Obpl+8wPPCRBbkbwNtpW9AbBe5L1SMlj3tdTxk/9W47JUmqS5HU+JzYymUKXjtWVmT9RenIhgXc+nroWLyxXJhmL112OdB8GCsk4f8oZJucnvmmtR85mBn10GZ0EKSCMUSAR3ukcXd5s7LvLD3me61WkuTCpJzYAyRurMB44EdEJzTfU271lUJC03YjXJXzYOGZwN4D8eB5jlfLrdWfzGRW7icMPfiSO6Oe7s20bmhdgLX4Z23B+s3JgQESzUDiMboSzDMHFpNMwccGePauhfwjzwnI2wu9zKGgEFg80jcZ7MHllk07s1H+5yojtUQTlH4nFdLKTGwDmPbIklOb1L1zO4T6N8NCuDLFLS/C63c0eNRimZ++s5BMBHxU11jHchI9oFVUxRh/eMDzHEzGYu0Lg8gJ7oS/tFCwoic44fyUtix0n/46vP4bf+//BRgAYwDDar4ncHIAAAAASUVORK5CYII=">
+</div>
+
+<script type="text/javascript">
+    (function(){
+        var tab_tit  = document.getElementById('think_page_trace_tab_tit').getElementsByTagName('span');
+        var tab_cont = document.getElementById('think_page_trace_tab_cont').getElementsByTagName('div');
+        var open     = document.getElementById('think_page_trace_open');
+        var close    = document.getElementById('think_page_trace_close').children[0];
+        var trace    = document.getElementById('think_page_trace_tab');
+        var cookie   = document.cookie.match(/thinkphp_show_page_trace=(\d\|\d)/);
+        var history  = (cookie && typeof cookie[1] != 'undefined' && cookie[1].split('|')) || [0,0];
+        open.onclick = function(){
+            trace.style.display = 'block';
+            this.style.display = 'none';
+            close.parentNode.style.display = 'block';
+            history[0] = 1;
+            document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+        }
+        close.onclick = function(){
+            trace.style.display = 'none';
+            this.parentNode.style.display = 'none';
+            open.style.display = 'block';
+            history[0] = 0;
+            document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+        }
+        for(var i = 0; i < tab_tit.length; i++){
+            tab_tit[i].onclick = (function(i){
+                return function(){
+                    for(var j = 0; j < tab_cont.length; j++){
+                        tab_cont[j].style.display = 'none';
+                        tab_tit[j].style.color = '#999';
+                    }
+                    tab_cont[i].style.display = 'block';
+                    tab_tit[i].style.color = '#000';
+                    history[1] = i;
+                    document.cookie = 'thinkphp_show_page_trace='+history.join('|')
+                }
+            })(i)
+        }
+        parseInt(history[0]) && open.click();
+        tab_tit[history[1]].click();
+    })();
+</script>
+</body>
+</html>

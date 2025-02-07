@@ -3,7 +3,7 @@
 # 轻舟云主机系统MMUI模板 MMUI Template for Qzsystem - LightingBoat
 
 欢迎使用轻舟云主机系统MMUI模板！本模板是专为轻舟云系统用户设计的前台界面模板，提供三种不同的主题样式供用户选择：毛玻璃模式、正常模式和黑暗模式。
-快捷下载地址（https://wwsu.lanzouu.com/igli42m8sech）
+快捷下载地址（https://wwsu.lanzouu.com/ikzmR2n17vqb）
 ![image](https://github.com/user-attachments/assets/3e23255e-91eb-4588-a421-04e76efc548a)
 ![image](https://github.com/user-attachments/assets/2b5847ce-40e6-43d8-9b5e-295fc15f647c)
 
@@ -17,7 +17,7 @@
 
 ## 安装方法
 
-1. 下载压缩包文件。
+1. 下载压缩包文件（右上角绿色下载按钮选择下载zip或者本文档的蓝奏云链接）。
 2. 把压缩包放到您的网站根目录。(`/www/wwwroot/你的网站地址`)
 3. 将下载的文件解压，替换原有文件。
 

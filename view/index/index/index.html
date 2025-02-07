@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <title>LightingBoat ConsoleLogin</title>
+  <meta name="description" content="轻舟vps管理系统mmui">
+  <meta name="keywords" content="vps, 虚拟机, 云计算, 我的世界">
+  <meta name="author" content="Danvei">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 引入Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- 样式文件 -->
+  <link rel="stylesheet" href="/static/component/pear/css/pear.css" />
+  <link rel="stylesheet" href="/static/component/pear/css/login.css" />
+  <style>
+    /* 全局基础样式 */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .ant-pro-layout-bg-list {
+      pointer-events: none;
+      position: fixed;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(135deg, #ffffff, #f5f5f5 28%);
+    }
+    /* 居中容器 */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 20px;
+    }
+    /* 登录卡片 */
+    .login-card {
+      background: #fff;
+      padding: 40px 50px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    /* 表单头部：使用 Flex 布局，并确保各项为块级显示避免重叠 */
+    .form-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .form-header .logo {
+      display: block;
+      max-width: 150px;
+      margin: 0 auto 15px;
+      z-index: 1;
+    }
+    .form-header .title {
+      display: block;
+      font-size: 1.8em;
+      font-weight: 600;
+      margin: 0 0 10px;
+      color: #333;
+      z-index: 1;
+    }
+    .form-header .desc {
+      display: block;
+      font-size: 1em;
+      color: #666;
+      z-index: 1;
+    }
+    /* 各表单项统一间距 */
+    .login-card .layui-form-item {
+      margin-bottom: 20px;
+    }
+    /* 输入框和下拉选择样式 */
+    .login-card .layui-form-item input,
+    .login-card .layui-form-item select {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 12px 15px;
+      font-size: 1em;
+      width: 100%;
+      transition: border-color 0.3s;
+    }
+    .login-card .layui-form-item input:focus,
+    .login-card .layui-form-item select:focus {
+      border-color: #3f8efc;
+      outline: none;
+    }
+    /* 按钮样式，使用 Flex 确保文字垂直居中 */
+    .login-card .layui-form-item button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #3f8efc, #367be2);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .login-card .layui-form-item button:hover {
+      background: linear-gradient(135deg, #367be2, #3f8efc);
+    }
+    /* 媒体查询：手机端优化 */
+    @media (max-width: 767px) {
+      .login-container {
+        padding: 10px;
+      }
+      .login-card {
+        padding: 30px;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ant-pro-layout-bg-list">
+    <img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr" style="position: absolute; left: 85px; bottom: 100px; height: 303px;">
+    <img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/C2TWRpJpiC0AAAAAAAAAAAAAFl94AQBr" style="position: absolute; bottom: -68px; right: -45px; height: 303px;">
+    <img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/F6vSTbj8KpYAAAAAAAAAAAAAFl94AQBr" style="position: absolute; bottom: 0px; left: 0px; width: 331px;">
+  </div>
+  
+  <div class="login-container">
+    <form class="layui-form login-card" action="{:url('control/ecs/login')}">
+      <!-- 表单头部 -->
+      <div class="form-header">
+        <img class="logo" src="/static/component/pear/images/logo.png" alt="Logo" />
+        <div class="title">Qz云管理系统</div>
+        <div class="desc">轻舟云上，管理之美诗意启航</div>
+      </div>
+      <!-- 表单项 -->
+      <div class="layui-form-item">
+        <select name="type" lay-verify="" lay-filter="type">
+          <option value="1">云主机</option>
+          <option value="5">物理机/托管</option>
+          <option value="2">虚拟主机</option>
+          <option value="3">MYSQL</option>
+          <option value="3">MSSQL</option>
+        </select>
+      </div>
+      <div class="layui-form-item">
+        <input placeholder="云主机名" name="host_name" lay-verify="required" class="layui-input host_name" />
+      </div>
+      <div class="layui-form-item">
+        <input type="password" placeholder="控制台密码" name="panel_password" lay-verify="required" class="layui-input panel_password" onkeydown="checkEnter(event)" />
+      </div>
+      <div class="layui-form-item">
+        <button type="button" class="pear-btn pear-btn-success login" lay-submit lay-filter="login">登 入</button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- 资源引入 -->
+  <script src="/static/component/layui/layui.js"></script>
+  <script src="/static/component/pear/pear.js"></script>
+  <script>
+    layui.use(['form', 'button', 'popup', 'jquery'], function() {
+      var form = layui.form;
+      var button = layui.button;
+      var popup = layui.popup;
+      let $ = layui.jquery;
+      let url = "/index.php/control/ecs/login";
+      var val = 1;
+      
+      form.on('select(type)', function(data){
+        val = data.value;
+        var user = "云主机名";
+        var pass = "控制台密码";
+        if(val == 1){
+          user = "云主机名";
+          pass = "控制台密码";
+          url = "/index.php/control/ecs/login";
+        } else if(val == 2){
+          user = "FTP账号";
+          pass = "FTP密码";
+          url = "/index.php/control/vhost/login";
+        } else if(val == 3){
+          user = "MYSQL账号";
+          pass = "MYSQL密码";
+          url = "/index.php/control/mysql/login";
+        } else if(val == 4){
+          user = "MSSQL账号";
+          pass = "MSSQL密码";
+          url = "/index.php/control/mssql/login";
+        } else if(val == 5){
+          user = "物理机账号";
+          pass = "物理机密码";
+          url = "/index.php/control/baremeta/login";
+        }
+        $('.host_name').attr("placeholder", user);
+        $('.panel_password').attr("placeholder", pass);
+      });
+      
+      // 登录提交
+      form.on('submit(login)', function(data) {
+        layer.load();
+        let obj = data.field;
+        if(val == 2){
+          obj = {"site_name": obj.host_name, "ftp_passwd": obj.panel_password};
+        } else if(val == 3){
+          obj = {"dataname": obj.host_name, "datapasswd": obj.panel_password};
+        } else if(val == 4){
+          obj = {"dataname": obj.host_name, "datapasswd": obj.panel_password};
+        }
+        $.ajax({
+          url: url,
+          type: "POST",
+          data: obj,
+          success: function (res) {
+            layer.closeAll('loading');
+            if (res.code == 1) {
+              layer.msg(res.msg, {icon: 1, time: 2000}, function () {
+                location.href = res.url;
+              });
+            } else {
+              layer.msg(res.msg, {icon: 2, time: 2000});
+            }
+          }
+        });
+        return false;
+      });
+    });
+
+    // 按回车键提交
+    function checkEnter(event) {
+      if (event.keyCode === 13) {
+        document.querySelector('.login').click();
+      }
+    }
+  </script>
+</body>
+</html>

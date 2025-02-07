@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/component/pear/css/pear.css" />
+    <script src="/static/component/layui/layui.js"></script>
+    <script src="/static/component/pear/pear.js"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    操作系统
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" disabled   class="layui-input layui-form-danger"   value="{$osInfo.display_name}"/>
+                    <input type="hidden"  name="os_id" lay-verify="required"  value="{$osInfo.id}"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-col-xs6 layui-col-md4">
+                    <label class="layui-form-label">
+                        {if $osInfo.os_type=="windows"}administrator{else}root{/if}密码
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" lay-verify="required"  class="layui-input layui-form-danger" name="os_passwd"  value="{$osInfo.os_passwd}"/>尽可能复杂，否则设置密码不成功
+                    </div>
+                </div>
+                <div class="layui-col-xs4 layui-col-md2">
+                    <label class="layui-form-label">
+                        远程端口
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text"  lay-verify="required"   class="layui-input layui-form-danger" name="os_port"  value="{$osInfo.os_port}"/>
+                    </div>
+                </div>
+            </div>
+            {if $osInfo.os_type=="windows"}
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    分区类型
+                </label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="disk_partition_type" value="2" checked title="全盘格式化" name="disk_partition_type">
+                    <input type="radio" lay-filter="disk_partition_type" value="1"    title="第一分区格式化" name="disk_partition_type">
+                    <p id="changefq" style="display: none;"><span style="color: red;">{if $is_show}如从{$old_osname} 重装为{$new_osname}，选择第一分区重装，将会导致安装失败{/if}</span></p>
+                </div>
+            </div>
+            {/if}
+            <div class="layui-form-item part">
+                <label class="layui-form-label">
+                    分区方案
+                </label>
+                <div class="layui-input-block">
+                    <input type="radio" value="1" class="partition_default" lay-filter="partition_default" checked title="默认分区" name="partition_default">
+                    <input type="radio" value="2" class="partition_default"  lay-filter="partition_default"  title="自定义分区" name="partition_default">
+                </div>
+            </div>
+            <div class="layui-form-item part_child" style="display: none">
+                <label class="layui-form-label">
+                    定义分区
+                </label>
+                <div class="layui-input-block">
+                    <button type="button" class="pear-btn pear-btn-md pear-btn-primary" id="add-part">
+                        <i class="layui-icon layui-icon-add-1"></i>
+                        添加分区
+                    </button>
+                    <table class="layui-table" id="part-table">
+                        <colgroup>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>分区/挂载点</th>
+                            <th>容量（MB）</th>
+                            <th>格式</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $part as $k=>$v}
+                        <tr>
+                            <td><input type="text"  class="layui-input layui-form-danger mount" name="mount[]"  value="{$v['mount']}"/></td>
+                            <td><input type="text"  class="layui-input layui-form-danger" name="size[]" placeholder="剩余容量"   value="{$v['size']}"/></td>
+                            <td>
+                                <select name="ext[]">
+                                    {foreach $ext as $k1=>$v1}
+                                        <option value="{$k1}" {if $v['format']==$v1} selected{/if}>{$v1}</option>
+                                    {/foreach}
+                                </select>
+                            </td>
+                            <td><a class="remove-part" href="javascript:void(0)">删除</a></td>
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+
+<script type="text/html" id="template1">
+    <tr>
+        <td><input type="text"   class="layui-input layui-form-danger mount" name="mount[]"  value=""/></td>
+        <td><input type="text"   class="layui-input layui-form-danger" name="size[]" placeholder="剩余容量"  value=""/></td>
+        <td>
+            <select name="ext[]">
+                {foreach $ext as $k1=>$v1}
+                    <option value="{$k1}"}>{$v1}</option>
+                {/foreach}
+            </select>
+        </td>
+
+        <td><a class="remove-part" href="javascript:void(0)">删除</a></td>
+    </tr>
+</script>
+<script>
+    layui.use(['form', 'jquery', 'layedit', 'uploads'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let layedit = layui.layedit
+        layedit.set({
+            uploadImage: {
+                url: "{$Request.root}/index/upload"
+            }
+        });
+        //建立编辑器
+        form.on('radio(disk_partition_type)',function(data){
+            if (data.value==1){
+                $('#changefq').show();
+                $('.part').hide();
+            }else{
+                $('#changefq').hide();
+                $('.part').show();
+            }
+            $('.part_child').hide();
+            $(".partition_default").removeAttr("checked")
+            form.render();
+        })
+
+        form.on('radio(partition_default)',function(data){
+            if (data.value==1){
+                $('.part_child').hide();
+            }else{
+                $('.part_child').show();
+            }
+        })
+        form.on('submit(save)', function (data) {
+            $.ajax({
+                data: data.field,
+                //dataType: 'json',
+               // contentType: 'application/json',
+                type: 'post',
+                success: function (res) {
+                    //判断有没有权限
+                    if (res && res.code == 999) {
+                        layer.msg(res.msg, {
+                            icon: 5,
+                            time: 2000,
+                        })
+                        return false;
+                    } else if (res.code == 200) {
+                        layer.msg(res.msg,{icon:1,time:1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("dataTable");
+                        });
+                    } else {
+                        layer.msg(res.msg,{icon:2,time:1000});
+                    }
+                }
+            })
+            return false;
+        });
+
+        $('#add-part').click(function () {
+            let template1 =    $('#template1').html();
+            $('#part-table').append(template1);
+            form.render('select');
+            mount()
+        });
+
+        $(document).on("click",'.remove-part', function(){
+           $(this).parents('tr').remove();
+            mount()
+        });
+
+        function mount() {
+            {if $osInfo.os_type=="windows"}
+                $('.mount').each(function (index,elem) {
+                    $(elem).val("分区"+index)
+                })
+            {/if}
+        }
+    })
+</script>
+</body>
+</html>

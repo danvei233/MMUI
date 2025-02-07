@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>嵌入式 AI 聊天</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <!-- 引入 mdui CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta name="color-scheme" content="light">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJ+Y4Prk6kP1mKjxY4je3UbvNqX+OxuNAGAwc="
+    crossorigin="anonymous"></script>
+
+    <!-- 引入 highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+   
+   <style>
+
+/* 通用代码块样式 */
+/* 通用代码块样式 */
+pre code.hljs {
+    display: block !important;
+    overflow-x: auto !important; /* 启用横向滚动 */
+    padding: 1.2em !important; /* 增加内边距 */
+    border-radius: 8px !important; /* 圆角边框 */
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace !important; /* 专业代码字体 */
+    font-size: 1em !important; /* 调整字体大小 */
+    line-height: 1.6 !important; /* 提升行间距 */
+    white-space: pre-wrap !important; /* 保留换行并支持自动换行 */
+    word-wrap: break-word !important; /* 长单词自动换行 */
+}
+
+/* 行内代码块样式 */
+.content code {
+    padding: 4px 6px !important; /* 内边距 */
+    border-radius: 6px !important; /* 圆角 */
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace !important; /* 专业代码字体 */
+    font-size: 0.95em !important; /* 字体稍小 */
+    white-space: pre-wrap !important; /* 保留换行 */
+    word-wrap: break-word !important; /* 自动换行 */
+}
+
+/* 针对 <code>, <kbd>, <samp> 标签的样式 */
+code, kbd, samp {
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace !important; /* 等宽字体 */
+    font-size: 0.9em !important; /* 相对较小的字体 */
+    padding: 3px 5px !important;
+    border-radius: 5px !important;
+}
+
+/* 滚动条样式 */
+pre code.hljs::-webkit-scrollbar {
+    height: 8px !important; /* 矮滚动条 */
+}
+
+pre code.hljs::-webkit-scrollbar-thumb {
+    border-radius: 4px !important;
+}
+
+pre code.hljs::-webkit-scrollbar-track {
+}
+
+/* 亮色主题 */
+@media (prefers-color-scheme: light) {
+    pre code.hljs {
+        background: #eaf4fc !important; /* 浅蓝背景 */
+        color: #1d3557 !important; /* 深蓝文字 */
+        border: 1px solid #4dabf7 !important; /* 边框为蓝色 */
+    }
+
+    .content code {
+        background-color: #d7e9fc !important; /* 更浅的蓝色 */
+        color: #1a2e46 !important; /* 深蓝色文字 */
+        border: 1px solid #4dabf7 !important;
+    }
+
+    code, kbd, samp {
+        background: #f0f8ff !important; /* 浅蓝背景 */
+        color: #1a2e46 !important; /* 深蓝文字 */
+        border: 1px solid #4dabf7 !important;
+    }
+
+    pre code.hljs::-webkit-scrollbar-thumb {
+        background: #4dabf7 !important; /* 蓝色滚动条 */
+    }
+
+    pre code.hljs::-webkit-scrollbar-track {
+        background: #eaf4fc !important; /* 滚动条轨道颜色 */
+    }
+}
+
+/* 暗色主题 */
+@media (prefers-color-scheme: dark) {
+    pre code.hljs {
+        background: #1e293b !important; /* 深蓝灰背景 */
+        color: #ffffff !important; /* 白色文字 */
+        border: 1px solid #4dabf7 !important; /* 蓝色边框 */
+    }
+
+    .content code {
+        background-color: #243a57 !important; /* 深蓝背景 */
+        color: #ffffff !important; /* 白色文字 */
+        border: 1px solid #4dabf7 !important;
+    }
+
+    code, kbd, samp {
+        background: #2c3e58 !important; /* 深蓝背景 */
+        color: #ffffff !important; /* 白色文字 */
+        border: 1px solid #4dabf7 !important;
+    }
+
+    pre code.hljs::-webkit-scrollbar-thumb {
+        background: #4dabf7 !important; /* 蓝色滚动条 */
+    }
+
+    pre code.hljs::-webkit-scrollbar-track {
+        background: #1e293b !important; /* 滚动条轨道颜色 */
+    }
+}
+
+
+        /* 基础样式 */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* 限制溢出 */
+            font-family: 'Helvetica Neue', Arial, 'San Francisco', sans-serif; /* 主字体 */
+            line-height: 1.6; /* 提升可读性 */
+            color: #333; /* 深灰色文字 */
+            background-color: #f4f5f7; /* 柔和的浅灰背景 */
+            transition: background-color 0.3s, color 0.3s; /* 平滑过渡 */
+        }
+    
+        /* 响应式布局 */
+        .chat-container {
+            display: flex;
+            height: calc(100% - 64px); /* 减去工具栏高度 */
+        }
+    
+        @media (max-width: 768px) {
+            .chat-container {
+                padding-top: 0; /* 移动端移除顶部内边距 */
+                height: calc(100% - var(--toolbar-height)); /* 使用动态变量 */
+            }
+        }
+    
+        /* 侧边栏样式 */
+        .chat-sidebar {
+            width: 240px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            background-color: #ffffff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        /* 主聊天区样式 */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+    
+        /* 聊天消息区域 */
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background-color: #f9f9f9; /* 消息区域背景色 */
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        /* 输入框区域 */
+        .chat-input {
+            padding: 16px;
+            border-top: 1px solid #dcdcdc; /* 分隔线 */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #ffffff; /* 白色背景 */
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+    
+        .chat-input textarea {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+        }
+    
+        .chat-input textarea:focus {
+            border-color: #4dabf7; /* 聚焦时的边框颜色 */
+            outline: none;
+            background-color: #f0f8ff; /* 聚焦时背景颜色 */
+        }
+    
+        /* 消息样式 */
+        .message {
+            margin-bottom: 12px;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.3s forwards; /* 消息淡入动画 */
+        }
+    
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    
+        /* 用户消息对齐 */
+        .message.user {
+            flex-direction: row-reverse;
+        }
+    
+        /* 助手消息对齐 */
+        .message.assistant,
+        .message.function {
+            flex-direction: row;
+        }
+    
+        /* 用户消息背景和文字颜色 */
+        .message.user .content {
+            background-color: #4dabf7; /* 主题蓝色背景 */
+            color: #ffffff; /* 白色文字 */
+            align-self: flex-end;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        /* 助手消息背景和文字颜色 */
+        .message.assistant .content {
+            background-color: #e3f2fd; /* 浅蓝色背景 */
+            color: #1a1a1a; /* 深灰色文字 */
+            align-self: flex-start;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        /* 函数消息背景和文字颜色 */
+        .message.function .content {
+            background-color: #c3eafe; /* 更浅的蓝色背景 */
+            color: #1a1a1a; /* 深灰色文字 */
+            align-self: flex-start;
+            border-radius: 15px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        /* 头像样式 */
+        .avatar {
+            width: 40px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            background-color: #e3f2fd; /* 与助手背景一致 */
+            color: #1a1a1a;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        /* 消息内容样式 */
+        .content {
+            position: relative;
+            padding: 12px 16px;
+            border-radius: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 15px;
+            font-family: 'Helvetica Neue', Arial, 'San Francisco', sans-serif;
+            color: #333;
+            letter-spacing: 0.2px;
+        }
+    
+        .message:hover .content {
+            background-color: #d0e7ff; /* 淡蓝色 */
+        }
+    
+        /* 代码块样式 */
+        .code-block {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 8px;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            position: relative;
+            overflow-x: auto;
+            margin: 20px 0;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+    
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    
+        .code-block .language-label {
+            top: -10px;
+            right: 15px;
+            background-color: #4dabf7; /* 主题蓝色 */
+            color: white;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+    
+        /* 复制按钮样式 */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background-color: #4dabf7; /* 主题蓝色 */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+    
+        .copy-btn:hover {
+            background-color: #357ab8; /* 深蓝色 */
+        }
+    
+        /* 动画效果 */
+        @keyframes scroll-light {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    
+        /* "正在思考..." 文本的样式 */
+        .loading-message .content {
+            background-color: #e3f2fd; /* 浅蓝色背景 */
+            color: #6c757d; /* 灰色文字 */
+            font-style: italic;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        .loading-message .content::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+            animation: scroll-light 1.5s infinite;
+        }
+    
+        /* 闪烁光标样式 */
+        .blinking-cursor {
+            display: inline;
+            color: #6c757d;
+            font-weight: bold;
+            animation: blink 1s step-start infinite;
+        }
+    
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    
+        /* 按钮样式 */
+        .message-buttons {
+            margin-top: 5px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            height: 24px;
+        }
+    
+        .message:hover .message-buttons {
+            opacity: 1;
+        }
+    
+        .delete-btn,
+        .edit-btn,
+        .copy-btn,
+        .regenerate-btn {
+            background: none;
+            border: none;
+            color: #4dabf7; /* 主题蓝色 */
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+    
+        .delete-btn:hover,
+        .edit-btn:hover,
+        .copy-btn:hover,
+        .regenerate-btn:hover {
+            color: #357ab8; /* 深蓝色 */
+        }
+    
+        /* Markdown 简单样式 */
+        .content h1 {
+            font-size: 1.5em;
+            color: #4dabf7;
+        }
+    
+        .content h2 {
+            font-size: 1.3em;
+            color: #4dabf7;
+        }
+    
+        .content h3 {
+            font-size: 1.1em;
+            color: #4dabf7;
+        }
+    
+        .content strong {
+            font-weight: bold;
+        }
+    
+        .content em {
+            font-style: italic;
+        }
+    
+        .content code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    
+        .content pre {
+
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            position: relative;
+        }
+    
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    
+        /* 聊天列表样式 */
+        .chat-list-header {
+            padding: 16px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        .chat-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        .chat-item.active {
+            background-color: #c3eafe; /* 淡蓝色 */
+        }
+    
+        .chat-item:hover {
+            background-color: #e0f7fa; /* 更浅的蓝色 */
+        }
+    
+        .chat-item .chat-title {
+            flex: 1;
+        }
+    
+        .chat-item .delete-chat-btn {
+            background: none;
+            border: none;
+            color: #4dabf7; /* 主题蓝色 */
+            cursor: pointer;
+            margin-left: 8px;
+            transition: color 0.3s;
+        }
+    
+        .chat-item .delete-chat-btn:hover {
+            color: #357ab8; /* 深蓝色 */
+        }
+    
+        /* 代码块复制按钮样式 */
+        .code-copy-btn,
+        .code-preview-btn {
+            display: none;
+        }
+    
+        pre:hover .code-copy-btn,
+        pre:hover .code-preview-btn {
+            display: block;
+        }
+    
+        /* 右键菜单样式 */
+        .context-menu {
+            position: absolute;
+            z-index: 1000;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: none;
+            min-width: 120px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        .context-menu-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        .context-menu-item:hover {
+            background-color: #e0f7fa; /* 更浅的蓝色 */
+        }
+    
+        /* 返回底部按钮样式 */
+        #scrollToBottomBtn {
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
+            display: none;
+            z-index: 999;
+            background-color: #4dabf7; /* 主题蓝色 */
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        #scrollToBottomBtn:hover {
+            background-color: #357ab8; /* 深蓝色 */
+            transform: translateY(-2px);
+        }
+    
+        /* 模型选择器样式 */
+        #modelSelector {
+            width: 150px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #4dabf7;
+            background-color: #ffffff;
+            color: #333;
+            transition: border-color 0.3s;
+        }
+    
+        #modelSelector:hover,
+        #modelSelector:focus {
+            border-color: #357ab8;
+            outline: none;
+        }
+    
+        /* 函数调用提示框样式 */
+        #functionCallTip {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            background-color: #ffffff;
+            border: 1px solid #4dabf7;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            border-radius: 5px;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+    
+        /* 动画和过渡优化 */
+        .gridA {
+            display: flex;
+            align-content: space-around;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            transition: all 0.3s ease-in-out;
+        }
+    
+        /* 跑马灯动画条 */
+        .loading-message .content::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+            animation: scroll-light 1.5s infinite;
+        }
+    
+        /* 闪烁动画 */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    
+        /* 返回底部按钮的显示逻辑 */
+        #scrollToBottomBtn.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+    
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    
+        /* 主题切换（深色模式） */
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #eaeaea; /* 浅灰色文字 */
+                background-color: #121212; /* 深色背景 */
+            }
+    
+            .chat-sidebar,
+            .chat-main,
+            .chat-messages,
+            .chat-input,
+            .chat-list-header,
+            .chat-item,
+            .context-menu,
+            #functionCallTip,
+            .code-block,
+            .copy-btn,
+            #scrollToBottomBtn,
+            #modelSelector {
+                transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            }
+    
+            #functionCallTip {
+                color: #eaeaea;
+                background-color: #1e1e1e;
+                border: 1px solid #4dabf7;
+                box-shadow: 0 2px 5px rgba(32, 34, 61, 0.349);
+                display: none;
+                z-index: 1000;
+            }
+    
+            /* 工具栏 */
+            .mdui-appbar {
+                background-color: #1e1e1e !important; /* 深色工具栏背景 */
+                color: #eaeaea;
+                transition: background-color 0.3s, color 0.3s;
+            }
+    
+            /* 聊天消息背景 */
+            .chat-messages {
+                background-color: #1e1e1e; /* 深灰背景 */
+                color: #eaeaea; /* 浅灰色文字 */
+            }
+    
+            /* 输入框 */
+            .chat-input {
+                background-color: #1e1e1e; /* 深灰背景 */
+                border-top: 1px solid #333;
+                color: #eaeaea; /* 浅灰色文字 */
+            }
+    
+            .chat-input textarea {
+                background-color: #2a2a2a; /* 更深的输入框背景 */
+                color: #eaeaea;
+            }
+    
+            .chat-input textarea:focus {
+                border-color: #4dabf7; /* 聚焦时的边框颜色 */
+            }
+    
+            /* 用户消息 */
+            .message.user .content {
+                background-color: #4dabf7; /* 主题蓝色背景 */
+                color: #ffffff; /* 白色文字 */
+            }
+    
+            /* 助手消息 */
+            .message.assistant .content {
+                background-color: #3d3d3d; /* 深灰背景 */
+                color: #eaeaea; /* 浅灰文字 */
+            }
+    
+            /* 函数消息 */
+            .message.function .content {
+                background-color: #4b3f27; /* 棕色背景 */
+                color: #ffffff; /* 白色文字 */
+            }
+    
+            /* 按钮样式 */
+            .mdui-btn {
+                background-color: #1e1e1e; /* 深灰背景 */
+                color: #eaeaea;
+                transition: background-color 0.3s, color 0.3s;
+            }
+    
+            .mdui-btn:hover {
+                background-color: #3d3d3d;
+            }
+    
+            /* 聊天列表 */
+            .chat-list-header {
+                background-color: #1e1e1e;
+                color: #eaeaea;
+            }
+    
+            .chat-item {
+                background-color: #1e1e1e;
+                color: #eaeaea;
+            }
+    
+            .chat-item:hover {
+                background-color: #333;
+            }
+    
+            .chat-item.active {
+                background-color: #4dabf7; /* 主题蓝色 */
+                color: #fff;
+            }
+    
+            /* 右键菜单 */
+            .context-menu {
+                background-color: #1e1e1e;
+                color: #eaeaea;
+                border: 1px solid #333;
+            }
+    
+            .context-menu-item:hover {
+                background-color: #333;
+            }
+    
+            /* 代码块 */
+            pre code {
+                background-color: #2a2a2a;
+                color: #eaeaea;
+            }
+    
+            .code-block .language-label {
+                background-color: #4dabf7;
+            }
+    
+            .copy-btn {
+                background-color: #2a2a2a;
+                color: #eaeaea;
+            }
+    
+            .copy-btn:hover {
+                background-color: #3d3d3d;
+            }
+    
+            /* 返回底部按钮 */
+            #scrollToBottomBtn {
+                background-color: #4dabf7;
+                color: #ffffff;
+            }
+    
+            #scrollToBottomBtn:hover {
+                background-color: #357ab8;
+            }
+        }
+    
+        /* 现代舒适的动效优化 */
+        /* 平滑过渡 */
+        * {
+            transition: all 0.3s ease-in-out;
+        }
+    
+        /* 按钮轻微放大效果 */
+        button, .copy-btn, .delete-btn, .edit-btn, .regenerate-btn {
+            transition: transform 0.2s ease-in-out, background-color 0.3s;
+        }
+    
+        button:hover, .copy-btn:hover, .delete-btn:hover, .edit-btn:hover, .regenerate-btn:hover {
+            transform: scale(1.05);
+        }
+    
+        /* 侧边栏滚动条样式 */
+        .chat-sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+    
+        .chat-sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+    
+        .chat-sidebar::-webkit-scrollbar-thumb {
+            background: #4dabf7;
+            border-radius: 4px;
+        }
+    
+        .chat-sidebar::-webkit-scrollbar-thumb:hover {
+            background: #357ab8;
+        }
+    
+        /* 聊天消息区滚动条样式 */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+    
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+    
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #4dabf7;
+            border-radius: 4px;
+        }
+    
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #357ab8;
+        }
+    </style>
+    
+</head>
+
+<body
+    class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-auto mdui-theme-blue mdui-loaded  dark-mode ">
+    <!-- 工具栏 -->
+    <div class="mdui-appbar appbar mdui-appbar-fixed mdui-color-light-blue-a700">
+
+        <div class="mdui-toolbar ">
+            <button class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#drawer'}">
+                <i class="mdui-icon material-icons">menu</i>
+            </button>
+            <span class="mdui-typo-title">AI 聊天</span>
+            <!-- 模型选择器 -->
+            <select id="modelSelector" class="mdui-select">
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                <option value="gpt-3.5-turbo-0613">GPT-3.5 Turbo-0613</option>
+                <option value="gpt-4">GPT-4</option>
+            </select>
+            <div class="mdui-toolbar-spacer"></div>
+            <button class="mdui-btn mdui-btn-icon" id="configBtn"><i
+                    class="mdui-icon material-icons">settings</i></button>
+        </div>
+
+
+    </div>
+
+    <div class="mdui-drawer "  id="drawer">
+        <div class="chat-list">
+            <div class="chat-list-header">
+                <span>聊天会话</span>
+                <button class="mdui-btn mdui-btn-icon" id="addChatBtn"><i
+                        class="mdui-icon material-icons">add</i></button>
+            </div>
+            <div id="chatList">
+                <!-- 聊天列表将显示在这里 -->
+            </div>
+        </div>
+    </div>
+    <div class="chat-container ">
+
+
+        <!-- 主内容区域 -->
+        <div class="chat-main">
+            <div class="chat-messages" id="chatMessages">
+                <!-- 聊天消息将显示在这里 -->
+            </div>
+            <!-- 返回底部按钮 -->
+            <button class="mdui-fab mdui-fab-mini mdui-color-theme-accent" id="scrollToBottomBtn">
+                <i class="mdui-icon material-icons ">arrow_downward</i>
+            </button>
+            <!-- 函数调用提示框 -->
+            <div id="functionCallTip"></div>
+            <div class="chat-input">
+                <textarea id="userInput" class="mdui-textfield-input" rows="1" placeholder="输入消息"
+                    style="flex: 1; resize: none;"></textarea>
+                <button class="mdui-btn mdui-btn-icon" id="sendBtn"><i
+                        class="mdui-icon material-icons">send</i></button>
+                <button class="mdui-btn mdui-btn-icon" id="voiceBtn"><i
+                        class="mdui-icon material-icons">mic</i></button>
+                <button class="mdui-btn mdui-btn-icon" id="fileUploadBtn"><i
+                        class="mdui-icon material-icons">attach_file</i></button>
+                <input type="file" id="fileInput" style="display: none;" multiple />
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 配置对话框 -->
+    <div class="mdui-dialog" id="configDialog">
+        <div class="mdui-dialog-title">配置</div>
+        <div class="mdui-dialog-content">
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label">API Base URL</label>
+                <input class="mdui-textfield-input" type="text" id="apiBaseUrl"
+                    value="https://181db8c2fb36d34200f8ce83762f64a2.api-forwards.com/v1/chat/completions" />
+            </div>
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label">API Key</label>
+                <input class="mdui-textfield-input" type="password" id="apiKey" />
+            </div>
+        </div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-btn-icon" id="exportBtn"><i
+                class="mdui-icon material-icons">file_download</i></button>
+        <button class="mdui-btn mdui-btn-icon" id="importBtn"><i
+                class="mdui-icon material-icons">file_upload</i></button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+            <button class="mdui-btn mdui-ripple" id="saveConfig">保存</button>
+        </div>
+    </div>
+
+    <!-- 导入文件输入 -->
+    <input type="file" id="importFile" accept=".json" style="display: none;" />
+
+    <!-- 右键菜单 -->
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" id="copyMessage">复制消息</div>
+    </div>
+
+    <!-- 引入 mdui JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <!-- 引入 highlight.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <!-- 引入 highlight.js 语言包 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+    <script>
+        // 初始化变量
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const fileUploadBtn = document.getElementById('fileUploadBtn');
+        const fileInput = document.getElementById('fileInput');
+        const exportBtn = document.getElementById('exportBtn');
+        const importBtn = document.getElementById('importBtn');
+        const addChatBtn = document.getElementById('addChatBtn');
+        const importFile = document.getElementById('importFile');
+        const chatList = document.getElementById('chatList');
+        const contextMenu = document.getElementById('contextMenu');
+        const copyMessageItem = document.getElementById('copyMessage');
+        const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
+        const modelSelector = document.getElementById('modelSelector');
+        const functionCallTip = document.getElementById('functionCallTip');
+
+        let clickedMessageContent = ''; // 存储被右键点击的消息内容
+
+        // 配置变量
+        let apiBaseUrl = localStorage.getItem('apiBaseUrl') || 'https://api.openai.com/v1/chat/completions';
+        let apiKey = localStorage.getItem('apiKey') || '';
+        let selectedModel = localStorage.getItem('selectedModel') || 'gpt-3.5-turbo';
+
+        // 聊天会话列表
+        let chats = JSON.parse(localStorage.getItem('chats')) || [];
+        let currentChatId = localStorage.getItem('currentChatId') || null;
+
+        // 聊天记录管理
+        function getChatById(id) {
+            return chats.find(chat => chat.id === id);
+        }
+
+        function saveChats() {
+            localStorage.setItem('chats', JSON.stringify(chats));
+            localStorage.setItem('currentChatId', currentChatId);
+        }
+
+        // 渲染聊天列表
+        function renderChatList() {
+            chatList.innerHTML = '';
+            chats.forEach(chat => {
+                const chatItem = document.createElement('div');
+                chatItem.classList.add('chat-item');
+                if (chat.id === currentChatId) {
+                    chatItem.classList.add('active');
+                }
+
+                const chatTitle = document.createElement('div');
+                chatTitle.classList.add('chat-title');
+                chatTitle.textContent = chat.name;
+
+                const deleteChatBtn = document.createElement('button');
+                deleteChatBtn.classList.add('delete-chat-btn');
+                deleteChatBtn.innerHTML = '<i class="mdui-icon material-icons">delete</i>';
+                deleteChatBtn.title = '删除聊天';
+                deleteChatBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteChat(chat.id);
+                });
+
+                chatItem.appendChild(chatTitle);
+                chatItem.appendChild(deleteChatBtn);
+                chatItem.addEventListener('click', () => {
+                    switchChat(chat.id);
+                });
+
+                chatList.appendChild(chatItem);
+            });
+        }
+
+        // 切换聊天会话
+        function switchChat(id) {
+            currentChatId = id;
+            saveChats();
+            renderChatList();
+            renderChat();
+        }
+
+        // 添加新的聊天会话
+        function addNewChat(name = '新聊天') {
+            const newChat = {
+                id: Date.now().toString(),
+                name: name,
+                messages: []
+            };
+            chats.push(newChat);
+            currentChatId = newChat.id;
+            saveChats();
+            renderChatList();
+            renderChat();
+        }
+
+        // 删除聊天会话
+        function deleteChat(id) {
+            if (!confirm('确定要删除此聊天会话吗？')) return;
+            chats = chats.filter(chat => chat.id !== id);
+            if (currentChatId === id) {
+                currentChatId = chats.length > 0 ? chats[chats.length - 1].id : null;
+            }
+            saveChats();
+            renderChatList();
+            renderChat();
+        }
+
+        // 渲染当前聊天
+        function renderChat() {
+            chatMessages.innerHTML = '';
+            const currentChat = getChatById(currentChatId);
+            if (!currentChat) {
+                chatMessages.innerHTML = '<div class="mdui-typo">请选择或创建一个聊天会话</div>';
+                return;
+            }
+
+            // 确保每条消息都有唯一的 id
+            currentChat.messages.forEach(msg => {
+                if (!msg.id) {
+                    msg.id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+                }
+                appendMessage(msg);
+            });
+        }
+
+        // 添加消息到聊天记录并更新界面
+        function addMessage(message) {
+            const currentChat = getChatById(currentChatId);
+            if (currentChat) {
+                message.id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+                currentChat.messages.push(message);
+                saveChats();
+                appendMessage(message);
+                // 自动生成聊天标题
+                if (message.role === 'user') {
+                    generateChatTitle();
+                }
+            }
+        }
+
+        // 追加单条消息到界面
+        function appendMessage(msg) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', msg.role);
+            messageDiv.id = `message-${msg.id}`;
+
+            // 添加头像（使用Emoji）
+            const avatarSpan = document.createElement('span');
+            avatarSpan.classList.add('avatar');
+            if (msg.role === 'user') {
+                avatarSpan.textContent = '👤'; // 用户头像Emoji
+            } else if (msg.role === 'assistant') {
+                avatarSpan.textContent = '🤖'; // 助手头像Emoji
+            } else if (msg.role === 'function') {
+                avatarSpan.textContent = '🔧'; // 函数头像Emoji
+            } else {
+                avatarSpan.textContent = '❓'; // 默认头像Emoji
+            }
+
+            // 创建内容容器
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('content');
+            contentDiv.innerHTML = parseMarkdown(msg.content);
+
+            // 如果是加载中的消息，添加特殊的类
+            if (msg.loading) {
+                messageDiv.classList.add('loading-message');
+                contentDiv.innerHTML = '正在思考...';
+            }
+
+            // 右键菜单事件
+            contentDiv.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                clickedMessageContent = msg.content;
+                showContextMenu(e.pageX, e.pageY);
+            });
+
+            // 创建按钮容器
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.classList.add('message-buttons');
+
+            // 添加删除按钮
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('delete-btn');
+            deleteBtn.innerHTML = '<i class="mdui-icon material-icons">delete</i>';
+            deleteBtn.title = '删除消息';
+            deleteBtn.addEventListener('click', () => {
+                deleteMessage(msg.id);
+            });
+            buttonsDiv.appendChild(deleteBtn);
+
+            // 添加编辑按钮
+            const editBtn = document.createElement('button');
+            editBtn.classList.add('edit-btn');
+            editBtn.innerHTML = '<i class="mdui-icon material-icons">edit</i>';
+            editBtn.title = '编辑消息';
+            editBtn.addEventListener('click', () => {
+                editMessage(msg.id);
+            });
+            buttonsDiv.appendChild(editBtn);
+
+            // 添加复制按钮
+
+
+            // 添加重新生成按钮（仅对助手消息）
+            if (msg.role === 'assistant' && !msg.loading) {
+                const regenerateBtn = document.createElement('button');
+                regenerateBtn.classList.add('regenerate-btn');
+                regenerateBtn.innerHTML = '<i class="mdui-icon material-icons">autorenew</i>';
+                regenerateBtn.title = '重新生成回复';
+                regenerateBtn.addEventListener('click', () => {
+                    regenerateMessage(msg.id);
+                });
+                buttonsDiv.appendChild(regenerateBtn);
+            }
+
+            // 将按钮容器添加到消息容器
+            const messageContentWrapper = document.createElement('div');
+            messageContentWrapper.classList.add('gridA');
+            messageContentWrapper.appendChild(contentDiv);
+            messageContentWrapper.appendChild(buttonsDiv);
+
+            // 将头像和内容添加到消息容器
+            if (msg.role === 'user') {
+                messageDiv.appendChild(avatarSpan);
+                messageDiv.appendChild(messageContentWrapper);
+            } else {
+                messageDiv.appendChild(avatarSpan);
+                messageDiv.appendChild(messageContentWrapper);
+            }
+
+            // 对代码块进行语法高亮和添加按钮
+            if (!msg.loading) {
+                contentDiv.querySelectorAll('pre').forEach((pre) => {
+                    const code = pre.querySelector('code');
+                    const codeContent = code.innerText;
+                    const language = code.className || ''; // 获取语言
+
+                    // 语法高亮
+                    hljs.highlightElement(code);
+
+                    // 创建复制按钮
+                    const copyButton = document.createElement('button');
+                    copyButton.classList.add('code-copy-btn');
+                    copyButton.innerHTML = '<i class="mdui-icon material-icons">content_copy</i>';
+                    copyButton.title = '复制代码';
+                    copyButton.addEventListener('click', () => {
+                        navigator.clipboard.writeText(codeContent).then(() => {
+                            mdui.snackbar({ message: '代码已复制到剪贴板' });
+                        }).catch(err => {
+                            mdui.snackbar({ message: '复制失败，请手动复制' });
+                        });
+                    });
+                    copyButton.style.position = 'absolute';
+                    copyButton.style.top = '5px';
+                    copyButton.style.right = '5px';
+                    copyButton.style.background = 'none';
+                    copyButton.style.border = 'none';
+                    copyButton.style.color = '#999';
+                    copyButton.style.cursor = 'pointer';
+
+                    pre.appendChild(copyButton);
+
+                    // 检查是否是 HTML 代码，添加预览按钮
+                    if (isHtmlCode(codeContent)) {
+                        const previewButton = document.createElement('button');
+                        previewButton.classList.add('code-preview-btn');
+                        previewButton.innerHTML = '<i class="mdui-icon material-icons">visibility</i>';
+                        previewButton.title = '预览 HTML';
+                        previewButton.addEventListener('click', () => {
+                            showHtmlPreview(codeContent);
+                        });
+                        previewButton.style.position = 'absolute';
+                        previewButton.style.top = '5px';
+                        previewButton.style.right = '35px';
+                        previewButton.style.background = 'none';
+                        previewButton.style.border = 'none';
+                        previewButton.style.color = '#999';
+                        previewButton.style.cursor = 'pointer';
+
+                        pre.appendChild(previewButton);
+                    }
+                });
+            }
+
+            chatMessages.appendChild(messageDiv);
+
+            // 滚动到底部
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 更新消息元素
+        function updateMessageElement(msg) {
+            const messageDiv = document.getElementById(`message-${msg.id}`);
+            if (messageDiv) {
+                const contentDiv = messageDiv.querySelector('.content');
+                let contentHTML = parseMarkdown(msg.content);
+
+                if (msg.loading) {
+                    // 在消息末尾添加闪烁光标
+                    contentHTML += '<span class="blinking-cursor">_</span>';
+                }
+
+                contentDiv.innerHTML = contentHTML;
+                messageDiv.classList.remove('loading-message');
+
+                // 重新绑定事件和语法高亮
+                contentDiv.querySelectorAll('pre').forEach((pre) => {
+                    const code = pre.querySelector('code');
+                    const codeContent = code.innerText;
+                    const language = code.className || '';
+
+                    // 语法高亮
+                    hljs.highlightElement(code);
+
+                    // 创建复制按钮
+                    const copyButton = document.createElement('button');
+                    copyButton.classList.add('code-copy-btn');
+                    copyButton.innerHTML = '<i class="mdui-icon material-icons">content_copy</i>';
+                    copyButton.title = '复制代码';
+                    copyButton.addEventListener('click', () => {
+                        navigator.clipboard.writeText(codeContent).then(() => {
+                            mdui.snackbar({ message: '代码已复制到剪贴板' });
+                        }).catch(err => {
+                            mdui.snackbar({ message: '复制失败，请手动复制' });
+                        });
+                    });
+                    copyButton.style.position = 'absolute';
+                    copyButton.style.top = '5px';
+                    copyButton.style.right = '5px';
+                    copyButton.style.background = 'none';
+                    copyButton.style.border = 'none';
+                    copyButton.style.color = '#999';
+                    copyButton.style.cursor = 'pointer';
+
+                    pre.appendChild(copyButton);
+
+                    // 检查是否是 HTML 代码，添加预览按钮
+                    if (isHtmlCode(codeContent)) {
+                        const previewButton = document.createElement('button');
+                        previewButton.classList.add('code-preview-btn');
+                        previewButton.innerHTML = '<i class="mdui-icon material-icons">visibility</i>';
+                        previewButton.title = '预览 HTML';
+                        previewButton.addEventListener('click', () => {
+                            showHtmlPreview(codeContent);
+                        });
+                        previewButton.style.position = 'absolute';
+                        previewButton.style.top = '5px';
+                        previewButton.style.right = '35px';
+                        previewButton.style.background = 'none';
+                        previewButton.style.border = 'none';
+                        previewButton.style.color = '#999';
+                        previewButton.style.cursor = 'pointer';
+
+                        pre.appendChild(previewButton);
+                    }
+                });
+            }
+        }
+
+        // 删除消息
+        function deleteMessage(msgId) {
+            const currentChat = getChatById(currentChatId);
+            if (currentChat) {
+                const index = currentChat.messages.findIndex(msg => msg.id === msgId);
+                if (index !== -1) {
+                    currentChat.messages.splice(index, 1);
+                    saveChats();
+
+                    // 移除消息元素
+                    const messageDiv = document.getElementById(`message-${msgId}`);
+                    if (messageDiv) {
+                        messageDiv.remove();
+                    }
+                }
+            }
+        }
+
+        // 编辑消息
+        function editMessage(msgId) {
+            const currentChat = getChatById(currentChatId);
+            if (currentChat) {
+                const msg = currentChat.messages.find(m => m.id === msgId);
+
+                // 使用 mdui 的对话框
+                const dialogContent = `
+                    <div class="mdui-dialog" id="editMessageDialog">
+                        <div class="mdui-dialog-title">编辑消息</div>
+                        <div class="mdui-dialog-content">
+                            <div class="mdui-textfield">
+                                <textarea class="mdui-textfield-input" id="editMessageContent" rows="5">${msg.content}</textarea>
+                            </div>
+                        </div>
+                        <div class="mdui-dialog-actions">
+                            <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+                            <button class="mdui-btn mdui-ripple" id="saveEditedMessage">保存</button>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', dialogContent);
+                const dialog = new mdui.Dialog('#editMessageDialog');
+                dialog.open();
+
+                document.getElementById('saveEditedMessage').addEventListener('click', () => {
+                    const newContent = document.getElementById('editMessageContent').value;
+                    msg.content = newContent;
+                    saveChats();
+                    updateMessageElement(msg);
+                    dialog.close();
+                    document.getElementById('editMessageDialog').remove();
+                });
+
+                dialog.$element.on('closed.mdui.dialog', function () {
+                    document.getElementById('editMessageDialog').remove();
+                });
+            }
+        }
+
+        // 复制消息
+        function copyMessage(content) {
+            navigator.clipboard.writeText(content).then(() => {
+                mdui.snackbar({ message: '消息已复制到剪贴板' });
+            }).catch(err => {
+                mdui.snackbar({ message: '复制失败，请手动复制' });
+            });
+        }
+
+        // 重新生成消息
+        async function regenerateMessage(msgId) {
+            const currentChat = getChatById(currentChatId);
+            if (!currentChat) return;
+
+            const index = currentChat.messages.findIndex(msg => msg.id === msgId);
+            if (index === -1) return;
+
+            // 删除原消息并渲染
+            currentChat.messages.splice(index, 1);
+            saveChats();
+            renderChat();
+
+            // 显示加载中的消息
+            const loadingMsg = {
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                role: 'assistant',
+                loading: true,
+                content: ''
+            };
+            currentChat.messages.push(loadingMsg);
+            saveChats();
+            appendMessage(loadingMsg);
+
+            // 调用 AI 接口获取新的回复
+            try {
+                const response = await fetch(apiBaseUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: currentChat.messages.filter(msg => !msg.loading),
+                        functions: serverFunctions(),
+                        function_call: "auto",
+                        stream: true
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`请求失败，状态码：${response.status}，错误信息：${errorText}`);
+                }
+
+                await handleStreamedResponse(response, loadingMsg);
+
+            } catch (error) {
+                const errorMsg = {
+                    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                    role: 'assistant',
+                    content: `请求失败: ${error.message}`
+                };
+                currentChat.messages.push(errorMsg);
+                saveChats();
+                appendMessage(errorMsg);
+                console.error('请求失败:', error);
+            }
+        }
+
+        // 简单的 Markdown 解析
+        function parseMarkdown(text) {
+        
+            if (!text) return '';
+
+            // 配置 marked.js
+            marked.setOptions({
+                breaks: true, // 自动将换行符转换为 <br>
+                highlight: function (code, lang) {
+                    // 使用 highlight.js 渲染代码块
+                    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                    return hljs.highlight(code, { language }).value;
+                },
+            });
+
+            // 使用 marked.parse 解析 Markdown
+            return marked.parse(text);
+        }
+
+        // 添加复制按钮的功能
+
+
+        // 发送消息
+        async function sendMessage() {
+            const content = userInput.value.trim();
+            if (!content || !currentChatId) return;
+            addMessage({ role: 'user', content });
+            userInput.value = '';
+            await getAIResponse();
+        }
+
+        // 自动生成聊天标题
+        function generateChatTitle() {
+            const currentChat = getChatById(currentChatId);
+            if (currentChat) {
+                // 取最新的用户消息作为标题
+                for (let i = currentChat.messages.length - 1; i >= 0; i--) {
+                    if (currentChat.messages[i].role === 'user') {
+                        currentChat.name = currentChat.messages[i].content.slice(0, 20);
+                        break;
+                    }
+                }
+                saveChats();
+                renderChatList();
+            }
+        }
+
+        // 获取 AI 回复
+        async function getAIResponse() {
+            const currentChat = getChatById(currentChatId);
+            if (!currentChat) return;
+
+            // 显示加载中的消息
+            const loadingMsg = {
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                role: 'assistant',
+                loading: true,
+                content: ''
+            };
+            currentChat.messages.push(loadingMsg);
+            saveChats();
+            appendMessage(loadingMsg);
+
+            try {
+                const functions = serverFunctions();
+
+                const payload = {
+                    model: selectedModel,
+                    messages: currentChat.messages.filter(msg => !msg.loading),
+                    functions: functions.length > 0 ? functions : undefined,
+                    function_call: functions.length > 0 ? "auto" : { name: "none" },
+                    stream: true
+                };
+
+                const response = await fetch(apiBaseUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`请求失败：${response.status}，错误信息：${errorText}`);
+                }
+
+                await handleStreamedResponse(response, loadingMsg);
+
+            } catch (error) {
+                const errorMsg = {
+                    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                    role: 'assistant',
+                    content: `请求失败: ${error.message}`
+                };
+                currentChat.messages.push(errorMsg);
+                saveChats();
+                appendMessage(errorMsg);
+                console.error("请求失败:", error);
+            }
+        }
+
+        // 处理流式响应
+        async function handleStreamedResponse(response, loadingMsg) {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let done = false;
+            let assistantMessage = '';
+            let functionCall = null;
+            let assistantMsg = loadingMsg;
+            assistantMsg.content = '';
+            // 不要在这里将 loading 设置为 false
+
+            const currentChat = getChatById(currentChatId);
+            if (!currentChat) return;
+
+            while (!done) {
+                const { value, done: readerDone } = await reader.read();
+                done = readerDone;
+                if (value) {
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n').filter(line => line.trim() !== '');
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const dataStr = line.slice(6);
+                            if (dataStr === '[DONE]') {
+                                done = true;
+                                break;
+                            }
+                            try {
+                                const json = JSON.parse(dataStr);
+
+                                // 检查是否存在错误
+                                if (json.error) {
+                                    throw new Error(json.error.message);
+                                }
+
+                                if (json.choices && json.choices[0]) {
+                                    const delta = json.choices[0].delta;
+
+                                    if (delta.content) {
+                                        assistantMessage += delta.content;
+
+                                        assistantMsg.content = assistantMessage;
+                                        assistantMsg.loading = true; // 保持 loading 为 true
+                                        saveChats();
+                                        updateMessageElement(assistantMsg);
+                                    } else if (delta.function_call) {
+                                        // 收集函数调用信息
+                                        if (!functionCall) {
+                                            functionCall = {
+                                                name: delta.function_call.name || '',
+                                                arguments: delta.function_call.arguments || ''
+                                            };
+                                        } else {
+                                            functionCall.arguments += delta.function_call.arguments || '';
+                                        }
+
+                                        // 显示函数调用提示
+                                        showFunctionCallTip(functionCall.name);
+                                    }
+                                } else {
+                                    console.error('Unexpected JSON structure:', json);
+                                }
+                            } catch (e) {
+                                console.error('解析流数据出错：', e);
+                                // 添加错误消息
+                                const errorMsg = {
+                                    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                                    role: 'assistant',
+                                    content: `请求失败: ${e.message}`
+                                };
+                                currentChat.messages.push(errorMsg);
+                                saveChats();
+                                appendMessage(errorMsg);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 如果助手消息内容为空且存在函数调用，移除空白消息
+            if (assistantMessage.trim() === '' && functionCall) {
+                // 从聊天记录中移除助手的空消息
+                const index = currentChat.messages.findIndex(msg => msg.id === assistantMsg.id);
+                if (index !== -1) {
+                    currentChat.messages.splice(index, 1);
+                }
+                // 从界面中移除
+                const messageDiv = document.getElementById(`message-${assistantMsg.id}`);
+                if (messageDiv) {
+                    messageDiv.remove();
+                }
+                saveChats();
+            } else {
+                // 流式响应处理完毕后，移除光标
+                assistantMsg.loading = false;
+                saveChats();
+                updateMessageElement(assistantMsg);
+            }
+
+            // 如果存在函数调用，处理函数调用
+            if (functionCall) {
+                try {
+                    showFunctionCallTip(functionCall.name);
+                    const funcResponse = await handleFunctionCall(functionCall);
+                    
+                    // 添加函数调用结果到聊天记录
+                    currentChat.messages.push(funcResponse);
+                    
+                    saveChats();
+                    appendMessage(funcResponse);
+
+                    // 隐藏函数调用提示
+                    // 延迟 2 秒后执行 hideFunctionCallTip()
+setTimeout(() => {
+    hideFunctionCallTip();
+}, 2000);
+
+
+                    // 继续请求 AI 回复
+                    await getAIResponse();
+                } catch (error) {
+                    console.error('函数调用出错：', error);
+                    const errorMsg = {
+                        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                        role: 'assistant',
+                        content: `函数调用失败: ${error.message}`
+                    };
+                    currentChat.messages.push(errorMsg);
+                    saveChats();
+                    appendMessage(errorMsg);
+                    // 隐藏函数调用提示
+                    // 延迟 2 秒后执行 hideFunctionCallTip()
+setTimeout(() => {
+    hideFunctionCallTip();
+}, 2000);
+
+                }
+            }
+        }
+
+        // 显示右键菜单
+        function showContextMenu(x, y) {
+            contextMenu.style.left = x + 'px';
+            contextMenu.style.top = y + 'px';
+            contextMenu.style.display = 'block';
+        }
+
+        // 隐藏右键菜单
+        function hideContextMenu() {
+            contextMenu.style.display = 'none';
+        }
+
+        // 复制消息（用于右键菜单）
+        function copyClickedMessage() {
+            navigator.clipboard.writeText(clickedMessageContent).then(() => {
+                mdui.snackbar({ message: '消息已复制到剪贴板' });
+            }).catch(err => {
+                mdui.snackbar({ message: '复制失败，请手动复制' });
+            });
+            hideContextMenu();
+        }
+
+        // 点击复制消息菜单项
+        copyMessageItem.addEventListener('click', copyClickedMessage);
+
+        // 全局点击事件，隐藏右键菜单
+        document.addEventListener('click', function (e) {
+            if (contextMenu.style.display === 'block') {
+                hideContextMenu();
+            }
+        });
+
+        // 显示函数调用提示框
+        function showFunctionCallTip(functionName) {
+            functionCallTip.textContent = `GPT正在调用${functionName}操作`;
+            functionCallTip.style.display = 'block';
+        }
+
+        // 隐藏函数调用提示框
+        function hideFunctionCallTip() {
+            functionCallTip.style.display = 'none';
+        }
+
+        // 定义服务器管理的函数
+        function serverFunctions() {
+    return [
+        {
+            name: "getGptStatus",
+            description: "获取ChatGPT状态",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "restartServer",
+            description: "重启服务器",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "searchWeb",
+            description: "在网络上搜索信息",
+            parameters: {
+                type: "object",
+                properties: {
+                    query: { type: "string", description: "要搜索的关键词" }
+                },
+                required: ["query"]
+            }
+        },
+        // 新增的服务器控制功能
+        {
+            name: "startHost",
+            description: "启动主机",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "closeHost",
+            description: "关闭主机",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "powerHost",
+            description: "断电主机",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "createSnapshot",
+            description: "创建主机快照",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "createBackup",
+            description: "创建主机备份",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "addFirewall",
+            description: "添加防火墙策略",
+            parameters: {
+                type: "object",
+                properties: {
+                    policy: { type: "string", description: "防火墙策略内容" }
+                },
+                required: ["policy"]
+            }
+        },
+        {
+            name: "link",
+            description: "建立普通连接",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "vnc",
+            description: "获取VNC连接",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: "lowvnc",
+            description: "获取低带宽VNC连接",
+            parameters: {
+                type: "object",
+                properties: {},
+                required: []
+            }
+        }
+    ];
+}
+
+
+
+        // 处理函数调用
+        async function handleFunctionCall(function_call) {
+    const { name, arguments: args } = function_call;
+   
+    if (!name) {
+        console.error("Function call is missing 'name':", function_call);
+        return { role: "function", name: "unknown", content: "未定义的函数调用" };
+    }
+
+    let result = "";
+    try {
+        switch (name) {
+            case "getGptStatus":
+                // 具体逻辑
+                result = "1";
+                break;
+            case "restartServer":
+                // 具体逻辑
+                result = "服务器正在重启...";
+                await new Promise(resolve => setTimeout(resolve, 2000)); // 模拟重启过程
+                result = "服务器已成功重启。";
+                break;
+            case "searchWeb":
+                let query = "";
+                try {
+                    query = JSON.parse(args || "{}").query || "未知关键词";
+                } catch (e) {
+                    console.error("解析函数参数错误：", e);
+                    query = "未知关键词";
+                }
+
+                // 简单搜索逻辑，可以集成实际的搜索API
+                result = `搜索结果：关于 "${query}" 的最新信息。`;
+                break;
+            
+            // 新增的服务器控制功能
+            case "startHost":
+                result = await startHost();
+                break;
+            case "closeHost":
+                result = await closeHost();
+                break;
+            case "powerHost":
+                result = await powerHost();
+                break;
+            case "createSnapshot":
+                result = await createSnapshot();
+                break;
+            case "createBackup":
+                result = await createBackup();
+                break;
+            case "addFirewall":
+                let policy = "";
+                try {
+                    policy = JSON.parse(args || "{}").policy || "默认策略";
+                } catch (e) {
+                    console.error("解析函数参数错误：", e);
+                    policy = "默认策略";
+                }
+                result = await addFirewall(policy);
+                break;
+            case "link":
+                result = await link();
+                break;
+            case "vnc":
+                result = await vnc();
+                break;
+            case "lowvnc":
+                result = await lowvnc();
+                break;
+            default:
+                result = `未知函数: ${name}`;
+        }
+    } catch (error) {
+        console.error("Function execution error:", error);
+        result = `函数执行失败: ${error.message}`;
+    }
+    
+    return {
+        role: "function",
+        name,
+        content: result
+    };
+}
+        // 导出聊天记录
+        function exportChat() {
+            if (!currentChatId) {
+                mdui.snackbar({ message: '请选择一个聊天会话进行导出' });
+                return;
+            }
+            const currentChat = getChatById(currentChatId);
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentChat, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `${currentChat.name}_chat_history.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // 导入聊天记录
+        function importChat(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const importedChat = JSON.parse(e.target.result);
+                    if (importedChat.id && importedChat.name && Array.isArray(importedChat.messages)) {
+                        chats.push(importedChat);
+                        currentChatId = importedChat.id;
+                        saveChats();
+                        renderChatList();
+                        renderChat();
+                        mdui.snackbar({ message: '聊天记录导入成功' });
+                    } else {
+                        throw new Error("无效的聊天记录格式");
+                    }
+                } catch (error) {
+                    mdui.snackbar({ message: `导入失败: ${error.message}` });
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // 判断是否是 HTML 代码
+        function isHtmlCode(code) {
+            return /<\/?[a-z][\s\S]*>/i.test(code);
+        }
+
+        // 显示 HTML 预览
+        function showHtmlPreview(htmlContent) {
+            const dialogHtml = `
+                <div class="mdui-dialog" id="htmlPreviewDialog">
+                    <div class="mdui-dialog-title">HTML 预览</div>
+                    <div class="mdui-dialog-content">
+                        <iframe id="htmlPreviewFrame" style="width:100%; height:400px; border:none;"></iframe>
+                    </div>
+                    <div class="mdui-dialog-actions">
+                        <button class="mdui-btn mdui-ripple" mdui-dialog-close>关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', dialogHtml);
+            const dialog = new mdui.Dialog('#htmlPreviewDialog');
+            dialog.open();
+
+            // 将 HTML 内容写入 iframe
+            const iframe = document.getElementById('htmlPreviewFrame');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(htmlContent);
+            iframeDoc.close();
+
+            // 监听对话框关闭事件，移除对话框元素
+            dialog.$element.on('closed.mdui.dialog', function () {
+                dialog.$element.remove();
+            });
+        }
+
+        // 语音输入和输出
+        let recognizing = false;
+        let recognition;
+        let synth = window.speechSynthesis;
+
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                mdui.snackbar({ message: '浏览器不支持语音识别' });
+                return;
+            }
+            recognition = new SpeechRecognition();
+            recognition.lang = 'zh-CN';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                userInput.value += transcript;
+            };
+
+            recognition.onerror = (event) => {
+                mdui.snackbar({ message: `语音识别错误: ${event.error}` });
+            };
+        }
+
+        function speak(text) {
+            if (!synth) return;
+            const utterThis = new SpeechSynthesisUtterance(text);
+            utterThis.lang = 'zh-CN';
+            synth.speak(utterThis);
+        }
+
+        // 事件绑定
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        voiceBtn.addEventListener('click', () => {
+            if (!recognition) {
+                initSpeechRecognition();
+            }
+            if (recognizing) {
+                recognition.stop();
+                recognizing = false;
+                voiceBtn.innerHTML = '<i class="mdui-icon material-icons">mic</i>';
+            } else {
+                recognition.start();
+                recognizing = true;
+                voiceBtn.innerHTML = '<i class="mdui-icon material-icons">mic_off</i>';
+            }
+        });
+
+        // 文件上传
+        fileUploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', () => {
+            const files = fileInput.files;
+            if (files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    // 处理文件，这里仅显示文件名
+                    addMessage({ role: 'user', content: `已上传文件：${file.name}` });
+                }
+                fileInput.value = '';
+            }
+        });
+
+        exportBtn.addEventListener('click', exportChat);
+
+        importBtn.addEventListener('click', () => {
+            importFile.click();
+        });
+
+        importFile.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                importChat(e.target.files[0]);
+                importFile.value = '';
+            }
+        });
+
+        addChatBtn.addEventListener('click', () => {
+            const chatName = prompt('请输入新的聊天会话名称', '新聊天');
+            if (chatName) {
+                addNewChat(chatName);
+            }
+        });
+
+        // 模型选择器
+        modelSelector.value = selectedModel;
+        modelSelector.addEventListener('change', () => {
+            selectedModel = modelSelector.value;
+            localStorage.setItem('selectedModel', selectedModel);
+        });
+
+        // 返回底部按钮
+        scrollToBottomBtn.addEventListener('click', () => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        chatMessages.addEventListener('scroll', () => {
+            if (chatMessages.scrollHeight - chatMessages.scrollTop > chatMessages.clientHeight + 100) {
+                scrollToBottomBtn.style.display = 'block';
+            } else {
+                scrollToBottomBtn.style.display = 'none';
+            }
+        });
+
+        // 配置对话框
+        const configDialog = new mdui.Dialog('#configDialog', {
+            modal: true,
+            history: false
+        });
+
+        // 配置按钮事件
+        const configBtn = document.getElementById('configBtn');
+        configBtn.addEventListener('click', () => {
+            document.getElementById('apiBaseUrl').value = apiBaseUrl;
+            document.getElementById('apiKey').value = apiKey;
+            configDialog.open();
+        });
+
+        // 保存配置
+        document.getElementById('saveConfig').addEventListener('click', () => {
+            apiBaseUrl = document.getElementById('apiBaseUrl').value.trim();
+            apiKey = document.getElementById('apiKey').value.trim();
+            localStorage.setItem('apiBaseUrl', apiBaseUrl);
+            localStorage.setItem('apiKey', apiKey);
+            configDialog.close();
+            mdui.snackbar({ message: '配置已保存' });
+        });
+
+        // 初始化
+        function initialize() {
+            if (chats.length === 0) {
+                addNewChat('新聊天');
+            } else if (!currentChatId) {
+                currentChatId = chats[0].id;
+                saveChats();
+            }
+            renderChatList();
+            renderChat();
+        }
+
+        initialize();
+
+
+    </script>
+    <script>
+        // 配置 marked.js
+        marked.setOptions({
+            breaks: true, // 自动将换行符转换为 <br>
+            highlight: function (code, lang) {
+                // 使用 highlight.js 渲染代码块
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            }
+        });
+        function updateChatHeight() {
+    const toolbar = document.querySelector('.mdui-toolbar');
+    const toolbarHeight = toolbar ? toolbar.offsetHeight : 0;
+
+    // 设置 CSS 变量
+    document.documentElement.style.setProperty('--toolbar-height', `${toolbarHeight}px`);
+}
+
+// 在页面加载和窗口调整大小时更新高度
+window.addEventListener('load', updateChatHeight);
+window.addEventListener('resize', updateChatHeight);
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chatMessages'); // 替换为你的聊天消息容器 ID
+    if (chatMessages) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});
+async function startHost() {
+    const url = `${rootUrl}start_host`;
+    const data = JSON.stringify({ hostid });
+    try {
+        const response = await postRequest(url, data);
+        if (response.code === 1) {
+            return response.msg;
+        } else {
+            return `启动主机失败:${response.message}`;
+        }
+    } catch (error) {
+        console.error("startHost error:", error);
+        return `启动主机失败: ${error.message}`;
+    }
+}
+
+async function closeHost() {
+    const url = `${rootUrl}close_host`;
+    const data = JSON.stringify({ hostid });
+    try {
+        const response = await postRequest(url, data);
+        if (response.code === 1) {
+            return response.msg;
+        } else {
+            return `关闭主机失败: ${response.msg}`;
+        }
+    } catch (error) {
+        console.error("closeHost error:", error);
+        return `关闭主机失败: ${error.message}`;
+    }
+}
+
+async function powerHost() {
+    const url = `${rootUrl}power_host`;
+    const data = JSON.stringify({ hostid });
+    try {
+        const response = await postRequest(url, data);
+        if (response.code === 1) {
+            return response.msg;
+        } else {
+            return `断电主机失败: ${response.msg}`;
+        }
+    } catch (error) {
+        console.error("powerHost error:", error);
+        return `断电主机失败: ${error.message}`;
+    }
+}
+
+async function createSnapshot() {
+    const url = `${rootUrl}create_snapshot_host`;
+    const data = JSON.stringify({ hostid });
+    try {
+        const response = await postRequest(url, data);
+        if (response.code === 1) {
+            // 假设 insTbSp 是全局可访问的表格实例
+            if (typeof insTbSp !== 'undefined' && insTbSp.reload) {
+                insTbSp.reload();
+                setTimeout(() => insTbSp.reload(), 30000);
+            }
+            return response.msg;
+        } else {
+            return `创建快照失败: ${response.msg}`;
+        }
+    } catch (error) {
+        console.error("createSnapshot error:", error);
+        return `创建快照失败: ${error.message}`;
+    }
+}
+
+async function createBackup() {
+    const url = `${rootUrl}create_backup_host`;
+    const data = JSON.stringify({ hostid });
+    try {
+        const response = await postRequest(url, data);
+        if (response.code === 1) {
+            // 假设 insTbBp 是全局可访问的表格实例
+            if (typeof insTbBp !== 'undefined' && insTbBp.reload) {
+                insTbBp.reload();
+                setTimeout(() => insTbBp.reload(), 30000);
+            }
+            return response.msg;
+        } else {
+            return `创建备份失败: ${response.msg}`;
+        }
+    } catch (error) {
+        console.error("createBackup error:", error);
+        return `创建备份失败: ${error.message}`;
+    }
+}
+
+async function addFirewall(policy) {
+    const url = `${rootUrl}add_firewall_host`;
+    const data = JSON.stringify({ hostid, policy });
+    try {
+        const response = await postRequest(url, data);
+        if (response.code === 1) {
+            // 假设 firewallinsTb 是全局可访问的表格实例
+            if (typeof firewallinsTb !== 'undefined' && firewallinsTb.reload) {
+                firewallinsTb.reload();
+            }
+            return response.msg;
+        } else {
+            return `添加防火墙策略失败: ${response.msg}`;
+        }
+    } catch (error) {
+        console.error("addFirewall error:", error);
+        return `添加防火墙策略失败: ${error.message}`;
+    }
+}
+
+// 5. 连接相关功能
+async function getCidAndRedirect(url) {
+    const data = JSON.stringify({ hostid });
+    try {
+        const response = await postRequest(url, data);
+        if (response.code === 200) {
+            const cid = response.data;
+            const redirectUrl = `https://netmc.icu:8099/Myrtille/?__EVENTTARGET=&__EVENTARGUMENT=&cid=${cid}&connect=Connect%21`;
+            // 由于这是后端代码，无法直接在前端打开新标签页。
+            // 可以将重定向URL返回给前端，由前端进行跳转。
+            return `请在浏览器中访问: ${redirectUrl}`;
+        } else {
+            return `请求失败: ${response.msg}`;
+        }
+    } catch (error) {
+        console.error("getCidAndRedirect error:", error);
+        return `发生错误: ${error.message}`;
+    }
+}
+
+async function link() {
+    const url = `${rootUrl}CreateNormalConnect`;
+    return await getCidAndRedirect(url);
+}
+
+async function vnc() {
+    const url = `${rootUrl}getVNC`;
+    return await getCidAndRedirect(url);
+}
+
+async function lowvnc() {
+    const url = `${rootUrl}getVNC?IsEnhancedMode=false`;
+    return await getCidAndRedirect(url);
+}
+
+// 6. 添加简单的搜索功能
+async function performSearch(query) {
+    const function_call = {
+        name: "searchWeb",
+        arguments: JSON.stringify({ query })
+    };
+    const response = await handleFunctionCall(function_call);
+    console.log(response.content);
+    // 根据需要，可以进一步处理搜索结果，例如返回给前端
+}
+
+// 示例调用
+(async () => {
+    // 例如，启动主机
+    const startResponse = await handleFunctionCall({
+        name: "startHost",
+        arguments: "{}"
+    });
+    console.log(startResponse.content);
+
+    // 创建快照
+    const snapshotResponse = await handleFunctionCall({
+        name: "createSnapshot",
+        arguments: "{}"
+    });
+    console.log(snapshotResponse.content);
+
+    // 执行搜索
+    await performSearch("ChatGPT 功能");
+})();
+    </script>
+   
+
+<script>
+    // 定义子页面的全局变量
+    var rootUrl = window.parent.rootUrlw ;
+    var hostid = window.parent.hostId ;
+    var   $ = window.parent.layui.jquery;
+    function postRequest(url, data) {
+    return $.ajax({
+        url: url,                  // 请求的 URL
+        type: 'POST',              // 请求方法为 POST
+        data: data,// 将数据序列化为 JSON 字符串
+        contentType: 'application/json', // 设置请求头为 JSON
+        dataType: 'json'           // 期望服务器返回 JSON 数据
+    });
+}
+
+   
+</script>
+</body>
+
+</html>

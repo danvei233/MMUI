@@ -1,0 +1,65 @@
+.grid-bg-1 {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #ccc #ccc currentcolor;
+    border-image: none;
+    border-radius: 3px;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    color: #333;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+.grid-bg-1 p {
+    font-size: 12px;
+    height: 40px;
+
+}
+.grid-bg-2 {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #f2f2f2;
+    border-color: currentcolor #ccc #ccc;
+    border-image: none;
+    border-radius: 3px;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+    color: #333;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: -5px;
+    padding: 10px;
+    text-align: center;
+}
+
+.layui-form-select dl{
+    text-align: left;
+}
+.user-info-head {
+    width: 70px;
+    height: 70px;
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    border: 2px solid #eee;
+}
+
+.user-info-head img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.layui-tab-title li{
+    padding: 0 8px;
+}
+
+.layui-table-view{
+    margin: 0px;
+}

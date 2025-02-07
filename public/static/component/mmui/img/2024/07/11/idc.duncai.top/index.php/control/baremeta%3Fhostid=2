@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <link rel="stylesheet" href="/static/component/mmui/mdui/1.0.2/css/mdui.min.css">
+    <link rel="stylesheet" href="/static/component/pear/css/pear.css"/>
+    <link rel="stylesheet" href="/static/component/awesome/css/control.css"/>
+    <script src="/static/component/layui/layui.js"></script>
+    <script src="/static/component/pear/pear.js"></script>
+    <script src="/static/component/echarts/echarts.min.js"></script>
+    <script src="/static/component/echarts/moment.js"></script>
+        <script src="/static/component/mmui/echart/echarts.min.js"></script>
+    <script src="/static/component/mmui/mdui/1.0.2/js/mdui.min.js" defer></script>
+    <style>
+        .layui-table-view .layui-table {width:100%}
+        .layui-table-view .layui-table {
+            width: 100%
+        }
+        .page-loading {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 19891017;
+            background-color: #fff
+        }
+
+        .ball-loader,.signal-loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            -webkit-transform: translate(-50%,-50%)
+        }
+
+        .ball-loader>span,.signal-loader>span {
+            background-color: #4aca85;
+            display: inline-block
+        }
+
+        .ball-loader>span:nth-child(1),.ball-loader.sm>span:nth-child(1),.signal-loader>span:nth-child(1),.signal-loader.sm>span:nth-child(1) {
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s
+        }
+
+        .ball-loader>span:nth-child(2),.ball-loader.sm>span:nth-child(2),.signal-loader>span:nth-child(2),.signal-loader.sm>span:nth-child(2) {
+            -webkit-animation-delay: .1s;
+            animation-delay: .1s
+        }
+
+        .ball-loader>span:nth-child(3),.ball-loader.sm>span:nth-child(3),.signal-loader>span:nth-child(3),.signal-loader.sm>span:nth-child(3) {
+            -webkit-animation-delay: .15s;
+            animation-delay: .15s
+        }
+
+        .ball-loader>span:nth-child(4),.ball-loader.sm>span:nth-child(4),.signal-loader>span:nth-child(4),.signal-loader.sm>span:nth-child(4) {
+            -webkit-animation-delay: .2s;
+            animation-delay: .2s
+        }
+
+        .ball-loader>span {
+            width: 20px;
+            height: 20px;
+            margin: 0 3px;
+            border-radius: 50%;
+            transform: scale(0);
+            -ms-transform: scale(0);
+            -webkit-transform: scale(0);
+            animation: ball-load 1s ease-in-out infinite;
+            -webkit-animation: 1s ball-load ease-in-out infinite
+        }
+
+        @-webkit-keyframes ball-load {
+            0% {
+                transform: scale(0);
+                -webkit-transform: scale(0)
+            }
+
+            50% {
+                transform: scale(1);
+                -webkit-transform: scale(1)
+            }
+
+            100% {
+                transform: scale(0);
+                -webkit-transform: scale(0)
+            }
+        }
+
+        @keyframes ball-load {
+            0% {
+                transform: scale(0);
+                -webkit-transform: scale(0)
+            }
+
+            50% {
+                transform: scale(1);
+                -webkit-transform: scale(1)
+            }
+
+            100% {
+                transform: scale(0);
+                -webkit-transform: scale(0)
+            }
+        }
+
+        .ball-loader.sm>span {
+            width: 15px;
+            height: 15px;
+            margin: 0 2px
+        }
+        .popupStyle{
+            width:180px;
+            height:50px;
+            background-color: rgb(85,85,85);
+            /* display:none; */
+            color:#fff;
+            text-align:center;
+            line-height:50px;
+            border-radius:5px;
+            padding:0;
+            position:fixed;
+            z-index:1;
+            top:30%;
+            left:50%;
+            transform:translateX(-50%);
+        }
+    </style>
+</head>
+<div class="page-loading">
+    <div class="ball-loader">
+        <span></span><span></span><span></span><span></span>
+    </div>
+</div>
+
+
+
+
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-auto mdui-theme-accent-indigo mdui-loaded pear-container ">
+<div class="layui-row layui-col-space10"  style="max-width:1200px;margin:0 auto">
+    <div class="layui-col-xs12 layui-col-md3">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">基本信息</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space5">
+                            <div class="layui-form-item">
+                                产品名称：机房自动化美化</br>
+                                <p style="padding-left: 60px;"></p>
+                            </div>
+                            <div class="layui-form-item">
+                                所在区域：晋中                            </div>
+                            <div class="layui-form-item">
+                                操作系统：                            </div>
+                            <div class="layui-form-item">
+                                主机状态：<span id="status">运行中</span>
+                            </div>
+                            <div class="layui-form-item">
+                                远程信息：192.168.1.2:                            </div>
+                            <div class="layui-form-item">
+                                系统密码：<code class="password" style="font-family: auto;margin-right: 5px;">•••••••••</code>
+                                <i class="fa fa-eye password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="显示密码" data-password="" style="cursor: pointer;"></i>
+                                <i class="fa fa-eye-slash password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" title="隐藏密码" data-password="•••••••••" style="cursor: pointer;display: none;"></i>
+                                <a class="layui-btn  layui-btn-xs" id="system-pass" style="margin-left: 10px;">重置密码</a>
+                            </div>
+
+                            <div class="layui-form-item">
+                                面板用户：                            </div>
+                            <div class="layui-form-item">
+                                面板密码：<code class="password" style="font-family: auto;margin-right: 5px;">•••••••••</code>
+                                <i class="fa fa-eye password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="显示密码" data-password="" style="cursor: pointer;"></i>
+                                <i class="fa fa-eye-slash password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" title="隐藏密码" data-password="•••••••••" style="cursor: pointer;display: none;"></i>
+                                <a class="layui-btn  layui-btn-xs" id="panel-pass" style="margin-left: 10px;">重置密码</a>
+                            </div>
+                            <div class="layui-form-item">
+                                开通日期：                            </div>
+                            <div class="layui-form-item">
+                                到期日期：                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-xs12 layui-col-md9">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <div class="layui-tab layui-tab-brief layadmin-latestData" lay-filter="tabZZT">
+                            <ul class="layui-tab-title ">
+                                <li  class="layui-this" id="chartLi"><i class="fa fa-line-chart"></i>网络监控</li>
+                                <li><i class="fa fa-sitemap"></i>分配IP</li>
+                                <li><i class="fa fa-power-off"></i>管理控制</li>
+                                <li><i class="fa fa-retweet"></i>重装系统</li>
+                                <li><i class="fa fa-desktop"></i>远程VNC</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-xs12 layui-col-md12">
+                                             <div  id="home1">
+                                                 <select  id="chartSelect">
+                                                     <option value="24" selected>24小时</option>
+                                                     <option value="3">3天</option>
+                                                 </select>
+                                                 <div style="height: 500px" class="w-100 h-100 d-flex justify-content-center" id="balanceCharts"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-xs12 layui-col-md12">
+                                            <table class="layui-table layui-text" id="dataTable" lay-filter="dataTable">
+                                                <thead>
+                                                <th colspan="3"><p style="float: left;padding: 10px 0px"><i class="fa fa-sitemap"></i>分配IP列表</p> <p style="float: right" id="copy"  ><i class="fa fa-copy"></i>点击复制所有IP </p></th>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-row layui-col-space30">
+                                        <div class="layui-col-xs12 layui-col-md12 layui-col-space20">
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body"><i class="fa fa-power-off"> 开机</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body" style="text-align: center">
+                                                    <button class="layui-btn layui-btn-normal ajax" id="start">开机</button>
+                                                </div>
+                                            </div>
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body"><i class="fa fa-plug"> 关机</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body">
+                                                    <button class="layui-btn layui-btn-danger ajax" id="power">关机</button>
+                                                </div>
+                                            </div>
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body" ><i class="fa fa-refresh"> 重启</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body" style="text-align: center">
+                                                    <button class="layui-btn layui-btn-warm ajax" id="restart">重启</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body" ><i class="fa fa-refresh"> 重启BMC</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body" style="text-align: center">
+                                                    <button class="layui-btn layui-btn-warm ajax" id="resetbmc">重启BMC</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="layui-col-md2">
+                                                <div class="grid-bg-1 layui-card-body" ><i class="fa fa-medkit"> 救援</i>
+                                                </div>
+                                                <div class="grid-bg-2 layui-card-body" style="text-align: center">
+                                                    <button class="layui-btn layui-btn-warm ajax" id="rescue">救援</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-row layui-col-space5">
+                                        <div class="layui-col-md3">
+                                            <div class="grid-bg-1">
+                                                <i class=" fa fa-windows  fa-3x"> </i>
+                                                <p>Windows</p></div>
+                                            <div class="grid-bg-2">
+                                                <form id="form1" class="layui-form" style="text-align: center">
+                                                    <input type="hidden" name="host_id" value="2">
+                                                    <input type="hidden" name="os_type" value="windows">
+                                                    <select name="template">
+                                                        <option value="">请选择系统镜像</option>
+                                                                                                            </select>
+                                                    <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md3">
+                                            <div class="grid-bg-1">
+                                                <i class="icon-centos fa-3x"></i>
+                                                <p>Centos</p>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <form id="form2" class="layui-form" style="text-align: center">
+                                                    <input type="hidden" name="host_id" value="2">
+                                                    <input type="hidden" name="os_type" value="centos">
+                                                    <select name="template">
+                                                        <option value="">请选择系统镜像</option>
+                                                                                                            </select>
+                                                    <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md3">
+                                            <div class="grid-bg-1"><i class="fa icon-ubuntu fa-3x"></i>
+                                                <p>Ubuntu</p>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <form id="form3" class="layui-form" style="text-align: center">
+                                                    <input type="hidden" name="host_id" value="2">
+                                                    <input type="hidden" name="os_type" value="ubuntu">
+                                                    <select name="template">
+                                                        <option value="">请选择系统镜像</option>
+                                                                                                            </select>
+                                                    <button  style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md3">
+                                            <div class="grid-bg-1">
+                                                <i class="icon-debian fa-3x"></i>
+                                                <p>Debian</p>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <form id="form4" class="layui-form" style="text-align: center">
+                                                    <input type="hidden" name="host_id" value="2">
+                                                    <input type="hidden" name="os_type" value="debian">
+                                                    <select name="template">
+                                                        <option value="">请选择系统镜像</option>
+                                                                                                            </select>
+                                                    <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-xs12">
+                                            <div class="grid-bg-1">
+                                                <i class=" fa fa-desktop fa-4x"> </i>
+                                                <p>HTML5远程桌面可以从下面启动。HTML5查看器将在新窗口打开</p>
+                                                <a target="_blank" href="" id="govnc"></a>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="vnc-view" lay-submit >连接VNC</button>
+                                            </div>
+                                            <div class="grid-bg-2">
+                                                <button style="margin-top: 15px;" class="layui-btn layui-btn-small layui-btn-normal" lay-filter="flushVnc" lay-submit >强制刷新vnc</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹窗模板区start-->
+<!--救援-->
+<script type="text/html" id="modelrescue">
+    <div class="layui-card-body">
+        <form id="rescueForm" lay-filter="reinstallForm" class="layui-form model-form">
+            <input name="hostid" type="hidden" value="2" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-block">
+                    <select name="rescue_os_type">
+                        <option value="linux">linux</option>
+                        <option value="windows">windows</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary closePageDialog"  type="button" >取消</button>
+                    <button class="layui-btn" lay-filter="modelrescueSubmit" lay-submit>确认</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--设置系统密码-->
+<script type="text/html" id="modelsystempassword">
+    <div class="layui-card-body">
+        <form id="systemForm" lay-filter="systemForm" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">系统密码</label>
+                <div class="layui-input-block">
+                    <input name="password" placeholder="请输入系统密码" type="text" class="layui-input" maxlength="20"
+                           lay-verType="tips" lay-verify="required|host_system_password" required/>
+                </div>
+            </div>
+            <div class="layui-form-item text-right">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary closePageDialog " type="button" ew-event="closePageDialog">取消</button>
+                    <button class="layui-btn" lay-filter="modelSystemSubmit" lay-submit>重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--设置版面密码-->
+<script type="text/html" id="modelpanelpassword">
+    <div class="layui-card-body">
+        <form id="panelForm" lay-filter="panelForm" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">控制台密码</label>
+                <div class="layui-input-block">
+                    <input name="passwd" placeholder="请输入控制台密码" type="text" class="layui-input" maxlength="20"
+                           lay-verType="tips" lay-verify="required|host_panel_password" required/>
+                </div>
+            </div>
+            <div class="layui-form-item text-right">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary closePageDialog " type="button" ew-event="closePageDialog">取消</button>
+                    <button class="layui-btn" lay-filter="modelPanelSubmit" lay-submit>重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--弹窗模板区end-->
+<script>
+    function copyText (text) {
+        //生成一个textarea对象
+        var textArea = document.createElement('textarea');
+        //设置属性
+        textArea.style.position = 'fixed';
+        textArea.style.top = 0;
+        textArea.style.left = 0;
+        textArea.style.width = '2em';
+        textArea.style.height = '2em';
+        textArea.style.padding = 0;
+        textArea.style.border = 'none';
+        textArea.style.outline = 'none';
+        textArea.style.boxShadow = 'none';
+        textArea.style.background = 'transparent';
+        textArea.value = text;
+        //添加到页面body
+        document.body.appendChild(textArea);
+        textArea.select();
+        //执行
+        var msg = document.execCommand('copy') ? '成功' : '失败';
+        Popup('复制内容' + msg);
+        //移除对象
+        document.body.removeChild(textArea);
+    }
+    function Popup(message){
+        var span=document.createElement('span')
+        span.innerHTML=message || 'default'
+        span.className='popupStyle'
+        span.style.display='block'
+        document.body.appendChild(span)
+        setTimeout(()=>{
+            span.remove()
+        },1000)
+    }
+    layui.link(rootPath+'css/module/autocomplete.css');
+    layui.use(['table','form', 'jquery','autocomplete'], function () {
+        var hostid ='2';
+        let form = layui.form;
+        let $ = layui.jquery;
+        var table = layui.table;
+        var autocomplete = layui.autocomplete;
+        let common = layui.common;
+        let laydate = layui.laydate;
+        let rootUrl = "https://idc.duncai.top/index.php/control/baremeta/";
+        let cols = [
+            [{
+                field: "ip",
+                title: "IP",
+                unresize: "true",
+                align: "center"
+            }, {
+                field: "gateway",
+                title: "网关",
+                unresize: "true",
+                align: "center"
+            }, {
+                field: "netmask",
+                title: "掩码",
+                unresize: "true",
+                align: "center"
+            }
+            ]
+        ]
+        table.render({
+            elem: '#dataTable',
+            url: rootUrl + 'allotIp?hostid='+hostid,
+            page: true,
+            cols: cols,
+            cellMinWidth: 100,
+            skin: 'line',
+            limit: 30,
+            limits:[50,100,200,400],
+            defaultToolbar: [{
+                title: '刷新',
+                layEvent: 'refresh',
+                icon: 'layui-icon-refresh',
+            }, 'filter', 'print', 'exports']
+        });
+
+        //显示密码
+        $('.password-show').click(function() {
+            var password = $(this).data('password');
+            $(this).hide();
+            $(this).siblings('.password').html(password);
+            $(this).siblings('.password-hide').show();
+        });
+        //前台隐藏密码
+        $('.password-hide').click(function() {
+            var password = $(this).data('password');
+            $(this).hide();
+            $(this).siblings('.password').html(password);
+            $(this).siblings('.password-show').show();
+        });
+        //设置云主机系统密码
+        $('#system-pass').click(function (data) {
+            layer.open({
+                type: 1,
+                title: '重置系统密码',
+                content: $('#modelsystempassword').html(),
+                success: function (layero, dIndex) {
+                    form.on('submit(modelSystemSubmit)',function (data) {
+                        layer.load(2);
+                        $.post(rootUrl+'systemPasswd', {
+                            hostid: hostid,
+                            password:data.field.password
+                        }, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 200) {
+                                layer.msg(res.msg, {icon: 1});
+                                layer.close(dIndex);
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'json');
+                        return false;
+                    });
+                    $('.closePageDialog').click(function () {
+                        layer.close(dIndex);
+                    });
+
+                }
+            });
+            return false;
+        })
+        //设置
+        $('#panel-pass').click(function (data) {
+            layer.open({
+                type: 1,
+                title: '重置控制台密码',
+                content: $('#modelpanelpassword').html(),
+                success: function (layero, dIndex) {
+                    form.on('submit(modelPanelSubmit)',function (data) {
+                        layer.load(2);
+                        $.post(rootUrl+'panelPassword', {
+                            hostid: hostid,
+                            passwd:data.field.passwd
+                        }, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 1) {
+                                layer.msg(res.msg, {icon: 1});
+                                layer.close(dIndex);
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'json');
+                        return false;
+                    });
+                    $('.closePageDialog').click(function () {
+                        layer.close(dIndex);
+                    });
+
+                }
+            });
+            return false;
+        })
+        //开机
+        $('#start').click(function () {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            layer.load(2);
+            $.post(rootUrl+'powerOn',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+
+        //断电源
+        $('#power').click(function () {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            layer.load(2);
+            $.post(rootUrl+'powerOff',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+        //重启
+        $('#restart').click(function () {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            layer.load(2);
+            $.post(rootUrl+'restart',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+
+        $('#resetbmc').click(function () {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            layer.load(2);
+            $.post(rootUrl+'resetbmc',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+
+        //救援
+        $('#rescue').click(function () {
+            layer.open({
+                type: 1,
+                title: '救援',
+                area: ['450px','250px'],
+                content: $('#modelrescue').html(),
+                success: function (layero, dIndex) {
+                    form.render();
+                    form.on('submit(modelrescueSubmit)',function (data) {
+                        layer.load(2);
+                        var rescue_os_type =data.field.rescue_os_type ;
+                        $.post(rootUrl+'rescue', {
+                            hostid: hostid,
+                            rescue_os_type:rescue_os_type,
+                        }, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 200) {
+                                layer.msg(res.msg, {icon: 1});
+                                layer.close(dIndex);
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'json');
+                        return false;
+                    });
+                    $('.closePageDialog').click(function () {
+                        layer.close(dIndex);
+                    });
+                }
+            });
+        });
+
+        form.on('submit(vnc-view)', function (data) {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            //layer.load(2);
+            var index2 = layer.load(3, {
+                shade: [0.1, '#fff'],
+                content: '<span class="loadtip">正在打开vnc，长时间没反应，可刷新</span>',
+                success: function (layer) {
+                    layer.find('.layui-layer-content').css({
+                        'padding-top': '30px',
+                        'width': '350px',
+                    });
+                    layer.find('.loadtip').css({
+                        'font-size':'18px',
+                        'color':'red',
+                        'margin-left':'5px'
+                    });
+                }
+            });
+
+
+            $.post(rootUrl+'startVnc',{hostid:hostid},function (data) {
+                //
+                if (data.code == 1) {
+                    setTimeout(function(){
+                        layer.closeAll('loading');
+                        //window.open(data.data.url);
+                        $('#govnc').attr("href",data.data);
+                        $('#govnc')[0].click();
+                    },1000);
+
+                    return false;
+                } else {
+                    layer.closeAll('loading');
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+
+        form.on('submit(flushVnc)', function (data) {
+            if(hostid==undefined||hostid==""){
+                layer.msg("请选择主机", {icon: 2});
+                return false
+            }
+            //layer.load(2);
+            var index2 = layer.load(3, {
+                shade: [0.1, '#fff'],
+                content: '<span class="loadtip">正在强制刷新并打开vnc，长时间没反应，可刷新</span>',
+                success: function (layer) {
+                    layer.find('.layui-layer-content').css({
+                        'padding-top': '30px',
+                        'width': '350px',
+                    });
+                    layer.find('.loadtip').css({
+                        'font-size':'18px',
+                        'color':'red',
+                        'margin-left':'5px'
+                    });
+                }
+            });
+
+
+            $.post(rootUrl+'flushVnc',{hostid:hostid},function (data) {
+                //
+                if (data.code == 1) {
+                    setTimeout(function(){
+                        layer.closeAll('loading');
+                        //window.open(data.data.url);
+                        $('#govnc').attr("href",data.data);
+                        $('#govnc')[0].click();
+                    },1000);
+
+                    return false;
+                } else {
+                    layer.closeAll('loading');
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },'json')
+        });
+        //重新安装操作系统
+        form.on('submit(reinstallSubmit)', function (data) {
+            var template_id=data.field.template;
+            var host_id=data.field.host_id;
+
+            layer.open({
+                type: 2,
+                maxmin: true,
+                title: '重装系统',
+                shade: 0.1,
+                area: [ '800px','600px'],
+                content: rootUrl +'/reinstallOs/hostid/'+host_id+'/os_id/'+template_id
+            });
+            return false;
+        });
+
+        $('#copy').click(function () {
+            layer.load(2);
+            $.get(rootUrl+'allotIp',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                console.log(data.data);
+                ip = '';
+                $(data.data).each(function (index,elem) {
+                    ip+=elem.ip+"\r\n"
+                });
+                copyText(ip)
+            },'json')
+        });
+
+        setInterval(function () {
+            $('.page-loading').hide();
+        },2000);
+
+        $.post(rootUrl+'runingStatus',{hostid:hostid},function (data) {
+            layer.closeAll('loading');
+            var data = data.data;
+            if (data.status=='on'){
+                $('#status').html('运行中');
+            }else if(data.status=='off'){
+                $('#status').html('关机');
+            }else{
+                $('#status').html(data.status);
+            }
+        },'json');
+
+        setInterval(function () {
+            $.post(rootUrl+'runingStatus',{hostid:hostid},function (data) {
+                layer.closeAll('loading');
+                var data = data.data;
+                if (data.status=='on'){
+                    $('#status').html('运行中');
+                }else if(data.status=='off'){
+                    $('#status').html('关机');
+                }else{
+                    $('#status').html(data.status);
+                }
+            },'json');
+        },3000);
+
+        // 图表tabs
+        getComponentData()
+        let myChart = null
+
+        $('#chartLi').on('click', function () {
+            setTimeout(function () {
+                myChart.resize()
+            }, 0);
+        });
+
+        async function getChartDataFn(index) {
+            let startTime = []
+            if (index === '7') { // 7天
+                startTime = moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD')
+            } else if (index === '3') { // 3天
+                startTime = moment(Date.now() - 3 * 24 * 3600 * 1000).format('YYYY-MM-DD')
+            } else if (index === '30') { // 30天
+                startTime = moment(Date.now() - 30 * 24 * 3600 * 1000).format('YYYY-MM-DD')
+            } else if (index === '24') { // 24h
+                startTime = moment(Date.now() - 24 * 3600 * 1000).format('YYYY-MM-DD')
+            } else if (index === '999') { // q全部
+                startTime = ''
+            }
+            const queryObj = {
+                host_id: hostid,
+                start_time: moment(startTime).valueOf()
+            }
+            $.ajax({
+                type: "post",
+                url: rootUrl+'/traffic',
+                data: queryObj,
+                success: function (data) {
+                    var obj = data.data.traffic || []
+                    var xName = []
+                    var inVal = []
+                    var outVal = []
+                    for (const item of obj) {
+                        xName.push(moment(item.time).format('MM-DD HH:mm:ss'))
+                        inVal.push(item.bindwidth_in)
+                        outVal.push(item.bindwidth_out)
+                    }
+                    chartFunc(index, xName, inVal, outVal, data.data.unit)
+                    if (data.code === 200) {
+                        var obj = data.data.traffic
+                        var xName = []
+                        var inVal = []
+                        var outVal = []
+                        for (const item of obj) {
+                            xName.push(moment(item.time).format('MM-DD HH:mm:ss'))
+                            inVal.push(item.bindwidth_in)
+                            outVal.push(item.bindwidth_out)
+                        }
+                        chartFunc(index, xName, inVal, outVal, data.data.unit)
+                    }
+                }
+            });
+        }
+
+        async function getComponentData() {
+            getChartDataFn('24');
+        }
+
+        function chartFunc(index, xNameArray, inValArray, outValArray, unitY) {
+            var inflow = '流入流量'
+            var outflow = '流出流量'
+            // 基于准备好的dom，初始化echarts实例
+            myChart = echarts.init(document.getElementById('balanceCharts'))
+            var option = {
+                tooltip: {
+                    show: true,
+                    backgroundColor: '#fff',
+                    borderColor: '#eee',
+                    showContent: true,
+                    extraCssText: 'box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);',
+                    textStyle: {
+                        color: '#1e1e2d',
+                        textBorderWidth: 1
+                    },
+                    trigger: 'axis',
+                    axisPointer: {
+                        color: '#D9DAEA'
+                    }
+                },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    bottom: '10%',
+                    top: '8%',
+                    containLabel: true
+                },
+                color: ['#007bfc', '#3fbf70'],
+                dataZoom: [ // 缩放
+                    {
+                        type: 'inside',
+                        throttle: 50
+                    }
+                ],
+                xAxis: {
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#1e1e2d'
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    type: 'category',
+                    boundaryGap: false,
+                    data: xNameArray
+                },
+                yAxis: {
+                    axisLabel: {
+                        // formatter: '{value}' + unitY
+                        formatter: function (value) {
+                            return value + unitY
+                        }
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    minorTick: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#f5f4f8'
+                        }
+                    },
+                    type: 'value'
+                },
+                series: [{
+                    name: inflow,
+                    type: 'line',
+                    smooth: true,
+                    data: inValArray
+                },
+                    {
+                        name: outflow,
+                        type: 'line',
+                        smooth: true,
+                        data: outValArray
+                    }
+                ]
+            }
+            myChart.setOption(option, true) // true重绘
+            window.addEventListener('resize', function () {
+                myChart.resize()
+            })
+        }
+
+        $('#chartSelect').change(function() {
+           let index =  $(this).val();
+            getChartDataFn(index);
+        });
+
+    })
+</script>
+
+<script>
+
+</script>
+</body>
+</html>

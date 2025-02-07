@@ -1,0 +1,3574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Modern Material Design Alpha-2.0.0 -->
+<!-- Theme by: Danvei -->
+
+<!-- 本软件为完全免费发布，供用户自由使用。 -->
+<!-- 我们严禁任何形式的重新销售或倒卖行为，并对该类行为保留法律追究的权利。 -->
+
+<!-- 如果您发现有人出售或滥用本软件，请立即向我们举报。 -->
+<!-- 同时，我们郑重声明，本软件不存在任何强制广告，若您遇到广告行为，请核实来源。 -->
+ 
+<!-- 感谢您的支持与理解！让我们共同维护一个自由、透明的技术共享环境。 -->
+{if 1==0}
+<!--已开启插件：myrtille VNC-->
+{else}
+<!--没开启-->
+{/if}
+   <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="青舟vps管理系统mmui">
+    <meta name="keywords" content="vps, 虚拟机, 云计算, 我的世界">
+    <meta name="author" content="Danvei">
+    <title>轻舟VPS管理系统 - {$host.host_name}</title>
+   
+     
+    <!-- 加载视口配置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 外部样式文件 -->
+    
+    <link rel="stylesheet" href="/static/component/mmui/mdui/1.0.2/css/mdui.min.css">
+    <link rel="stylesheet" href="/static/component/mmui/css/loading.css">
+    <link rel="stylesheet" href="/static/component/pear/css/pear.css"/>
+    <link rel="stylesheet" href="/static/component/awesome/css/control.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/static/component/mmui/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="/static/component/mmui/font-awesome/6.7.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/component/mmui/introjs/minified/introjs.min.css">
+    <link rel="stylesheet" href="/static/component/mmui/css/all.min.css">
+    <!-- 外部JS文件 -->
+   
+    <script src="/static/component/mmui/introjs/minified/intro.min.js"></script>
+    <script src="/static/component/mmui/js/loading.js"></script>
+    <script src="/static/component/mmui/echart/echarts.min.js"></script>
+    <script src="/static/component/layui/layui.js"></script>
+    <script src="/static/component/pear/pear.js"></script>
+    
+    <!-- 引入 Ant Design 图标 -->
+    <script src="https://unpkg.com/@ant-design/icons/dist/index.js" defer></script>
+
+    <!-- MDUI JS文件 -->
+    <script src="/static/component/mmui/mdui/1.0.2/js/mdui.min.js" defer></script>
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+<style>
+
+
+
+    </style>
+    
+
+</head>
+
+<script>
+   var _paq = window._paq = window._paq || [];
+
+// 简单哈希函数，用于生成 siteId
+function hashCode(str) {
+  var hash = 0, i, chr;
+  if (str.length === 0) return hash;
+  for (i = 0; i < str.length; i++) {
+    chr = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0; // 转为 32 位整数
+  }
+  return Math.abs(hash); // 返回正整数
+} 
+
+// 使用当前域名生成唯一的 siteId
+var currentDomain = window.location.hostname;
+var matomoSiteId = hashCode(currentDomain);
+
+// 初始化 Matomo 基本配置
+_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+_paq.push(["setCookieDomain", currentDomain]);
+
+// 使用预处理器注入的后端变量
+var isNat = "{$host.is_nat}"; // 是否使用 NAT
+var virtualType = "{$host.virtual_type}"; // 虚拟化类型
+var imageOS = "{$image_info.os_name}"; // 虚拟机操作系统
+
+// 调用 GeoIP API 获取用户 IP 和地区
+fetch('https://ipapi.co/json/')
+  .then(response => response.json())
+  .then(data => {
+    var userIP = data.ip || "Unknown"; // 用户 IP
+    var userRegion = data.region || "Unknown"; // 用户地区
+
+    // 获取当前的主题模式（暗色模式、亮色模式或毛玻璃模式）
+    function getCurrentTheme() {
+        if (localStorage.getItem('darkMode') === 'enabled' || isDarkMode()) {
+            return 'dark';
+        }
+        if (localStorage.getItem('glassMode') === 'enabled') {
+            return 'glass';
+        }
+        return 'light';  // 默认值为亮色模式
+    }
+
+    var currentTheme = getCurrentTheme();
+
+    // 动态传递用户 IP、地区和后端变量到 Matomo 如果你觉得不合适或者侵犯您的的隐私 ，请自行删除
+    _paq.push(['disableCookies']);
+    _paq.push(['setCustomDimension', 4, isNat]);             // 自定义维度 1：是否 NAT
+    _paq.push(['setCustomDimension', 1, virtualType]);       // 自定义维度 2：虚拟化类型
+    _paq.push(['setCustomDimension', 2, imageOS]);           // 自定义维度 3：虚拟机操作系统
+    _paq.push(['setCustomDimension', 3, "2.0.5"]);           // 自定义维度 4：模板版本
+    _paq.push(['setCustomDimension', 6, "shortened"]);            // 自定义维度 5：IP 地址（删除）
+    _paq.push(['setCustomDimension', 5, userRegion]);        // 自定义维度 6：地区
+    _paq.push(["setCustomDimension", 7,  "Debug Mode Disabled. InnerVersion:Lightingboat00b7"]); // 调试信息
+    _paq.push(["setCustomDimension", 8, currentDomain]);     // 当前域名
+    _paq.push(['setCustomDimension', 9, currentTheme]);      // 自定义维度 9：主题模式（dark/light/glass）
+
+    // 启用页面视图和链接追踪
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+
+    // 动态加载 Matomo 脚本
+    (function() {
+      var u = "//static.netmc.icu/";
+      _paq.push(["setTrackerUrl", u + "matomo.php"]);
+      _paq.push(["setSiteId", 1]); // 使用动态生成的 siteId
+      var d = document, g = d.createElement("script"), s = d.getElementsByTagName("script")[0];
+      g.async = true; g.src = u + "matomo.js"; s.parentNode.insertBefore(g, s);
+    })();
+  })
+  .catch(error => {
+    console.error("无法获取用户 IP 和地区信息", error);
+
+    // 如果获取失败，也加载 Matomo 脚本，并传递后端变量
+    _paq.push(["setCustomVariable", 1, "IsNAT", isNat, "visit"]); // 自定义变量：是否 NAT
+    _paq.push(["setCustomVariable", 2, "VirtualType", virtualType, "visit"]); // 自定义变量：虚拟化类型
+    _paq.push(["setCustomVariable", 3, "ImageOS", imageOS, "visit"]); // 自定义变量：虚拟机操作系统
+    _paq.push(["setCustomVariable", 8, "SiteDomain", currentDomain, "visit"]); // 当前域名
+
+    (function() {
+      var u = "//static.netmc.icu/";
+      _paq.push(["setTrackerUrl", u + "matomo.php"]);
+      _paq.push(["setSiteId", matomoSiteId]); // 使用动态生成的 siteId
+      var d = document, g = d.createElement("script"), s = d.getElementsByTagName("script")[0];
+      g.async = true; g.src = u + "matomo.js"; s.parentNode.insertBefore(g, s);
+    })();
+  });
+
+  </script>
+    
+<div class="page-loading">
+    <div class="loader-container">
+        
+            <div class="mdui-center loader"></div>
+            
+      
+    </div>
+</div>
+
+   
+<body class=" mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-auto mdui-theme-accent-indigo mdui-loaded pear-container ">
+<!--   菜单栏   -->
+
+<div class="ant-pro-layout-bg-list css-dev-only-do-not-override-5fybr3"><img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr" style="position: absolute; left: 85px; bottom: 100px; height: 303px;"><img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/C2TWRpJpiC0AAAAAAAAAAAAAFl94AQBr" style="position: absolute; bottom: -68px; right: -45px; height: 303px;"><img src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/F6vSTbj8KpYAAAAAAAAAAAAAFl94AQBr" style="position: absolute; bottom: 0px; left: 0px; width: 331px;"></div>
+
+
+
+<div class="appbar mdui-appbar mdui-appbar-fixed">
+  <div class="mdui-toolbar mdui-color-theme">
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon" id="menu1">
+      <i style="color:#000000e0"  data-step="8" data-intro="打开/关闭菜单，在菜单里您可以快速访问其他页面，包括重装系统，安全配置。" mdui-drawer="{target: '#leftdrawer'}" class="mdui-icon material-icons"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-lg mx-2 text-token-text-secondary"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></i>
+    </a>
+    <a style="color:#000000e0" href="javascript:;" class="mdui-typo-title mdui-ripple"><i class="mdui-icon material-icons  "><span role="img" aria-label="code-sandbox" class="anticon anticon-code-sandbox"><svg viewBox="64 64 896 896" focusable="false" data-icon="code-sandbox"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M709.6 210l.4-.2h.2L512 96 313.9 209.8h-.2l.7.3L151.5 304v416L512 928l360.5-208V304l-162.9-94zM482.7 843.6L339.6 761V621.4L210 547.8V372.9l272.7 157.3v313.4zM238.2 321.5l134.7-77.8 138.9 79.7 139.1-79.9 135.2 78-273.9 158-274-158zM814 548.3l-128.8 73.1v139.1l-143.9 83V530.4L814 373.1v175.2z"></path></svg></span></i>云管理系统</a>
+    <div class="mdui-toolbar-spacer"></div>
+   <!-- <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" >
+      <i style="color:#FFFFFF" class="mdui-icon material-icons mdui-ripple">search</i>
+    </a>-->
+        <!-- <button style="color:#00000073" id="glass-mode-toggle" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons">windows</i>
+            </button> -->
+            <button style="color:#00000073;" id="glass-mode-toggle" class="mdui-btn mdui-btn-icon" style="display: none;">
+                <i class="mdui-icon material-icons"><span role="img" aria-label="moon" class="anticon anticon-moon"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M120.1 770.6L443 823.2V543.8H120.1v226.8zm63.4-163.5h196.2v141.6l-196.2-31.9V607.1zm340.3 226.5l382 62.2v-352h-382v289.8zm63.4-226.5h255.3v214.4l-255.3-41.6V607.1zm-63.4-415.7v288.8h382V128.1l-382 63.3zm318.7 225.5H587.3V245l255.3-42.3v214.2zm-722.4 63.3H443V201.9l-322.9 53.5v224.8zM183.5 309l196.2-32.5v140.4H183.5V309z"></path></svg></span></i>
+    <button style="color:#00000073" id="dark-mode-toggle" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons"><span role="img" aria-label="moon" class="anticon anticon-moon"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M489.5 111.66c30.65-1.8 45.98 36.44 22.58 56.33A243.35 243.35 0 00426 354c0 134.76 109.24 244 244 244 72.58 0 139.9-31.83 186.01-86.08 19.87-23.38 58.07-8.1 56.34 22.53C900.4 745.82 725.15 912 512.5 912 291.31 912 112 732.69 112 511.5c0-211.39 164.29-386.02 374.2-399.65l.2-.01zm-81.15 79.75l-4.11 1.36C271.1 237.94 176 364.09 176 511.5 176 697.34 326.66 848 512.5 848c148.28 0 274.94-96.2 319.45-230.41l.63-1.93-.11.07a307.06 307.06 0 01-159.73 46.26L670 662c-170.1 0-308-137.9-308-308 0-58.6 16.48-114.54 46.27-162.47z"></path></svg></span></i>
+            </button>
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" onclick="location.reload();">
+      <i style="color:#00000073" class="mdui-icon material-icons"><span role="img" aria-label="reload" class="anticon anticon-reload"><svg viewBox="64 64 896 896" focusable="false" data-icon="reload"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M909.1 209.3l-56.4 44.1C775.8 155.1 656.2 92 521.9 92 290 92 102.3 279.5 102 511.5 101.7 743.7 289.8 932 521.9 932c181.3 0 335.8-115 394.6-276.1 1.5-4.2-.7-8.9-4.9-10.3l-56.7-19.5a8 8 0 00-10.1 4.8c-1.8 5-3.8 10-5.9 14.9-17.3 41-42.1 77.8-73.7 109.4A344.77 344.77 0 01655.9 829c-42.3 17.9-87.4 27-133.8 27-46.5 0-91.5-9.1-133.8-27A341.5 341.5 0 01279 755.2a342.16 342.16 0 01-73.7-109.4c-17.9-42.4-27-87.4-27-133.9s9.1-91.5 27-133.9c17.3-41 42.1-77.8 73.7-109.4 31.6-31.6 68.4-56.4 109.3-73.8 42.3-17.9 87.4-27 133.8-27 46.5 0 91.5 9.1 133.8 27a341.5 341.5 0 01109.3 73.8c9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47a8 8 0 003 14.1l175.6 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c-.1-6.6-7.8-10.3-13-6.2z"></path></svg></span></i>
+    </a>
+    <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple">
+      <i style="color:#FFFFFF" onclick="mdui.snackbar('别点了，啥也没');" class="mdui-icon material-icons">more_vert</i>
+    </a>-->
+  </div>
+ 
+</div>
+ <div id="wd" class="mdui-tab" style="display:none"  mdui-tab>
+
+  <a href="#tab-1" id="refreshtk" class="mdui-ripple mdui-ripple-white">监控</a>
+   <a href="#tab-0" id="refreshtk" class="mdui-ripple mdui-ripple-white">信息</a> 
+<a href="#tab-2" class="mdui-ripple mdui-ripple-white">电源</a>
+<a href="#tab-3" class="mdui-ripple mdui-ripple-white">重装</a>
+<a href="#tab-4" class="mdui-ripple mdui-ripple-white">光驱</a>
+<a href="#tab-5" class="mdui-ripple mdui-ripple-white">网络</a>
+<a href="#tab-6" class="mdui-ripple mdui-ripple-white">VNC</a>
+<a href="#tab-7" class="mdui-ripple mdui-ripple-white">快照</a>
+<a href="#tab-8" class="mdui-ripple mdui-ripple-white">备份</a>
+<a href="#tab-9" class="mdui-ripple mdui-ripple-white">策略</a>
+<a href="#tab-10" class="mdui-ripple mdui-ripple-white">端口映射</a>
+<a href="#tab-11" class="mdui-ripple mdui-ripple-white">挂机宝建站</a>
+<a href="#tab-12" id="refreshtk" class="mdui-ripple mdui-ripple-white">信息</a> 
+<!--<a href="#tab-11" class="mdui-ripple mdui-ripple-white">挂机宝建站</a>-->
+
+
+
+  </div>
+
+
+
+  <!-- 默认抽屉栏在左侧 -->
+  <div class="mdui-drawer" id="leftdrawer">
+
+    <ul class="mdui-list" mdui-collapse="{accordion: false}">
+      
+      <!-- 面板 -->
+      <li value="0" class="mdui-list-item mdui-ripple mdui-list-item-active">
+        <i class="mdui-list-item-icon mdui-icon material-icons "><span role="img" aria-label="dashboard" class="anticon anticon-dashboard"><svg viewBox="64 64 896 896" focusable="false" data-icon="dashboard"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M924.8 385.6a446.7 446.7 0 00-96-142.4 446.7 446.7 0 00-142.4-96C631.1 123.8 572.5 112 512 112s-119.1 11.8-174.4 35.2a446.7 446.7 0 00-142.4 96 446.7 446.7 0 00-96 142.4C75.8 440.9 64 499.5 64 560c0 132.7 58.3 257.7 159.9 343.1l1.7 1.4c5.8 4.8 13.1 7.5 20.6 7.5h531.7c7.5 0 14.8-2.7 20.6-7.5l1.7-1.4C901.7 817.7 960 692.7 960 560c0-60.5-11.9-119.1-35.2-174.4zM761.4 836H262.6A371.12 371.12 0 01140 560c0-99.4 38.7-192.8 109-263 70.3-70.3 163.7-109 263-109 99.4 0 192.8 38.7 263 109 70.3 70.3 109 163.7 109 263 0 105.6-44.5 205.5-122.6 276zM623.5 421.5a8.03 8.03 0 00-11.3 0L527.7 506c-18.7-5-39.4-.2-54.1 14.5a55.95 55.95 0 000 79.2 55.95 55.95 0 0079.2 0 55.87 55.87 0 0014.5-54.1l84.5-84.5c3.1-3.1 3.1-8.2 0-11.3l-28.3-28.3zM490 320h44c4.4 0 8-3.6 8-8v-80c0-4.4-3.6-8-8-8h-44c-4.4 0-8 3.6-8 8v80c0 4.4 3.6 8 8 8zm260 218v44c0 4.4 3.6 8 8 8h80c4.4 0 8-3.6 8-8v-44c0-4.4-3.6-8-8-8h-80c-4.4 0-8 3.6-8 8zm12.7-197.2l-31.1-31.1a8.03 8.03 0 00-11.3 0l-56.6 56.6a8.03 8.03 0 000 11.3l31.1 31.1c3.1 3.1 8.2 3.1 11.3 0l56.6-56.6c3.1-3.1 3.1-8.2 0-11.3zm-458.6-31.1a8.03 8.03 0 00-11.3 0l-31.1 31.1a8.03 8.03 0 000 11.3l56.6 56.6c3.1 3.1 8.2 3.1 11.3 0l31.1-31.1c3.1-3.1 3.1-8.2 0-11.3l-56.6-56.6zM262 530h-80c-4.4 0-8 3.6-8 8v44c0 4.4 3.6 8 8 8h80c4.4 0 8-3.6 8-8v-44c0-4.4-3.6-8-8-8z"></path></svg></span></i>
+        <div id="refreshtk" class="mdui-list-item-content">面板</div>
+      </li>
+
+      <!-- 系统 -->
+      <li class="mdui-collapse-item mdui-collapse-item-open">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple t11" >
+          <i class="mdui-list-item-icon mdui-icon material-icons"><span role="img" aria-label="setting" class="anticon anticon-setting"><svg viewBox="64 64 896 896" focusable="false" data-icon="setting"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M924.8 625.7l-65.5-56c3.1-19 4.7-38.4 4.7-57.8s-1.6-38.8-4.7-57.8l65.5-56a32.03 32.03 0 009.3-35.2l-.9-2.6a443.74 443.74 0 00-79.7-137.9l-1.8-2.1a32.12 32.12 0 00-35.1-9.5l-81.3 28.9c-30-24.6-63.5-44-99.7-57.6l-15.7-85a32.05 32.05 0 00-25.8-25.7l-2.7-.5c-52.1-9.4-106.9-9.4-159 0l-2.7.5a32.05 32.05 0 00-25.8 25.7l-15.8 85.4a351.86 351.86 0 00-99 57.4l-81.9-29.1a32 32 0 00-35.1 9.5l-1.8 2.1a446.02 446.02 0 00-79.7 137.9l-.9 2.6c-4.5 12.5-.8 26.5 9.3 35.2l66.3 56.6c-3.1 18.8-4.6 38-4.6 57.1 0 19.2 1.5 38.4 4.6 57.1L99 625.5a32.03 32.03 0 00-9.3 35.2l.9 2.6c18.1 50.4 44.9 96.9 79.7 137.9l1.8 2.1a32.12 32.12 0 0035.1 9.5l81.9-29.1c29.8 24.5 63.1 43.9 99 57.4l15.8 85.4a32.05 32.05 0 0025.8 25.7l2.7.5a449.4 449.4 0 00159 0l2.7-.5a32.05 32.05 0 0025.8-25.7l15.7-85a350 350 0 0099.7-57.6l81.3 28.9a32 32 0 0035.1-9.5l1.8-2.1c34.8-41.1 61.6-87.5 79.7-137.9l.9-2.6c4.5-12.3.8-26.3-9.3-35zM788.3 465.9c2.5 15.1 3.8 30.6 3.8 46.1s-1.3 31-3.8 46.1l-6.6 40.1 74.7 63.9a370.03 370.03 0 01-42.6 73.6L721 702.8l-31.4 25.8c-23.9 19.6-50.5 35-79.3 45.8l-38.1 14.3-17.9 97a377.5 377.5 0 01-85 0l-17.9-97.2-37.8-14.5c-28.5-10.8-55-26.2-78.7-45.7l-31.4-25.9-93.4 33.2c-17-22.9-31.2-47.6-42.6-73.6l75.5-64.5-6.5-40c-2.4-14.9-3.7-30.3-3.7-45.5 0-15.3 1.2-30.6 3.7-45.5l6.5-40-75.5-64.5c11.3-26.1 25.6-50.7 42.6-73.6l93.4 33.2 31.4-25.9c23.7-19.5 50.2-34.9 78.7-45.7l37.9-14.3 17.9-97.2c28.1-3.2 56.8-3.2 85 0l17.9 97 38.1 14.3c28.7 10.8 55.4 26.2 79.3 45.8l31.4 25.8 92.8-32.9c17 22.9 31.2 47.6 42.6 73.6L781.8 426l6.5 39.9zM512 326c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm79.2 255.2A111.6 111.6 0 01512 614c-29.9 0-58-11.7-79.2-32.8A111.6 111.6 0 01400 502c0-29.9 11.7-58 32.8-79.2C454 401.6 482.1 390 512 390c29.9 0 58 11.6 79.2 32.8A111.6 111.6 0 01624 502c0 29.9-11.7 58-32.8 79.2z"></path></svg></span></i>
+          <div class="mdui-list-item-content">系统</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+          <li value="2" class="mdui-list-item mdui-ripple">电源</li>
+          <li value="3" class="mdui-list-item mdui-ripple">重装</li>
+          <li value="4" class="mdui-list-item mdui-ripple">光驱</li>
+          <li value="6" class="mdui-list-item mdui-ripple">VNC</li>
+        </ul>
+      </li>
+
+      <!-- 数据 -->
+      <li class="mdui-collapse-item mdui-collapse-item-open">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons"><span role="img" aria-label="database" class="anticon anticon-database"><svg viewBox="64 64 896 896" focusable="false" data-icon="database"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M832 64H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32zm-600 72h560v208H232V136zm560 480H232V408h560v208zm0 272H232V680h560v208zM304 240a40 40 0 1080 0 40 40 0 10-80 0zm0 272a40 40 0 1080 0 40 40 0 10-80 0zm0 272a40 40 0 1080 0 40 40 0 10-80 0z"></path></svg></span></i>
+          <div class="mdui-list-item-content">数据</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+          <li value="7" class="mdui-list-item mdui-ripple">快照</li>
+          <li value="8" class="mdui-list-item mdui-ripple">备份</li>
+        </ul>
+      </li>
+
+      <!-- 网络 -->
+      <li class="mdui-collapse-item mdui-collapse-item-open">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons"><span role="img" aria-label="wifi" class="anticon anticon-wifi"><svg viewBox="64 64 896 896" focusable="false" data-icon="wifi"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M723 620.5C666.8 571.6 593.4 542 513 542s-153.8 29.6-210.1 78.6a8.1 8.1 0 00-.8 11.2l36 42.9c2.9 3.4 8 3.8 11.4.9C393.1 637.2 450.3 614 513 614s119.9 23.2 163.5 61.5c3.4 2.9 8.5 2.5 11.4-.9l36-42.9c2.8-3.3 2.4-8.3-.9-11.2zm117.4-140.1C751.7 406.5 637.6 362 513 362s-238.7 44.5-327.5 118.4a8.05 8.05 0 00-1 11.3l36 42.9c2.8 3.4 7.9 3.8 11.2 1C308 472.2 406.1 434 513 434s205 38.2 281.2 101.6c3.4 2.8 8.4 2.4 11.2-1l36-42.9c2.8-3.4 2.4-8.5-1-11.3zm116.7-139C835.7 241.8 680.3 182 511 182c-168.2 0-322.6 59-443.7 157.4a8 8 0 00-1.1 11.4l36 42.9c2.8 3.3 7.8 3.8 11.1 1.1C222 306.7 360.3 254 511 254c151.8 0 291 53.5 400 142.7 3.4 2.8 8.4 2.3 11.2-1.1l36-42.9c2.9-3.4 2.4-8.5-1.1-11.3zM448 778a64 64 0 10128 0 64 64 0 10-128 0z"></path></svg></span></i>
+          <div class="mdui-list-item-content">网络</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+          <li value="5" class="mdui-list-item mdui-ripple">网络</li>
+          <li value="9" class="mdui-list-item mdui-ripple">策略</li>
+          {if $host.is_nat==1}
+          <li value="10" class="mdui-list-item mdui-ripple">端口映射</li>
+          
+          {/if}
+          {if $host.domain_num!=0}
+          <li value="11" class="mdui-list-item mdui-ripple">挂机宝建站</li>
+          {/if}
+          <li value="12" style="display: none;" class="mdui-list-item mdui-ripple">AiChat</li>
+          <li value="1" id="eggButton" class="mdui-text-color-red mdui-list-item mdui-ripple">      </li>
+        </ul>
+      </li>
+
+      <!-- 退出 -->
+      <li href="/" onclick="
+history.back();" class="mdui-list-item mdui-ripple" val="exit">
+        <i class="mdui-list-item-icon mdui-icon material-icons"><span role="img" aria-label="logout" class="anticon anticon-logout"><svg viewBox="64 64 896 896" focusable="false" data-icon="logout"style="      width: 20px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M868 732h-70.3c-4.8 0-9.3 2.1-12.3 5.8-7 8.5-14.5 16.7-22.4 24.5a353.84 353.84 0 01-112.7 75.9A352.8 352.8 0 01512.4 866c-47.9 0-94.3-9.4-137.9-27.8a353.84 353.84 0 01-112.7-75.9 353.28 353.28 0 01-76-112.5C167.3 606.2 158 559.9 158 512s9.4-94.2 27.8-137.8c17.8-42.1 43.4-80 76-112.5s70.5-58.1 112.7-75.9c43.6-18.4 90-27.8 137.9-27.8 47.9 0 94.3 9.3 137.9 27.8 42.2 17.8 80.1 43.4 112.7 75.9 7.9 7.9 15.3 16.1 22.4 24.5 3 3.7 7.6 5.8 12.3 5.8H868c6.3 0 10.2-7 6.7-12.3C798 160.5 663.8 81.6 511.3 82 271.7 82.6 79.6 277.1 82 516.4 84.4 751.9 276.2 942 512.4 942c152.1 0 285.7-78.8 362.3-197.7 3.4-5.3-.4-12.3-6.7-12.3zm88.9-226.3L815 393.7c-5.3-4.2-13-.4-13 6.3v76H488c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h314v76c0 6.7 7.8 10.5 13 6.3l141.9-112a8 8 0 000-12.6z"></path></svg></span></i>
+        <div class="mdui-list-item-content">退出</div>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="mdui-container">
+    
+    
+    <div class="mdui-p-a-2 mdui-container" id="tab-1"  >
+        <div class="mdui-row">                  
+            <div class=" bj mdui-col-md-12" >
+     
+         
+           
+      
+          
+           <div class=" mdui-col-md-4" style="display: flex;margin:0px;padding: 0px;flex-direction: column-reverse; margin-top: 10px;">
+                   <div class="mdui-card" style="    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;">
+  <div class="mdui-card-media">
+      
+   
+    <div id="img"  style=" width:100%;height:100%;bottom: 0; z-index: 2;" style="background-image:url(/static/component/mmui/img/2024/07/03/8ltsf4.jpg)">
+        
+        <img alt="默认主机屏" height="100%" width="100%" src="/static/component/mmui/img/2024/07/03/8ltsf4.jpg">
+    </div>
+    
+    <div class="mdui-card-media-covered">
+      <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">{$host.host_name}</div>
+        
+        <div class="mdui-card-primary-subtitle"> 主机状态：<span id="status">运行中</span></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="mdui-card-actions" style="margin: 10px 0;display: flex;padding: 16px;padding-left: 32px;padding-right: 32px;" data-step="4" data-intro="这里是电源操作区，分别是开关机 重启 强制关机， 如果您忘记了，请把鼠标悬浮在按钮上，可以查看具体作用。">
+    <div class="ptc" style="display: none;"> <button mdui-tooltip="{content: '关机',delay: 300, position: 'top'}" class="ptc mdui-btn-block  mdui-center mdui-btn  mdui-ripple close " style="
+ 
+    
+    border-radius: 4px 0 0 4px;
+    /* grid: unset; */
+    /* display: grid; */
+    flex: 1 1 auto;
+    border: 1px solid #d9d9d9;
+    min-width: 1px;
+    display: none;
+">
+  <span role="img" aria-label="moon" class="anticon anticon-moon" style="
+    color: #ffc107c2;
+"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon" style="
+    width: 22px;
+    /* transform: translateY(10px); */
+    transform: translate(0px, 5px);!;!;!;!;
+    /* transform: translateX(1px); */
+    " fill="currentColor" aria-hidden="true"><path d="M705.6 124.9a8 8 0 00-11.6 7.2v64.2c0 5.5 2.9 10.6 7.5 13.6a352.2 352.2 0 0162.2 49.8c32.7 32.8 58.4 70.9 76.3 113.3a355 355 0 0127.9 138.7c0 48.1-9.4 94.8-27.9 138.7a355.92 355.92 0 01-76.3 113.3 353.06 353.06 0 01-113.2 76.4c-43.8 18.6-90.5 28-138.5 28s-94.7-9.4-138.5-28a353.06 353.06 0 01-113.2-76.4A355.92 355.92 0 01184 650.4a355 355 0 01-27.9-138.7c0-48.1 9.4-94.8 27.9-138.7 17.9-42.4 43.6-80.5 76.3-113.3 19-19 39.8-35.6 62.2-49.8 4.7-2.9 7.5-8.1 7.5-13.6V132c0-6-6.3-9.8-11.6-7.2C178.5 195.2 82 339.3 80 506.3 77.2 745.1 272.5 943.5 511.2 944c239 .5 432.8-193.3 432.8-432.4 0-169.2-97-315.7-238.4-386.7zM480 560h64c4.4 0 8-3.6 8-8V88c0-4.4-3.6-8-8-8h-64c-4.4 0-8 3.6-8 8v464c0 4.4 3.6 8 8 8z"></path></svg></span>
+</button></div>
+<div class="stc" style="display:inline-block;">
+<button mdui-tooltip="{content: '开机',delay: 300, position: 'top'}" class=" mdui-btn-block  mdui-center mdui-btn  mdui-ripple  start" style="
+   
+   border-radius: 4px 0 0 4px;
+    /* grid: unset; */
+    /* display: grid; */
+    flex: 1 1 auto;
+    border: 1px solid #d9d9d9;
+    min-width: 1px;
+">
+  <span role="img" aria-label="moon" class="anticon anticon-moon" style="
+    color: #5fb878cc;
+"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon" style="
+    width: 22px;
+    /* transform: translateY(10px); */
+    transform: translate(0px, 5px);!;!;!;!;
+    /* transform: translateX(1px); */
+    " fill="currentColor" aria-hidden="true"><path d="M705.6 124.9a8 8 0 00-11.6 7.2v64.2c0 5.5 2.9 10.6 7.5 13.6a352.2 352.2 0 0162.2 49.8c32.7 32.8 58.4 70.9 76.3 113.3a355 355 0 0127.9 138.7c0 48.1-9.4 94.8-27.9 138.7a355.92 355.92 0 01-76.3 113.3 353.06 353.06 0 01-113.2 76.4c-43.8 18.6-90.5 28-138.5 28s-94.7-9.4-138.5-28a353.06 353.06 0 01-113.2-76.4A355.92 355.92 0 01184 650.4a355 355 0 01-27.9-138.7c0-48.1 9.4-94.8 27.9-138.7 17.9-42.4 43.6-80.5 76.3-113.3 19-19 39.8-35.6 62.2-49.8 4.7-2.9 7.5-8.1 7.5-13.6V132c0-6-6.3-9.8-11.6-7.2C178.5 195.2 82 339.3 80 506.3 77.2 745.1 272.5 943.5 511.2 944c239 .5 432.8-193.3 432.8-432.4 0-169.2-97-315.7-238.4-386.7zM480 560h64c4.4 0 8-3.6 8-8V88c0-4.4-3.6-8-8-8h-64c-4.4 0-8 3.6-8 8v464c0 4.4 3.6 8 8 8z"></path></svg></span>
+
+</button></div>
+
+
+
+<button mdui-tooltip="{content: '重启',delay: 300, position: 'top'}" class="mdui-center mdui-btn mdui-btn-block  mdui-ripple restart" style="
+    flex: 1 1 auto;
+    border-radius: 0px;
+    color: aliceblue !;!;
+    border: 1px solid #d9d9d9;
+    border-left: none;
+    border-right: none;
+    min-width: 1px;
+">
+  <span role="img" aria-label="moon" class="anticon anticon-moon" style="
+    color: #2d8cf0;
+"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon" style="
+    width: 22px;
+    /* transform: translateY(10px); */
+    transform: translate(0px, 5px);!;!;!;!;
+    /* transform: translateX(1px); */
+    " fill="currentColor" aria-hidden="true"><path d="M909.1 209.3l-56.4 44.1C775.8 155.1 656.2 92 521.9 92 290 92 102.3 279.5 102 511.5 101.7 743.7 289.8 932 521.9 932c181.3 0 335.8-115 394.6-276.1 1.5-4.2-.7-8.9-4.9-10.3l-56.7-19.5a8 8 0 00-10.1 4.8c-1.8 5-3.8 10-5.9 14.9-17.3 41-42.1 77.8-73.7 109.4A344.77 344.77 0 01655.9 829c-42.3 17.9-87.4 27-133.8 27-46.5 0-91.5-9.1-133.8-27A341.5 341.5 0 01279 755.2a342.16 342.16 0 01-73.7-109.4c-17.9-42.4-27-87.4-27-133.9s9.1-91.5 27-133.9c17.3-41 42.1-77.8 73.7-109.4 31.6-31.6 68.4-56.4 109.3-73.8 42.3-17.9 87.4-27 133.8-27 46.5 0 91.5 9.1 133.8 27a341.5 341.5 0 01109.3 73.8c9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47a8 8 0 003 14.1l175.6 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c-.1-6.6-7.8-10.3-13-6.2z"></path></svg></span>
+</button><button mdui-tooltip="{content: '强制关机',delay: 300, position: 'top'}" class="mdui-center mdui-btn mdui-btn-block  mdui-ripple power" style="
+    flex: 1 1 auto;
+    border-radius: 0 4px 4px 0;
+    border: 1px solid #d9d9d9;
+    min-width: 1px;
+">
+  <span role="img" aria-label="moon" class="anticon anticon-moon" style="
+    color: #ff5722;
+"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon" style="
+    width: 22px;
+    /* transform: translateY(10px); */
+    transform: translate(0px, 5px);!;!;!;!;
+    /* transform: translateX(1px); */
+    " fill="currentColor" aria-hidden="true"><path d="M917.7 148.8l-42.4-42.4c-1.6-1.6-3.6-2.3-5.7-2.3s-4.1.8-5.7 2.3l-76.1 76.1a199.27 199.27 0 00-112.1-34.3c-51.2 0-102.4 19.5-141.5 58.6L432.3 308.7a8.03 8.03 0 000 11.3L704 591.7c1.6 1.6 3.6 2.3 5.7 2.3 2 0 4.1-.8 5.7-2.3l101.9-101.9c68.9-69 77-175.7 24.3-253.5l76.1-76.1c3.1-3.2 3.1-8.3 0-11.4zM769.1 441.7l-59.4 59.4-186.8-186.8 59.4-59.4c24.9-24.9 58.1-38.7 93.4-38.7 35.3 0 68.4 13.7 93.4 38.7 24.9 24.9 38.7 58.1 38.7 93.4 0 35.3-13.8 68.4-38.7 93.4zm-190.2 105a8.03 8.03 0 00-11.3 0L501 613.3 410.7 523l66.7-66.7c3.1-3.1 3.1-8.2 0-11.3L441 408.6a8.03 8.03 0 00-11.3 0L363 475.3l-43-43a7.85 7.85 0 00-5.7-2.3c-2 0-4.1.8-5.7 2.3L206.8 534.2c-68.9 69-77 175.7-24.3 253.5l-76.1 76.1a8.03 8.03 0 000 11.3l42.4 42.4c1.6 1.6 3.6 2.3 5.7 2.3s4.1-.8 5.7-2.3l76.1-76.1c33.7 22.9 72.9 34.3 112.1 34.3 51.2 0 102.4-19.5 141.5-58.6l101.9-101.9c3.1-3.1 3.1-8.2 0-11.3l-43-43 66.7-66.7c3.1-3.1 3.1-8.2 0-11.3l-36.6-36.2zM441.7 769.1a131.32 131.32 0 01-93.4 38.7c-35.3 0-68.4-13.7-93.4-38.7a131.32 131.32 0 01-38.7-93.4c0-35.3 13.7-68.4 38.7-93.4l59.4-59.4 186.8 186.8-59.4 59.4z"></path></svg></span>
+</button>
+</div></div>
+                </div>      
+       
+    <div class=" mdui-col-md-8" style="display: flex;flex-direction: row;align-items: stretch; margin-top: 10px;padding-left: 8px;
+    padding-right: 8px;">  
+     <div class="mdui-card" style="width:100%; margin: 0;"> 
+        <div class="mdui-row-md-3" style="width:100%;height: 100%;margin: 0;" data-step="1" data-intro="这是信息界面, 双击对应条目可以复制内容。手机可以点旁边的小箭头折叠展开信息面板。" >
+            <!-- 系统信息 -->
+            <div class="mdui-col mdui-col-sm-4">
+              <ul class="mdui-list" mdui-collapse="{accordion: false}">
+                <li class="mdui-collapse-item mdui-collapse-item-open">
+                  <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                    <i class="mdui-text-color-green mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></i>
+                    <div class="mdui-list-item-content">系统</div>
+                    <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                  </div>
+                  <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                    <li class="mdui-list-item mdui-ripple " ondblclick="ctc(this)">
+                      <span class="label">主机名称：</span>
+                      <span class="value">{$host.host_name}</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">所在区域：</span>
+                      <span class="value">{$area.area_name}</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">所在线路：</span>
+                      <span class="value">{$line_info.line_name}</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">操作系统：</span>
+                      <span class="value">{$image_info.os_name}</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">虚拟方案：</span>
+                      <span class="value">{$host.virtual_type}</span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          
+            <!-- 配置信息 -->
+            <div class="mdui-col mdui-col-sm-4">
+              <ul class="mdui-list" mdui-collapse="{accordion: false}">
+                <li class="mdui-collapse-item mdui-collapse-item-open">
+                  <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                    <i class="mdui-text-color-green mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></i>
+                    <div class="mdui-list-item-content">配置</div>
+                    <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                  </div>
+                  <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">核心数量：</span>
+                      <span class="value">{$host.cpu} 核心</span>
+                    </li >  
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">实际内存：</span>
+                      <span class="value">{$host.memory} GB</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">实际带宽：</span>
+                      <span class="value">{$host.bandwidth} MB</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">数据硬盘：</span>
+                      <span class="value">{$host.hard_disks} GB</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="copyToClip('{if $host.is_nat==1}{$network['eth1'][0]['public_ip']}:{/if}{$port}')">
+                      <span class="label">远程地址：</span>
+                      <span class="value">{if $host.is_nat==1}{$network['eth1'][0]['public_ip']}:{/if} {$port} {if 1==0}<a style="height=3px" class="cada mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-icon" onclick="link()"  mdui-tooltip="{content: '直接远程连接',delay: 300, position: 'top'}"><i class="mdui-icon material-icons"><span role="img" aria-label="edit" class="anticon anticon-edit"><span role="img" aria-label="edit" class="anticon anticon-edit" style="
+                        width: 6px;
+                        /* line-height: 3px; */
+                    "><svg viewBox="64 64 896 896" focusable="false" data-icon="edit" width="20px" height="20px" fill="currentColor" aria-hidden="true" style="
+                        width: 25px;
+                        height: 20px;
+                        /* align-self: center; */
+                    "><path d="M574 665.4a8.03 8.03 0 00-11.3 0L446.5 781.6c-53.8 53.8-144.6 59.5-204 0-59.5-59.5-53.8-150.2 0-204l116.2-116.2c3.1-3.1 3.1-8.2 0-11.3l-39.8-39.8a8.03 8.03 0 00-11.3 0L191.4 526.5c-84.6 84.6-84.6 221.5 0 306s221.5 84.6 306 0l116.2-116.2c3.1-3.1 3.1-8.2 0-11.3L574 665.4zm258.6-474c-84.6-84.6-221.5-84.6-306 0L410.3 307.6a8.03 8.03 0 000 11.3l39.7 39.7c3.1 3.1 8.2 3.1 11.3 0l116.2-116.2c53.8-53.8 144.6-59.5 204 0 59.5 59.5 53.8 150.2 0 204L665.3 562.6a8.03 8.03 0 000 11.3l39.8 39.8c3.1 3.1 8.2 3.1 11.3 0l116.2-116.2c84.5-84.6 84.5-221.5 0-306.1zM610.1 372.3a8.03 8.03 0 00-11.3 0L372.3 598.7a8.03 8.03 0 000 11.3l39.6 39.6c3.1 3.1 8.2 3.1 11.3 0l226.4-226.4c3.1-3.1 3.1-8.2 0-11.3l-39.5-39.6z"></path></svg></span></span></i></a></span>
+                    {/if}
+                
+                
+                </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          
+            <!-- 远程信息 -->
+            <div class="mdui-col mdui-col-sm-4" style="display: none;">
+              <ul class="mdui-list" mdui-collapse="{accordion: false}">
+                <li class="mdui-collapse-item mdui-collapse-item-open">
+                  <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                    <i class="mdui-text-color-green mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></i>
+                    <div class="mdui-list-item-content">远程</div>
+                    <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                  </div>
+                  <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">TD 识别码：</span>
+                      <span class="value">获取中...</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">TD 验证码：</span>
+                      <span class="value">获取中...</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">SUN 识别码：</span>
+                      <span class="value">获取中...</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple"  ondblclick="ctc(this)">
+                      <span class="label">SUN 验证码：</span>
+                      <span class="value">获取中...</span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          
+            <!-- 信息 -->
+            <div class="mdui-col mdui-col-sm-4">
+              <ul class="mdui-list" mdui-collapse="{accordion: false}">
+                <li class="mdui-collapse-item mdui-collapse-item-open">
+                  <div class="mdui-collapse-item-header mdui-list-item mdui-ripple b11">
+                    <i class="mdui-text-color-green mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></i>
+                    <div class="mdui-list-item-content">信息</div>
+                    <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                  </div>
+                  <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                    <li class="mdui-list-item mdui-ripple"  ondblclick='copyToClip("{$host.buy_time|datetime=###,'Y-m-d'}")'>
+                      <span class="label">开通日期：</span>
+                      <span class="value">{$host.buy_time|datetime=###,'Y-m-d'}</span>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$host.end_time|datetime=###,'Y-m-d'}")'>
+                      <span class="label">到期日期：</span>
+                      <span class="value">{$host.end_time|datetime=###,'Y-m-d'}</span>
+                    </li>
+
+                    <li class="mdui-list-item mdui-ripple" ondblclick='copyToClip("Lightboat")' >
+                      <span class="label">调试信息：</span>
+                      <span class="value">alpha-2.0.4</span>
+                    </li>
+
+
+                    <li data-step="2" data-intro="这是面板密码。 双击对应文本可以复制密码 ，点击小眼睛可以查看， 点击笔可以修改。"  class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$host.panel_password}")'>
+                        <span class="label">面板密码：</span> <span class="value"></span><code mdui-tooltip="{content: '双击复制',delay: 300, position: 'top'}"  class="password" style="font-family: auto;margin-right: 5px;">••••••</code>
+                        <i class="password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '显示密码',delay: 300, position: 'top'}" data-password="{$host.panel_password}" style="cursor: pointer;"><span role="img" aria-label="eye" class="anticon anticon-eye"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path></svg></span></i>
+                        <i class="password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '隐藏密码',delay: 300, position: 'top'}" data-password="••••••" style="cursor: pointer;display: none;"><span role="img" aria-label="eye-invisible" class="anticon anticon-eye-invisible"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye-invisible"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"></path><path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"></path></svg></span></i>&nbsp 
+                        <a style="height=3px" class="cada mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-icon" id="panel-pass" mdui-tooltip="{content: '修改密码',delay: 300, position: 'top'}" style="margin-left: 10px;"><i class="mdui-icon material-icons"><span role="img" aria-label="edit" class="anticon anticon-edit"><span role="img" aria-label="edit" class="anticon anticon-edit" style="
+    width: 6px;
+    /* line-height: 3px; */
+"><svg viewBox="64 64 896 896" focusable="false" data-icon="edit" width="20px" height="20px" fill="currentColor" aria-hidden="true" style="
+    width: 25px;
+    height: 20px;
+    /* align-self: center; */
+"><path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89z"></path></svg></span></i></a>
+                    </span></li>
+                   
+                  <li data-step="3" data-intro="这是系统密码。 修改请保证系统处于运行状态， 双击对应文本可以复制密码， 点击小眼睛可以查看 ，点击笔可以修改。" class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$host.os_password}")'>
+                    <span class="label">系统密码：</span> <span class="value"></span><code mdui-tooltip="{content: '双击复制',delay: 300, position: 'top'}"  class="password" style="font-family: auto;margin-right: 5px;">••••••</code>
+                            <i class="password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '显示密码',delay: 300, position: 'top'}" data-password="{$host.os_password}" style="cursor: pointer;"><span role="img" aria-label="eye" class="anticon anticon-eye"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path></svg></span></i>
+                            <i class=" password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '隐藏密码',delay: 300, position: 'top'}" data-password="••••••" style="cursor: pointer;display: none;"><span role="img" aria-label="eye-invisible" class="anticon anticon-eye-invisible"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye-invisible"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"></path><path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"></path></svg></span></i>&nbsp 
+                            <a style="height=3px" mdui-tooltip="{content: '修改密码',delay: 300, position: 'top'}" class=" cada mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-icon" id="system-pass" style="margin-left: 10px;"><i class="mdui-icon material-icons"><span role="img" aria-label="edit" class="anticon anticon-edit"><span role="img" aria-label="edit" class="anticon anticon-edit" style="
+    width: 6px;
+    /* line-height: 3px; */
+"><svg viewBox="64 64 896 896" focusable="false" data-icon="edit" width="20px" height="20px" fill="currentColor" aria-hidden="true" style="
+    width: 25px;
+    height: 20px;
+    /* align-self: center; */
+"><path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89z"></path></svg></span></i></a>
+                        </span></li>
+
+
+
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+                                     
+           </div>                          
+                                   
+                                   
+                     </div>              
+                   </div> 
+        </div>   
+        <div  class="mdui-row">  
+        <div data-step="5" data-intro="这里是快捷操作区，点击加号创建新条目。或者点击查看详情跳转到对应页面。" class="mdui-col-md-12 wc" style="
+         
+">
+            
+        {if $host.is_nat==1}
+                      
+                         
+<div class="mdui-col-sm-3 " style=""><div class="mdui-card cc12" style="
+    display: flex;
+    
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class=" tittle mdui-typo-title">端口映射 </div>
+        <div class="mdui-card-primary-subtitle">数目：<span id="portCount">0</span>/{$host.port_num}</div> 
+    
+    <div class="btlist">
+    
+        <button class="mdui-btn fcrea  mdui-btn-icon cada mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="margin-top: 4px;" lay-filter="forwardPort-create" lay-submit="">
+ <i class="mdui-icon material-icons"><span role="img" aria-label="plus" class="anticon anticon-plus"><svg viewBox="64 64 896 896" focusable="false" data-icon="plus"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"></path><path d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"></path></svg></span></i>   
+</button>
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(10))" class="mdui-btn  cada mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button></div>
+
+
+
+
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+    color: #0A97FF;
+">
+<i class="mdui-icon material-icons bi "></i></div></div></div>
+{else}  
+<div class="mdui-col-sm-3" style=""><div class="mdui-card cc12" style="
+    display: flex;
+
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class=" tittle mdui-typo-title">网络 </div>
+        <div class="mdui-card-primary-subtitle">network</div> 
+        <div class="btlist">
+    <button class="mdui-btn fcrea  mdui-btn-icon cada mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="margin-top: 4px;" lay-filter="forwardPort-create" lay-submit="">
+ <i class="mdui-icon material-icons">network_check</i>   
+</button>
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(5))" class="mdui-btn  cada mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+    </div>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+    color: #0A97FF;
+">
+<i class="mdui-icon material-icons bi "></i></div></div></div>
+  {/if}  
+
+
+
+<div class="mdui-col-sm-3" style=""><div class="mdui-card cc12" style="
+    display: flex;
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class=" tittle mdui-typo-title">快照</div>
+        <div class="mdui-card-primary-subtitle">数目：<span id="snapshotCount">0</span>/{$host.snapshot_num}</div> 
+        <div class="btlist">
+    <button class="mdui-btn snapshot-create cada mdui-btn-icon mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="
+    margin-top: 4px;
+">
+ <i class="mdui-icon material-icons"><span role="img" aria-label="plus" class="anticon anticon-plus"><svg viewBox="64 64 896 896" focusable="false" data-icon="plus"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"></path><path d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"></path></svg></span></i>   
+</button>
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(7))" class="mdui-btn  cada mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+        </div>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+    color: #0A97FF;
+">
+<i class="mdui-icon material-icons bi ">add_a_photo</i></div></div></div><div class="mdui-col-sm-3" style=""><div class="mdui-card cc12" style="
+    display: flex;
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class="tittle mdui-typo-title">备份</div>
+        <div class="mdui-card-primary-subtitle">数目：<span id="backupCount">0</span>/{$host.backup_num}</div> 
+        <div class="btlist"> <button class="mdui-btn backup-create  mdui-btn-icon mdui-btn-dense cada mdui-color-theme-accent mdui-ripple" style="
+    margin-top: 4px;
+">
+ <i class="mdui-icon material-icons"><span role="img" aria-label="plus" class="anticon anticon-plus"><svg viewBox="64 64 896 896" focusable="false" data-icon="plus"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"></path><path d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"></path></svg></span></i>   
+</button>
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(8))" class="mdui-btn  cada mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+</div>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+">
+<i class="mdui-icon material-icons bi color: #0A97FF;">content_copy</i></div></div></div><div class="mdui-col-sm-3" style="">
+    <div class="mdui-card cc12" style="
+    margin-right: 8px !important;
+    display: flex;
+    margin: 0;
+    margin-top: 13px;
+">
+    <div style="
+    margin: 11px;
+">
+        <div class="tittle mdui-typo-title">安全策略</div>
+        <div class="mdui-card-primary-subtitle">数目：<span id="safeCount">0</span></div> 
+        <div class="btlist">
+    <button class="cada mdui-btn mdui-btn-icon btnfirewallAdd mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="
+    margin-top: 4px;
+">
+ <i class="mdui-icon material-icons"><span role="img" aria-label="plus" class="anticon anticon-plus"><svg viewBox="64 64 896 896" focusable="false" data-icon="plus"style="      width: 22px;
+    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"></path><path d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"></path></svg></span></i>   
+</button>
+
+<button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(9))" class="mdui-btn cada  mdui-ripple" style="
+    margin-top: 4px;
+">查看详情</button>
+</div>
+</div><div style="
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+">
+<i class="mdui-icon material-icons bi color: #0A97FF;">do_not_disturb</i></div></div></div>
+  </div>
+  </div>
+  
+  <div  class="mdui-row" style="padding-bottom: 8px;">  
+            <div  class=" mdui-col-md-12">
+                
+                
+                
+                
+        <div class="mdui-col-md-12">
+        <div class="mdui-panel" mdui-panel>
+
+  <div class="mdui-panel-item mdui-panel-item-open" style="box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);border: none;" data-step="6" 
+  data-intro="这里是便携操作区，以方便您的快速操作.">
+    <div class="mdui-panel-item-header" >
+      <div style="    font-size: 18px;NOUSED" class="mdui-typo-title">便携操作</div>
+      <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+    </div>
+    <div class="mdui-panel-item-body">
+<div class="mdui-row-md-8 mdui-row-xs-2">
+
+     {if $host.is_nat==1}
+    <div class="mdui-col mdui-col-sm-4" >
+        <button class="mdui-btn-block fcrea mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad" onclick="vnc()">
+            <i class="material-icons"><span role="img" aria-label="block" class="anticon anticon-block"><svg  width="1em" height="1em" viewBox="64 64 896 896" focusable="false" data-icon="block" fill="currentColor" aria-hidden="true"><path d="M856 376H648V168c0-8.8-7.2-16-16-16H168c-8.8 0-16 7.2-16 16v464c0 8.8 7.2 16 16 16h208v208c0 8.8 7.2 16 16 16h464c8.8 0 16-7.2 16-16V392c0-8.8-7.2-16-16-16zm-480 16v188H220V220h360v156H392c-8.8 0-16 7.2-16 16zm204 52v136H444V444h136zm224 360H444V648h188c8.8 0 16-7.2 16-16V444h156v360z"></path></svg></span></i> VNC
+        </button>
+    </div>
+    {/if}
+    <div class="mdui-col mdui-col-sm-4">
+        <button onclick="var tabs = new mdui.Tab('#wd');tabs.show(Number(4))" class="mdui-btn-block mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad">
+            <i class="material-icons"><span role="img" aria-label="issues-close" class="anticon anticon-issues-close"><svg   width="1em" height="1em" viewBox="64 64 896 896" focusable="false" data-icon="issues-close"style=" "fill="currentColor" aria-hidden="true"><path d="M464 688a48 48 0 1096 0 48 48 0 10-96 0zm72-112c4.4 0 8-3.6 8-8V296c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48zm400-188h-59.3c-2.6 0-5 1.2-6.5 3.3L763.7 538.1l-49.9-68.8a7.92 7.92 0 00-6.5-3.3H648c-6.5 0-10.3 7.4-6.5 12.7l109.2 150.7a16.1 16.1 0 0026 0l165.8-228.7c3.8-5.3 0-12.7-6.5-12.7zm-44 306h-64.2c-5.5 0-10.6 2.9-13.6 7.5a352.2 352.2 0 01-49.8 62.2A355.92 355.92 0 01651.1 840a355 355 0 01-138.7 27.9c-48.1 0-94.8-9.4-138.7-27.9a355.92 355.92 0 01-113.3-76.3A353.06 353.06 0 01184 650.5c-18.6-43.8-28-90.5-28-138.5s9.4-94.7 28-138.5c17.9-42.4 43.6-80.5 76.4-113.2 32.8-32.7 70.9-58.4 113.3-76.3a355 355 0 01138.7-27.9c48.1 0 94.8 9.4 138.7 27.9 42.4 17.9 80.5 43.6 113.3 76.3 19 19 35.6 39.8 49.8 62.2 2.9 4.7 8.1 7.5 13.6 7.5H892c6 0 9.8-6.3 7.2-11.6C828.8 178.5 684.7 82 517.7 80 278.9 77.2 80.5 272.5 80 511.2 79.5 750.1 273.3 944 512.4 944c169.2 0 315.6-97 386.7-238.4A8 8 0 00892 694z"></path></svg></span></i> 快速救援
+        </button>
+    </div>
+    <div class="mdui-col mdui-col-sm-4">
+        <button id="downloadBtn" class="mdui-btn-block  mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad"
+        data-step="7" 
+  data-intro="点击一键下载rdp远程文件 （电脑打开），您只需要打开并在密码框按Ctrl+v黏贴密码后连接即可，密码已经复制到你的粘贴板啦 。"
+        >
+            <i class="material-icons"><span role="img" aria-label="right" class="anticon anticon-right"><svg  width="1em" height="1em" viewBox="64 64 896 896" focusable="false" data-icon="right"fill="currentColor" aria-hidden="true"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"></path></svg></span></i> 一键远程
+        </button>
+    </div>
+    <div class="mdui-col mdui-col-sm-4">
+        
+        
+        
+        
+        
+        
+        <button onclick='
+        var cud = window.location.hostname;
+         let txa = document.createElement("textarea");
+         txav =`VPS Information
+============
+核心：{$host.cpu}核心
+内存：{$host.memory}GB
+带宽：{$host.bandwidth}MB
+数据盘：{$host.hard_disks}GB
+地区：{$area.area_name}
+
+============
+系统：{$image_info.os_name}({$image_info.os_type}) 
+地址：{if $host.is_nat==1}{$network['eth1'][0]['public_ip']} {else}{$network['eth1'][0]['ip']}{/if}{if $host.is_nat==1}:{$port}{/if} 
+账号：{if $image_info.os_type==1}administrator{else}root{/if} 
+密码：{$host.os_password}
+
+============
+面板：${cud} 
+账号：{$host.host_name} 
+密码：{$host.panel_password}
+
+
+===========
+{$host.buy_time|datetime=###,'Y-m-d'}To{$host.end_time|datetime=###,'Y-m-d'}`;
+       txa.value = txav
+        
+            document.body.appendChild(txa);
+      txa.select();
+      let res = document.execCommand("copy");
+      document.body.removeChild(txa);
+        
+         mdui.snackbar({
+  message: "已复制"
+});
+        
+        
+        
+        ' class="mdui-btn-block mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple cad"
+        data-step="6" 
+  data-intro="点击快速分享 可以一键导出机器信息到粘贴板. 这将输出您面板的账户密码与系统密码和信息。您可以把这个快速分享给您的好友.
+  "
+        
+        >
+            <i class="material-icons">share</i> 一键分享
+            
+          
+          
+          
+          
+            
+            
+            
+            
+            
+        </button>
+    </div>
+</div>
+     
+    </div>
+  </div>
+        
+        
+        
+          
+        
+          
+      </div>
+  </div>
+                                   
+     <div class=" mdui-col-md-4"><div class="mdui-card">
+                                 <div class="mdui-card-media" style="bottom: 0;">
+     
+                                
+                                <div class="mdui-color-transparent  ">
+                              <div class="mdui-card-primary" style="width:100%;">
+                                <div class="container">
+                               <div   style="    font-size: 18px;NOUSED" class="mdui-card-primary-title"><i style="font-size: 20px;margin-right:12px;margin-left:12px" class="fa fa-microchip"></i>CPU</div>
+                                  <div   style="color:#9e9e9ec2" class="rgg mdui-typo-caption">%</div>
+                                  </div>
+                              </div>
+                             </div>
+                              <div  id="CPU"  style="width:100%;height:184px;bottom: 0;"></div>
+                             </div>
+    
+                                   </div></div>
+                                    
+     <div class=" mdui-col-md-4"><div class="mdui-card">
+                                 <div class="mdui-card-media" style="bottom: 0;">
+                                  
+                                
+                                <div class="mdui-color-transparent  ">
+                              <div class="mdui-card-primary" style="width:100%;">
+                                  
+                                   <div class="container">
+                               <div   style="    font-size: 18px;NOUSED" class="mdui-card-primary-title"><i style="font-size: 20px;margin-right:12px;margin-left:12px" class="fa fa-signal"></i>Network</div>
+                                  <div   style="color:#9e9e9ec2" class="rgg mdui-typo-caption">KBps</div>
+                                  </div>
+                               
+                              </div>
+                               <div id="NetImg"  style="width:100%;height:184px;bottom: 0;"></div>
+                             </div>
+                             </div>
+    
+                                   </div></div>                              
+                                   
+     <div class=" mdui-col-md-4"><div class="mdui-card">
+                                 <div class="mdui-card-media" style="bottom: 0;">
+                                
+                                 
+                                <div class="mdui-color-transparent  ">
+                              <div class="mdui-card-primary" style="width:100%;">
+                           <div class="container">
+                               <div   style="    font-size: 18px;NOUSED" class="mdui-card-primary-title"><i  style="font-size: 20px;margin-right:12px;margin-left:12px" class="fa fa-database"></i>Memory</div>
+                                  <div   style="color:#9e9e9ec2" class="rgg mdui-typo-caption">%</div>
+                                  </div>
+                              </div>
+                              <div id="memory"  style="width:100%;height:184px;bottom: 0;"></div>
+                             </div>
+                             </div>
+    
+                                   </div></div>
+            <br>
+                            
+                             
+                                        
+                                        
+                                        
+                                                  
+                                              
+                                    </div>
+        </div>                             
+                                    
+    </div>                 
+                                    
+                                    
+                                    
+                                    
+                                    
+                              <div class="mdui-p-a-2 mdui-container" style='height:100%;'  id="tab-0">
+                                 
+                                 <div class="mdui-row">
+                                  <iframe id="eggweb" style="width: 100%;
+                                  height: 100%;
+                                  border: none;
+                                  min-height: 860px;
+                                  /* z-index: 77777; */
+                                  position: relative;"></iframe>
+  
+                                  </div>
+                              </div>
+                              <div class="mdui-p-a-2 mdui-container" id="tab-2">
+                                  <div class="mdui-row">
+                                  
+<div class=" mdui-col-md-3"><div class="mdui-card">
+  <div class="mdui-card-media">
+    <img alt="开机背景" src="/static/component/mmui/img/2024/07/03/8ltsf4.jpg"/>
+    <div class="mdui-card-media-covered">
+      <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">开机</div>
+        <div class="mdui-card-primary-subtitle">这可能需要两到三分钟才能完成</div>
+      </div>
+    </div>
+  </div>
+  <div class="mdui-card-actions">
+    <button id="start" class="start mdui-btn mdui-ripple">开机</button>
+    
+  </div>
+</div></div>
+<div class=" mdui-col-md-3"><div class="mdui-card">
+  <div class="mdui-card-media">
+    <img alt="关机背景" src="/static/component/mmui/img/2024/07/03/8ltmyt.jpg"/>
+    <div class="mdui-card-media-covered">
+      <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">关机</div>
+        <div class="mdui-card-primary-subtitle">强制关机，操作前请保存数据</div>
+      </div>
+    </div>
+  </div>
+  <div class="mdui-card-actions" style="display: flex;">
+    <button id="close" class="close mdui-btn mdui-color-theme-accent mdui-ripple">正常关机</button>
+    <button id="power" class="power mdui-btn  mdui-ripple">强制关机</button>
+  </div>
+</div></div>
+<div class=" mdui-col-md-3"><div class="mdui-card">
+  <div class="mdui-card-media">
+    <img alt="重启背景" src="/static/component/mmui/img/2024/07/03/8ltn40.jpg"/>
+    <div class="mdui-card-media-covered">
+      <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">重启</div>
+        <div class="mdui-card-primary-subtitle">这可能需要两到三分钟才能完成</div>
+      </div>
+    </div>
+  </div>
+  <div class="mdui-card-actions">
+    <button id="restart" class="restart mdui-btn mdui-ripple">重启</button>
+   
+  </div>
+</div></div>
+                                   </div>
+                                </div>
+                              <div class="mdui-p-a-2 mdui-container" id="tab-3">
+                                  <div class="mdui-row">
+<div class=" mdui-col-md-3"><div class="mdui-card form-1">
+  <!-- 卡片头部，包含头像、标题、副标题 -->
+  <!-- 卡片的标题和副标题 -->
+<div class="mdui-card-media">
+    <img alt="windows系统背景" src="/static/component/mmui/img/2024/07/03/aazle5.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">Windows</div>
+    <div class="mdui-card-primary-subtitle">Microsoft</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">兼具易用性与强大生态，广泛应用于个人与企业计算环境。「风之所至，窗启万物，世间互通的桥梁。」</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+
+<form id="form1" class="danvei-form" style="text-align: center; width:100%">
+          <input type="hidden" name="host_id" value="{{#.hostInfo.Id}}">
+          <select class=" mdui-select"  style="width:95%" name="template"  mdui-select>
+             <option value="">&nbsp;&nbsp;请选择系统镜像</option>
+            
+               {foreach $image_list[1] as $k=>$v}
+               <option value="{$v.config_id}">&nbsp;&nbsp;{$v.os_name}</option>
+               {/foreach}
+              </select>
+               <button style="margin-top: 15px;" class=" mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+              </form> 
+  </div>
+</div></div>
+<div class=" mdui-col-md-3"><div class="mdui-card">
+  <!-- 卡片头部，包含头像、标题、副标题 -->
+  <!-- 卡片的标题和副标题 -->
+<div class="mdui-card-media">
+    <img alt="linux系统背景" src="/static/component/mmui/img/2024/07/03/ajw1bj.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">Centos</div>
+    <div class="mdui-card-primary-subtitle">redhat</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">基于 Red Hat，稳定高效，适用于服务器与企业级应用。「沉淀之作，红帽一角，系统工程师的乐土。」</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+<form id="form2" class="danvei-form" style="text-align: center; width:100%">
+          <input type="hidden" name="host_id" value="{{#.hostInfo.Id}}">
+          <select  class="mdui-select" style="width:95%" name="template"  mdui-select>
+             <option value="">&nbsp;&nbsp;请选择系统镜像</option>
+              
+           {foreach $image_list[2] as $k=>$v}
+              <option value="{$v.config_id}">&nbsp;&nbsp;{$v.os_name}</option>
+            {/foreach}
+              </select>
+               <button style="margin-top: 15px;" class=" mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+              </form>   
+  </div>
+</div></div>
+
+<div class=" mdui-col-md-3"><div class="mdui-card">
+  <!-- 卡片头部，包含头像、标题、副标题 -->
+  <!-- 卡片的标题和副标题 -->
+<div class="mdui-card-media">
+    <img alt="ubuntu系统背景" src="/static/component/mmui/img/2024/07/03/akhud8.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">Ubuntu</div>
+    <div class="mdui-card-primary-subtitle">linux</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">用户友好，社区活跃，适合开发者与 Linux 新手。「友好的世界，橙黄的曙光，Linux 初学者的乐园。」</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+<form id="form3" class="t1 danvei-form" style="text-align: center; width:100%">
+          <input type="hidden" name="host_id" value="{{#.hostInfo.Id}}">
+          <select  class="mdui-select" style="width:95%" name="template"  mdui-select>
+             <option value="">&nbsp;&nbsp;请选择系统镜像</option>
+
+                {foreach $image_list[3] as $k=>$v}
+            <option value="{$v.config_id}">&nbsp;&nbsp;{$v.os_name}</option>
+                {/foreach}
+              </select>
+               <button id="d" style="margin-top: 15px;" class=" mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+              </form>   
+  </div>
+</div></div>
+
+
+<div class=" mdui-col-md-3"><div class="mdui-card">
+  <!-- 卡片头部，包含头像、标题、副标题 -->
+  <!-- 卡片的标题和副标题 -->
+<div class="mdui-card-media">
+    <img alt="debian系统背景" src="/static/component/mmui/img/2024/07/03/aln7pf.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">Debian</div>
+    <div class="mdui-card-primary-subtitle">linux</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">稳定、安全、高度可定制，是服务器与开发环境的理想选择。「GNU is not UNIX, but it is the foundation of dreams.」</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+<form id="form4" class="danvei-form" style="text-align: center; width:100%">
+          <input type="hidden" name="host_id" value="{{#.hostInfo.Id}}">
+          <select  class="mdui-select" style="width:95%" name="template"  mdui-select>
+             <option value="">&nbsp;&nbsp;请选择系统镜像</option>
+             
+                {foreach $image_list[4] as $k=>$v}
+            <option value="{$v.config_id}">&nbsp;&nbsp;{$v.os_name}</option>
+                {/foreach}
+              </select>
+               <button style="margin-top: 15px;" class=" mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+              </form>   
+  </div>
+</div></div>
+
+
+
+</div>
+                                </div>
+                                {if $host.virtual_type!="kvm"}
+                              <div class="mdui-p-a-2 mdui-container" id="tab-4">
+<div class="mdui-row">
+<div class=" mdui-col-md-3"><div class="mdui-card">
+  <!-- 卡片头部，包含头像、标题、副标题 -->
+  <!-- 卡片的标题和副标题 -->
+<div class="mdui-card-media">
+    <img alt="挂载镜像" src="/static/component/mmui/img/2024/07/03/bx07zy.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">镜像</div>
+    <div class="mdui-card-primary-subtitle">iso</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">挂载光驱后，重启云主机以从光驱启动。</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions">
+ <form id="form5" class="danvei-form" style="text-align: center; width:100%">
+                                  
+                                        
+                                               <select  class="mdui-select" style="width:95%" name="iso_path" id="iso"  mdui-select>
+                                                   <option value="">&nbsp;&nbsp; 请选择ISO文件</option>
+                                               {foreach $iso_list as $k=>$v}
+                                          <option value="{$k}" {if $host.now_iso==$k} selected{/if}>{$k}</option>
+                                                {/foreach}
+                                            </select>
+                                              
+                                       
+                                           
+                                        <button style="margin-top: 15px;" class="mdui-btn mdui-ripple" lay-filter="mount-iso" lay-submit>挂载ISO</button>
+                                          <button style="margin-top: 15px;" class="mdui-btn mdui-ripple" lay-filter="unmount-iso" lay-submit >卸载ISO</button>
+                                          
+                                                </form>
+</div></div></div>
+
+<div class=" mdui-col-md-3"><div class="mdui-card">
+  <!-- 卡片头部，包含头像、标题、副标题 -->
+  <!-- 卡片的标题和副标题 -->
+<div class="mdui-card-media">
+    <img alt="设置启动项" src="/static/component/mmui/img/2024/07/03/bx0any.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">启动项</div>
+    <div class="mdui-card-primary-subtitle">boot</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">选择启动项后，系统将自动重启，支持 BIOS 启动。</div>
+  <!-- 卡片的按钮 -->
+<div class="mdui-card-actions">
+<form id="form6" class="danvei-form" style="text-align: center; width:100%">
+                                                <input type="hidden" name="host_id" value="{{#.hostInfo.Id}}">
+                                                
+                                                        
+                                                            <select  class="mdui-select" style="width:95%" name="bios" id="bios"  mdui-select>
+                                                                <option value="IDE" {if $host.bios=='IDE'} selected{/if}>IDE</option>
+                                                                <option value="CD" {if $host.bios=='CD'} selected{/if}>CD</option>
+                                                            </select>
+                                                        
+                                                    
+                                                    
+                                                        <button style="margin-top: 15px;" class="mdui-btn mdui-ripple" lay-filter="bios" lay-submit>设置</button>
+                                                    
+                                                
+                                            </form>
+  </div>
+</div>    
+                          
+                                    
+                                </div>
+                                </div>
+                                </div>{/if}
+                              <div class="mdui-p-a-2 mdui-container" id="tab-5">
+                                   <div class="mdui-row">
+<div class="mdui-card gt"> <div class="mdui-table-fluid ">
+                                            <table class="mdui-table mdui-table-hoverable">
+                                                <thead>
+                                                <th colspan="3"><i class="fa fa-sitemap"></i>分配IP列表</th>
+                                                </thead>
+                                                <tbody>
+                                                {foreach $network['eth1'] as $k=>$v}
+                                                <tr><td>{if $host.is_nat==1}外部IP:{$v['public_ip']}</td><td>NATIP:{/if}{$v['ip']}</td>{if $k==0}(主IP){/if}</td><td>子网掩码：{$v['netmask']}</td><td>网关：{$v['gateway']}</td></tr>
+                                                {/foreach}
+                                                </tbody>
+                                            </table></div></div><br>
+<div class="mdui-card gt"> <div class="mdui-table-fluid ">
+                                            <table class="mdui-table mdui-table-hoverable">
+                                                <thead>
+                                                <th colspan="3"><i class="fa fa-sitemap"></i>私网IP</th>
+                                                </thead>
+                                                <tbody>
+                                                {foreach $network['eth2'] as $k=>$v}
+                                                <tr><td>IP：{$v['ip']}</td><td>子网掩码：{$v['netmask']}</td><td>网关：</td></tr>
+                                                {/foreach}
+                                                </tbody>
+                                            </table></div></div><br>
+                                        
+<div class="mdui-card gt"> <div class="mdui-table-fluid">
+                                            <table class="mdui-table mdui-table-hoverable">
+                                                <thead>
+                                                <th colspan="2"><i class="layui-icon layui-icon-chart-screen"></i> 带宽</th>
+                                                </thead>
+                                                <tbody>
+                                                <tr><td width="40%">带宽：</td><td>{$host.bandwidth} MB/S</td></tr>
+                                                <tr><td colspan="2" align="center">1Mbps等于128k/s</td></tr>
+                                                </tbody>
+                                            </table></div></div><br>
+<div class="mdui-card gt"> <div class="mdui-table-fluid ">
+                                            <table class="mdui-table mdui-table-hoverable">
+                                                <thead>
+                                                <th colspan="2"><i class="layui-icon layui-icon-chart-screen"></i> 流量使用情况</th>
+                                                </thead>
+                                                <tbody>
+                                                <tr><td width="40%">上行流量：</td><td>月使用：{:isset($network_flow.network_in)?($network_flow.network_out):0}MB</td></tr>
+                                                <tr><td width="40%">下行流量：</td><td>月使用：{:isset($network_flow.network_in)?($network_flow.network_in):0} MB</td></tr>
+                                                </tbody>
+                                            </table>  </div></div>
+                                </div>
+                               </div>
+                              <div class="mdui-p-a-2 mdui-container" id="tab-6">
+                                <div class="mdui-row">    
+ <div class=" mdui-col-md-3"><div class="mdui-card">
+<div class="mdui-card-media">
+    <img alt="vnc" src="/static/component/mmui/img/2024/07/03/cfqy78.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">辅助远程</div>
+    <div class="mdui-card-primary-subtitle">VNC</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">
+HTML5 远程桌面可从下方启动，查看器将在新窗口打开。</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+      <button style="margin-top: 15px;" class="mdui-btn" onclick="vnc()" >连接终端</button>
+      {if 1==0}<button style="margin-top: 15px;" class="mdui-btn" onclick="lowvnc()" >连接终端(无强化)</button>{/if}
+ </div>
+</div> </div>
+
+                                    </div>
+                                </div>
+                              <div class="mdui-p-a-2 mdui-container" id="tab-7">
+  <div class=" mdui-col-md-3"><div class="mdui-card">
+<div class="mdui-card-media">
+    <img alt="快照" src="/static/component/mmui/img/2024/07/03/df4n72.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">快照</div>
+    <div class="mdui-card-primary-subtitle">snapshot</div>
+</div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">快照用于记录当前系统状态，包括数据和配置。创建后，可随时恢复至快照时的状态，适用于系统备份、故障恢复或临时测试环境。可创建快照份数 {$host.snapshot_num}。</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+                                       
+                                            <button  class="snapshot-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block"   id="snapshot-create" lay-filter="snapshot-create" lay-submit > <i class=" fa fa-plus fa-1x"> </i>创建快照</button>
+                                             </div>
+</div></div>     
+ <div class=" mdui-col-md-8">
+     <div class="gt mdui-card">
+                                    <div class="mdui-table-fluid">
+                                    <table class="layui-table mdui-table-hoverable mdui-table"  id="snapshotTable" lay-filter="snapshotTable" ></table></div>
+                                    
+      </div>                              
+                                </div>
+                                </div>
+                              <div class="mdui-p-a-2 mdui-container" id="tab-8">
+                                  <div class="mdui-row">
+ <div class=" mdui-col-md-3"><div class="mdui-card">
+<div class="mdui-card-media">
+    <img alt="备份" src="/static/component/mmui/img/2024/07/03/df4syy.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">备份</div>
+    <div class="mdui-card-primary-subtitle">backup</div>
+</div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">备份包含系统和数据盘，确保数据安全，可用于故障恢复。最多可创建  {$host.backup_num} 个备份，过程较长，请耐心等待。</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+  <button  class="backup-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" id="backup-create" lay-filter="backup-create" lay-submit ><i class=" fa fa-plus fa-1x"></i>创建备份</button>                                      
+</div>  </div></div>
+ <div class=" mdui-col-md-8">
+                                <div class="mdui-card gt">    <div class="mdui-table-fluid">
+                                    <table class="layui-table mdui-table-hoverable mdui-table"  id="backupTable" lay-filter="backupTable" ></table>
+                                </div></div></div></div>
+                              
+                              
+                              
+                              </div>
+                              <div class="mdui-p-a-2 mdui-container" id="tab-9"><div class="mdui-row">
+                                  
+  <div class=" mdui-col-md-3"><div class="mdui-card">
+<div class="mdui-card-media">
+    <img alt="防火墙" src="/static/component/mmui/img/2024/07/03/df4op7.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">防火墙</div>
+    <div class="mdui-card-primary-subtitle">FireWall</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">此功能包括端口放行、协议放行和 IP 过滤等策略，确保网络通信仅允许特定端口和协议的流量通过，同时通过 IP 过滤限制非法访问，增强系统的安全性。</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+      <button id="btnfirewallAdd" class="btnfirewallAdd mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block"><i class="layui-icon">&#xe654;</i>添加</button>
+ </div>
+</div></div>                                   
+        <div class=" mdui-col-md-8">
+                                           <div class="mdui-card" id="slec1">
+                                               
+                                                    <select  class="mdui-select" style="width:120px" name="direction" id="direction"  mdui-select>
+                                                        <option value="">&nbsp;&nbsp;规则方向</option>
+                                                        <option value="out">出</option>
+                                                        <option value="in">入</option>
+                                                    </select>
+                                                   <select  class="mdui-select" style="width:120px" name="method" id="method"  mdui-select>
+                                                        <option value="">&nbsp;&nbsp;授权策略</option>
+                                                        <option value="accept">允许</option>
+                                                        <option value="drop">拒绝</option>
+                                                    </select>
+                                                     <select  class="mdui-select" style="width:120px" name="protocol" id="protocol" lay-filter="protocol"  mdui-select>
+                                                        <option value="">&nbsp;&nbsp;协议类型</option>
+                                                        <option value="ANY">全部</option>
+                                                        <option value="TCP">TCP</option>
+                                                        <option value="UDP">UDP</option>
+                                                        <option value="ICMP">ICMP</option>
+                                                    </select>
+                                                    <div class="blank"></div>
+                                              
+                                              
+                                                    <button id="btnSearch" style="margin: 8px;" class=" mdui-float-right mdui-btn mdui-color-theme-accent mdui-ripple"><i class="layui-icon">&#xe615;</i>搜索</button>
+                                                
+                                          </div>
+                                            </div>
+      <div class=" mdui-col-md-8">        
+                           <div class="mdui-card"> 
+                                    <div class="mdui-table-fluid">
+                                    <table class="layui-table mdui-table-hoverable mdui-table"  id="firewallTable" lay-filter="firewallTable"></table></div>
+                                </div></div>
+                                
+                                
+                                
+                                </div>
+                                </div>
+                                
+                                {if $host.is_nat==1}
+                              <div class="mdui-p-a-2 mdui-container" id="tab-10"><div class="mdui-row">
+                                  
+<div class=" mdui-col-md-3"><div class="mdui-card">
+<div class="mdui-card-media">
+    <img alt="端口映射" src="/static/component/mmui/img/2024/07/03/df4op7.jpg"/></div>
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">端口映射</div>
+    <div class="mdui-card-primary-subtitle">NAT</div>
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">支持最多 {$host.port_num} 个端口映射。公网端口可以从搜索结果中选择，确保外部访问能够正确路由到内部服务。</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+      <button  class="forwardPort-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" id="forwardPort-create" lay-filter="forwardPort-create" lay-submit  ><i class=" fa fa-plus fa-1x"></i>添加端口映射
+      </button>
+ </div>
+</div></div> 
+<div class=" mdui-col-md-8">
+    <div class="mdui-card gt">
+    <div class="mdui-table-fluid ">
+                                    <table class="mdui-table mdui-table-hoverable"  id="forwardPortTable" lay-filter="forwardPortTable" ></table></div></div>
+                                </div></div></div>
+
+
+                                <div class="mdui-p-a-2 mdui-container" id="tab-12">
+                                    
+                                    <iframe  id="myIframe" src="" 
+                                    style="width: 100%;
+                                  height: 100%;
+                                  border: none;
+                                  min-height: 860px;
+                                  /* z-index: 77777; */
+                                  position: relative;"
+                                    allowfullscreen>
+                            </iframe>
+                                    
+                                    
+                            
+                                
+                                
+                                </div>
+                                    
+                                <div class="mdui-p-a-2 mdui-container" id="tab-11">
+                                    <div class="mdui-row">
+                                  
+                                        <div class=" mdui-col-md-3"><div class="mdui-card">
+                                        <div class="mdui-card-media">
+                                            <img alt="端口映射" src="/static/component/mmui/img/2024/07/03/df4op7.jpg"/></div>
+                                          <div class="mdui-card-primary">
+                                            <div class="mdui-card-primary-title">挂机宝建站</div>
+                                            <div class="mdui-card-primary-subtitle">Proxy</div>
+                                         </div>
+                                          <!-- 卡片的内容 -->
+                                          <div class="mdui-card-content">可建站个数 {$host.domain_num}，步骤1：域名解析到IP{if $host.is_nat==1}{$network['eth1'][0]->public_ip} {else}{$network['eth1'][0]->ip}{/if}；步骤2：添加域名白名单；步骤3：云主机中绑定域名</div>
+                                          <!-- 卡片的按钮 -->
+                                          <div class="mdui-card-actions-stacked">
+                                              <button  class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" id="forwardDomain-create" lay-filter="forwardDomain-create"lay-submit  ><i class=" fa fa-plus fa-1x"></i>添加域名白名单
+                                              </button>
+                                         </div>
+                                        </div></div> 
+                                        <div class=" mdui-col-md-8">
+                                            <div class="mdui-card gt">
+                                            <div class="mdui-table-fluid ">
+                                                                            <table class="mdui-table mdui-table-hoverable"   id="forwardDomainTable" lay-filter="forwardDomainTable"  ></table></div></div>
+                                                                        </div></div>
+
+                                    
+                                    
+                                     
+                                    
+                                    {/if}
+    
+                                    
+                            
+                                
+                                
+                                </div>
+                                
+                               
+                                {/if}
+      
+                                
+   </div>
+
+<!--弹窗模板区start-->
+<!--重新安装系统-->
+
+<script>
+function copyToClipA(content, message) {
+var aux = document.createElement("input");
+aux.setAttribute("value", content);
+document.body.appendChild(aux);
+aux.select();
+document.execCommand("copy");
+document.body.removeChild(aux);
+if (message == null) {
+        mdui.snackbar({
+  message: '密码已复制到粘贴板'
+});
+} else{
+    mdui.snackbar({
+  message: message
+});
+}}
+
+function copyToClip(content, message) {
+var aux = document.createElement("input");
+aux.setAttribute("value", content);
+document.body.appendChild(aux);
+aux.select();
+document.execCommand("copy");
+document.body.removeChild(aux);
+if (message == null) {
+        mdui.snackbar({
+  message: '已复制'
+});
+} else{
+    mdui.snackbar({
+  message: message
+});
+}}
+function ctc(bos) {
+    let valueSpan = bos.querySelector('.value'); // 查找 class="value" 的 span
+    if (valueSpan) {
+        copyToClip(valueSpan.textContent.trim()); // 复制文本内容
+    } else {
+        console.error("未找到 class='value' 的 span 元素");
+    }
+}
+
+
+</script>
+
+<script type="text/html " id="modelreinstall">
+    <div class="layui-card-body">
+        <form id="reinstallForm" lay-filter="reinstallForm" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">系统密码</label>
+                <div class="layui-input-block">
+                    <input name="password" placeholder="请输入系统密码" type="text" class="layui-input" maxlength="20"
+                           lay-verType="tips" lay-verify="required|host_system_password" required/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="mdui-btn mdui-btn mdui-color-theme-accent closePageDialog"  type="button" >取消</button>
+                    <button class="mdui-btn" lay-filter="modelReinstallSubmit" lay-submit>确认重装</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--快照还原删除-->
+<script type="text/html" id="tableBar">
+    <a class="mdui-btn   mdui-btn-icon" lay-event="re-snapshot"><i class="mdui-icon material-icons">skip_previous</i></a>
+    <a class="mdui-btn mdui-btn-icon mdui-color-red " lay-event="del-snapshot"><i class="mdui-icon material-icons">close</i></a>
+</script>
+<!--备份还原删除-->
+<script type="text/html" id="tableBar1">
+    <a class="mdui-btn   mdui-btn-icon" lay-event="re-backup"><i class="mdui-icon material-icons">skip_previous</i></a>
+    <a class="mdui-btn mdui-btn-icon mdui-color-red " lay-event="del-backup"><i class="mdui-icon material-icons">close</i></a>
+ 
+</script>
+<!--策略-->
+<script type="text/html" id="modelfirewall">
+    <form id="firewallForm" class="layui-form layui-form-firewall model-form"  lay-filter="firewallForm">
+        <div class="layui-tab" lay-filter="check">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">规则方向</label>
+                        <div class="layui-input-block">
+                            <select name="direction"   lay-verify="required">
+                                <option value="">&nbsp;&nbsp;请选择</option>
+                                <option value="out">出</option>
+                                <option value="in">入</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">授权策略</label>
+                        <div class="layui-input-block">
+                            <select name="method"   lay-verify="required">
+                                <option value="">&nbsp;&nbsp;请选择</option>
+                                <option value="accept">允许</option>
+                                <option value="drop">拒绝</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">协议类型</label>
+                        <div class="layui-input-block">
+                            <select name="protocol"  lay-verify="required" lay-filter="protocol">
+                                <option value="">&nbsp;&nbsp;请选择</option>
+                                <option value="ANY">全部协议</option>
+                                <option value="TCP">TCP</option>
+                                <option value="UDP">UDP</option>
+                                <option value="ICMP">ICMP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">端口</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="port" style="
+                            width: 117%;
+                        " name="port" value="" required lay-verify="required{if $host.virtual_type!="kvm"}|number{/if}" class="layui-input"  placeholder="端口">
+                            端口填写：-1 为不限制
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">IP</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ip" style="
+                            width: 117%;
+                        " value="" required lay-verify="required{if $host.virtual_type!="kvm"}|ip{/if}" class="layui-input" placeholder="ip">
+                            IP地址：0.0.0.0为不限制
+                        </div>
+
+                    </div>
+                    {if $host.virtual_type!="kvm"}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">优先级</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="priority" value="" required  lay-verify="required|number" class="layui-input ">
+                            优先级 1-1000 数字越小越优先
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="mdui-btn mdui-btn mdui-color-theme-accent closePageDialog" type="button" ew-event="closePageDialog">取消</button>
+                <button class="mdui-btn" lay-filter="modelFirewallSubmit" lay-submit>添加保存</button>
+            </div>
+        </div>
+    </form>
+</script>
+<!--端口-->
+<script type="text/html " id="modelforwardPort">
+
+    <div class="layui-card-body " style="    height: 299px;
+"   >
+        <form id="forwardPortForm" lay-filter="forwardPort" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务名称</label>
+                <div class="layui-input-block">
+                    <input name="name" placeholder="请输入服务名称" type="text" class="layui-input" maxlength="20"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">公网端口</label>
+                <div class="layui-input-block">
+                    <input type="text" id="portselect" name="sport" lay-verify="required" layui-autocomplete placeholder="请输入要查询的端口" class="layui-input">
+                    <span style="color: red;">请从下拉框中选可用的端口</span>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">内网端口</label>
+                <div class="layui-input-block">
+                    <input name="dport" placeholder="请输入要映射的内端口" type="text" class="layui-input" maxlength="20"
+                           lay-verType="tips" lay-verify="required|number" required/>
+                </div>
+            </div>
+            <div class="layui-form-item text-center" style="margin-top: 20px;">
+                <div class="layui-input-block">
+                    <button class="mdui-btn mdui-btn mdui-color-theme-accent closePageDialog" type="button" ew-event="closePageDialog">取消</button>
+                    <button class="mdui-btn" lay-filter="forwardPortSubmit" lay-submit>添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--删除端口-->
+<script type="text/html" id="tableBar3">
+    {{#  if(d.sys === 1){ }}
+    <a class=" mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" lay-event="del-forwardPort"><i class="mdui-icon material-icons">close</i></a>
+    {{#  } }}
+</script>
+
+<!--删除端口-->
+<script type="text/html" id="tableBar4">
+    <a class="mdui-btn mdui-btn-icon mdui-btn mdui-color-red" lay-event="del-forwardDomain"><i class="mdui-icon material-icons">close</i></a>
+</script>
+
+<!--域名-->
+<script type="text/html" id="modelforwardDomain">
+    <div class="layui-card-body">
+        <form id="forwardDomainForm" lay-filter="forwardDomain" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">域名</label>
+                <div class="layui-input-block">
+                    <input name="domain" placeholder="请输入域名" type="text" class="layui-input" maxlength="40"
+                           lay-verType="tips" lay-verify="required" required/>
+                </div>
+            </div>
+            <div class="layui-form-item text-right">
+                <div class="layui-input-block">
+                    <button class="mdui-btn mdui-btn mdui-color-theme-accent closePageDialog" type="button" ew-event="closePageDialog">取消</button>
+                    <button class="mdui-btn" lay-filter="forwardDomainSubmit" lay-submit>添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--策略删除-->
+<script type="text/html" id="tableBar2">
+    <a class="mdui-btn mdui-btn-icon mdui-btn mdui-color-red" lay-event="del-firewall"><i class="mdui-icon material-icons">close</i></a>
+</script>
+<!--设置系统密码-->
+<script type="text/html" id="modelsystempassword">
+    <div class="layui-card-body">
+        <form id="systemForm" lay-filter="systemForm" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">系统密码</label>
+                <div class="layui-input-block">
+                    <input name="password" placeholder="请输入系统密码" type="text" class="layui-input" maxlength="20"
+                           lay-verType="tips" lay-verify="required|host_system_password" required/>
+                </div>
+            </div>
+            <div class="layui-form-item text-right">
+                <div class="layui-input-block">
+                    <button class="mdui-btn mdui-btn mdui-color-theme-accent closePageDialog " type="button" ew-event="closePageDialog">取消</button>
+                    <button class="mdui-btn" lay-filter="modelSystemSubmit" lay-submit>重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--设置版面密码-->
+<script type="text/html" id="modelpanelpassword">
+    <div class="layui-card-body">
+        <form id="panelForm" lay-filter="panelForm" class="layui-form model-form">
+            <input name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">控制台密码</label>
+                <div class="layui-input-block">
+                    <input name="panel_password" placeholder="请输入控制台密码" type="text" class="layui-input" maxlength="20"
+                           lay-verType="tips" lay-verify="required|host_panel_password" required/>
+                </div>
+            </div>
+            <div class="layui-form-item text-right">
+                <div class="layui-input-block">
+                    <button class="mdui-btn mdui-btn mdui-color-theme-accent closePageDialog " type="button" ew-event="closePageDialog">取消</button>
+                    <button class="mdui-btn" lay-filter="modelPanelSubmit" lay-submit>重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+
+<!--弹窗模板区end-->
+
+<script>
+var loader2 = new MmuiLoading();
+
+    var   rootUrlw = "{$rootUrl}";
+    var onece = false
+    let rootUrl = "{$rootUrl}";
+    function RandomNum(Min, Max) {
+       var Range = Max - Min;
+       var Rand = Math.random();
+       var num = Min + Math.floor(Rand * Range);  
+       return num;
+    }
+    layui.link(rootPath+'css/module/autocomplete.css');
+    layui.use(['table','form', 'jquery','autocomplete'], function () {
+       let form = layui.form;
+       let $ = layui.jquery;
+       var table = layui.table;
+       var autocomplete = layui.autocomplete;
+       var cloud = {
+           os : 'Linux',
+           check_ip : function(ip) 
+           {
+               var reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+               return reg.test(ip);
+           },
+           check_ips : function(ips)
+           {
+               var reg = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(\/\d{1,2})?$/;
+               return reg.test(ip);
+           },
+           check_url : function(url) 
+           {
+               var reg = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/;
+               return reg.test(url);
+           },
+           check_port : function(port)
+           {
+               var reg = /^([1-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
+               return reg.test(port);
+           },
+           check_chinese : function(str)
+           {
+               var reg = /[\u4e00-\u9fa5]/;
+               return reg.test(str);
+           },
+           check_domain : function(domain) 
+           {
+               var reg = /^([\w\-\*]{1,100}\.){1,4}([\w\-]{1,24}|[\w\-]{1,24}\.[\w\-]{1,24})$/;
+               return reg.test(bt.strim(domain));
+           },
+           check_img : function(fileName) 
+           {
+               var exts = ['jpg','jpeg','png','bmp','gif','tiff','ico'];
+               var check =  bt.check_exts(fileName,exts);
+               return check;
+           },
+           check_zip : function(fileName)
+           {
+               var ext = fileName.split('.');
+               var extName = ext[ext.length-1].toLowerCase();
+               if( extName == 'zip') return 0;
+               if( extName == 'rar') return 2;
+               if( extName == 'gz' || extName == 'tgz') return 1;
+               return -1;
+           },
+           check_text : function(fileName)
+           {
+               var exts = ['rar','zip','tar.gz','gz','iso','xsl','doc','xdoc','jpeg','jpg','png','gif','bmp','tiff','exe','so','7z','bz'];
+               return bt.check_exts(fileName,exts)?false:true;
+           },
+           check_exts : function(fileName,exts)
+           {
+               var ext = fileName.split('.');
+               if(ext.length < 2) return false;
+               var extName = ext[ext.length-1].toLowerCase();
+               for(var i=0;i<exts.length;i++){
+                   if(extName == exts[i]) return true;
+               }
+               return false;
+           },
+           replace_all:function(str,old_data,new_data){
+               var reg_str = "/("+old_data+"+)/g"
+               var reg = eval(reg_str);
+               return str.replace(reg,new_data);
+           },
+           get_file_ext : function(fileName)
+           {
+               var text = fileName.split(".");
+               var n = text.length-1;
+               text = text[n];
+               return text;
+           },
+           get_file_path : function(filename)
+           {
+               var arr = filename.split('/');
+               path = filename.replace('/'+arr[arr.length-1],"");
+               return path;
+           },
+           get_date:function(a){
+               var dd = new Date();
+               dd.setTime(dd.getTime() + (a == undefined || isNaN(parseInt(a)) ? 0 : parseInt(a)) * 86400000);
+               var y = dd.getFullYear();
+               var m = dd.getMonth() + 1;
+               var d = dd.getDate();
+               return y + "-" + (m < 10 ? ('0' + m) : m) + "-" + (d < 10 ? ('0' + d) : d);
+           },
+           ltrim:function(str,r){
+               var reg_str = "/(^\\"+r+"+)/g"
+               var reg = eval(reg_str);
+               str = str.replace(reg,"");
+               return str;
+           },
+           rtrim:function(str,r){
+               var reg_str = "/(\\"+r+"+$)/g"
+               var reg = eval(reg_str);
+               str = str.replace(reg,"");
+               return str;
+           },
+           strim: function (str) {
+               var reg_str = "/ /g"
+               var reg = eval(reg_str);
+               str = str.replace(reg, "");
+               return str;
+           },
+           contains : function(str,substr){
+               if(str){
+                   return str.indexOf(substr) >= 0;
+               }
+               return false;
+           },
+           format_size : function(bytes ,is_unit,fixed, end_unit) 
+           {
+               if (bytes == undefined) return 0;
+               if(is_unit==undefined) is_unit = true;
+               if(fixed==undefined) fixed = 2;
+               if (end_unit == undefined) end_unit = '';
+               if(typeof bytes == 'string') bytes = parseInt(bytes);
+               var unit = ['KB',' MB',' GB','TB'];
+               var c = 1024;
+               for(var i=0;i<unit.length;i++){
+                   var cUnit = unit[i];
+                   if(end_unit)
+                   {
+                       if(cUnit.trim() == end_unit.trim())
+                       {
+                           var val = i == 0 ? bytes : fixed==0? bytes:bytes.toFixed(fixed)
+                           if(is_unit){
+                               return  val + cUnit;
+                           }
+                           else{
+                               val = parseFloat(val);
+                               return val;
+                           }
+                       }
+                   }
+                   else{
+                       if(bytes < c){
+                           var val = i == 0 ? bytes : fixed==0? bytes:bytes.toFixed(fixed)
+                           if(is_unit){
+                               return  val + cUnit;
+                           }
+                           else{
+                               val = parseFloat(val);
+                               return val;
+                           }
+                       }
+                   }
+                   bytes /= c;
+               }
+           },
+           format_data : function(tm,format)
+           {
+               if(format==undefined) format = "yyyy/MM/dd hh:mm:ss";
+               tm  = tm.toString();
+               if(tm.length > 10){
+                   tm = tm.substring(0,10);
+               }
+               var data = new Date(parseInt(tm) * 1000);
+               var o = {
+                   "M+" : data.getMonth()+1, 
+                   "d+" : data.getDate(),    
+                   "h+" : data.getHours(),   
+                   "m+" : data.getMinutes(), 
+                   "s+" : data.getSeconds(), 
+                   "q+" : Math.floor((data.getMonth()+3)/3),  
+                   "S" : data.getMilliseconds() 
+               }
+               if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+                   (data.getFullYear()+"").substr(4 - RegExp.$1.length));
+               for(var k in o)if(new RegExp("("+ k +")").test(format))
+                   format = format.replace(RegExp.$1,
+                       RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+               return format;
+           },
+           format_path:function(path){
+               var reg = /(\\)/g;
+               path = path.replace(reg,'/');
+               return path;
+           },
+           get_random : function(len)
+           {
+               len = len || 32;
+               var $chars = 'AaBbCcDdEeFfGHhiJjKkLMmNnPpRSrTsWtXwYxZyz2345678'; 
+               var maxPos = $chars.length;
+               var pwd = '';
+               for (i = 0; i < len; i++) {
+                   pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+               }
+               return pwd;
+           },
+           refresh_pwd : function(length,obj)
+           {
+               if(obj==undefined) obj = 'MyPassword';
+               var _input = $("#"+obj);
+               if(_input.length>0){
+                   _input.val(bt.get_random(length))
+               }
+               else{
+                   $("."+obj).val(bt.get_random(length))
+               }
+           },
+           get_random_num : function(min,max) 
+           {
+               var range = max - min;
+               var rand = Math.random();
+               var num = min + Math.round(rand * range); 
+               return num;
+           },
+           set_cookie : function(key,val)
+           {
+               var Days = 30;
+               var exp = new Date();
+               exp.setTime(exp.getTime() + Days*24*60*60*1000);
+               document.cookie = key + "="+ escape (val) + ";expires=" + exp.toGMTString();
+           },
+           get_cookie : function(key)
+           {
+               var arr,reg=new RegExp("(^| )"+key+"=([^;]*)(;|$)");
+               if(arr=document.cookie.match(reg))
+               {
+                   var val = unescape(arr[2]);
+                   return val== 'undefined'?'':val;
+               }
+               else{
+                   return null;
+               }
+           }
+       };
+       cloud.control = {
+           get_data:function(type,start,end,callback){
+               action = '';
+               switch(type)
+               {
+                   case 'cpu': 
+                       action='GetCpuIo';
+                       break;
+                   case 'disk':
+                       action='GetDiskIo';
+                       break;
+                   case 'net':
+                       action='GetNetWorkIo';
+                       break;
+                   case 'load':
+                       action='get_load_average';
+                       break;
+               }
+               if(!action) bt.msg(lan.get('lack_param','type'));
+               bt.send(action,'ajax/'+action,{start:start,end:end},function(rdata){
+                   if(callback) callback(rdata,type);
+               })
+           },
+           format_option:function(obj,type){
+                   option = {
+                           grid: {
+       left: '5%',
+       right: '5%',
+       bottom: '6%', 
+       containLabel: true
+    },
+                       tooltip: {
+                           trigger: 'axis',
+                           axisPointer: {
+                               type: 'cross'
+                           },
+                           formatter: obj.formatter
+                       },
+                       xAxis: {
+                           type: 'category',
+                           boundaryGap: false,
+                           data: obj.tData,
+                           inverse: true,
+                           splitLine: {
+                               show: true,
+                               lineStyle: {
+                                   color: "#ddd"
+                               }
+                           },
+                           axisLine: {
+                                show: true, 
+                               lineStyle: {
+                                   color: "#666"
+                               }
+                           }
+                       },
+                                   grid: {
+               top: '4%',  
+               bottom: '10%'
+           },
+                       yAxis: {
+                           type: 'value',
+                           name: obj.unit,
+                           boundaryGap: [0, '100%'],
+                           min: 0,
+                           splitLine: {
+                               show: true,
+                               lineStyle: {
+                                   color: "#ddd"
+                               }
+                           },
+                           axisLine: {
+                               show: true, 
+                               lineStyle: {
+                                   color: "#666"
+                               }
+                           }
+                       },
+                       dataZoom: [{
+                           type: 'inside',
+                           start: 0,
+                           zoomLock: true
+                       }, {
+                           start: 0,
+                           handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                           handleSize: '80%',
+                           handleStyle: {
+                               color: '#fff',
+                               shadowBlur: 3,
+                               shadowColor: 'rgba(0, 0, 0, 0.6)',
+                               shadowOffsetX: 2,
+                               shadowOffsetY: 2
+                           }
+                       }],
+                       series: []
+                   };
+               if(obj.legend) option.legend = obj.legend;
+               if(obj.dataZoom) option.dataZoom = obj.dataZoom;
+               for (var i=0;i<obj.list.length;i++)
+               {
+                   var item = obj.list[i];
+                   series = {
+                       name : item.name,
+                       type : item.type?item.type:'line',
+                       smooth : item.smooth ? item.smooth : false,
+                       symbol : item.symbol ? item.symbol : 'none',
+                       showSymbol:item.showSymbol?item.showSymbol:false,
+                       sampling : item.sampling ? item.sampling : 'average',
+                       areaStyle : item.areaStyle ? item.areaStyle : {},
+                       lineStyle : item.lineStyle ? item.lineStyle : {},
+                       itemStyle : item.itemStyle ? item.itemStyle : { normal:{ color: 'rgb(0, 153, 238)'}},
+                       symbolSize:6,
+                       symbol: 'circle',
+                       data :  item.data
+                   }
+                   option.series.push(series);
+               }
+               return option;
+           }
+       }
+       cloud.api = {
+           monitorhy: function (hostid) {
+               var interval_stop = false;
+               var index = {
+                   vmid:0,
+                   interval: {
+                       limit: 10,
+                       count: 0,
+                       task_id: 0,
+                       start: function () {
+                           var _this = this;
+                           _this.count = 0;
+                           _this.task_id = setInterval(function () {
+                               if (_this.count >= _this.limit) {
+                                   _this.reload();
+                                   return;
+                               }
+                               _this.count++;
+                               if (!interval_stop) index.get_data_info();
+                           }, 3200)
+                       },
+                       reload: function () {
+                           var _this = this;
+                           if (_this) clearInterval(_this.task_id);
+                           _this.start();
+                       }
+                   },
+                   get_data_info:function(){
+                       var vmid =index.vmid
+                       $.post(rootUrl+'monitor_host?hostid='+vmid,{vmid:vmid},function(data){
+                           if(data.code!=1){
+                               return ;
+                           }
+                           data=data.data;
+                           index.net.flush(data.NetworkStats);
+                           index.cpu.flush(data.CpuStats);
+                           index.memory.flush(data.MemoryStats);
+                       },'json')
+                   },
+                   net: {
+                       table: null,
+                       data: {
+                           uData: [],
+                           dData: [],
+                           aData: []
+                       },
+                       init: function () {
+                           
+                           var _net = this;
+                           var limit = 8; 
+                           
+                           for (var i = 0; i < limit; i++) {
+                               _net.data.uData.push(0);
+                               _net.data.dData.push(0);
+                               _net.data.aData.push("00:00:00"); 
+                           }
+                           index.net.table = echarts.init(document.getElementById('NetImg'));
+                           var obj = {};
+                           obj.dataZoom = [];
+                           obj.unit = '单位:KB/s';
+                           obj.tData = index.net.data.aData;
+                           obj.list = [];
+                           obj.list.push({ name: '上行', data: index.net.data.uData, circle: 'circle', itemStyle: { normal: { color: '#c52b5e80' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#c52b5e80' }, { offset: 1, color: '#c52b5e80' }], false) } }, lineStyle: { normal: { width: 2, color: '#c52b5e' } } });
+                           obj.list.push({ name: '下行', data: index.net.data.dData, circle: 'circle', itemStyle: { normal: { color: '#c52b5e80' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#c52b5e80' }, { offset: 1, color: '#c52b5e80' }], false) } }, lineStyle: { normal: { width: 2, color: '#c52b5e' } } });
+                           option = cloud.control.format_option(obj)
+                           index.net.table.setOption(option);
+                           index.net.table.setOption({
+                               xAxis:{max: '1',min:'1'}
+                           });
+                           document.getElementById('refreshtk').addEventListener('click', function() {index.net.table.resize();});
+                           window.addEventListener("resize", function () {
+                               if(document.getElementById('tab-1').offsetParent){index.net.table.resize();}
+                           });
+                       },
+                     {if $host.virtual_type!="kvm"}
+                       add: function (up, down) {
+                           var _net = this;
+                           var limit = 8;
+                           var d = new Date()
+                           if (_net.data.uData.length >= limit) _net.data.uData.splice(0, 1);
+                           if (_net.data.dData.length >= limit) _net.data.dData.splice(0, 1);
+                           if (_net.data.aData.length >= limit) _net.data.aData.splice(0, 1);
+                           _net.data.uData.push(up);
+                           _net.data.dData.push(down);
+                          
+                       },
+                      {else}
+                       add: function (net_data) {
+                           console.log(net_data);
+                           var _net = this;
+                           var limit = 8;
+                           _net.data.uData =[];
+                           _net.data.dData=[];
+                           _net.data.aData=[];
+                           $(net_data).each(function(index,elem){
+                               _net.data.uData.push(elem[1]);
+                               _net.data.dData.push(elem[2]);
+                               _net.data.aData.push(elem[0]);
+                           });
+                       },
+                      {/if}
+                      {if $host.virtual_type!="kvm"}
+                       flush:function (net_data){
+                           
+                           
+                           
+                           
+                           index.net.add((parseFloat(net_data.BytesSentPersec)).toFixed(2), (parseFloat(net_data.BytesReceivedPersec)).toFixed(2));
+                           if (index.net.table) index.net.table.setOption({ xAxis: { data: index.net.data.aData }, series: [{ name: '上行', data: index.net.data.uData }, { name: '下行', data: index.net.data.dData }] });
+                       },
+                      {else}
+                       flush:function (net_data){
+                           
+                           
+                           
+                           
+                           index.net.add(net_data);
+                           if (index.net.table) index.net.table.setOption({ xAxis: { data: index.net.data.aData }, series: [{ name: '上行', data: index.net.data.uData }, { name: '下行', data: index.net.data.dData }] });
+                       }
+                     {/if}
+                   },
+                   cpu: {
+                       table: null,
+                       data: {
+                           data: [],
+                           aData: []
+                       },
+                       init: function () {
+                           
+                           var _cpu = this;
+                           var limit = 100; 
+                           
+                           for (var i = 0; i < limit; i++) {
+                               _cpu.data.data.push(0);
+                               _cpu.data.aData.push("00:00:00"); 
+                           }
+                           index.cpu.table = echarts.init(document.getElementById('CPU'));
+                           var obj = {};
+                           obj.dataZoom = [];
+                           obj.unit = '单位:%';
+                           obj.tData = index.cpu.data.aData;
+                           obj.list = [];
+                           obj.list.push({ name: 'cpu', data: index.cpu.data.data, circle: 'circle', itemStyle: { normal: { color: '#eaf3f9' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#006f917a' }, { offset: 1, color: '#006f917a' }], false) } }, lineStyle: { normal: { width: 2, color: '#006f91' } } });
+                           option = cloud.control.format_option(obj)
+                           index.cpu.table.setOption(option);
+                           index.cpu.table.setOption({
+                               xAxis:{max: '1',min:'1'}
+                           });
+                           document.getElementById('refreshtk').addEventListener('click', function() {index.cpu.table.resize();});
+                           window.addEventListener("resize", function () {
+                                if(document.getElementById('tab-1').offsetParent){index.cpu.table.resize();}
+                           });
+                       },
+                       add: function (cpu_data) {
+                           var _cpu = this;
+                           var limit = 100;
+                           var d = new Date()
+                           if (_cpu.data.data.length >= limit) _cpu.data.data.splice(0, 1);
+                           if (_cpu.data.aData.length >= limit) _cpu.data.aData.splice(0, 1);
+                           _cpu.data.data.push(cpu_data);
+                           _cpu.data.aData.push();
+                       },
+                       flush:function (cpu_data){
+                           index.cpu.add(cpu_data);
+                           if (index.cpu.table) index.cpu.table.setOption({ xAxis: { data: index.cpu.data.aData }, series: { name: 'cpu', data: index.cpu.data.data }});
+                       }
+                   },
+                   memory: {
+                       table: null,
+                       data: {
+                           data: [],
+                           aData: []
+                       },
+                       init: function () {
+                               var _memory = this;
+                               var limit = 8; 
+                               
+                               for (var i = 0; i < limit; i++) {
+                                   _memory.data.data.push(0);
+                                   _memory.data.aData.push("00:00:00"); 
+                               }
+                           
+                           index.memory.table = echarts.init(document.getElementById('memory'));
+                           var obj = {};
+                           obj.dataZoom = [];
+                           obj.unit = '单位:%';
+                           obj.tData = index.memory.data.aData;
+                           obj.list = [];
+                           obj.list.push({ name: '内存', data: index.memory.data.data, circle: 'circle', itemStyle: { normal: { color: '#095bde87' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#095bde87' }, { offset: 1, color: '#095bde87' }], false) } }, lineStyle: { normal: { width: 2, color: '#095bde' } } });
+                           option = cloud.control.format_option(obj)
+                           index.memory.table.setOption(option);
+                           index.memory.table.setOption({
+                               xAxis:{max: '1',min:'1'}
+                           });
+                           index.memory.table.setOption({
+                               yAxis: {  min: '0', max: '100',  minInterval:1}});
+                           document.getElementById('refreshtk').addEventListener('click', function() {index.memory.table.resize();});
+                           window.addEventListener("resize", function () {
+                                if(document.getElementById('tab-1').offsetParent){index.memory.table.resize();}
+                           });
+                       },
+                       add: function (memory_data) {
+                           var _memory = this;
+                           var limit = 8;
+                           var d = new Date()
+                           if (_memory.data.data.length >= limit) _memory.data.data.splice(0, 1);
+                           if (_memory.data.aData.length >= limit) _memory.data.aData.splice(0, 1);
+                           _memory.data.data.push(memory_data);
+                           _memory.data.aData.push(d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds());
+                       },
+                       flush:function (memory_data){
+                           index.memory.add(memory_data);
+                           if (index.memory.table) index.memory.table.setOption({ xAxis: { data: index.memory.data.aData }, series: { name: '内存', data: index.memory.data.data }});
+                       }
+                   },
+                   io: {
+                       table: null,
+                       data: {
+                           data: [],
+                           aData: []
+                       },
+                       init: function () {
+                           
+                           index.io.table = echarts.init(document.getElementById('IO'));
+                           var obj = {};
+                           obj.dataZoom = [];
+                           obj.unit = '单位:%';
+                           obj.tData = index.io.data.aData;
+                           obj.list = [];
+                           obj.list.push({ name: 'IO', data: index.io.data.data, circle: 'circle', itemStyle: { normal: { color: '#eaf3f9' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(234,243,249,0.2)' }, { offset: 1, color: 'rgba(234,243,249,0.2)' }], false) } }, lineStyle: { normal: { width: 1, color: '#3385c6' } } });
+                           option = cloud.control.format_option(obj)
+                           index.io.table.setOption(option);
+                           document.getElementById('refreshtk').addEventListener('click', function() {index.io.table.resize();});
+                           window.addEventListener("resize", function () {
+                                if(document.getElementById('tab-1').offsetParent){index.io.table.resize();}
+                           });
+                       },
+                       add: function (io_data) {
+                           var _io = this;
+                           var limit = 8;
+                           var d = new Date()
+                           if (_io.data.data.length >= limit) _io.data.data.splice(0, 1);
+                           if (_io.data.aData.length >= limit) _io.data.aData.splice(0, 1);
+                           _io.data.data.push(io_data);
+                           _io.data.aData.push(d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds());
+                       },
+                       flush:function (io_data){
+                           index.io.add(io_data);
+                           if (index.io.table) index.io.table.setOption({ xAxis: { data: index.io.data.aData }, series: { name: 'IO', data: index.io.data.data }});
+                       }
+                   }
+               }   
+               {if $host.virtual_type!="kvm"}
+                   $.ajax({
+                       url: rootUrl+'thumbnail_host',
+                       data:{hostid:hostid},
+                       type: 'post',
+                       dataType: 'json',
+                       success: function(data){
+                           if(data.code==1){
+                                                                   if(data.data.pic==""){
+                                   if(onece==false){
+                                   $("#img").html("<img ondblclick='lowvnc()' alt='屏幕快照获取异常' height='100%' width='100%' src='"+"/static/component/mmui/img/2024/07/03/8ltsf4.jpg"+"'/>");
+                                   }    
+                                     onece=true
+                                   }else{
+                                        $("#img").html("<img  ondblclick='lowvnc()' alt='屏幕快照'  height='100%' width='100%' src='data:image/png;base64,"+data.data.pic+"'/>");
+                                       onece=false
+                                   }
+                           }else{
+                               $("#img").html("<p style='height='100%' text-align: center; width:100%; color: red;'>"+data.msg+"</p>");
+                           }
+                       }
+                   });
+                   setInterval(function () {
+                       $.ajax({
+                           url: rootUrl+'thumbnail_host',
+                           data:{hostid:hostid},
+                           type: 'post',
+                           dataType: 'json',
+                           success: function(data){
+                               if(data.code==1){
+                                                                   if(data.data.pic==""){
+                                   if(onece==false){
+                                   $("#img").html("<img ondblclick='lowvnc()' alt='屏幕快照获取异常' height='100%' width='100%' src='"+"/static/component/mmui/img/2024/07/03/8ltsf4.jpg"+"'/>");
+                                   }    
+                                     onece=true
+                                   }else{
+                                        $("#img").html("<img ondblclick='lowvnc()' alt='屏幕快照' height='100%' width='100%' src='data:image/png;base64,"+data.data.pic+"'/>");
+                                       onece=false
+                                   }
+                               }
+                           }
+                       });
+                   },20000);
+               {/if}
+               return index;
+           },
+           toolstatus:function (elem,row,index) {
+               if (elem.state==1){
+                   return "<i class='layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop' style='color: red;font-size: 20px;'></i><i style='color:red;height: 20px;line-height: 20px; vertical-align: middle; margin-bottom: 7px; font-size: 12px;display: inline-block;'>创建中</i>";
+               }else if(elem.state==2){
+                   return "<i class='layui-icon layui-icon-ok' style='color:green; font-size: 20px;'></i><i style='color:green;height: 20px;line-height: 20px; vertical-align: middle; margin-bottom: 7px; display: inline-block;font-size: 12px;'>创建成功</i>"
+               }else if(elem.state==3){
+                   return "<i class='layui-icon layui-icon-close ' style='color: red;font-size: 20px;'></i><i style='color:red;height: 20px;line-height: 20px; vertical-align: middle; margin-bottom: 7px; display: inline-block;font-size: 12px;'>创建失败</i>"
+               }else if(elem.state==4){
+                   return "<i class='layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop' style='color: red;font-size: 20px;'></i><i style='color:red;height: 20px;line-height: 20px; vertical-align: middle; margin-bottom: 7px; font-size: 12px;display: inline-block;'>恢复中</i>";
+               }else if(elem.state==5){
+                   return "<i class='layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop' style='color: red;font-size: 20px;'></i><i style='color:red;height: 20px;line-height: 20px; vertical-align: middle; margin-bottom: 7px; font-size: 12px;display: inline-block;'>删除中</i>";
+               }
+           }
+       }
+       form.verify({
+           host_panel_password:function (value,item) {
+               if(!/^[a-zA-z0-9_\-]{6,12}$/.test(value)){
+                   return '控制台密码6-12个数字、字母组合'
+               }
+           },
+           host_vnc_password:[/^[a-zA-z0-9_\-]{6,12}$/,'vnc密码6-12个数字、字母组合'],
+           host_system_password:function (value,item) {
+               if(!/^(?!([A-Z]*|[a-z]*|[0-9]*|[!-/:-@\[-`{-~]*|[A-Za-z]*|[A-Z0-9]*|[A-Z!-/:-@\[-`{-~]*|[a-z0-9]*|[a-z!-/:-@\[-`{-~]*|[0-9!-/:-@\[-`{-~]*)$)[A-Za-z0-9!-/:-@\[-`{-~]{9,20}$/.test(value)){
+                   return '系统密码8～20个字符（至少包含大\小写字母、数字、特殊符号中的三类）'
+               }
+           },ip: [
+               /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+               ,'IP地址不符合规则'
+           ]
+       })
+       
+       $('.password-show').click(function() {
+           var password = $(this).data('password');
+           $(this).hide();
+           $(this).siblings('.password').html(password);
+           $(this).siblings('.password-hide').show();
+       });
+       
+       $('.password-hide').click(function() {
+           var password = $(this).data('password');
+           $(this).hide();
+           $(this).siblings('.password').html(password);
+           $(this).siblings('.password-show').show();
+       });
+       var hostid ='{$hostid}';
+       
+       $('#system-pass').click(function (data) {
+           layer.open({
+               type: 1,
+               title: '重置系统密码',
+               content: $('#modelsystempassword').html(),
+               success: function (layero, dIndex) {
+                   form.on('submit(modelSystemSubmit)',function (data) {
+                       loader2.show();
+                       $.post(rootUrl+'updata_systempass_host', {
+                           hostid: hostid,
+                           password:data.field.password
+                       }, function (res) {
+                           loader2.hide();layer.closeAll('loading');
+                           if (res.code == 1) {
+                               layer.msg(res.msg, {icon: 1});
+                               layer.close(dIndex);
+                           } else {
+                               layer.msg(res.msg, {icon: 2});
+                           }
+                       }, 'json');
+                       return false;
+                   });
+                   $('.closePageDialog').click(function () {
+                    var layerShade = $('.layui-layer-shade');
+                    layerShade.addClass('fading-out');               
+                    var layerPage = $('.layui-layer-page'); 
+                    layerPage.addClass('closing'); 
+                    layerPage.on('animationend', function() {
+                       layer.close(dIndex); 
+                       layerPage.off('animationend');
+                 
+                       
+                    });
+                    });
+                               }
+           });
+           return false;
+       })
+       
+       $('#panel-pass').click(function (data) {
+           layer.open({
+               type: 1,
+               title: '重置控制台密码',
+               content: $('#modelpanelpassword').html(),
+               success: function (layero, dIndex) {
+                   form.on('submit(modelPanelSubmit)',function (data) {
+                       loader2.show();
+                       $.post(rootUrl+'update_panel_password', {
+                           hostid: hostid,
+                           panel_password:data.field.panel_password
+                       }, function (res) {
+                           loader2.hide();layer.closeAll('loading');
+                           if (res.code == 1) {
+                               layer.msg(res.msg, {icon: 1});
+                               layer.close(dIndex);
+                           } else {
+                               layer.msg(res.msg, {icon: 2});
+                           }
+                       }, 'json');
+                       return false;
+                   });
+                   $('.closePageDialog').click(function () {
+                    var layerShade = $('.layui-layer-shade');
+                    layerShade.addClass('fading-out');               
+                    var layerPage = $('.layui-layer-page'); 
+                    layerPage.addClass('closing'); 
+                    layerPage.on('animationend', function() {
+                       layer.close(dIndex); 
+                       layerPage.off('animationend');
+                 
+                       
+                    });
+                    });
+                               }
+           });
+           return false;
+       })
+       
+       $('.start').click(function () {
+           if(hostid==undefined||hostid==""){
+               layer.msg("请选择主机", {icon: 2});
+               return false
+           }
+           loader2.show();
+           $.post(rootUrl+'start_host',{hostid:hostid},function (data) {
+               loader2.hide();layer.closeAll('loading');
+               if (data.code == 1) {
+                   layer.msg(data.msg, {icon: 1});
+                   return false;
+               } else {
+                   layer.msg(data.msg, {icon: 2});
+               }
+           },'json')
+       });
+       
+       $('.close').click(function () {
+           if(hostid==undefined||hostid==""){
+               layer.msg("请选择主机", {icon: 2});
+               return false
+           }
+           loader2.show();
+           $.post(rootUrl+'close_host',{hostid:hostid},function (data) {
+               loader2.hide();layer.closeAll('loading');
+               if (data.code == 1) {
+                   layer.msg(data.msg, {icon: 1});
+                   return false;
+               } else {
+                   layer.msg(data.msg, {icon: 2});
+                   return false;
+               }
+           },'json')
+       });
+       
+       $('.power').click(function () {
+           if(hostid==undefined||hostid==""){
+               layer.msg("请选择主机", {icon: 2});
+               return false
+           }
+           loader2.show();
+           $.post(rootUrl+'power_host',{hostid:hostid},function (data) {
+               loader2.hide();layer.closeAll('loading');
+               if (data.code == 1) {
+                   layer.msg(data.msg, {icon: 1});
+                   return false;
+               } else {
+                   layer.msg(data.msg, {icon: 2});
+               }
+           },'json')
+       });
+       
+       $('.restart').click(function () {
+           if(hostid==undefined||hostid==""){
+               layer.msg("请选择主机", {icon: 2});
+               return false
+           }
+           loader2.show();
+           $.post(rootUrl+'restart_host',{hostid:hostid},function (data) {
+               loader2.hide();layer.closeAll('loading');
+               if (data.code == 1) {
+                   layer.msg(data.msg, {icon: 1});
+                   return false;
+               } else {
+                   layer.msg(data.msg, {icon: 2});
+               }
+           },'json')
+       });
+       form.on('submit(vnc-view)', function (data) {
+           if(hostid==undefined||hostid==""){
+               layer.msg("请选择主机", {icon: 2});
+               return false
+           }
+           loader2.show();
+           $.post(rootUrl+'vnc_host',{hostid:hostid},function (data) {
+               loader2.hide();layer.closeAll('loading');
+               if (data.code == 1) {
+                   window.open(data.url);
+                   return false;
+               } else {
+                   layer.msg(data.msg, {icon: 2});
+               }
+           },'json')
+       });
+       
+       form.on('submit(reinstallSubmit)', function (data) {
+           var template_id=danvei.field.template;
+           var host_id=danvei.field.host_id;
+           if(template_id==""){
+               layer.msg("请选择系统模板", {icon: 2});
+               return false;
+           }
+           if(host_id==""){
+               layer.msg("hostid is null", {icon: 2});
+               return false;
+           }
+           layer.open({
+               type: 1,
+               title: '重装系统',
+               area: '350px',
+               content: $('#modelreinstall').html(),
+               success: function (layero, dIndex) {
+                   form.on('submit(modelReinstallSubmit)',function (data) {
+                       loader2.show();
+                       $.post(rootUrl+'reinstall_host', {
+                           hostid: hostid,
+                           template_id:template_id,
+                           password:data.field.password
+                       }, function (res) {
+                           loader2.hide();layer.closeAll('loading');
+                           if (res.code == 1) {
+                               layer.msg(res.msg, {icon: 1});
+                               layer.close(dIndex);
+                           } else {
+                               layer.msg(res.msg, {icon: 2});
+                           }
+                       }, 'json');
+                       return false;
+                   });
+                  $('.closePageDialog').click(function () {
+    var layerShade = $('.layui-layer-shade');
+    layerShade.addClass('fading-out');               
+    var layerPage = $('.layui-layer-page'); 
+    layerPage.addClass('closing'); 
+    layerPage.on('animationend', function() {
+       layer.close(dIndex); 
+       layerPage.off('animationend');
+    layerShade.on('animationend', function() {
+       layer.close(index);
+       layerShade.remove();
+    });
+       
+    });
+    });
+               }
+           });
+           return false;
+       });
+       
+       form.on('submit(mount-iso)', function (data) {
+           danvei.field.hostid= hostid;
+           if(danvei.field.iso_path==""){
+               layer.msg("请选择要挂载的ISO文件", {icon: 2});
+               return  false;
+           }
+           loader2.show();
+           $.ajax({
+               url: rootUrl+'mountiso_host',
+               data: danvei.field,
+               type: 'post',
+               dataType: 'json',
+               success: function(data){
+                   layer.closeAll('loading')
+                   if(data.code==1){
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               }
+           })
+           return false;
+       });
+       
+       form.on('submit(unmount-iso)', function (data) {
+           danvei.field.hostid= hostid;
+           loader2.show();
+           $.ajax({
+               url: rootUrl+'unmountiso_host',
+               data:danvei.field,
+               type: 'post',
+               dataType: 'json',
+               success: function(data){
+                   layer.closeAll('loading')
+                   if(data.code==1){
+                       $('#iso').val('');
+                       form.render();
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               }
+           })
+           return false;
+       });
+       form.on('submit(bios)', function (data) {
+           danvei.field.hostid= hostid;
+           loader2.show();
+           $.ajax({
+               url: rootUrl+'set_bios',
+               data:danvei.field,
+               type: 'post',
+               dataType: 'json',
+               success: function(data){
+                   layer.closeAll('loading')
+                   if(data.code==1){
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               }
+           })
+           return false;
+       });
+       
+       var insTbSp = table.render({
+           elem: '#snapshotTable',
+           url: rootUrl+'snapshot?hostid='+hostid,
+           page:false,
+           cols: [[
+               {field: 'name', title: '快照标识'},
+               {field: 'create_time', title: '快照时间'},
+               {field: 'state', title: '状态',templet:cloud.api.toolstatus},
+               {align: 'center', toolbar: '#tableBar', title: '操作'}
+           ]],
+           done: function (res, curr) {
+    var count = res.data.length;
+    document.getElementById('snapshotCount').innerText = count;
+    }
+       });
+       
+       var insTbBp = table.render({
+           elem: '#backupTable',
+           url: rootUrl+'backup?hostid='+hostid,
+           page:false,
+           cols: [[
+               {field: 'name', title: '备份标识'},
+               {field: 'create_time', title: '备份时间'},
+               {field: 'state', title: '状态',templet:cloud.api.toolstatus},
+               {align: 'center', toolbar: '#tableBar1', title: '操作'}
+           ]],
+           done: function (res, curr) {
+    var count = res.data.length;
+    document.getElementById('backupCount').innerText = count;
+    }
+       });
+       
+       
+       $('.snapshot-create').click(function (d) {
+           loader2.show();
+           $.post(rootUrl+'create_snapshot_host',{hostid:hostid},function (data) {
+               layer.closeAll('loading')
+               if(data.code==1){
+                   insTbSp.reload()
+                   setTimeout(function(){
+                       insTbSp.reload();
+                   },30000);
+                   layer.msg(data.msg, {icon: 1});
+               }else{
+                   layer.msg(data.msg, {icon: 2});
+               }
+           })
+       });
+       
+       $('.backup-create').click(function (d) {
+           loader2.show();
+           $.post(rootUrl+'create_backup_host',{hostid:hostid},function (data) {
+               layer.closeAll('loading')
+               if(data.code==1){
+                   insTbBp.reload()
+                   setTimeout(function(){
+                       insTbBp.reload()
+                   },30000);
+                   layer.msg(data.msg, {icon: 1});
+               }else{
+                   layer.msg(data.msg, {icon: 2});
+               }
+           })
+       });
+       
+       table.on('tool(backupTable)', function (obj) {
+           var data = obj.data;
+           var layEvent = obj.event;
+           if (layEvent === 're-backup') { 
+               loader2.show();
+               $.post(rootUrl+'restore_backup_host',{hostid:hostid,id:data.id},function (data) {
+                   layer.closeAll('loading')
+                   if(data.code==1){
+                       insTbBp.reload()
+                       setTimeout(function(){
+                           insTbBp.reload();
+                       },30000);
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               })
+           } else if (layEvent === 'del-backup') { 
+               loader2.show();
+               $.post(rootUrl+'remove_backup_host',{hostid:hostid,id:data.id},function (data) {
+                   layer.closeAll('loading')
+                   if(data.code==1){
+                       insTbBp.reload()
+                       setTimeout(function(){
+                           insTbBp.reload();
+                       },30000);
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               })
+           }
+       });
+       
+       table.on('tool(snapshotTable)', function (obj) {
+           var data = obj.data;
+           var layEvent = obj.event;
+           if (layEvent === 're-snapshot') { 
+               loader2.show();
+               $.post(rootUrl+'restore_snapshot_host',{hostid:hostid,id:data.id},function (data) {
+                   layer.closeAll('loading')
+                   if(data.code==1){
+                       insTbSp.reload()
+                       setTimeout(function(){
+                           insTbSp.reload();
+                       },30000);
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               })
+           } else if (layEvent === 'del-snapshot') { 
+               loader2.show();
+               $.post(rootUrl+'remove_snapshot_host',{hostid:hostid,id:data.id},function (data) {
+                   layer.closeAll('loading')
+                   if(data.code==1){
+                       insTbSp.reload()
+                       setTimeout(function(){
+                           insTbSp.reload();
+                       },30000);
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               })
+           }
+       });
+       
+       
+       var firewallinsTb = table.render({
+           elem: '#firewallTable',
+           url: rootUrl+'firewall_host?hostid='+hostid,
+           page:{
+               layout:['count','prev', 'page', 'next','refresh','skip']
+           },
+           cols: [[
+               {title: '协议类型',templet:function (d) {
+                       if(d.protocol=="ANY"){
+                           return "全部";
+                       }else{
+                           return d.protocol;
+                       }
+                   }},
+               {title: '方向',templet:function (d) {
+                       if(d.direction=="out"){
+                           return "出";
+                       }else{
+                           return "入";
+                       }
+                   }},
+               {title: '策略',templet:function (d) {
+                       if(d.method=="accept"){
+                           return "允许";
+                       }else{
+                           return "拒绝";
+                       }
+                   }},
+               {title: '端口',templet:function (d) {
+                       return d.start_port;
+                   }},
+               {title: 'IP',templet:function (d) {
+                       return d.start_ip;
+                   }},
+               {field: 'priority', title: '优先级'},
+               {align: 'center', toolbar: '#tableBar2', title: '操作'}
+           ]],
+           done: function (res, curr) {
+    var count = res.data.length;
+    document.getElementById('safeCount').innerText = count;
+    }
+       });
+       $('#btnSearch').click(function () {
+           firewallinsTb.reload({where: {protocol: $('#protocol').val(),direction:$('#direction').val(),method:$('#method').val()}});
+       });
+       
+       $('.btnfirewallAdd').click(function(){
+           layer.open({
+               type: 1,
+               title: '添加策略',
+               area: '400px',
+               content: $('#modelfirewall').html(),
+               success: function (layero, dIndex) {
+                   form.render("select");
+                   form.on('submit(modelFirewallSubmit)', function (data) {
+                       loader2.show();
+                       data.field.hostid=hostid;
+                       $.post(rootUrl+'add_firewall_host', data.field, function (res) {
+                           loader2.hide();layer.closeAll('loading');
+                           if (res.code == 1) {
+                               layer.msg(res.msg, {icon: 1});
+                              firewallinsTb.reload()
+                               layer.close(dIndex);
+                               return false;
+                           } else {
+                               layer.msg(res.msg, {icon: 2});
+                           }
+                       }, 'json');
+                       return false;
+                   });
+             $('.closePageDialog').click(function () {
+    var layerShade = $('.layui-layer-shade');
+    layerShade.addClass('fading-out');               
+    var layerPage = $('.layui-layer-page'); 
+    layerPage.addClass('closing'); 
+    layerPage.on('animationend', function() {
+       layer.close(dIndex); 
+       layerPage.off('animationend');
+    layerShade.on('animationend', function() {
+       layer.close(index);
+       layerShade.remove();
+    });
+       
+    });
+    });
+               }
+           });
+       });
+       
+       
+       table.on('tool(firewallTable)', function (obj) {
+           var data = obj.data;
+           var layEvent = obj.event;
+           if (layEvent === 'del-firewall') { 
+               loader2.show();
+               data.hostid=hostid;
+               $.post(rootUrl+'remove_firewall_host', data, function (res) {
+                   loader2.hide();layer.closeAll('loading');
+                   if (res.code == 1) {
+                       firewallinsTb.reload();
+                       layer.msg(res.msg, {icon: 1});
+                       return false;
+                   } else {
+                       layer.msg(res.msg, {icon: 2});
+                   }
+               }, 'json');
+               return false;
+           }
+       });
+       
+       var insPortTb = table.render({
+           elem: '#forwardPortTable',
+           url: rootUrl + 'port_host?hostid=' + hostid,
+           page: false,
+           cols: [[
+               {field: 'name', title: '服务'},
+               {field: 'sport', title: '外网端口'},
+               {field: 'api_url', title: '外网IP'},
+               {field: 'dport', title: '内网端口'},
+               {title: '类型', templet: function (d) {
+                   return d.sys == 1 ? '自定义' : '系统默认';
+               }},
+               {align: 'center', toolbar: '#tableBar3', title: '操作'}
+           ]],
+           done: function (res, curr) {
+               var count = res.data.length;
+               document.getElementById('portCount').innerText = count;
+               
+               document.querySelectorAll("#forwardPortTable + .layui-table-view .layui-table-body tr").forEach(row => {
+                   row.addEventListener("dblclick", function () {
+                       var index = this.getAttribute('data-index'); 
+                       var data = res.data[index]; 
+                       if (data) {
+                           var copyText = `${data.api_url}:${data.sport}`;
+                           copyToClip(copyText);
+                       }
+                   });
+               });
+           }
+       });
+       
+       form.on('submit(forwardPort-create)', function (data) {
+           layer.open({
+               area:["360px","380px"],
+               type: 1,
+               title: '添加映射规则',
+               content: $('#modelforwardPort').html(),
+               success: function (layero, dIndex) {
+                   autocomplete.render({
+                       elem: $('#portselect'),
+                       url: rootUrl+'findport?hostid='+hostid,
+                       template_val: '{{d}}',
+                       template_txt: '可用端口： <span class=\'layui-badge layui-bg-gray\'>{{d}}</span>',
+                       onselect: function (resp) {
+                           $('#portselect').val(resp);
+                       }
+                   });
+                   form.render("select");
+                   form.on('submit(forwardPortSubmit)',function (data) {
+                       loader2.show();
+                       data.field.hostid=hostid;
+                       $.post(rootUrl+'add_port_host',
+                           data.field
+                           , function (res) {
+                               loader2.hide();layer.closeAll('loading');
+                               if (res.code == 1) {
+                                   insPortTb.reload();
+                                   layer.msg(res.msg, {icon: 1});
+                                   layer.close(dIndex);
+                               } else {
+                                   layer.msg(res.msg, {icon: 2});
+                               }
+                           }, 'json');
+                       return false;
+                   });
+                  $('.closePageDialog').click(function () {
+    var layerShade = $('.layui-layer-shade');
+    layerShade.addClass('fading-out');               
+    var layerPage = $('.layui-layer-page'); 
+    layerPage.addClass('closing'); 
+    layerPage.on('animationend', function() {
+       layer.close(dIndex); 
+       layerPage.off('animationend');
+ 
+       
+    });
+    });
+               }
+           });
+           return false;
+       });
+       
+       table.on('tool(forwardPortTable)', function (obj) {
+           var data = obj.data;
+           data.hostid=data.host_id;
+           var layEvent = obj.event;
+           if (layEvent === 'del-forwardPort') { 
+               loader2.show();
+               $.post(rootUrl+'remove_port_host', data, function (res) {
+                   loader2.hide();layer.closeAll('loading');
+                   if (res.code == 1) {
+                       insPortTb.reload();
+                       layer.msg(res.msg, {icon: 1});
+                       return false;
+                   } else {
+                       layer.msg(res.msg, {icon: 2});
+                   }
+               }, 'json');
+               return false;
+           }
+       });
+       
+       var insDomainTb= table.render({
+           elem: '#forwardDomainTable',
+           url: rootUrl+'domain_host?hostid='+hostid,
+           page:false,
+           cols: [[
+               {field: 'domain', title: '域名白名单',width:'80%'},
+               {align: 'center', toolbar: '#tableBar4', title: '操作'}
+           ]]
+       });
+       
+       form.on('submit(forwardDomain-create)', function (data) {
+           layer.open({
+               type: 1,
+               title: '添加域名白名单',
+               content: $('#modelforwardDomain').html(),
+               success: function (layero, dIndex) {
+                   form.render("select");
+                   form.on('submit(forwardDomainSubmit)', function (data) {
+                       loader2.show();
+                       data.field.hostid = hostid;
+                       $.post(rootUrl+'add_domain_host',
+                           data.field
+                           , function (res) {
+                               loader2.hide();layer.closeAll('loading');
+                               if (res.code == 1) {
+                                   insDomainTb.reload();
+                                   layer.msg(res.msg, {icon: 1});
+                                   layer.close(dIndex);
+                               } else {
+                                   layer.msg(res.msg, {icon: 2});
+                               }
+                           }, 'json');
+                       return false;
+                   });
+                   $('.closePageDialog').click(function () {
+                    var layerShade = $('.layui-layer-shade');
+                    layerShade.addClass('fading-out');               
+                    var layerPage = $('.layui-layer-page'); 
+                    layerPage.addClass('closing'); 
+                    layerPage.on('animationend', function() {
+                       layer.close(dIndex); 
+                       layerPage.off('animationend');
+                 
+                       
+                    });
+                    });
+                               }
+           });
+       return false;
+        })
+       
+       table.on('tool(forwardDomainTable)', function (obj) {
+           var data = obj.data;
+           data.hostid=data.host_id;
+           var layEvent = obj.event;
+           if (layEvent === 'del-forwardDomain') { 
+               loader2.show();
+               $.post(rootUrl+'remove_domain_host', data, function (res) {
+                   loader2.hide();layer.closeAll('loading');
+                   if (res.code == 1) {
+                       insDomainTb.reload();
+                       layer.msg(res.msg, {icon: 1});
+                       return false;
+                   } else {
+                       layer.msg(res.msg, {icon: 2});
+                   }
+               }, 'json');
+               return false;
+           }
+       });
+       
+       form.on('switch(sync_time)', function (data) {
+           var x = data.elem.checked;
+           if (x==true) {
+               $.post(rootUrl+'synctime_host',{hostid:hostid,sync_time:1},function (data) {
+                   if(data.code==1){
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               });
+           } else {
+               $.post(rootUrl+'synctime_host',{hostid:hostid,sync_time:2},function (data) {
+                   if(data.code==1){
+                       layer.msg(data.msg, {icon: 1});
+                   }else{
+                       layer.msg(data.msg, {icon: 2});
+                   }
+               });
+           }
+       });
+       
+       setInterval(function () {
+           $.post(rootUrl+'state_host',{hostid:hostid},function (data) {
+               loader2.hide();layer.closeAll('loading');
+               if (data.code == 1) {
+                   var data = data.data;
+                   $('#status').html(data[1]);
+                   if ($('#status').html() === "运行中") {
+    
+                                $('.ptc').show();
+                                $('.stc').hide();
+           } else {
+    
+                     $('.ptc').hide();
+                     $('.stc').show();
+                       }
+                   return false;
+               } else {
+                   $('#status').html(data.msg);
+               }
+           },'json');
+       },3000);
+       var tabs = new mdui.Tab('#wd');
+       document.querySelector('#wd').addEventListener('show.mdui.tab', function (event) {
+    var activeIndex = event.detail.inst.activeIndex;
+    if (activeIndex === 7) {
+    
+    insTbSp.reload();
+    }
+    if (activeIndex === 8) {
+    
+    insTbBp.reload();
+    }
+    if (activeIndex === 9) {
+    
+    firewallinsTb.reload();
+    }
+    if (activeIndex === 10) {
+    insPortTb.reload();
+    }
+    });
+       var monitorhy = cloud.api.monitorhy(hostid);
+           $('.page-loading').hide();
+           if (!localStorage.getItem('introRun')) {
+               
+               var intro = introJs();
+    
+    intro.setOptions({
+    exitOnEsc: false,          
+    exitOnOverlayClick: false, 
+    showStepNumbers: false,    
+    overlayOpacity: 0.9,       
+    highlightClass: 'introjs-tooltipHighlighted' 
+    });
+    
+    intro.start();
+               
+               
+               localStorage.setItem('introRun', 'true');
+             } else {
+               
+               document.querySelector('.page-loading').style.display = 'none';
+             }
+       monitorhy.vmid = hostid;
+       monitorhy.cpu.init();
+       monitorhy.net.init();
+       monitorhy.memory.init();
+       monitorhy.interval.start();
+       setTimeout(function () {
+           $('.page-loading').hide();
+       },4000);
+    })
+    
+    const danvei = {
+    field: {}
+    };
+    
+    const forms = document.querySelectorAll('.danvei-form');
+    
+    forms.forEach(form => {
+    const elements = form.querySelectorAll('input, select');
+    elements.forEach(element => {
+       
+       if (element.name) {
+           danvei.field[element.name] = element.value;
+       }
+       
+       element.addEventListener(element.tagName === 'SELECT' ? 'change' : 'input', function() {
+           
+           danvei.field[this.name] = this.value;
+       });
+    });
+    });
+    function isDarkMode() {
+       return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+       const darkModeToggle = document.getElementById('dark-mode-toggle');
+       const glassModeToggle = document.getElementById('glass-mode-toggle');
+       const body = document.body;
+       
+       if (localStorage.getItem('darkMode') === 'enabled' || isDarkMode()) {
+           body.classList.add('dark-mode');
+       }
+       
+       if (localStorage.getItem('glassMode') === 'enabled' && !isDarkMode()) {
+           body.classList.add('glass-mode');
+       }
+       
+       darkModeToggle.addEventListener('click', function () {
+           document.startViewTransition(() => {
+               
+               body.classList.toggle('dark-mode');
+               body.classList.remove('glass-mode');
+               localStorage.setItem('glassMode', 'disabled');
+               
+               if (body.classList.contains('dark-mode')) {
+                   localStorage.setItem('darkMode', 'enabled');
+               } else {
+                   localStorage.setItem('darkMode', 'disabled');
+               }
+           });
+       });
+       
+       glassModeToggle.addEventListener('click', function () {
+           document.startViewTransition(() => {
+               body.classList.toggle('glass-mode');
+               body.classList.remove('dark-mode');
+               localStorage.setItem('darkMode', 'disabled');
+               
+               if (body.classList.contains('glass-mode')) {
+                   localStorage.setItem('glassMode', 'enabled');
+               } else {
+                   localStorage.setItem('glassMode', 'disabled');
+               }
+           });
+       });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        var loadingElement = document.querySelector('.page-loading');
+    
+        // 创建一个观察者实例并传入回调函数
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === "class" && loadingElement.classList.contains('hidden')) {
+                    // 当 page-loading 元素隐藏时触发所有动画
+                    document.querySelectorAll('.animate__animated').forEach(function(element) {
+                        animateCSS(element, 'zoomIn'); // 示例使用 'bounce' 动画
+                    });
+                    observer.disconnect(); // 停止观察
+                }
+            });
+        });
+    
+        // 配置观察选项:
+        var config = { attributes: true };
+    
+        // 传入目标节点和观察选项
+        observer.observe(loadingElement, config);
+    });
+    
+    function animateCSS(element, animationName, callback) {
+    const animationClass = 'animate__' + animationName;
+    element.classList.remove(animationClass); 
+    element.offsetWidth; 
+    element.classList.add(animationClass);
+    function handleAnimationEnd() {
+       element.classList.remove(animationClass);
+       element.removeEventListener('animationend', handleAnimationEnd);
+       if (typeof callback === 'function') callback();
+    }
+    element.addEventListener('animationend', handleAnimationEnd);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+    const eggButton = document.getElementById('eggButton');
+    const eggWeb = document.getElementById('eggweb');
+    if (!eggButton) {
+    console.error('eggButton element not found');
+    return;
+    }
+    if (!eggWeb) {
+    console.error('eggWeb element not found');
+    return;
+    }
+    const buttonTexts = [
+    '你触发了隐藏彩蛋！',
+    '再点一次看看会发生什么？',
+    '秘密通道已开启！',
+    '继续探索，说不定有惊喜～',
+    '真是个好奇宝宝！',
+    '小心，再点我就要溜了！',
+    '哇哦，你太厉害了！',
+    '探索的脚步永不停歇！',
+    '这是专属你的彩蛋！',
+    '支持一下，谢谢你！'
+    ];
+    
+    const websites = [
+    'https://game.share888.top/yxmb/5/index.html',
+    'https://www.arealme.com/coreball/cn/',
+    'http://farter.cn/tetr.js/',
+    'https://miku.aiursoft.cn/',
+    'https://theuselessweb.com/',
+    'http://gogoame.sumbioun.com/',
+    'https://chishenme.xyz/',
+    'https://vnc.netmc.icu/static/component/mmui/update.html',
+    'https://pf.bigpixel.cn/zh-CN.html'
+    ];
+    eggButton.addEventListener('click', function() {
+    const randomTextIndex = Math.floor(Math.random() * buttonTexts.length);
+    eggButton.textContent = buttonTexts[randomTextIndex];
+    const randomWebsiteIndex = Math.floor(Math.random() * websites.length);
+    eggWeb.src = websites[randomWebsiteIndex];
+    console.log('eggWeb src changed to:', eggWeb.src);
+    });
+    });
+    let $ = layui.jquery;
+    document.addEventListener('DOMContentLoaded', function() {
+       mdui.mutation();
+       
+       var listItems = document.querySelectorAll('.mdui-list-item.mdui-ripple');
+       
+       if (listItems.length > 0) {
+       } else {
+           console.error('No <li> elements found');
+       }
+       
+       var tabs = new mdui.Tab('#wd');
+       
+       listItems.forEach(function(li) {
+           li.addEventListener('click', function() {
+               
+               var value = li.getAttribute('value');
+               
+               if (value !== null) {
+                   tabs.show(Number(value));
+                   listItems.forEach(function(item) {
+                       if (item !== li) {  
+                           item.classList.remove('mdui-list-item-active');
+                       }
+                   });
+                   
+                   li.classList.add('mdui-list-item-active');
+               }
+               
+           }, { passive: true }); 
+       });
+    });
+    
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    
+    if (!localStorage.getItem('firstrun')) {
+       
+       localStorage.setItem('firstrun', 'true');
+       
+       document.querySelectorAll('.mdui-collapse-item').forEach(function (item) {
+           item.classList.add('mdui-collapse-item-open');
+       });
+    } else {
+       var isMobile = window.matchMedia("(max-width: 768px)").matches;
+       if (isMobile) {
+           
+           document.querySelectorAll('.mdui-collapse-item').forEach(function (item) {
+               item.classList.remove('mdui-collapse-item-open');
+           });
+       } else {
+           
+           document.querySelectorAll('.mdui-collapse-item').forEach(function (item) {
+               item.classList.add('mdui-collapse-item-open');
+           });
+       }
+    }
+    });
+    
+    window.addEventListener('resize', function () {
+    var isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) {
+       document.querySelectorAll('.mdui-collapse-item').forEach(function (item) {
+           item.classList.remove('mdui-collapse-item-open');
+       });
+    } else {
+       document.querySelectorAll('.mdui-collapse-item').forEach(function (item) {
+           item.classList.add('mdui-collapse-item-open');
+       });
+    }
+    });
+    
+    var layer = layer || {};
+    
+    layer.msg = function (message, options) {
+       options = options || {};
+       var position = options.position || 'right-bottom';
+       mdui.snackbar({
+           message: message,
+           position: 'right-bottom',
+           timeout: options.timeout || 4000  
+       });
+    };
+    
+    function showMessage() {
+       layer.msg('这是一个消息提示', { position: 'right-bottom', timeout: 3000 });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+    
+    setTimeout(function() {
+       const loadingElement = document.querySelector('.page-loading');
+       loadingElement.classList.add('hidden');
+    }, 3000);
+    });
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+    
+    const rdpContent = [
+       "full address:s:{if $host.is_nat==1}{$network['eth1'][0]['public_ip']} {else}{$network['eth1'][0]['ip']}{/if}{if $host.is_nat==1}:{$port}{/if}",
+       "username:s:administrator",
+       "prompt for credentials:i:1"
+    ].join('\r\n');
+    
+    const blob = new Blob([rdpContent], { type: 'application/rdp' });
+    
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'connection.rdp';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url); 
+    copyToClipA('{$host.os_password}');
+    });
+    var hostId = '{$hostid}'; 
+    
+    function getCidAndRedirect(url) {
+    const remoteurl = '{$network['eth1'][0]['public_ip']}'
+    const rootUrl = "{$rootUrl}";
+    const hostid = "{$hostid}";
+    const os_type = "{$image_info.os_type}"
+    const password = btoa('{$host.os_password}');
+    {if 1==0}
+    $.post(url, { hostid: hostId}, function(response) {
+       if (response.code === 200) {
+           var cid = response.data;
+           var redirectUrl = `http://${remoteurl}:8099/Myrtille/?__EVENTTARGET=&__EVENTARGUMENT=&cid=${cid}&connect=Connect%21`;
+           if (os_type !=1){
+            redirectUrl = `http://${remoteurl}:8888/?hostname=${remoteurl}&username=root&password=${password}&port={$port}`;
+            
+           }
+           
+           
+           window.open(redirectUrl, '_blank'); 
+       } else {
+           console.error('请求失败:', response.msg);
+           alert(`请求失败: ${response.msg}`);
+       }
+    }, 'json')
+    .fail(function(jqXHR, textStatus, errorThrown) {
+       console.error('POST 请求错误:', textStatus, errorThrown);
+       alert(`发生错误: ${textStatus}`);
+    });
+    {else}
+    $.post(rootUrl+'vnc_host',{hostid:hostid},function (data) {
+       loader2.hide();layer.closeAll('loading');
+       if (data.code == 1) {
+           window.open(data.url);
+           return false;
+       } else {
+           layer.msg(data.msg, {icon: 2});
+       }
+    },'json')
+    {/if}
+    }
+    function link() {
+    const url = rootUrl +'CreateNormalConnect';
+    getCidAndRedirect(url);
+    }
+    
+    function vnc() {
+    const url = rootUrl + 'getVNC';
+    getCidAndRedirect(url);
+    }
+    
+    function lowvnc() {
+    const url = rootUrl +'getVNC?IsEnhancedMode=false';
+    getCidAndRedirect(url);
+    }
+    
+document.querySelectorAll('.mdui-list-item').forEach(item => {
+    item.addEventListener('mousedown', (e) => {
+        pressTimer = setTimeout(() => {
+            ctc(item); 
+        }, 500);
+    });
+
+    item.addEventListener('mouseup', () => {
+        clearTimeout(pressTimer); 
+    });
+
+});
+    
+</script>
+</body>
+</html>
