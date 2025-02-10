@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- 样式文件 -->
   <link rel="stylesheet" href="/static/component/pear/css/pear.css" />
-  <link rel="stylesheet" href="/static/component/pear/css/login.css" />
+
   <style>
     /* 全局基础样式 */
     body {
@@ -242,6 +242,28 @@
         document.querySelector('.login').click();
       }
     }
+    document.addEventListener("DOMContentLoaded", function() {
+    let loginCard = document.querySelector('.login-card');
+    let originalPaddingBottom = document.body.style.paddingBottom || "0px";
+
+    function adjustForKeyboard() {
+        let viewportHeight = window.innerHeight;
+        let bodyHeight = document.documentElement.clientHeight; 
+
+        // 如果窗口高度缩小超过100px，说明键盘弹出
+        if (viewportHeight < bodyHeight - 100) {
+            loginCard.style.position = 'absolute';
+            loginCard.style.top = (viewportHeight / 2 - loginCard.offsetHeight / 2 - 80px) + "px";
+        } else {
+            loginCard.style.position = 'relative';
+            loginCard.style.top = "0px";
+        }
+    }
+
+    // 监听窗口大小变化（键盘弹出时高度会变小）
+    window.addEventListener('resize', adjustForKeyboard);
+});
+
   </script>
 </body>
 </html>

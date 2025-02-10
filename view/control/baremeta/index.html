@@ -26,17 +26,38 @@
    
 
 </head>
+<style>
+.mdui-list:nth-child(2){
+   padding-top: 2px;
+}
+    .mdui-tab a {
+        min-width: 106px;
+        display: flex
+;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    #panel-pass,#system-pass{
+    background-color: #a0aeff !important;
+    box-shadow: none;
+}
+    
+     #tab-0 .mdui-list-item-icon~.mdui-list-item-content {
+    /* margin-left: 32px; */
 
-<script>
-    var _paq = window._paq = window._paq || [];
+    font-size: 18px;
+}
+</style> 
+<script> 
+    var _paq  = window._paq = window._paq || [];
 
-    // 简单哈希函数，用于生成 siteId
+    // 简单哈希函数，用于生成 siteId测试11111gitsign
     function hashCode(str) {
         var hash = 0, i, chr;
         if (str.length === 0) return hash;
         for (i = 0; i < str.length; i++) {
-            chr = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + chr;
+            chr = str.charCodeAt(i); 
+            hash = ((hash << 5) - hash) + chr; 
             hash |= 0; // 转为 32 位整数
         }
         return Math.abs(hash); // 返回正整数
@@ -51,8 +72,8 @@
     _paq.push(["setCookieDomain", currentDomain]);
 
     // 使用预处理器注入的后端变量
-    var isNat = "{$host.is_nat}"; // 是否使用 NAT
-    var virtualType = "{$host.virtual_type}"; // 虚拟化类型
+    var isNat = "0"; // 是否使用 NAT
+    var virtualType = "DICM"; // 虚拟化类型
     var imageOS = "dicm"; // 虚拟机操作系统
 
     // 调用 GeoIP API 获取用户 IP 和地区
@@ -80,10 +101,10 @@
             _paq.push(['setCustomDimension', 4, isNat]);             // 自定义维度 1：是否 NAT
             _paq.push(['setCustomDimension', 1, virtualType]);       // 自定义维度 2：虚拟化类型
             _paq.push(['setCustomDimension', 2, imageOS]);           // 自定义维度 3：虚拟机操作系统
-            _paq.push(['setCustomDimension', 3, "2.0.3"]);           // 自定义维度 4：模板版本
+            _paq.push(['setCustomDimension', 3, "Bussiness1.0.0"]);           // 自定义维度 4：模板版本
             _paq.push(['setCustomDimension', 6, "NotAllowed"]);            // 自定义维度 5：IP 地址（删除）
             _paq.push(['setCustomDimension', 5, userRegion]);        // 自定义维度 6：地区
-            _paq.push(["setCustomDimension", 7, "Debug Mode Disabled. InnerVersion:Lightingboat00b2"]); // 调试信息
+            _paq.push(["setCustomDimension", 7, "BS100"]); // 调试信息
             _paq.push(["setCustomDimension", 8, currentDomain]);     // 当前域名
             _paq.push(['setCustomDimension', 9, currentTheme]);      // 自定义维度 9：主题模式（dark/light/glass）
 
@@ -224,8 +245,8 @@
     <!-- 默认抽屉栏在左侧 -->
     <div class="mdui-drawer" id="leftdrawer">
         <img alt="服务器" src="/static/component/mmui/img/2024/07/03/bD3l8V7x3A.png" style="
-    width: 68%;
-    padding: 37px;
+    width: 50%;
+    padding: 56px;
 "><h2 style="
     /* display: flow; */
     position: absolute;
@@ -286,7 +307,7 @@
                   <ul class="mdui-list" mdui-collapse="{accordion: false}">
                     <li class="mdui-collapse-item mdui-collapse-item-open">
                       <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
-                        <i class="mdui-text-color-green mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
+                        <i class="mdui-text-color-green-600 mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
         height: 24px;"fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></i>
                         <div class="mdui-list-item-content">系统</div>
                         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
@@ -319,7 +340,7 @@
                   <ul class="mdui-list" mdui-collapse="{accordion: false}">
                     <li class="mdui-collapse-item mdui-collapse-item-open">
                       <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
-                        <i class="mdui-text-color-green mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
+                        <i class="mdui-text-color-green-600 mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
         height: 24px;"fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></i>
                         <div class="mdui-list-item-content">配置</div>
                         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
@@ -352,7 +373,7 @@
                   <ul class="mdui-list" mdui-collapse="{accordion: false}">
                     <li class="mdui-collapse-item mdui-collapse-item-open">
                       <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
-                        <i class="mdui-text-color-green mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
+                        <i class="mdui-text-color-green-600 mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
         height: 24px;"fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></i>
                         <div class="mdui-list-item-content">远程</div>
                         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
@@ -366,12 +387,13 @@
                           <span class="label">远程信息：</span>
                           <span class="value">{if $host['remote_port']==''}{$host['ip']}{else}{$host['ip']}:{$host['remote_port']}{/if}</span>
                         </li>
-                   <li data-step="2" data-intro="这是面板密码。 双击对应文本可以复制密码 ，点击小眼睛可以查看， 点击笔可以修改。"  class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$business['passwd']??''}")'>
+                        <div style="overflow-x: auto;">
+                   <li  style="min-width: max-content;"   data-step="2" data-intro="这是面板密码。 双击对应文本可以复制密码 ，点击小眼睛可以查看， 点击笔可以修改。"  class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$business['passwd']??''}")'>
                         <span class="label">面板密码：</span> <span class="value"></span><code mdui-tooltip="{content: '双击复制',delay: 300, position: 'top'}"  class="password" style="font-family: auto;margin-right: 5px;">•••••••</code>
                         <i class="password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '显示密码',delay: 300, position: 'top'}" data-password="{$business['passwd']??''}" style="cursor: pointer;"><span role="img" aria-label="eye" class="anticon anticon-eye"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye"style="      width: 22px;
-    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path></svg></span></i>
+    height: 19px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path></svg></span></i>
                         <i class="password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '隐藏密码',delay: 300, position: 'top'}" data-password="•••••••" style="cursor: pointer;display: none;"><span role="img" aria-label="eye-invisible" class="anticon anticon-eye-invisible"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye-invisible"style="      width: 22px;
-    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"></path><path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"></path></svg></span></i>&nbsp 
+    height: 19px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"></path><path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"></path></svg></span></i>&nbsp 
                         <a style="height=3px" class="cada mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-icon" id="panel-pass" mdui-tooltip="{content: '修改密码',delay: 300, position: 'top'}" style="margin-left: 10px;"><i class="mdui-icon material-icons"><span role="img" aria-label="edit" class="anticon anticon-edit"><span role="img" aria-label="edit" class="anticon anticon-edit" style="
     width: 6px;
     /* line-height: 3px; */
@@ -382,12 +404,12 @@
 "><path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89z"></path></svg></span></i></a>
                     </span></li>
                    
-                  <li data-step="3" data-intro="这是系统密码。 修改请保证系统处于运行状态， 双击对应文本可以复制密码， 点击小眼睛可以查看 ，点击笔可以修改。" class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$host['os_password']}")'>
+                  <li  style="min-width: max-content;"  data-step="3" data-intro="这是系统密码。 修改请保证系统处于运行状态， 双击对应文本可以复制密码， 点击小眼睛可以查看 ，点击笔可以修改。" class="mdui-list-item mdui-ripple" ondblclick='copyToClip("{$host['os_password']}")'>
                     <span class="label">系统密码：</span> <span class="value"></span><code mdui-tooltip="{content: '双击复制',delay: 300, position: 'top'}"  class="password" style="font-family: auto;margin-right: 5px;">•••••••</code>
                             <i class="password-show" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '显示密码',delay: 300, position: 'top'}" data-password="{$host['os_password']}" style="cursor: pointer;"><span role="img" aria-label="eye" class="anticon anticon-eye"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye"style="      width: 22px;
-    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path></svg></span></i>
+    height: 19px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path></svg></span></i>
                             <i class=" password-hide" aria-hidden="true"  data-toggle="tooltip" data-placement="bottom" mdui-tooltip="{content: '隐藏密码',delay: 300, position: 'top'}" data-password="•••••••" style="cursor: pointer;display: none;"><span role="img" aria-label="eye-invisible" class="anticon anticon-eye-invisible"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye-invisible"style="      width: 22px;
-    height: 24px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"></path><path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"></path></svg></span></i>&nbsp 
+    height: 19px;"fill="currentColor" aria-hidden="true"><path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"></path><path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"></path></svg></span></i>&nbsp 
                             <a style="height=3px" mdui-tooltip="{content: '修改密码',delay: 300, position: 'top'}" class=" cada mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-icon" id="system-pass" style="margin-left: 10px;"><i class="mdui-icon material-icons"><span role="img" aria-label="edit" class="anticon anticon-edit"><span role="img" aria-label="edit" class="anticon anticon-edit" style="
     width: 6px;
     /* line-height: 3px; */
@@ -396,7 +418,7 @@
     height: 20px;
     /* align-self: center; */
 "><path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89z"></path></svg></span></i></a>
-                        </span></li>
+                        </span></li></div>
                     
                     </li>
                   </ul>
@@ -407,7 +429,7 @@
                   <ul class="mdui-list" mdui-collapse="{accordion: false}">
                     <li class="mdui-collapse-item mdui-collapse-item-open">
                       <div class="mdui-collapse-item-header mdui-list-item mdui-ripple b11">
-                        <i class="mdui-text-color-green mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
+                        <i class="mdui-text-color-green-600 mdui-list-item-icon mdui-icon material-icons" style="color: #4CAF50; font-size: 24px; margin-right: 8px;"><span role="img" aria-label="bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars"style="      width: 22px;
         height: 24px;"fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0zm0 284a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></i>
                         <div class="mdui-list-item-content">信息</div>
                         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
@@ -573,259 +595,226 @@
           
       </div>
   </div>
-             <div class=" mdui-col-md-12">
-                <div class="">
-                    <div class="layui-col-md12">
-                        <div class="mdui-card wwwq" style="
-  
-">
-                            <div class="layui-card-body" style="
-    min-height: 450PX;
-">
-                                
-                                <div class="mdui-tab" mdui-tab>
-                                      <a href="#tab1" class="mdui-ripple"><i class="fa fa-sitemap"></i>网络监控</a>
-  <a href="#tab2" class="mdui-ripple"><i class="fa fa-sitemap"></i>分配IP</a>
-  <a href="#tab3" class="mdui-ripple"><i class="fa fa-power-off"></i>管理控制</a>
-  <a href="#tab4" class="mdui-ripple"><i class="fa fa-retweet"></i>重装系统</a>
-  <a href="#tab5" class="mdui-ripple"><i class="fa fa-desktop"></i>远程VNC</a>  
-</div>
-                                <div class=" layadmin-latestData" lay-filter="tabZZT">
-                                   
-                                    <div class="">
-                                        <div id="tab1"class="mdui-p-a-2 mdui-container2 ">
-                                            <div class="layui-row layui-col-space15">
-                                                <div class="layui-col-xs12 layui-col-md12">
-                                                    <div id="home1">
-                                                        <select id="chartSelect" class="mdui-select" style="
-    margin-left: 13px !important;!i;!;
-" mdui-select>
-                                                            <option value="24" selected>24小时</option>
-                                                            <option value="3">3天</option>
-                                                        </select>
-                                                        <div style="height: 300px"
-                                                            class="w-100 h-100 d-flex justify-content-center"
-                                                            id="balanceCharts"></div>
+                         <div class="mdui-col-md-12">
+                <div class="layui-col-md12">
+                    <div class="mdui-card wwwq">
+                        <div class="layui-card-body" style="min-height: 450px;">
+                            <div class="mdui-tab" mdui-tab>
+                                <a href="#tab1" class="mdui-ripple"><i class="fa fa-sitemap"></i>网络监控</a>
+                                <a href="#tab2" class="mdui-ripple"><i class="fa fa-sitemap"></i>分配IP</a>
+                                <a href="#tab3" class="mdui-ripple"><i class="fa fa-power-off"></i>管理控制</a>
+                                <a href="#tab4" class="mdui-ripple"><i class="fa fa-retweet"></i>重装系统</a>
+                                <a href="#tab5" class="mdui-ripple"><i class="fa fa-desktop"></i>远程VNC</a>
+                            </div>
+                            <div class="layadmin-latestData" lay-filter="tabZZT">
+                                <div id="tab1" class="mdui-p-a-2 mdui-container2">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-xs12 layui-col-md12">
+                                            <div id="home1">
+                                                <select id="chartSelect" class="mdui-select" style="margin-left: 13px !important;" mdui-select>
+                                                    <option value="24" selected>24小时</option>
+                                                    <option value="3">3天</option>
+                                                </select>
+                                                <div style="height: 300px" class="w-100 h-100 d-flex justify-content-center" id="balanceCharts"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab2" class="mdui-p-a-2 mdui-container2">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-xs12 layui-col-md12">
+                                            <table class="layui-table layui-text" id="dataTable" lay-filter="dataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="3">
+                                                            <p style="float: left;padding: 10px 0px"><i class="fa fa-sitemap"></i>分配IP列表</p>
+                                                            <p style="float: right" id="copy"><i class="fa fa-copy"></i>点击复制所有IP</p>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab3" class="mdui-p-a-2 mdui-container2">
+                                    <div class="layui-row layui-col-space30">
+                                        <div class="mdui-grid">
+                                            <div class="mdui-col mdui-col-sm-2">
+                                                <div class="mdui-card">
+                                                    <div class="mdui-card-primary">
+                                                        <i class="mdui-icon material-icons">power_settings_new</i> 开机
+                                                    </div>
+                                                    <div class="mdui-card-content" style="text-align: center">
+                                                        <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent start ajax" id="start">开机</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mdui-col mdui-col-sm-2">
+                                                <div class="mdui-card">
+                                                    <div class="mdui-card-primary">
+                                                        <i class="mdui-icon material-icons">power_off</i> 关机
+                                                    </div>
+                                                    <div class="mdui-card-content" style="text-align: center">
+                                                        <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent power ajax" id="power">关机</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mdui-col mdui-col-sm-2">
+                                                <div class="mdui-card">
+                                                    <div class="mdui-card-primary">
+                                                        <i class="mdui-icon material-icons">refresh</i> 重启
+                                                    </div>
+                                                    <div class="mdui-card-content" style="text-align: center">
+                                                        <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent restart ajax" id="restart">重启</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mdui-col mdui-col-sm-2">
+                                                <div class="mdui-card">
+                                                    <div class="mdui-card-primary">
+                                                        <i class="mdui-icon material-icons">refresh</i> 重启BMC
+                                                    </div>
+                                                    <div class="mdui-card-content" style="text-align: center">
+                                                        <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent ajax" id="resetbmc">重启BMC</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mdui-col mdui-col-sm-2">
+                                                <div class="mdui-card">
+                                                    <div class="mdui-card-primary">
+                                                        <i class="mdui-icon material-icons">healing</i> 救援
+                                                    </div>
+                                                    <div class="mdui-card-content" style="text-align: center">
+                                                        <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent rescue ajax" id="rescue">救援</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="tab2" class="mdui-p-a-2 mdui-container2">
-                                            <div class="layui-row layui-col-space15">
-                                                <div class="layui-col-xs12 layui-col-md12">
-                                                    <table class="layui-table layui-text" id="dataTable"
-                                                        lay-filter="dataTable">
-                                                        <thead>
-                                                            <th colspan="3">
-                                                                <p style="float: left;padding: 10px 0px"><i
-                                                                        class="fa fa-sitemap"></i>分配IP列表</p>
-                                                                <p style="float: right" id="copy"><i
-                                                                        class="fa fa-copy"></i>点击复制所有IP </p>
-                                                            </th>
-                                                        </thead>
-                                                        <tbody>
-    
-                                                        </tbody>
-                                                    </table>
-    
+                                    </div>
+                                </div>
+                                <div id="tab4" class="mdui-p-a-2 mdui-container2">
+                                    <div class="layui-row layui-col-space5">
+                                        <div class="mdui-col-md-3">
+                                            <div class="mdui-card form-1">
+                                                <div class="mdui-card-media">
+                                                    <i class="fa fa-windows fa-3x"></i>
                                                 </div>
-    
-                                            </div>
-                                        </div>
-                                        <div id="tab3"class="mdui-p-a-2 mdui-container2">
-                                            <div class="layui-row layui-col-space30">
-                                        <div class="mdui-grid">
-    <div class="mdui-col mdui-col-sm-2">
-        <div class="mdui-card">
-            <div class="mdui-card-primary">
-                <i class="mdui-icon material-icons">power_settings_new</i> 开机
-            </div>
-            <div class="mdui-card-content" style="text-align: center">
-                <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent start ajax" id="start">开机</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="mdui-col mdui-col-sm-2">
-        <div class="mdui-card">
-            <div class="mdui-card-primary">
-                <i class="mdui-icon material-icons">power_off</i> 关机
-            </div>
-            <div class="mdui-card-content" style="text-align: center">
-                <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent power ajax" id="power">关机</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="mdui-col mdui-col-sm-2">
-        <div class="mdui-card">
-            <div class="mdui-card-primary">
-                <i class="mdui-icon material-icons">refresh</i> 重启
-            </div>
-            <div class="mdui-card-content" style="text-align: center">
-                <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent restart ajax" id="restart">重启</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="mdui-col mdui-col-sm-2">
-        <div class="mdui-card">
-            <div class="mdui-card-primary">
-                <i class="mdui-icon material-icons">refresh</i> 重启BMC
-            </div>
-            <div class="mdui-card-content" style="text-align: center">
-                <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent ajax" id="resetbmc">重启BMC</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="mdui-col mdui-col-sm-2">
-        <div class="mdui-card">
-            <div class="mdui-card-primary">
-                <i class="mdui-icon material-icons">healing</i> 救援
-            </div>
-            <div class="mdui-card-content" style="text-align: center">
-                <button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent  rescue ajax" id="rescue">救援</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-                                            </div>
-                                        </div>
-                                        <div id="tab4"class="mdui-p-a-2 mdui-container2">
-                                            <div class="layui-row layui-col-space5">
-                                             <div class=" mdui-col-md-3"><div class="mdui-card form-1">
-  <!-- 卡片头部，包含头像、标题、副标题 -->
-  <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <i class=" fa fa-windows  fa-3x"> </i></div>
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">Windows</div>
-    <div class="mdui-card-primary-subtitle">Microsoft</div>
- </div>
-  <!-- 卡片的内容 -->
-    <div class="mdui-card-actions-stacked">
-
-<form id="form1" class="danvei-form" style="text-align: center; width:100%">
-          <input type="hidden" name="host_id" value="{$host.id}">
-         <input type="hidden" name="os_type" value="windows">
-          <select class=" mdui-select"  style="width:95%" name="template"  mdui-select>
-             <option value="">&nbsp;&nbsp;请选择系统镜像</option>
-{if isset($mirrors_data['windows'])}
+                                                <div class="mdui-card-primary">
+                                                    <div class="mdui-card-primary-title">Windows</div>
+                                                    <div class="mdui-card-primary-subtitle">Microsoft</div>
+                                                </div>
+                                                <div class="mdui-card-actions-stacked">
+                                                    <form id="form1" class="danvei-form" style="text-align: center; width:100%">
+                                                        <input type="hidden" name="host_id" value="{$host.id}">
+                                                        <input type="hidden" name="os_type" value="windows">
+                                                        <select class="mdui-select" style="width:95%" name="template" mdui-select>
+                                                            <option value="">&nbsp;&nbsp;请选择系统镜像</option>
+                                                            {if isset($mirrors_data['windows'])}
                                                                 {foreach $mirrors_data['windows'] as $k=>$v}
-
-               <option value="{$v['id']}">&nbsp;&nbsp;{$v['os_name']}</option>
-               {/foreach}
-   {/if}
-              </select>
-               <button style="margin-top: 15px;" class=" mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
-              </form> 
-  </div>
-</div></div>
-<div class=" mdui-col-md-3"><div class="mdui-card">
-  <!-- 卡片头部，包含头像、标题、副标题 -->
-  <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-   <i class="icon-centos fa-3x"></i></div>
-
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">Centos</div>
-    <div class="mdui-card-primary-subtitle">redhat</div>
- </div>
-  <!-- 卡片的内容 -->
-    <div class="mdui-card-actions-stacked">
-<form id="form2" class="danvei-form" style="text-align: center; width:100%">
-          <input type="hidden" name="host_id" value="{$host.id}">
-<input type="hidden" name="os_type" value="centos">
-          <select  class="mdui-select" style="width:95%" name="template"  mdui-select>
-             <option value="">&nbsp;&nbsp;请选择系统镜像</option>
-            {if isset($mirrors_data['centos'])}
-                                                                {foreach $mirrors_data['centos'] as $k=>$v}
-
-              <option value="{$v['id']}">&nbsp;&nbsp;{$v['os_name']}</option>
-             {/foreach}
-                                                                {/if}
-              </select>
-               <button style="margin-top: 15px;" class=" mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
-              </form>   
-  </div>
-</div></div>
-
-<div class=" mdui-col-md-3"><div class="mdui-card">
-  <!-- 卡片头部，包含头像、标题、副标题 -->
-  <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <i class="fa icon-ubuntu fa-3x"></i></div>
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">Ubuntu</div>
-    <div class="mdui-card-primary-subtitle">linux</div>
- </div>
-  <!-- 卡片的内容 -->
-    <div class="mdui-card-actions-stacked">
-<form id="form3" class="t1 danvei-form" style="text-align: center; width:100%">
-          <input type="hidden" name="host_id" value="{$host.id}">
-<input type="hidden" name="os_type" value="ubuntu">
-          <select  class="mdui-select" style="width:95%" name="template"  mdui-select>
-             <option value="">&nbsp;&nbsp;请选择系统镜像</option>
-
-                   {if isset($mirrors_data['ubuntu'])}
-                                                                {foreach $mirrors_data['ubuntu'] as $k=>$v}
-            <option value="{$v['id']}">&nbsp;&nbsp;{$v['os_name']}</option>
-               {/foreach}
-                                                                {/if}
-              </select>
-               <button id="d" style="margin-top: 15px;" class=" mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
-              </form>   
-  </div>
-</div></div>
-
-
-<div class=" mdui-col-md-3"><div class="mdui-card">
-  <!-- 卡片头部，包含头像、标题、副标题 -->
-  <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <i class="icon-debian fa-3x"></i></div>
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">Debian</div>
-    <div class="mdui-card-primary-subtitle">linux</div>
- </div>
-  <!-- 卡片的内容 -->
-    <!-- 卡片的按钮 -->
-  <div class="mdui-card-actions-stacked">
-<form id="form4" class="danvei-form" style="text-align: center; width:100%">
-          <input type="hidden" name="host_id" value="{$host.id}">
- <input type="hidden" name="os_type" value="debian">
-          <select  class="mdui-select" style="width:95%" name="template"  mdui-select>
-             <option value="">&nbsp;&nbsp;请选择系统镜像</option>
-             
-                  {if isset($mirrors_data['debian'])}
-                                                                {foreach $mirrors_data['debian'] as $k=>$v}
-            <option value="{$v['id']}">&nbsp;&nbsp;{$v['os_name']}</option>
-                {/foreach} {/if}
-              </select>
-               <button style="margin-top: 15px;" class=" mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
-              </form>   
-  </div>
-</div></div>
+                                                                    <option value="{$v['id']}">&nbsp;&nbsp;{$v['os_name']}</option>
+                                                                {/foreach}
+                                                            {/if}
+                                                        </select>
+                                                        <button style="margin-top: 15px;" class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div id="tab5"class="mdui-p-a-2 mdui-container2">
-                                            <div class="mdui-row mdui-col-space-2">
-        <div class="mdui-col mdui-col-xs-12">
-            <div class="mdui-card">
-                <div class="mdui-card-primary">
-                    <i class="mdui-icon material-icons" style="font-size: 3rem;">desktop_windows</i>
-                    <p>HTML5远程桌面可以通过以下方式启动。HTML5 查看器将在新窗口中打开，提供便捷的远程连接体验。</p>
-                    <a target="_blank" href="" id="govnc"></a>
-                </div>
-                <div class="mdui-card-content" style="text-align: center;">
-                    <button style="margin-top: 15px;" class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent" lay-filter="vnc-view" lay-submit>连接到 VNC</button>
-                    <button style="margin-top: 15px;" class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent" lay-filter="flushVnc" lay-submit >强制刷新 VNC</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                                        <div class="mdui-col-md-3">
+                                            <div class="mdui-card">
+                                                <div class="mdui-card-media">
+                                                    <i class="icon-centos fa-3x"></i>
+                                                </div>
+                                                <div class="mdui-card-primary">
+                                                    <div class="mdui-card-primary-title">Centos</div>
+                                                    <div class="mdui-card-primary-subtitle">redhat</div>
+                                                </div>
+                                                <div class="mdui-card-actions-stacked">
+                                                    <form id="form2" class="danvei-form" style="text-align: center; width:100%">
+                                                        <input type="hidden" name="host_id" value="{$host.id}">
+                                                        <input type="hidden" name="os_type" value="centos">
+                                                        <select class="mdui-select" style="width:95%" name="template" mdui-select>
+                                                            <option value="">&nbsp;&nbsp;请选择系统镜像</option>
+                                                            {if isset($mirrors_data['centos'])}
+                                                                {foreach $mirrors_data['centos'] as $k=>$v}
+                                                                    <option value="{$v['id']}">&nbsp;&nbsp;{$v['os_name']}</option>
+                                                                {/foreach}
+                                                            {/if}
+                                                        </select>
+                                                        <button style="margin-top: 15px;" class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mdui-col-md-3">
+                                            <div class="mdui-card">
+                                                <div class="mdui-card-media">
+                                                    <i class="fa icon-ubuntu fa-3x"></i>
+                                                </div>
+                                                <div class="mdui-card-primary">
+                                                    <div class="mdui-card-primary-title">Ubuntu</div>
+                                                    <div class="mdui-card-primary-subtitle">linux</div>
+                                                </div>
+                                                <div class="mdui-card-actions-stacked">
+                                                    <form id="form3" class="t1 danvei-form" style="text-align: center; width:100%">
+                                                        <input type="hidden" name="host_id" value="{$host.id}">
+                                                        <input type="hidden" name="os_type" value="ubuntu">
+                                                        <select class="mdui-select" style="width:95%" name="template" mdui-select>
+                                                            <option value="">&nbsp;&nbsp;请选择系统镜像</option>
+                                                            {if isset($mirrors_data['ubuntu'])}
+                                                                {foreach $mirrors_data['ubuntu'] as $k=>$v}
+                                                                    <option value="{$v['id']}">&nbsp;&nbsp;{$v['os_name']}</option>
+                                                                {/foreach}
+                                                            {/if}
+                                                        </select>
+                                                        <button id="d" style="margin-top: 15px;" class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mdui-col-md-3">
+                                            <div class="mdui-card">
+                                                <div class="mdui-card-media">
+                                                    <i class="icon-debian fa-3x"></i>
+                                                </div>
+                                                <div class="mdui-card-primary">
+                                                    <div class="mdui-card-primary-title">Debian</div>
+                                                    <div class="mdui-card-primary-subtitle">linux</div>
+                                                </div>
+                                                <div class="mdui-card-actions-stacked">
+                                                    <form id="form4" class="danvei-form" style="text-align: center; width:100%">
+                                                        <input type="hidden" name="host_id" value="{$host.id}">
+                                                        <input type="hidden" name="os_type" value="debian">
+                                                        <select class="mdui-select" style="width:95%" name="template" mdui-select>
+                                                            <option value="">&nbsp;&nbsp;请选择系统镜像</option>
+                                                            {if isset($mirrors_data['debian'])}
+                                                                {foreach $mirrors_data['debian'] as $k=>$v}
+                                                                    <option value="{$v['id']}">&nbsp;&nbsp;{$v['os_name']}</option>
+                                                                {/foreach}
+                                                            {/if}
+                                                        </select>
+                                                        <button style="margin-top: 15px;" class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" lay-filter="reinstallSubmit" lay-submit>重置操作系统</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab5" class="mdui-p-a-2 mdui-container2">
+                                    <div class="mdui-row mdui-col-space-2">
+                                        <div class="mdui-col mdui-col-xs-12">
+                                            <div class="mdui-card">
+                                                <div class="mdui-card-primary">
+                                                    <i class="mdui-icon material-icons" style="font-size: 3rem;">desktop_windows</i>
+                                                    <p>HTML5远程桌面可以通过以下方式启动。HTML5 查看器将在新窗口中打开，提供便捷的远程连接体验。</p>
+                                                    <a target="_blank" href="" id="govnc"></a>
+                                                </div>
+                                                <div class="mdui-card-content" style="text-align: center;">
+                                                    <button style="margin-top: 15px;" class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent" lay-filter="vnc-view" lay-submit>连接到 VNC</button>
+                                                    <button style="margin-top: 15px;" class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-theme-accent" lay-filter="flushVnc" lay-submit>强制刷新 VNC</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -991,7 +980,7 @@
                 url: rootUrl + 'allotIp?hostid=' + hostid,
                 page: true,
                 cols: cols,
-                cellMinWidth: 100,
+                cellMinWidth: 160,
                 skin: 'line',
                 limit: 30,
                 limits: [50, 100, 200, 400],

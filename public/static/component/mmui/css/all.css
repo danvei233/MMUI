@@ -31,6 +31,12 @@ body.glass-mode .layui-table tr,
 body.glass-mode .layui-table th{
     background-color: #14141400 !important;
 }
+.layui-table-container {
+    overflow-x: auto;
+}
+.layui-table {
+    min-width: max-content;
+}
 
 
 
@@ -121,7 +127,7 @@ body {
     color: rgba(255, 255, 255, 0.65);
    }
    img,.rgg ,
-   #tab-1 br,
+   #tab-0 br,
    .mdui-card-primary-title{
         user-select: none;
   -webkit-user-select: none; /* Chrome, Safari */
@@ -143,23 +149,24 @@ body {
     }
     
 
- #tab-1 .mdui-list-item-icon~.mdui-list-item-content {
+ #tab-0 .mdui-list-item-icon~.mdui-list-item-content {
     /* margin-left: 32px; */
     margin-left: 2% !important;
+    font-size: 18px;
 }
-    #tab-1 .mdui-panel  .mdui-color-theme-accent {
+    #tab-0 .mdui-panel  .mdui-color-theme-accent {
      background-color: white !important; 
     color:  rgba(0, 0, 0, 0.88) !important;
     border: 1px solid #d9d9d9;
     background: #ffffff!;
 }
-body.dark-mode #tab-1 .mdui-panel .mdui-color-theme-accent {
+body.dark-mode #tab-0 .mdui-panel .mdui-color-theme-accent {
      background-color: #141414 !important; 
     color: rgba(255, 255, 255, 0.85) !important;
     border: 1px solid #d9d9d9;
     background: #141414;
 }
-body.glass-mode #tab-1 .mdui-panel .mdui-color-theme-accent {
+body.glass-mode #tab-0 .mdui-panel .mdui-color-theme-accent {
     background-color: #14141400 !important; 
    color: rgba(0, 0, 0, 0.88) !important;
   
@@ -602,6 +609,8 @@ body.dark-mode .introjs-arrow.top {
 #slec1 .mdui-select{
     flex: 1 1 auto;
     margin: 8px;
+    
+    
 }
 body.dark-mode .introjs-tooltipbuttons {
     border-top: 1px solid #4d61ce;}
@@ -665,7 +674,7 @@ body.dark-mode .introjs-tooltipbuttons {
         
     }
   
-    #tab-1 .mdui-card{
+    #tab-0 .mdui-card{
         margin:8px;
     }
     .wc{
@@ -678,7 +687,7 @@ body.dark-mode .introjs-tooltipbuttons {
             height: 39px !important;
             line-height: 34px;
             padding-right: 0px;
-            width: 88px !important;
+           
         }
         .wc{
             padding-top: 0px;
@@ -710,11 +719,21 @@ body.dark-mode .introjs-tooltipbuttons {
         padding: 0px !important;
         margin: 0px !important;
     }
+    body.mdui-loaded{
+        margin: 0px !important;
     }
-
+    }
+    
+#panel-pass,#system-pass{
+    background-color: #a0aeff !important;
+    box-shadow: none;
+}
     
     @media (min-width: 1000px){
-        
+        .mdui-snackbar {
+         
+            left: unset;
+        }
             .mdui-container {
                 background-color:#fafafa   ;
          width: 100%; 
@@ -965,12 +984,12 @@ body.dark-mode .mdui-table thead th {
     color: #ffffff !important;
 }
 body.glass-mode .mdui-typo-title,
-body.glass-mode #tab-1 .mdui-card-primary-title,
+body.glass-mode #tab-0 .mdui-card-primary-title,
 body.glass-mode .tittle{
     color: #0A97FF;
 }
 body.dark-mode .mdui-typo-title,
-body.dark-mode #tab-1 .mdui-card-primary-title,
+body.dark-mode #tab-0 .mdui-card-primary-title,
 body.dark-mode .tittle{
     color: #0A97FF;
 }
@@ -1000,8 +1019,8 @@ body.dark-mode a {
 body.dark-mode .layui-form-autocomplete dl dd:hover {
     background-color: #2e3247;
 }
-body.dark-mode layui-badge,
-body.dark-mode layui-bg-gray {
+body.dark-mode .layui-badge,
+body.dark-mode .layui-bg-gray {
     color: #ffffff !important;
     background-color: #1d2033 !important;
 }
@@ -1208,10 +1227,10 @@ body.glass-mode .mdui-drawer {
     backdrop-filter: blur(5px); /* 应用模糊效果 */
     -webkit-backdrop-filter: blur(5px); /* 针对旧版 Safari 浏览器的兼容性写法 */
 }
-body.dark-mode #tab-1 .mdui-card-actions button{
+body.dark-mode #tab-0 .mdui-card-actions button{
     border-color: #303030 !important;
     }
-    #tab-1 .mdui-card-actions button{
+    #tab-0 .mdui-card-actions button{
     padding: 0px !important;
     }
     .stc,.ptc{
@@ -1232,8 +1251,7 @@ body.glass-mode .mdui-color-theme-accent {
     transition: background 0.3s;
 }
 .mdui-snackbar {
-    right: -12%;
-    left: unset;
+
     background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色背景 */
     backdrop-filter: blur(8px); /* 毛玻璃效果 */
     -webkit-backdrop-filter: blur(8px); /* 兼容旧版 Safari */
@@ -1301,8 +1319,8 @@ body.glass-mode .mdui-container {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #3498db;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
+    width: 14px;
+    height: 14px;
     animation: spin 2s linear infinite;
 }
 body.dark-mode .layui-table-init,
@@ -1418,15 +1436,15 @@ body.dark-mode .layui-table-init{
 
   @media(max-width: 768px){
     
-            #tab-1 .mdui-col-sm-4{
+            #tab-0 .mdui-col-sm-4{
                 width: 100%;
             }
 
-            #tab-1  .mdui-card .t11 {
+            #tab-0  .mdui-card .t11 {
         margin-top: 8px;
         
     }
-    #tab-1  .mdui-card .b11 {
+    #tab-0  .mdui-card .b11 {
         margin-bottom: 8px;
        
     }
@@ -1439,7 +1457,7 @@ body.dark-mode .layui-table-init{
             }
      
             
-            #tab-1 .mdui-panel  .mdui-col-sm-4{
+            #tab-0 .mdui-panel  .mdui-col-sm-4{
     width: fit-content;
 }
    
@@ -1532,7 +1550,7 @@ body.dark-mode .layui-table-init{
 #tab-4 .mdui-col-md-3{
     width: 100%;
 }
-#tab-1 .mdui-list-item  .mdui-btn-icon {
+#tab-0 .mdui-list-item  .mdui-btn-icon {
     width: 18px;
     min-width: 26px;
     height: 26px;}
@@ -1565,10 +1583,10 @@ body.dark-mode #refreshtk{
 }
 
 #tab-9 .mdui-select {
-    width: 100%;
-    width: 120px !important;
+    max-width: 46%;
+    width: unset !important;
     text-align: left;
-    min-width: 1px;
+    
 }
 
 #tab-9  .mdui-table-fluid {
@@ -1595,26 +1613,26 @@ body.dark-mode .mdui-select-menu{
 
 @media only screen and (min-width: 768px) {
     
-#tab-1 .mdui-list-dense{
+#tab-0 .mdui-list-dense{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     height: 100%;
 }
 
-#tab-1 .mdui-list{
+#tab-0 .mdui-list{
     height: 100%;
 }
-#tab-1 .mdui-collapse-item{
+#tab-0 .mdui-collapse-item{
     height: 100%;
     width: 100%;
     
 }
-#tab-1 .mdui-collapse-item-body{
+#tab-0 .mdui-collapse-item-body{
     height: calc(100% - 64px )!important;
     
 }
-#tab-1  .mdui-col-sm-4{
+#tab-0  .mdui-col-sm-4{
 
     height: 100%;
 }
@@ -1622,13 +1640,14 @@ body.dark-mode .mdui-select-menu{
 
 
 
-#tab-1 .mdui-list-item {
+#tab-0 .mdui-list-item {
+    padding-left: 6% !important;
   display: flex; /* 使用 flex 布局 */
   justify-content: flex-start; /* 确保内容从左对齐 */
   align-items: center; /* 垂直方向居中对齐 */
 }
 
-#tab-1 .mdui-list-item .content {
+#tab-0 .mdui-list-item .content {
   margin-left: 8px; /* 给冒号后面的内容添加间距 */
   text-align: left; /* 确保内容居左显示 */
   flex-grow: 1; /* 内容自动扩展，保持对齐 */
@@ -1636,6 +1655,7 @@ body.dark-mode .mdui-select-menu{
 
 #slec1{
     display: flex;
+    flex-wrap: wrap;
 }
 #slec1 .blank{
     flex: 1 1 auto;
@@ -1816,10 +1836,109 @@ body.glass-mode .ant-pro-layout-bg-list {
 
 
 
-
-
-body.dark-mode :.layui-table-body::-webkit-scrollbar-track {
+body.dark-mode .layui-table-body::-webkit-scrollbar-track {
     color: #141414;
     background-color: #141414;
   }
 
+/* 确保分页容器使用 flex 布局，适应各种屏幕 */
+.layui-table-page {
+    display: flex;
+    justify-content: center; /* 居中对齐 */
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+/* 让分页内部的内容自适应 */
+.layui-table-pageview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* 分页按钮容器 */
+.layui-laypage {
+    display: flex;
+    flex-wrap: wrap; /* 自动换行，适配小屏幕 */
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* 按钮之间的间距 */
+}
+
+/* 分页总数文本 */
+.layui-laypage-count {
+    flex-shrink: 0; /* 防止压缩 */
+}
+
+/* 上一页、下一页按钮 */
+.layui-laypage-prev,
+.layui-laypage-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+#tab-0 .mdui-collapse-item-body {
+    
+    padding-top: 2px;
+}
+
+/* 禁用状态 */
+.layui-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 页码按钮 */
+.layui-laypage-curr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    background: #5FB878;
+    color: white;
+    border-radius: 4px;
+}
+
+/* 刷新按钮 */
+.layui-laypage-refresh {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 输入框和跳转按钮 */
+.layui-laypage-skip {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 输入框样式 */
+.layui-laypage-skip input {
+    width: 50px;
+    text-align: center;
+}
+
+/* 跳转按钮 */
+.layui-laypage-btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.layui-table-page {
+    height: max-content !important;
+    padding-top: 10px !important;
+}
+.layui-table-pageview{
+    height: 100% !important;
+}

@@ -1,0 +1,51 @@
+🚀 没有需要同步的文件，退出。
+🔄 [2025-02-11 01:32:49] 开始同步修改的文件...
+📂 同步文件: view/control/baremeta/index.html
+   源目录: D:/mui2//view/control/baremeta
+   目标目录: C:/Users/丁薇/Documents/GitHub/MMUI//view/control/baremeta
+❌ 同步失败: view/control/baremeta/index.html
+📂 同步文件: view/control/ecs/index.html
+   源目录: D:/mui2//view/control/ecs
+   目标目录: C:/Users/丁薇/Documents/GitHub/MMUI//view/control/ecs
+❌ 同步失败: view/control/ecs/index.html
+✅ [2025-02-11 01:32:50] 文件同步完成！
+🔄 [2025-02-11 01:38:36] 开始同步修改的文件...
+📂 同步文件: view/control/baremeta/index.html
+   源目录: D:/mui2/view/control/baremeta
+   目标目录: C:/Users/丁薇/Documents/GitHub/MMUI/view/control/baremeta
+✅ 成功同步: view/control/baremeta/index.html
+📂 同步文件: view/control/ecs/index.html
+   源目录: D:/mui2/view/control/ecs
+   目标目录: C:/Users/丁薇/Documents/GitHub/MMUI/view/control/ecs
+✅ 成功同步: view/control/ecs/index.html
+✅ [2025-02-11 01:38:37] 文件同步完成！
+🔄 [2025-02-11 01:39:15] 开始同步修改的文件...
+📂 同步文件: view/control/baremeta/index.html
+   源目录: D:/mui2/view/control/baremeta
+   目标目录: C:/Users/丁薇/Documents/GitHub/MMUI/view/control/baremeta
+✅ 成功同步: view/control/baremeta/index.html
+📂 同步文件: view/control/ecs/index.html
+   源目录: D:/mui2/view/control/ecs
+   目标目录: C:/Users/丁薇/Documents/GitHub/MMUI/view/control/ecs
+✅ 成功同步: view/control/ecs/index.html
+✅ [2025-02-11 01:39:16] 文件同步完成！
+🔄 [2025-02-11 01:43:27] 开始同步修改的文件...
+📂 同步文件: view/control/baremeta/index.html
+   源目录: D:\mui2\view\control\baremeta
+   目标目录: C:\Users\丁薇\Documents\GitHub\MMUI\view\control\baremeta
+✅ 成功同步: view/control/baremeta/index.html
+📂 同步文件: view/control/ecs/index.html
+   源目录: D:\mui2\view\control\ecs
+   目标目录: C:\Users\丁薇\Documents\GitHub\MMUI\view\control\ecs
+✅ 成功同步: view/control/ecs/index.html
+✅ [2025-02-11 01:43:28] 文件同步完成！
+🔄 [2025-02-11 01:46:58] 开始同步修改的文件...
+📂 同步文件: view/control/baremeta/index.html
+   源文件: D:/mui2/view/control/baremeta/index.html
+   目标文件: C:/Users/丁薇/Documents/GitHub/MMUI/view/control/baremeta/index.html
+✅ 成功同步: view/control/baremeta/index.html
+📂 同步文件: view/control/ecs/index.html
+   源文件: D:/mui2/view/control/ecs/index.html
+   目标文件: C:/Users/丁薇/Documents/GitHub/MMUI/view/control/ecs/index.html
+✅ 成功同步: view/control/ecs/index.html
+✅ [2025-02-11 01:46:59] 文件同步完成！
