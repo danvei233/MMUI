@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <!-- 手机适配 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MMUI 更新日志</title>
+  <style>
+    /* 使用 CSS 变量管理颜色 */
+    :root {
+      --bg-color: #f9f9f9;
+      --text-color: #333;
+      --primary-color: #007bff;
+      --card-bg: #fff;
+      --card-border: #ddd;
+      --timeline-line: #ccc;
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --shadow-strong: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    /* 暗色模式支持 */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --primary-color: #66aaff;
+        --card-bg: #1e1e1e;
+        --card-border: #333;
+        --timeline-line: #555;
+        --shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        --shadow-strong: 0 4px 8px rgba(0, 0, 0, 0.7);
+      }
+    }
+    
+    /* 重置及基础样式 */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      min-height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    /* 主布局：内容区 + 侧边栏 */
+    .container { flex: 3; padding: 20px; }
+    .sidebar { flex: 1; background-color: var(--card-bg); border-left: 1px solid var(--card-border); padding: 20px; }
+    
+    /* 头部样式 */
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      margin: 20px 0;
+      font-size: 2.2em;
+      font-weight: bold;
+    }
+    .version-summary p {
+      font-size: 1.1em;
+      margin: 5px 0;
+    }
+    
+    /* 现代化时间轴 */
+    .timeline {
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      padding: 20px 0;
+      margin-bottom: 30px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary-color), var(--timeline-line));
+      border-radius: 2px;
+      z-index: 1;
+    }
+    .timeline-item {
+      position: relative;
+      z-index: 2;
+      min-width: 70px;
+      height: 70px;
+      margin: 0 10px;
+      background-color: var(--card-bg);
+      border: 3px solid var(--timeline-line);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9em;
+      font-weight: 500;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: transform 0.3s, border-color 0.3s, background-color 0.3s;
+    }
+    .timeline-item:hover {
+      transform: scale(1.1);
+      border-color: var(--primary-color);
+    }
+    .timeline-item.latest {
+      border-color: var(--primary-color);
+      background-color: rgba(0, 123, 255, 0.1);
+    }
+    
+    /* 更新信息卡片 */
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .card.latest {
+      border: 2px solid var(--primary-color);
+      box-shadow: var(--shadow-strong);
+    }
+    .card h2 {
+      margin-bottom: 10px;
+      font-size: 1.5em;
+      color: var(--primary-color);
+    }
+    .card ul {
+      list-style: disc;
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+    .card ol {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+    .card p { margin-bottom: 10px; }
+    blockquote {
+      margin: 10px 20px;
+      padding-left: 10px;
+      border-left: 3px solid var(--primary-color);
+      font-style: italic;
+    }
+    
+    /* Demo 预览 & 仓库信息卡片 */
+    .extra-info {
+      background-color: rgba(0,123,255,0.05);
+      border: 1px dashed var(--primary-color);
+    }
+    .extra-info a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .extra-info a:hover {
+      text-decoration: underline;
+    }
+    
+    /* 分组分隔条 */
+    .divider {
+      text-align: center;
+      margin: 40px 0;
+      position: relative;
+      font-size: 1.2em;
+      color: var(--primary-color);
+    }
+    .divider::before,
+    .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 2px;
+      background: var(--timeline-line);
+    }
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
+    
+    /* 侧边栏导航 */
+    .sidebar nav h2 {
+      margin-bottom: 15px;
+      font-size: 1.4em;
+    }
+    .sidebar nav ul { list-style: none; }
+    .sidebar nav ul li { margin: 10px 0; }
+    .sidebar nav ul li a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: color 0.2s;
+    }
+    .sidebar nav ul li a:hover { color: var(--primary-color); }
+    .sidebar nav ul li a.latest {
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    /* 返回顶部按钮 */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border: none;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: #fff;
+      font-size: 1.5em;
+      cursor: pointer;
+      box-shadow: var(--shadow-strong);
+      transition: transform 0.3s;
+      z-index: 100;
+    }
+    #backToTop:hover {
+      transform: scale(1.1);
+    }
+    
+    /* 手机页面适配 */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .container, .sidebar { width: 100%; padding: 15px; }
+      .sidebar {
+        border-left: none;
+        border-top: 1px solid var(--card-border);
+        margin-top: 20px;
+      }
+      header h1 { font-size: 1.8em; }
+      .version-summary p { font-size: 1em; }
+      .timeline-item { min-width: 60px; height: 60px; }
+      .card h2 { font-size: 1.3em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 顶部区域：Bing随机图片、标题及版本统计 -->
+    <header>
+      <img src="https://wp.upx8.com/api.php" alt="Bing 随机图片">
+      <h1>MMUI 更新日志</h1>
+      <div class="version-summary">
+        <p>共发布 <strong>14</strong> 个版本</p>
+        <p>最新版本：<strong>v2.0.5</strong></p>
+      </div>
+    </header>
+    
+    <!-- 现代化时间轴 -->
+    <div class="timeline">
+      <div class="timeline-item latest" data-target="v2_0_5">v2.0.5</div>
+      <div class="timeline-item" data-target="v2_0_4_1">v2.0.4.1</div>
+      <div class="timeline-item" data-target="v2_0_4">v2.0.4</div>
+      <div class="timeline-item" data-target="v2_0_3_3">v2.0.3.3</div>
+      <div class="timeline-item" data-target="v2_0_3_2">v2.0.3.2</div>
+      <div class="timeline-item" data-target="v2_0_3">v2.0.3</div>
+      <div class="timeline-item" data-target="v2_0_3_1">v2.0.3.1</div>
+      <div class="timeline-item" data-target="v2_0_2">v2.0.2</div>
+      <!-- 将原 v2.0.1 更新调整为 alpha 版 -->
+      <div class="timeline-item" data-target="v2_0_1">v2.0.1α</div>
+      <div class="timeline-item" data-target="v1_0_3_1">v1.0.3.1</div>
+      <div class="timeline-item" data-target="v1_0_3">v1.0.3</div>
+      <div class="timeline-item" data-target="alpha1_0_2_3">alpha1.0.2.3</div>
+      <div class="timeline-item" data-target="alpha1_0_2_2">alpha1.0.2.2</div>
+      <div class="timeline-item" data-target="alpha">alpha</div>
+    </div>
+    
+    <!-- 更新信息卡片（倒序排列） -->
+    <div class="cards">
+      <!-- v2.x 版本（代号：lightingboat） -->
+      <div class="card latest" id="v2_0_5">
+        <h2>v2.0.5 <span style="color: var(--primary-color);">(最新)</span></h2>
+        <ul>
+          <li>🚀 优化大量细节</li>
+          <li>🐞 修复 UI 部分 bug</li>
+          <li>✨ 重做毛玻璃模式</li>
+          <li>📋 增加长按复制功能</li>
+          <li>🖥 裸金属界面完善</li>
+        </ul>
+      </div>
+      
+      <!-- Demo 预览 & 仓库下载（紧跟最新版本后） -->
+      <div class="card extra-info" id="demo_repo">
+        <h2>Demo 预览 &amp; 仓库下载</h2>
+        <p>
+          Demo 预览：<a href="http://vnc.netmc.icu" target="_blank">vnc.netmc.icu</a>
+          <br>
+          (账号和密码均为 <strong>www</strong>)
+        </p>
+        <p>
+          仓库（下载）地址：<a href="https://github.com/danvei233/MMUI/" target="_blank">https://github.com/danvei233/MMUI/</a>
+        </p>
+      </div>
+      
+      <div class="card" id="v2_0_4_1">
+        <h2>v2.0.4.1</h2>
+        <p>🔧 新加双击端口映射表格自动复制域名：端口</p>
+      </div>
+      
+      <div class="card" id="v2_0_4">
+        <h2>v2.0.4</h2>
+        <p>🚀 增加挂机宝建站</p>
+      </div>
+      
+      <div class="card" id="v2_0_3_3">
+        <h2>v2.0.3.3</h2>
+        <p>📱 优化手机版 intojs</p>
+      </div>
+      
+      <div class="card" id="v2_0_3_2">
+        <h2>v2.0.3.2</h2>
+        <p>🔧 优化细节</p>
+      </div>
+      
+      <div class="card" id="v2_0_3">
+        <h2>v2.0.3</h2>
+        <ul>
+          <li>🌙 修复暗色模式强制上色 bug</li>
+          <li>🎨 修复引导暗色模式配色错误</li>
+          <li>🖱 修复引导点击的不确定性</li>
+        </ul>
+      </div>
+      
+      <div class="card" id="v2_0_3_1">
+        <h2>v2.0.3.1</h2>
+        <p>🔄 更新部分优化细节</p>
+      </div>
+      
+      <div class="card" id="v2_0_2">
+        <h2>v2.0.2</h2>
+        <p>🐞 修复小问题</p>
+      </div>
+      
+      <!-- 更新 v2.0.1 为 alpha 版本 -->
+      <div class="card" id="v2_0_1">
+        <h2>v2.0.1 α <span style="color: var(--primary-color);">(α)</span></h2>
+        <p>MMUI V2.0.1 alpha已经发布!</p>
+        <p><strong>#本次更新速览:</strong></p>
+        <ul>
+          <li>采用大白配色，采用 antd➕mui设计。</li>
+          <li>重新布局，界面更加清爽。</li>
+          <li>优化代码，大大加快加载速率。</li>
+          <li>优化细节，修复小bug。</li>
+          <li>资源托管本地化，不再提供资源托管服务。</li>
+        </ul>
+        <p><strong>#Update log:</strong></p>
+        <ol>
+          <li>留白修改</li>
+          <li>特殊占比采用移动端col换行</li>
+          <li>按钮间距修复</li>
+          <li>侧边栏按钮大小调整</li>
+          <li>彩蛋提示问题</li>
+          <li>侧边栏选中提示</li>
+          <li>按钮配色不协调</li>
+          <li>……</li>
+        </ol>
+        <p><strong>#仓库地址:</strong></p>
+        <ul>
+          <li><a href="https://github.com/danvei233/MMUI" target="_blank">https://github.com/danvei233/MMUI</a></li>
+          <li><a href="https://gitee.com/danvei_admin/MMUI" target="_blank">https://gitee.com/danvei_admin/MMUI</a></li>
+        </ul>
+        <p><strong>#下载地址:</strong> <a href="https://wwsu.lanzouu.com/irPBn2iq4xba" target="_blank">https://wwsu.lanzouu.com/irPBn2iq4xba</a></p>
+        <p>感谢支持！</p>
+        <hr>
+        <p><strong>Version Name:</strong> LightingBoat</p>
+        <blockquote>“极舟破浪，智启未来；科技如光，尽享无限。”</blockquote>
+      </div>
+      
+      <!-- 分隔条：将 v2.x 与 v1.x 版本分开 -->
+      <div class="divider">版本代号：itoyline (v1.x)</div>
+      
+      <!-- v1.x 版本及 Alpha 系列（均属于旧版本） -->
+      <div class="card" id="v1_0_3_1">
+        <h2>v1.0.3.1</h2>
+        <p>🎉 MMUI Alpha-1.0.3.1 Standard</p>
+        <p>1.0.3预览版更新内容:</p>
+        <ul>
+          <li>🔄 重新设计加载动画</li>
+          <li>🖥 重新设计 dashboard</li>
+          <li>🎨 重设配色</li>
+          <li>✨ 加入新的功能</li>
+          <li>🐛 修复 table 显示不全 bug</li>
+          <li>🎨 修复 autocomplete 上色 bug</li>
+          <li>⚠️ 修复面板地址显示错误 bug</li>
+          <li>🌙 修复与系统暗黑模式不协调 bug</li>
+          <li>🔔 加入提示条</li>
+          <li>📱 优化对平板设备的支持</li>
+        </ul>
+        <p>* 一键分享 一键链接</p>
+        <p>* 彩蛋更不容易看出</p>
+        <p>* 自建业务 API 接口（未公布）</p>
+        <p>feature:</p>
+        <ul>
+          <li>💻 完成 guacamole VNC 开发</li>
+          <li>🖥 支持 cmdline 操作</li>
+          <li>🤖 支持 ChatGPT（？）</li>
+        </ul>
+      </div>
+      
+      <div class="card" id="v1_0_3">
+        <h2>v1.0.3</h2>
+        <p>🔥 更新很多，建议下载</p>
+      </div>
+      
+      <div class="card" id="alpha1_0_2_3">
+        <h2>alpha1.0.2.3</h2>
+        <p>🐛 修复端口映射不智能消失（独立ip）的 bug</p>
+      </div>
+      
+      <div class="card" id="alpha1_0_2_2">
+        <h2>alpha1.0.2.2</h2>
+        <p>🎯 修改彩蛋文本使其更合理</p>
+        <p>🐞 修复 ECS 自建业务独立ip页面加载 bug</p>
+      </div>
+      
+      <div class="card" id="alpha">
+        <h2>alpha</h2>
+        <p>📱 增加手机适配</p>
+        <p>🚧 Pre-release</p>
+        <p>🔗 Full Changelog: <a href="https://github.com/danvei233/MMUI/commits/alpha" target="_blank">查看详情</a></p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 侧边栏：版本导航 -->
+  <aside class="sidebar">
+    <nav>
+      <h2>版本导航</h2>
+      <ul>
+        <li><a href="#v2_0_5" class="latest">v2.0.5 (最新)</a></li>
+        <li><a href="#v2_0_4_1">v2.0.4.1</a></li>
+        <li><a href="#v2_0_4">v2.0.4</a></li>
+        <li><a href="#v2_0_3_3">v2.0.3.3</a></li>
+        <li><a href="#v2_0_3_2">v2.0.3.2</a></li>
+        <li><a href="#v2_0_3">v2.0.3</a></li>
+        <li><a href="#v2_0_3_1">v2.0.3.1</a></li>
+        <li><a href="#v2_0_2">v2.0.2</a></li>
+        <li><a href="#v2_0_1">v2.0.1α</a></li>
+        <li><a href="#v1_0_3_1">v1.0.3.1</a></li>
+        <li><a href="#v1_0_3">v1.0.3</a></li>
+        <li><a href="#alpha1_0_2_3">alpha1.0.2.3</a></li>
+        <li><a href="#alpha1_0_2_2">alpha1.0.2.2</a></li>
+        <li><a href="#alpha">alpha</a></li>
+      </ul>
+    </nav>
+  </aside>
+  
+  <!-- 返回顶部按钮 -->
+  <button id="backToTop" title="返回顶部">↑</button>
+  
+  <!-- JavaScript：点击时间轴滚动及卡片入场动画 -->
+  <script>
+    // 点击时间轴节点，滚动到对应卡片
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const targetElem = document.getElementById(targetId);
+        if (targetElem) {
+          targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+    
+    // 利用 IntersectionObserver 为卡片添加入场动画
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
+    
+    // 返回顶部按钮点击事件
+    document.getElementById('backToTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

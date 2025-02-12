@@ -38,10 +38,18 @@ body.glass-mode .layui-table th{
     min-width: max-content;
 }
 
+body.dark-mode #panel-pass,body.dark-mode #system-pass {
+    background-color: #3e4257 !important;
+    box-shadow: none;
+}
+body.dark-mode .mdui-dialog{
+    background-color: #141414;
+    color: #fff;
+}
 
-
-
-
+body.dark-mode .mdui-dialog-content{
+    color: #fff;
+}
 
 
 

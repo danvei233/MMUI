@@ -6,7 +6,8 @@
   <meta name="description" content="轻舟vps管理系统mmui">
   <meta name="keywords" content="vps, 虚拟机, 云计算, 我的世界">
   <meta name="author" content="Danvei">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 增加 maximum-scale 和禁止缩放，部分手机浏览器有助于适配 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
   <!-- 引入Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- 样式文件 -->
@@ -19,8 +20,9 @@
       padding: 0;
       background: linear-gradient(135deg, #f8f9fa, #e9ecef);
       font-family: 'Poppins', sans-serif;
-      height: 100vh;
-      overflow: hidden;
+      /* 用 min-height 替代 height，保证键盘弹出时页面能自动延展 */
+      min-height: 100vh;
+      /* 移除 overflow: hidden 以便页面内容在键盘弹出时可以滚动 */
     }
     .ant-pro-layout-bg-list {
       pointer-events: none;
@@ -38,7 +40,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100%;
+      /* 同样使用 min-height 让容器高度自适应 */
+      min-height: 100vh;
       padding: 20px;
     }
     /* 登录卡片 */
@@ -157,7 +160,8 @@
         <input placeholder="云主机名" name="host_name" lay-verify="required" class="layui-input host_name" />
       </div>
       <div class="layui-form-item">
-        <input type="password" placeholder="控制台密码" name="panel_password" lay-verify="required" class="layui-input panel_password" onkeydown="checkEnter(event)" />
+        <!-- 内联 onkeydown 保留原有提交方式 -->
+        <input type="password" placeholder="控制台密码" name="panel_password" lay-verify="required" class="layui-input panel_password" onkeydown="if(event.keyCode===13){document.querySelector('.login').click()}" />
       </div>
       <div class="layui-form-item">
         <button type="button" class="pear-btn pear-btn-success login" lay-submit lay-filter="login">登 入</button>
@@ -235,35 +239,6 @@
         return false;
       });
     });
-
-    // 按回车键提交
-    function checkEnter(event) {
-      if (event.keyCode === 13) {
-        document.querySelector('.login').click();
-      }
-    }
-    document.addEventListener("DOMContentLoaded", function() {
-    let loginCard = document.querySelector('.login-card');
-    let originalPaddingBottom = document.body.style.paddingBottom || "0px";
-
-    function adjustForKeyboard() {
-        let viewportHeight = window.innerHeight;
-        let bodyHeight = document.documentElement.clientHeight; 
-
-        // 如果窗口高度缩小超过100px，说明键盘弹出
-        if (viewportHeight < bodyHeight - 100) {
-            loginCard.style.position = 'absolute';
-            loginCard.style.top = (viewportHeight / 2 - loginCard.offsetHeight / 2 - 80px) + "px";
-        } else {
-            loginCard.style.position = 'relative';
-            loginCard.style.top = "0px";
-        }
-    }
-
-    // 监听窗口大小变化（键盘弹出时高度会变小）
-    window.addEventListener('resize', adjustForKeyboard);
-});
-
   </script>
 </body>
 </html>
