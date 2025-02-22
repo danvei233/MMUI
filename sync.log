@@ -1101,3 +1101,17 @@
    目标文件: C:/Users/丁薇/Documents/GitHub/MMUI/view/control/ecs/index.html
 ✅ 成功同步: view/control/ecs/index.html
 ✅ [2025-02-22 18:24:36] 文件同步完成！
+🔄 [2025-02-22 18:28:19] 开始同步修改的文件...
+📂 同步文件: public/static/component/mmui/css/all.css
+   源文件: D:/mui2/public/static/component/mmui/css/all.css
+   目标文件: C:/Users/丁薇/Documents/GitHub/MMUI/public/static/component/mmui/css/all.css
+✅ 成功同步: public/static/component/mmui/css/all.css
+📂 同步文件: public/static/component/mmui/css/all.min.css
+   源文件: D:/mui2/public/static/component/mmui/css/all.min.css
+   目标文件: C:/Users/丁薇/Documents/GitHub/MMUI/public/static/component/mmui/css/all.min.css
+✅ 成功同步: public/static/component/mmui/css/all.min.css
+📂 同步文件: view/control/ecs/index.html
+   源文件: D:/mui2/view/control/ecs/index.html
+   目标文件: C:/Users/丁薇/Documents/GitHub/MMUI/view/control/ecs/index.html
+✅ 成功同步: view/control/ecs/index.html
+✅ [2025-02-22 18:28:20] 文件同步完成！

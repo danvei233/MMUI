@@ -33,15 +33,7 @@ body.dark-mode tbody tr:not(:last-child) td {
 }
 
 
-#tab-0 .mdui-card .mdui-row-md-3  .mdui-col:not(:last-child) .mdui-list::after {
-    content: "";  /* 伪元素内容为空 */
-    position: absolute;
-    top: 7%;
-    right: 0;
-    width: 0.1px;  /* 分割线的宽度 */
-    height: 87%;  /* 高度撑满列表项 */
-    background-color: #efefef;  /* 分割线颜色 */
-}
+
 #tab-0 .mdui-collapse-item-header{
     padding-left: 0% !important;
 }
@@ -769,11 +761,18 @@ body.dark-mode .introjs-arrow.top {
 body.dark-mode .introjs-tooltipbuttons {
     border-top: 1px solid #4d61ce;}
     @media (min-width: 800px) {
-    tbody tr:not(:last-child) td{
-        border-bottom: 1px solid #1d1d1d;
+  
+    #tab-0 .mdui-card .mdui-row-md-3  .mdui-col:not(:last-child) .mdui-list::after {
+        content: "";  /* 伪元素内容为空 */
+        position: absolute;
+        top: 7%;
+        right: 0;
+        width: 0.1px;  /* 分割线的宽度 */
+        height: 87%;  /* 高度撑满列表项 */
+        background-color: #efefef;  /* 分割线颜色 */
     }
     body.dark-mode #tab-0 .mdui-card .mdui-row-md-3  .mdui-col:not(:last-child) .mdui-list::after {
-        background-color: #efefef;  /* 分割线颜色 */
+        background-color: #1d1d1d;  /* 分割线颜色 */
     
     }
     }
