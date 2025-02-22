@@ -11,7 +11,8 @@
 {assign name="svnc" value="1"} 
 {assign name="version" value="2.0.6"}
 {assign name="versionfull" value="lb2.0.6"}
-{assign name="inv" value="37f56c4"}
+{assign name="inv" value="b88a16e"}
+{assign name="rvnc" value="1"}
 {assign name="debugmode" value="FALSE"}  
 
 <!-- 感谢您的支持与理解！让我们共同维护一个自由、透明的技术共享环境。 -->
@@ -51,11 +52,13 @@
     <script src="/static/component/layui/layui.js"></script>
     <script src="/static/component/pear/pear.js"></script>
     
-    <!-- 引入 Ant Design 图标 -->
-    <script src="https://unpkg.com/@ant-design/icons/dist/index.js" defer></script>
+    <!-- 引入 fa Design 图标 -->
+    
+ 
 
     <!-- MDUI JS文件 -->
     <script src="/static/component/mmui/mdui/1.0.2/js/mdui.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
@@ -195,7 +198,7 @@ fetch('https://ipapi.co/json/')
         <!-- <button style="color:#00000073" id="glass-mode-toggle" class="mdui-btn mdui-btn-icon">
                 <i class="mdui-icon material-icons">windows</i>
             </button> -->
-            <button style="color:#00000073;" id="glass-mode-toggle" class="mdui-btn mdui-btn-icon" style="display: none;">
+            <button  style="color:#00000073; display: none;" id="glass-mode-toggle" class="mdui-btn mdui-btn-icon" style="display: none;">
                 <i class="mdui-icon material-icons"><span role="img" aria-label="moon" class="anticon anticon-moon"><svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="moon"style="      width: 22px;
     height: 24px;"fill="currentColor" aria-hidden="true"><path d="M870 126H663.8c-17.4 0-32.9 11.9-37 29.3C614.3 208.1 567 246 512 246s-102.3-37.9-114.8-90.7a37.93 37.93 0 00-37-29.3H154a44 44 0 00-44 44v252a44 44 0 0044 44h75v388a44 44 0 0044 44h478a44 44 0 0044-44V466h75a44 44 0 0044-44V170a44 44 0 00-44-44zm-28 268H723v432H301V394H182V198h153.3c28.2 71.2 97.5 120 176.7 120s148.5-48.8 176.7-120H842v196z"></path></svg></span></i>
     <button style="color:#00000073" id="dark-mode-toggle" class="mdui-btn mdui-btn-icon">
@@ -332,9 +335,9 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
   <div class="mdui-card-media">
       
    
-    <div id="img"  style=" width:100%;height:100%;bottom: 0; z-index: 2;" style="background-image:url(/static/component/mmui/img/2024/07/03/8ltsf4.jpg)">
+    <div id="img" class="power-header"  style=" width:100%;height:100%;bottom: 0; z-index: 2;" style="background-image:url(/static/component/mmui/img/2024/07/03/8ltsf4.jpg)">
         
-        <img alt="默认主机屏" height="100%" width="100%" src="/static/component/mmui/img/2024/07/03/8ltsf4.jpg">
+        <img alt="默认主机屏" height="100%" width="100%" src="/static/component/mmui/img/2024/07/03/0.png">
     </div>
     
     <div class="mdui-card-media-covered">
@@ -633,7 +636,7 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
     margin: 11px;
 ">
         <div class=" tittle mdui-typo-title">端口映射 </div>
-        <div class="mdui-card-primary-subtitle">数目：<span id="portCount">0</span>/{$host.port_num}</div> 
+        <div class="mdui-card-primary-subtitle">数目：<span class="portCount">0</span>/{$host.port_num}</div> 
     
     <div class="btlist">
     
@@ -701,7 +704,7 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
     margin: 11px;
 ">
         <div class=" tittle mdui-typo-title">快照</div>
-        <div class="mdui-card-primary-subtitle">数目：<span id="snapshotCount">0</span>/{$host.snapshot_num}</div> 
+        <div class="mdui-card-primary-subtitle">数目：<span class="snapshotCount">0</span>/{$host.snapshot_num}</div> 
         <div class="btlist">
     <button class="mdui-btn snapshot-create cada mdui-btn-icon mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="
     margin-top: 4px;
@@ -731,7 +734,7 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
     margin: 11px;
 ">
         <div class="tittle mdui-typo-title">备份</div>
-        <div class="mdui-card-primary-subtitle">数目：<span id="backupCount">0</span>/{$host.backup_num}</div> 
+        <div class="mdui-card-primary-subtitle">数目：<span class="backupCount">0</span>/{$host.backup_num}</div> 
         <div class="btlist"> <button class="mdui-btn backup-create  mdui-btn-icon mdui-btn-dense cada mdui-color-theme-accent mdui-ripple" style="
     margin-top: 4px;
 ">
@@ -761,7 +764,7 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
     margin: 11px;
 ">
         <div class="tittle mdui-typo-title">安全策略</div>
-        <div class="mdui-card-primary-subtitle">数目：<span id="safeCount">0</span></div> 
+        <div class="mdui-card-primary-subtitle">数目：<span class="safeCount">0</span></div> 
         <div class="btlist">
     <button class="cada mdui-btn mdui-btn-icon btnfirewallAdd mdui-btn-dense mdui-color-theme-accent mdui-ripple" style="
     margin-top: 4px;
@@ -984,67 +987,118 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
                               </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-2">
                                   <div class="mdui-row">
-                                  
-<div class=" mdui-col-md-3"><div class="mdui-card">
-  <div class="mdui-card-media">
-    <img alt="开机背景" src="/static/component/mmui/img/2024/07/03/8ltsf4.jpg"/>
-    <div class="mdui-card-media-covered">
-      <div class="mdui-card-primary">
-        <div class="mdui-card-primary-title">开机</div>
-        <div class="mdui-card-primary-subtitle">这可能需要两到三分钟才能完成</div>
-      </div>
-    </div>
-  </div>
-  <div class="mdui-card-actions">
-    <button id="start" class="start mdui-btn mdui-ripple">开机</button>
+                                    <div class=" mdui-col-md-12"><div class="mdui-card" style="
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 10px;
+                                        flex-direction: row;
+                                    ">
+                                    
+                                      <div class="mdui-card-primary" style="
+                                        padding: 0px;
+                                    ">
+                                        <h1 class="mdui-card-primary-title" style="
+                                        padding-left: 8px;
+                                    ">重装系统</h1>
+                                        
+                                     </div><div class="mdui-chip" style="
     
-  </div>
-</div></div>
-<div class=" mdui-col-md-3"><div class="mdui-card">
-  <div class="mdui-card-media">
-    <img alt="关机背景" src="/static/component/mmui/img/2024/07/03/8ltmyt.jpg"/>
-    <div class="mdui-card-media-covered">
-      <div class="mdui-card-primary">
-        <div class="mdui-card-primary-title">关机</div>
-        <div class="mdui-card-primary-subtitle">强制关机，操作前请保存数据</div>
-      </div>
-    </div>
-  </div>
+                                    ">
+                                      
+                                      <span class="mdui-chip-title">当日次数：{$host.reinstall_num}/{$host.max_reinstall_num}</span>
+                                    </div><div class="mdui-kong" style="
+                                        flex: 1 1 auto;
+                                    ">
+                                        </div>
+                                      <!-- 卡片的内容 -->
+                                      
+                                      <!-- 卡片的按钮 -->
+                                      <div class="mdui-card-actions-stacked">
+                                        
+                                     </div>
+                                    </div></div>
+                                    
+                                    
+
+
+
+<div class=" mdui-col-md-6"><div class="mdui-card" style="
+    padding: 8px;" >
+<div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">开机<i class="fa-solid fa-play fa-1x"></i></div>
+ </div>
+  <div class="mdui-card-content">
+这可能需要两到三分钟才能完成。</div>
+  <div class="mdui-card-actions-stacked">
+      <button style="margin-top: 15px;" class="start mdui-btn mdui-btn mdui-color-theme-accent" >连接终端</button>
+ </div>
+</div> </div>
+<div class=" mdui-col-md-6"><div class="mdui-card" style="
+    padding: 8px;">
+<div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">关机<i class="fa-solid fa-power-off fa-1x"></i></div>
+ </div>
+  <div class="mdui-card-content">
+强制关机，操作前请保存数据。</div>
   <div class="mdui-card-actions" style="display: flex;">
     <button id="close" class="close mdui-btn mdui-color-theme-accent mdui-ripple">正常关机</button>
     <button id="power" class="power mdui-btn  mdui-ripple">强制关机</button>
   </div>
-</div></div>
-<div class=" mdui-col-md-3"><div class="mdui-card">
-  <div class="mdui-card-media">
-    <img alt="重启背景" src="/static/component/mmui/img/2024/07/03/8ltn40.jpg"/>
-    <div class="mdui-card-media-covered">
-      <div class="mdui-card-primary">
-        <div class="mdui-card-primary-title">重启</div>
-        <div class="mdui-card-primary-subtitle">这可能需要两到三分钟才能完成</div>
-      </div>
-    </div>
-  </div>
-  <div class="mdui-card-actions">
-    <button id="restart" class="restart mdui-btn mdui-ripple">重启</button>
-   
-  </div>
-</div></div>
+</div> </div>
+<div class=" mdui-col-md-6"><div class="mdui-card" style="
+    padding: 8px;" >
+<div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">重启<i class="fa-solid fa-rotate fa-1x"></i></div>
+ </div>
+  <div class="mdui-card-content">
+强制关机，操作前请保存数据。</div>
+  <div class="mdui-card-actions-stacked">
+      <button style="margin-top: 15px;" class="restart  mdui-btn mdui-btn mdui-color-theme-accent" >连接终端</button>
+ </div>
+</div> </div>
                                    </div>
                                 </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-3">
                                   <div class="mdui-row">
-<div class=" mdui-col-md-3"><div class="mdui-card form-1">
+                                    <div class=" mdui-col-md-12"><div class="mdui-card" style="
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 10px;
+                                        flex-direction: row;
+                                    ">
+                                    
+                                      <div class="mdui-card-primary" style="
+                                        padding: 0px;
+                                    ">
+                                        <h1 class="mdui-card-primary-title" style="
+                                        padding-left: 8px;
+                                    ">重装系统</h1>
+                                        
+                                     </div><div class="mdui-chip" style="
+    
+                                    ">
+                                      
+                                      <span class="mdui-chip-title">当日次数：{$host.reinstall_num}/{$host.max_reinstall_num}</span>
+                                    </div><div class="mdui-kong" style="
+                                        flex: 1 1 auto;
+                                    ">
+                                        </div>
+                                      <!-- 卡片的内容 -->
+                                      
+                                      <!-- 卡片的按钮 -->
+                                      <div class="mdui-card-actions-stacked">
+                                        
+                                     </div>
+                                    </div></div>    
+<div class=" mdui-col-md-6"><div class="mdui-card form-1">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <img alt="windows系统背景" src="/static/component/mmui/img/2024/07/03/aazle5.jpg"/></div>
   <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">Windows</div>
+    <div class="mdui-card-primary-title">Windows  <i class="fa-brands fa-windows fa-1x"></i></div>
     <div class="mdui-card-primary-subtitle">Microsoft</div>
  </div>
   <!-- 卡片的内容 -->
-  <div class="mdui-card-content">兼具易用性与强大生态，广泛应用于个人与企业计算环境。「风之所至，窗启万物，世间互通的桥梁。」</div>
+  <div class="mdui-card-content">兼具易用性与强大生态，广泛应用于个人与企业计算环境。</div>
   <!-- 卡片的按钮 -->
   <div class="mdui-card-actions-stacked">
 
@@ -1061,17 +1115,16 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
               </form> 
   </div>
 </div></div>
-<div class=" mdui-col-md-3"><div class="mdui-card">
+<div class=" mdui-col-md-6"><div class="mdui-card">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <img alt="centos系统背景" src="/static/component/mmui/img/2024/07/03/ajw1bj.jpg"/></div>
+
   <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">Centos</div>
+    <div class="mdui-card-primary-title">Centos   <i class="fa-brands fa-centos fa-1x"></i></div>
     <div class="mdui-card-primary-subtitle">redhat</div>
  </div>
   <!-- 卡片的内容 -->
-  <div class="mdui-card-content">基于 Red Hat，稳定高效，适用于服务器与企业级应用。「沉淀之作，红帽一角，系统工程师的乐土。」</div>
+  <div class="mdui-card-content">基于 Red Hat的，稳定高效的，适用于服务器与企业级应用。</div>
   <!-- 卡片的按钮 -->
   <div class="mdui-card-actions-stacked">
 <form id="form2" class="danvei-form" style="text-align: center; width:100%">
@@ -1088,17 +1141,16 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
   </div>
 </div></div>
 
-<div class=" mdui-col-md-3"><div class="mdui-card">
+<div class=" mdui-col-md-6"><div class="mdui-card">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <img alt="ubuntu系统背景" src="/static/component/mmui/img/2024/07/03/akhud8.jpg"/></div>
+
   <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">Ubuntu</div>
+    <div class="mdui-card-primary-title">Ubuntu     <i class="fa-brands fa-ubuntu fa-1x"></i></div>
     <div class="mdui-card-primary-subtitle">linux</div>
  </div>
   <!-- 卡片的内容 -->
-  <div class="mdui-card-content">用户友好，社区活跃，适合开发者与 Linux 新手。「友好的世界，橙黄的曙光，Linux 初学者的乐园。」</div>
+  <div class="mdui-card-content">用户友好，社区活跃，命令简单，适合开发者与 Linux 新手。</div>
   <!-- 卡片的按钮 -->
   <div class="mdui-card-actions-stacked">
 <form id="form3" class="t1 danvei-form" style="text-align: center; width:100%">
@@ -1116,17 +1168,16 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
 </div></div>
 
 
-<div class=" mdui-col-md-3"><div class="mdui-card">
+<div class=" mdui-col-md-6"><div class="mdui-card">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <img alt="debian系统背景" src="/static/component/mmui/img/2024/07/03/aln7pf.jpg"/></div>
+
   <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">Debian</div>
+    <div class="mdui-card-primary-title">Debian        <i class="fa-brands fa-debian fa-1x"></i></div>
     <div class="mdui-card-primary-subtitle">linux</div>
  </div>
   <!-- 卡片的内容 -->
-  <div class="mdui-card-content">稳定、安全、高度可定制，是服务器与开发环境的理想选择。「GNU is not UNIX, but it is the foundation of dreams.」</div>
+  <div class="mdui-card-content">稳定、安全、高度可定制，是服务器与开发环境的理想选择。</div>
   <!-- 卡片的按钮 -->
   <div class="mdui-card-actions-stacked">
 <form id="form4" class="danvei-form" style="text-align: center; width:100%">
@@ -1150,17 +1201,45 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
                                 {if $host.virtual_type!="kvm"}
                               <div class="mdui-p-a-2 mdui-container" id="tab-4">
 <div class="mdui-row">
-<div class=" mdui-col-md-3"><div class="mdui-card">
+    <div class=" mdui-col-md-12"><div class="mdui-card" style="
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        flex-direction: row;
+    ">
+    
+      <div class="mdui-card-primary" style="
+        padding: 0px;
+    ">
+        <h1 class="mdui-card-primary-title" style="
+        padding-left: 8px;
+    ">启动管理</h1>
+        
+     </div><div class="mdui-chip" style="
+
+    ">
+      
+      <span class="mdui-chip-title">boot</span>
+    </div><div class="mdui-kong" style="
+        flex: 1 1 auto;
+    ">
+        </div>
+      <!-- 卡片的内容 -->
+      
+      <!-- 卡片的按钮 -->
+      <div class="mdui-card-actions-stacked">
+        
+     </div>
+    </div></div>      
+<div class=" mdui-col-md-6"><div class="mdui-card">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <img alt="挂载镜像" src="/static/component/mmui/img/2024/07/03/bx07zy.jpg"/></div>
   <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">镜像</div>
-    <div class="mdui-card-primary-subtitle">iso</div>
+    <div class="mdui-card-primary-title">镜像<i class="fa-solid fa-compact-disc fa-1x"></i></div>
+  
  </div>
   <!-- 卡片的内容 -->
-  <div class="mdui-card-content">挂载光驱后，重启云主机以从光驱启动，支持 BIOS 启动。</div>
+  <div class="mdui-card-content">挂载光驱后，重启云主机以从光驱启动。</div>
   <!-- 卡片的按钮 -->
   <div class="mdui-card-actions">
  <form id="form5" class="danvei-form" style="text-align: center; width:100%">
@@ -1181,14 +1260,13 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
                                                 </form>
 </div></div></div>
 
-<div class=" mdui-col-md-3"><div class="mdui-card">
+<div class=" mdui-col-md-6"><div class="mdui-card">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <!-- 卡片的标题和副标题 -->
-<div class="mdui-card-media">
-    <img alt="设置启动项" src="/static/component/mmui/img/2024/07/03/bx0any.jpg"/></div>
+
   <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">启动项</div>
-    <div class="mdui-card-primary-subtitle">boot</div>
+    <div class="mdui-card-primary-title">启动项<i class="fa fa-cogs fa-1x"></i></div>
+    
  </div>
   <!-- 卡片的内容 -->
   <div class="mdui-card-content">选择启动项后，系统将自动重启，支持 BIOS 启动。</div>
@@ -1205,7 +1283,7 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
                                                         
                                                     
                                                     
-                                                        <button style="margin-top: 15px;" class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block mdui-ripple" lay-filter="bios" lay-submit>设置</button>
+                                                        <button style="margin-top: 15px;" class="mdui-btn mdui-color-theme-accent mdui-ripple  mdui-ripple" lay-filter="bios" lay-submit>设置</button>
                                                     
                                                 
                                             </form>
@@ -1218,10 +1296,40 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
                                 </div>{/if}
                               <div class="mdui-p-a-2 mdui-container" id="tab-5">
                                    <div class="mdui-row">
+                                    <div class=" mdui-col-md-12"><div class="mdui-card" style="
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 10px;
+                                    ">
+                                    
+                                      <div class="mdui-card-primary" style="
+                                        padding: 0px;
+                                    ">
+                                        <h1 class="mdui-card-primary-title" style="
+                                        padding-left: 8px;
+                                    ">网络信息</h1>
+                                        
+                                     </div><div class="mdui-chip" style="
+    
+                                    ">
+                                      
+                                      <span class="mdui-chip-title">network</span>
+                                    </div><div class="mdui-kong" style="
+                                        flex: 1 1 auto;
+                                    ">
+                                        </div>
+                                      <!-- 卡片的内容 -->
+                                      
+                                      <!-- 卡片的按钮 -->
+                                      <div class="mdui-card-actions-stacked">
+                                        
+                                     </div>
+                                    </div></div>  
+                                    <div class=" mdui-col-md-12">                            
 <div class="mdui-card gt"> <div class="mdui-table-fluid layui-table-container  ">
                                             <table class="mdui-table mdui-table-hoverable">
                                                 <thead>
-                                                <th colspan="4"><i class="fa fa-sitemap"></i>分配IP列表</th>
+                                                <th colspan="4"><i class="fa-solid fa-sitemap"></i>分配IP列表</th>
                                                 </thead>
                                                 <tbody>
                                                 {foreach $network['eth1'] as $k=>$v}
@@ -1232,7 +1340,7 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
 <div class="mdui-card gt"> <div class="mdui-table-fluid layui-table-container  ">
                                             <table class="mdui-table mdui-table-hoverable">
                                                 <thead>
-                                                <th colspan="3"><i class="fa fa-sitemap"></i>私网IP</th>
+                                                <th colspan="3"><i class="fa-solid fa-sitemap"></i>私网IP</th>
                                                 </thead>
                                                 <tbody>
                                                 {foreach $network['eth2'] as $k=>$v}
@@ -1261,46 +1369,138 @@ history.back();" class="mdui-list-item mdui-ripple" val="exit">
                                                 <tr><td width="40%">下行流量：</td><td>月使用：{:isset($network_flow.network_in)?($network_flow.network_in):0} MB</td></tr>
                                                 </tbody>
                                             </table>  </div></div>
-                                </div>
+                               
+                               
+                               
+                                        </div>
+                               
+                                        </div>
                                </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-6">
-                                <div class="mdui-row">    
- <div class=" mdui-col-md-3"><div class="mdui-card">
-<div class="mdui-card-media">
-    <img alt="vnc" src="/static/component/mmui/img/2024/07/03/cfqy78.jpg"/></div>
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">辅助远程</div>
-    <div class="mdui-card-primary-subtitle">VNC</div>
+                                <div class="mdui-row">
+                                    <div class=" mdui-col-md-12"><div class="mdui-card" style="
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 10px;
+                                ">
+                                
+                                  <div class="mdui-card-primary" style="
+                                    padding: 0px;
+                                ">
+                                    <h1 class="mdui-card-primary-title" style="
+                                    padding-left: 8px;
+                                ">辅助远程</h1>
+                                    
+                                 </div><div class="mdui-chip" style="
+
+                                ">
+                                  
+                                  <span class="mdui-chip-title">VNC</span>
+                                </div><div class="mdui-kong" style="
+                                    flex: 1 1 auto;
+                                ">
+                                    </div>
+                                  <!-- 卡片的内容 -->
+                                  
+                                  <!-- 卡片的按钮 -->
+                                  <div class="mdui-card-actions-stacked">
+                                    
+                                 </div>
+                                </div></div>      
+                                    
+ <div class=" mdui-col-md-6"><div class="mdui-card" style="
+    padding: 8px;"">
+
+<div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">VNC<i class="fa fa-desktop fa-1x"></i></div>
+
  </div>
   <!-- 卡片的内容 -->
   <div class="mdui-card-content">
 HTML5 远程桌面可从下方启动，查看器将在新窗口打开。</div>
   <!-- 卡片的按钮 -->
   <div class="mdui-card-actions-stacked">
-      <button style="margin-top: 15px;" class="mdui-btn" onclick="vnc()" >连接终端</button>
-      {if $svnc==0}<button style="margin-top: 15px;" class="mdui-btn" onclick="lowvnc()" >连接终端(无强化)</button>{/if}
+      <button style="margin-top: 15px;" class="mdui-btn mdui-btn mdui-color-theme-accent" onclick="vnc()" >连接终端</button>
+ </div>
+</div> </div> 
+
+
+{if $svnc==0}
+<div class=" mdui-col-md-6"><div class="mdui-card" style="
+    padding: 8px;"">
+
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">辅助远程（mytrille）</div>
+
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">
+HTML5 远程桌面可从下方启动，查看器将在新窗口打开。</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+      <button style="margin-top: 15px;" class="mdui-btn mdui-btn mdui-color-theme-accent" onclick="vnc()" >连接终端</button>
+    <button style="margin-top: 15px;" class="mdui-btn" onclick="lowvnc()" >连接终端(无强化)</button>
+ </div>
+</div> </div>{/if}
+
+
+
+
+{if $rvnc==0}
+<div class=" mdui-col-md-6"><div class="mdui-card" style="
+    padding: 8px;"">
+
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">Rustdesk远程</div>
+
+ </div>
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">
+点击链接启动远程</div>
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions-stacked">
+      <button style="margin-top: 15px;" class="mdui-btn mdui-btn mdui-color-theme-accent" onclick="vnc()" >连接终端</button>
  </div>
 </div> </div>
+
+{/if}
+
+
 
                                     </div>
                                 </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-7">
-  <div class=" mdui-col-md-3"><div class="mdui-card">
-<div class="mdui-card-media">
-    <img alt="快照" src="/static/component/mmui/img/2024/07/03/df4n72.jpg"/></div>
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">快照</div>
-    <div class="mdui-card-primary-subtitle">snapshot</div>
-</div>
-  <!-- 卡片的内容 -->
-  <div class="mdui-card-content">快照用于记录当前系统状态，包括数据和配置。创建后，可随时恢复至快照时的状态，适用于系统备份、故障恢复或临时测试环境。可创建快照份数 {$host.snapshot_num}。</div>
-  <!-- 卡片的按钮 -->
-  <div class="mdui-card-actions-stacked">
-                                       
-                                            <button  class="snapshot-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block"   id="snapshot-create" lay-filter="snapshot-create" lay-submit > <i class=" fa fa-plus fa-1x"> </i>创建快照</button>
-                                             </div>
-</div></div>     
- <div class=" mdui-col-md-8">
+                                <div class=" mdui-col-md-12"><div class="mdui-card" style="
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 10px;
+                                ">
+                                
+                                  <div class="mdui-card-primary" style="
+                                    padding: 0px;
+                                ">
+                                    <h1 class="mdui-card-primary-title" style="
+                                    padding-left: 8px;
+                                ">快照</h1>
+                                    
+                                 </div><div class="mdui-chip" style="
+
+                                ">
+                                  
+                                  <span class="mdui-chip-title">创建快照数：<span id="snapshotCount">0</span>/{$host.snapshot_num}</span>
+                                </div><div class="mdui-kong" style="
+                                    flex: 1 1 auto;
+                                ">
+                                    </div>
+                                  <!-- 卡片的内容 -->
+                                  
+                                  <!-- 卡片的按钮 -->
+                                  <div class="mdui-card-actions-stacked">
+                                      <button class="snapshot-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" id="snapshot-create" lay-filter="snapshot-create" lay-submit=""><i class=" fa fa-plus fa-1x"></i>添加端口映射
+                                      </button>
+                                 </div>
+                                </div></div>  
+ <div class=" mdui-col-md-12">
      <div class="gt mdui-card">
                                     <div class="mdui-table-fluid layui-table-container ">
                                     <table class="layui-table mdui-table-hoverable mdui-table"  id="snapshotTable" lay-filter="snapshotTable" ></table></div>
@@ -1310,20 +1510,37 @@ HTML5 远程桌面可从下方启动，查看器将在新窗口打开。</div>
                                 </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-8">
                                   <div class="mdui-row">
- <div class=" mdui-col-md-3"><div class="mdui-card">
-<div class="mdui-card-media">
-    <img alt="备份" src="/static/component/mmui/img/2024/07/03/df4syy.jpg"/></div>
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">备份</div>
-    <div class="mdui-card-primary-subtitle">backup</div>
-</div>
-  <!-- 卡片的内容 -->
-  <div class="mdui-card-content">备份包含系统和数据盘，确保数据安全，可用于故障恢复。最多可创建  {$host.backup_num} 个备份，过程较长，请耐心等待。</div>
-  <!-- 卡片的按钮 -->
-  <div class="mdui-card-actions-stacked">
-  <button  class="backup-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" id="backup-create" lay-filter="backup-create" lay-submit ><i class=" fa fa-plus fa-1x"></i>创建备份</button>                                      
-</div>  </div></div>
- <div class=" mdui-col-md-8">
+                                    <div class=" mdui-col-md-12"><div class="mdui-card" style="
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 10px;
+                                    ">
+                                    
+                                      <div class="mdui-card-primary" style="
+                                        padding: 0px;
+                                    ">
+                                        <h1 class="mdui-card-primary-title" style="
+                                        padding-left: 8px;
+                                    ">备份</h1>
+                                        
+                                     </div><div class="mdui-chip" style="
+    
+                                    ">
+                                      
+                                      <span class="mdui-chip-title">创建备份数：<span class="backupCount">0</span>/{$host.backup_num} </span>
+                                    </div><div class="mdui-kong" style="
+                                        flex: 1 1 auto;
+                                    ">
+                                        </div>
+                                      <!-- 卡片的内容 -->
+                                      
+                                      <!-- 卡片的按钮 -->
+                                      <div class="mdui-card-actions-stacked">
+                                          <button class=" backup-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" id=" backup-create" lay-filter=" backup-create" lay-submit=""><i class=" fa fa-plus fa-1x"></i>添加端口备份
+                                          </button>
+                                     </div>
+                                    </div></div>
+ <div class=" mdui-col-md-12">
                                 <div class="mdui-card gt">    <div class="mdui-table-fluid layui-table-container ">
                                     <table class="layui-table mdui-table-hoverable mdui-table"  id="backupTable" lay-filter="backupTable" ></table>
                                 </div></div></div></div>
@@ -1332,22 +1549,41 @@ HTML5 远程桌面可从下方启动，查看器将在新窗口打开。</div>
                               
                               </div>
                               <div class="mdui-p-a-2 mdui-container" id="tab-9"><div class="mdui-row">
+                                <div class=" mdui-col-md-12"><div class="mdui-card" style="
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 10px;
+                                ">
+                                
+                                  <div class="mdui-card-primary" style="
+                                    padding: 0px;
+                                ">
+                                    <h1 class="mdui-card-primary-title" style="
+                                    padding-left: 8px;
+                                ">安全策略</h1>
+                                    
+                                 </div><div  class="mdui-chip" style="
+
+                                ">
                                   
-  <div class=" mdui-col-md-3"><div class="mdui-card">
-<div class="mdui-card-media">
-    <img alt="防火墙" src="/static/component/mmui/img/2024/07/03/df4op7.jpg"/></div>
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">防火墙</div>
-    <div class="mdui-card-primary-subtitle">FireWall</div>
- </div>
-  <!-- 卡片的内容 -->
-  <div class="mdui-card-content">此功能包括端口放行、协议放行和 IP 过滤等策略，确保网络通信仅允许特定端口和协议的流量通过，同时通过 IP 过滤限制非法访问，增强系统的安全性。</div>
-  <!-- 卡片的按钮 -->
-  <div class="mdui-card-actions-stacked">
-      <button id="btnfirewallAdd" class="btnfirewallAdd mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block"><i class="layui-icon">&#xe654;</i>添加</button>
- </div>
-</div></div>                                   
-        <div class=" mdui-col-md-8">
+                                  <span class="mdui-chip-title">创建策略数：<span class="safeCount">0</span></span>
+                                </div><div class="mdui-kong" style="
+                                    flex: 1 1 auto;
+                                ">
+                                    </div>
+                                  <!-- 卡片的内容 -->
+                                  
+                                  <!-- 卡片的按钮 -->
+                                  <div class="mdui-card-actions-stacked">
+                                      <button class="btnfirewallAdd mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block"  ><i class=" fa fa-plus fa-1x"></i>添加安全策略
+                                      </button>
+                                 </div>
+                                </div></div>
+                                  
+                        
+        <div class=" mdui-col-md-12">
+
+
                                            <div class="mdui-card" id="slec1">
                                                
                                                     <select  class="mdui-select" style="width:120px" name="direction" id="direction"  mdui-select>
@@ -1367,18 +1603,25 @@ HTML5 远程桌面可从下方启动，查看器将在新窗口打开。</div>
                                                         <option value="UDP">UDP</option>
                                                         <option value="ICMP">ICMP</option>
                                                     </select>
-                                                    
+                                                    <div class="blank1" style="
+    
+">
                                               
                                               
-                                                    <button id="btnSearch" style="margin: 8px; flex: 1 1 auto;" class=" mdui-float-right mdui-btn mdui-color-theme-accent mdui-ripple"><i class="layui-icon">&#xe615;</i>搜索</button>
+                                                    <button id="btnSearch" style="margin: 8px; flex: 1 1 auto;min-width: 132.18px;" class=" mdui-float-right mdui-btn mdui-color-theme-accent mdui-ripple"><i class="layui-icon">&#xe615;</i>搜索</button>
                                                 
                                           </div>
                                             </div>
-      <div class=" mdui-col-md-8">        
-                           <div class="mdui-card"> 
+
+
+
+      <div class=" mdui-col-md-12">        
+        <div class=" mdui-card" style="margin-left: 0px;
+    margin-right: 0px;">
                                     <div class="mdui-table-fluid layui-table-container ">
+                                       
                                     <table class="layui-table mdui-table-hoverable mdui-table"  id="firewallTable" lay-filter="firewallTable"></table></div>
-                                </div></div>
+                                </div></div></div>
                                 
                                 
                                 
@@ -1387,23 +1630,38 @@ HTML5 远程桌面可从下方启动，查看器将在新窗口打开。</div>
                                 
                                 {if $host.is_nat==1}
                               <div class="mdui-p-a-2 mdui-container" id="tab-10"><div class="mdui-row">
+                                <div class=" mdui-col-md-12"><div class="mdui-card" style="
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 10px;
+                                ">
+                                
+                                  <div class="mdui-card-primary" style="
+                                    padding: 0px;
+                                ">
+                                    <h1 class="mdui-card-primary-title" style="
+                                    padding-left: 8px;
+                                ">端口映射</h1>
+                                    
+                                 </div><div class="mdui-chip" style="
+
+                                ">
                                   
-<div class=" mdui-col-md-3"><div class="mdui-card">
-<div class="mdui-card-media">
-    <img alt="端口映射" src="/static/component/mmui/img/2024/07/03/df4op7.jpg"/></div>
-  <div class="mdui-card-primary">
-    <div class="mdui-card-primary-title">端口映射</div>
-    <div class="mdui-card-primary-subtitle">NAT</div>
- </div>
-  <!-- 卡片的内容 -->
-  <div class="mdui-card-content">支持最多 {$host.port_num} 个端口映射。公网端口可以从搜索结果中选择，确保外部访问能够正确路由到内部服务。</div>
-  <!-- 卡片的按钮 -->
-  <div class="mdui-card-actions-stacked">
-      <button  class="forwardPort-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" id="forwardPort-create" lay-filter="forwardPort-create" lay-submit  ><i class=" fa fa-plus fa-1x"></i>添加端口映射
-      </button>
- </div>
-</div></div> 
-<div class=" mdui-col-md-8">
+                                  <span class="mdui-chip-title">创建端口数：<span class="portCount">0</span>/{$host.port_num} </span>
+                                </div><div class="mdui-kong" style="
+                                    flex: 1 1 auto;
+                                ">
+                                    </div>
+                                  <!-- 卡片的内容 -->
+                                  
+                                  <!-- 卡片的按钮 -->
+                                  <div class="mdui-card-actions-stacked">
+                                      <button class="forwardPort-create mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-block" id="forwardPort-create" lay-filter="forwardPort-create" lay-submit=""><i class=" fa fa-plus fa-1x"></i>添加端口映射
+                                      </button>
+                                 </div>
+                                </div></div>
+
+<div class=" mdui-col-md-12">
     <div class="mdui-card gt">
     <div class="mdui-table-fluid layui-table-container  ">
         
@@ -1542,13 +1800,13 @@ function ctc(bos) {
 </script>
 <!--快照还原删除-->
 <script type="text/html" id="tableBar">
-    <a class="mdui-btn   mdui-btn-icon" lay-event="re-snapshot"><i class="mdui-icon material-icons">skip_previous</i></a>
-    <a class="mdui-btn mdui-btn-icon mdui-color-red " lay-event="del-snapshot"><i class="mdui-icon material-icons">close</i></a>
+    <a lay-event="re-snapshot">恢复</a>
+    <a lay-event="del-snapshot">删除</a>
 </script>
 <!--备份还原删除-->
 <script type="text/html" id="tableBar1">
-    <a class="mdui-btn   mdui-btn-icon" lay-event="re-backup"><i class="mdui-icon material-icons">skip_previous</i></a>
-    <a class="mdui-btn mdui-btn-icon mdui-color-red " lay-event="del-backup"><i class="mdui-icon material-icons">close</i></a>
+    <a  lay-event="re-backup">恢复</a>
+    <a  lay-event="del-backup">删除</a>
  
 </script>
 <!--策略-->
@@ -1646,7 +1904,7 @@ function ctc(bos) {
                 <div class="layui-input-block">
                     <input type="text" id="portselect" name="sport" lay-verify="required" layui-autocomplete placeholder="请输入要查询的端口" class="layui-input">
                 
-                    <span style="color: red;">（输入任意数字开始搜素可用端口）</span>
+                    <span style="color: red;">（输入数字搜素可用端口）</span>
                 </div>
 
             </div>
@@ -1669,13 +1927,13 @@ function ctc(bos) {
 <!--删除端口-->
 <script type="text/html" id="tableBar3">
     {{#  if(d.sys === 1){ }}
-    <a class=" mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" lay-event="del-forwardPort"><i class="mdui-icon material-icons">close</i></a>
+    <a  lay-event="del-forwardPort">删除</a>
     {{#  } }}
 </script>
 
 <!--删除端口-->
 <script type="text/html" id="tableBar4">
-    <a class="mdui-btn mdui-btn-icon mdui-btn mdui-color-red" lay-event="del-forwardDomain"><i class="mdui-icon material-icons">close</i></a>
+    <a  lay-event="del-forwardDomain">删除</a>
 </script>
 
 <!--域名-->
@@ -1703,7 +1961,7 @@ function ctc(bos) {
 
 <!--策略删除-->
 <script type="text/html" id="tableBar2">
-    <a class="mdui-btn mdui-btn-icon mdui-btn mdui-color-red" lay-event="del-firewall"><i class="mdui-icon material-icons">close</i></a>
+    <a  lay-event="del-firewall">删除</a>
 </script>
 <!--设置系统密码-->
 <script type="text/html" id="modelsystempassword">
@@ -2388,7 +2646,7 @@ var loader2 = new MmuiLoading();
                            if(data.code==1){
                                                                    if(data.data.pic==""){
                                    if(onece==false){
-                                   $("#img").html("<img ondblclick='lowvnc()' alt='屏幕快照获取异常' height='100%' width='100%' src='"+"/static/component/mmui/img/2024/07/03/8ltsf4.jpg"+"'/>");
+                                   $("#img").html("<div class='power-button'><svg viewBox='64 64 896 896' focusable='false' data-icon='poweroff' width='1em' height='1em' fill='currentColor' aria-hidden='true'><path d='M705.6 124.9a8 8 0 00-11.6 7.2v64.2c0 5.5 2.9 10.6 7.5 13.6a352.2 352.2 0 0162.2 49.8c32.7 32.8 58.4 70.9 76.3 113.3a355 355 0 0127.9 138.7c0 48.1-9.4 94.8-27.9 138.7a355.92 355.92 0 01-76.3 113.3 353.06 353.06 0 01-113.2 76.4c-43.8 18.6-90.5 28-138.5 28s-94.7-9.4-138.5-28a353.06 353.06 0 01-113.2-76.4A355.92 355.92 0 01184 650.4a355 355 0 01-27.9-138.7c0-48.1 9.4-94.8 27.9-138.7 17.9-42.4 43.6-80.5 76.3-113.3 19-19 39.8-35.6 62.2-49.8 4.7-2.9 7.5-8.1 7.5-13.6V132c0-6-6.3-9.8-11.6-7.2C178.5 195.2 82 339.3 80 506.3 77.2 745.1 272.5 943.5 511.2 944c239 .5 432.8-193.3 432.8-432.4 0-169.2-97-315.7-238.4-386.7zM480 560h64c4.4 0 8-3.6 8-8V88c0-4.4-3.6-8-8-8h-64c-4.4 0-8 3.6-8 8v464c0 4.4 3.6 8 8 8z'></path></svg></div><img ondblclick='lowvnc()' alt='屏幕快照获取异常' height='100%' width='100%' src='"+"/static/component/mmui/img/2024/07/03/0.png"+"'/>");
                                    }    
                                      onece=true
                                    }else{
@@ -2410,7 +2668,7 @@ var loader2 = new MmuiLoading();
                                if(data.code==1){
                                                                    if(data.data.pic==""){
                                    if(onece==false){
-                                   $("#img").html("<img ondblclick='lowvnc()' alt='屏幕快照获取异常' height='100%' width='100%' src='"+"/static/component/mmui/img/2024/07/03/8ltsf4.jpg"+"'/>");
+                                   $("#img").html("<div class='power-button'><svg viewBox='64 64 896 896' focusable='false' data-icon='poweroff' width='1em' height='1em' fill='currentColor' aria-hidden='true'><path d='M705.6 124.9a8 8 0 00-11.6 7.2v64.2c0 5.5 2.9 10.6 7.5 13.6a352.2 352.2 0 0162.2 49.8c32.7 32.8 58.4 70.9 76.3 113.3a355 355 0 0127.9 138.7c0 48.1-9.4 94.8-27.9 138.7a355.92 355.92 0 01-76.3 113.3 353.06 353.06 0 01-113.2 76.4c-43.8 18.6-90.5 28-138.5 28s-94.7-9.4-138.5-28a353.06 353.06 0 01-113.2-76.4A355.92 355.92 0 01184 650.4a355 355 0 01-27.9-138.7c0-48.1 9.4-94.8 27.9-138.7 17.9-42.4 43.6-80.5 76.3-113.3 19-19 39.8-35.6 62.2-49.8 4.7-2.9 7.5-8.1 7.5-13.6V132c0-6-6.3-9.8-11.6-7.2C178.5 195.2 82 339.3 80 506.3 77.2 745.1 272.5 943.5 511.2 944c239 .5 432.8-193.3 432.8-432.4 0-169.2-97-315.7-238.4-386.7zM480 560h64c4.4 0 8-3.6 8-8V88c0-4.4-3.6-8-8-8h-64c-4.4 0-8 3.6-8 8v464c0 4.4 3.6 8 8 8z'></path></svg></div><img ondblclick='lowvnc()' alt='屏幕快照获取异常' height='100%' width='100%' src='"+"/static/component/mmui/img/2024/07/03/0.png"+"'/>");
                                    }    
                                      onece=true
                                    }else{
@@ -2764,7 +3022,11 @@ var loader2 = new MmuiLoading();
            ]],
            done: function (res, curr) {
     var count = res.data.length;
-    document.getElementById('snapshotCount').innerText = count;
+    let elements = document.getElementsByClassName('snapshotCount');
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].innerText = count;
+    }
+    
     }
        });
        
@@ -2780,7 +3042,11 @@ var loader2 = new MmuiLoading();
            ]],
            done: function (res, curr) {
     var count = res.data.length;
-    document.getElementById('backupCount').innerText = count;
+    let elements = document.getElementsByClassName('backupCount');
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].innerText = count;
+    }
+    
     }
        });
        
@@ -2987,7 +3253,11 @@ var loader2 = new MmuiLoading();
            ]],
            done: function (res, curr) {
     var count = res.data.length;
-    document.getElementById('safeCount').innerText = count;
+    let elements = document.getElementsByClassName('safeCount');
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].innerText = count;
+    }
+    
     }
        });
        $('#btnSearch').click(function () {
@@ -3089,7 +3359,11 @@ var loader2 = new MmuiLoading();
         ]],
         done: function (res, curr) {
             var count = res.data.length;
-            document.getElementById('portCount').innerText = count;
+            let elements = document.getElementsByClassName('portCount');
+for (let i = 0; i < elements.length; i++) {
+    elements[i].innerText = count;
+}
+
             
             document.querySelectorAll("#forwardPortTable + .layui-table-view .layui-table-body tr").forEach(row => {
                 row.addEventListener("dblclick", function () {

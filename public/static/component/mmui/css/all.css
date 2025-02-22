@@ -12,6 +12,145 @@ body.dark-mode   .layui-table-total tr,
 body.dark-mode   .layui-table[lay-even] tr:nth-child(even) {
     background-color: #141414 !important;
 }
+body.dark-mode .power-header::before {
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.1) 2px,
+        transparent 2px,
+        transparent 10px
+    );
+    opacity: 0.6;
+}
+.blank1{flex: 6 1 auto;}
+
+
+tbody tr:not(:last-child) td {
+    border-bottom: 1px solid #f0f0f0;
+}
+body.dark-mode tbody tr:not(:last-child) td {
+    border-bottom: 1px solid #1a1a1a;
+}
+
+
+#tab-0 .mdui-card .mdui-row-md-3  .mdui-col:not(:last-child) .mdui-list::after {
+    content: "";  /* 伪元素内容为空 */
+    position: absolute;
+    top: 7%;
+    right: 0;
+    width: 0.1px;  /* 分割线的宽度 */
+    height: 87%;  /* 高度撑满列表项 */
+    background-color: #efefef;  /* 分割线颜色 */
+}
+#tab-0 .mdui-collapse-item-header{
+    padding-left: 0% !important;
+}
+#tab-0 .mdui-list-item-icon {
+    display: none !important;
+}
+#tab-0 .mdui-collapse-item-header{
+font-size: 18px;
+color: #333;
+font-weight: bold;
+}
+body.dark-mode #tab-0 .mdui-collapse-item-header{
+    color:#536dfe ;
+}
+
+#tab-0 .mdui-collapse-item-header .mdui-list-item-content::before {
+    content: "▍";
+    color: #536dfe; /* 竖条颜色，可根据主题调整 */
+    font-size: 18px;
+    margin-right: 8px;
+}
+body.dark-mode .power-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid #536dfe;
+    color: rgb(255 255 255 / 65%);
+}
+
+body.dark-mode .power-button svg {
+    fill: rgb(255 255 255 / 65%);;
+}
+
+body.dark-mode .power-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .power-header {
+    background: linear-gradient(135deg, #2c2f3e, #3a3f4d); /* 深色渐变 */
+}
+
+body.dark-mode .power-content {
+    background-color: #2c2f3e;
+    color: #f1f1f1;
+}
+
+
+
+.power-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%; /* 增大尺寸避免间断 */
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 255, 0.1),
+        rgba(0, 0, 255, 0.1) 2px,
+        transparent 2px,
+        transparent 10px
+    );
+    opacity: 0.5;
+    animation: moveLines 6s linear infinite;
+}
+ /* 动态动画 */
+ @keyframes moveLines {
+    from { transform: translate(-50%, -50%); }
+    to { transform: translate(-45%, -45%); }
+}
+.power-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 150, 255, 0.1);
+    border: 2px solid #536dfe;
+    width: 30%;
+    height: 49%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #536dfe;
+    font-size: 28px;
+    z-index: 2; /* 确保在背景之上 */
+}
+
+.power-button svg {
+    width: 39%;
+    height: 39%;
+    fill: #536dfe;
+}
+
+.power-button:hover {
+    background-color: rgba(0, 150, 255, 0.2);
+}
+
+/* 卡片主体 */
+.power-content {
+    padding: 20px;
+}
+.power-header {
+    position: relative;
+    height: 150px;
+    width: 100%;
+    background: linear-gradient(135deg, #eef1f5, #f9f9f9); /* 灰白渐变 */
+    overflow: hidden;
+}
 body.glass-mode  .layui-table-view .layui-table ,
 body.glass-mode  .layui-table tbody tr:hover,
 body.glass-mode  .layui-table thead tr, 
@@ -159,7 +298,7 @@ body {
 
  #tab-0 .mdui-list-item-icon~.mdui-list-item-content {
     /* margin-left: 32px; */
-    margin-left: 2% !important;
+    margin-left:-3% !important;
     font-size: 18px;
 }
     #tab-0 .mdui-panel  .mdui-color-theme-accent {
@@ -186,12 +325,19 @@ body.glass-mode #tab-0 .mdui-panel .mdui-color-theme-accent {
 }
 
 .label {
+    text-align: left;
+    font-weight: bold;
+    color: #555;
   flex-shrink: 0; /* 防止标签部分压缩 */
   margin-right: 8px; /* 标签与内容间距 */
 }
 
+body.dark-mode .label,body.dark-mode .value{
+    color: rgba(255, 255, 255, 0.65);
+}
 
 .value {
+    color: #333;
   margin-left: auto; /* 将右边内容对齐到最右 */
   text-align: right; /* 内容文字靠右对齐 */
 }
@@ -503,7 +649,7 @@ body.dark-mode .page-loading .loader-container {
    
 
     .mdui-container .mdui-theme-accent-indigo .mdui-color-theme-accent {
-    background-color: #0A97FF !important;
+    background-color: rgb(83, 109, 254) !important;
     color: rgb(255, 255, 255) !important;
     }
 .mdui-col-md-8 .mdui-collapse-item-body .mdui-list-item {
@@ -622,15 +768,25 @@ body.dark-mode .introjs-arrow.top {
 }
 body.dark-mode .introjs-tooltipbuttons {
     border-top: 1px solid #4d61ce;}
-
-
+    @media (min-width: 800px) {
+    tbody tr:not(:last-child) td{
+        border-bottom: 1px solid #1d1d1d;
+    }
+    body.dark-mode #tab-0 .mdui-card .mdui-row-md-3  .mdui-col:not(:last-child) .mdui-list::after {
+        background-color: #efefef;  /* 分割线颜色 */
+    
+    }
+    }
 @media (min-width: 1024px) {
+
     .mdui-col-md-8 {
         float: left;
         width: 75%;
     }
 }
-
+.mdui-card-media-covered {
+    z-index: 3;
+}
     .cad{
         margin: 8px;
         border-radius: 12px !important;
@@ -658,9 +814,11 @@ body.dark-mode .introjs-tooltipbuttons {
 .mdui-drawer .mdui-list-item{
     
 }
-    
+#tab-0 .mdui-btn{
+    border-radius:25px;
+}
        .mdui-btn{
-           border-radius: 25px;
+           border-radius: 8px;
        }
            iframe {
             width: 100%;
@@ -691,6 +849,8 @@ body.dark-mode .introjs-tooltipbuttons {
  
 
     @media   (max-width: 800px){
+        .blank1{flex: 0 1 auto;
+        display: none;}
         .layui-table-cell {
             height: 39px !important;
             line-height: 34px;
@@ -700,7 +860,7 @@ body.dark-mode .introjs-tooltipbuttons {
         .wc{
             padding-top: 0px;
             }
-       .mdui-col-md-8, .mdui-col-md-12,.mdui-col-md-3{
+            .mdui-col-md-6,.mdui-col-md-8, .mdui-col-md-12,.mdui-col-md-3{
             padding-left: 0px;
             padding-right: 0px;
         }
@@ -994,12 +1154,12 @@ body.dark-mode .mdui-table thead th {
 body.glass-mode .mdui-typo-title,
 body.glass-mode #tab-0 .mdui-card-primary-title,
 body.glass-mode .tittle{
-    color: #0A97FF;
+    color: rgb(83, 109, 254);
 }
 body.dark-mode .mdui-typo-title,
 body.dark-mode #tab-0 .mdui-card-primary-title,
 body.dark-mode .tittle{
-    color: #0A97FF;
+    color: rgb(83, 109, 254);
 }
 body.dark-mode .ant-pro-layout-bg-list {
     pointer-events: none;
@@ -1345,7 +1505,7 @@ body.dark-mode .layui-table-init{
    
    .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
     border-width: 0px;
-    border-style: none !important;
+  border:none;
     border-color: #eee;
     border-top: none;
 }
@@ -1415,6 +1575,21 @@ body.dark-mode .layui-table-init{
              -webkit-box-shadow:none !important;
              height: 56px;
 }
+.mdui-card-primary{
+    overflow: hidden;
+}
+.mdui-card-primary .fa-1x{
+    
+    font-size: 128px !important;
+    margin-right: 12px;
+    position: absolute;
+    bottom: -7px;
+    right: -55px;
+    color: #536dfd5e;
+    user-select: none;
+    z-index: 0;
+
+}
 .mdui-drawer{
     flex: 0 0 256px;
     max-width: 256px;
@@ -1469,16 +1644,9 @@ body.dark-mode .layui-table-init{
     width: fit-content;
 }
    
+ 
 
 
-#tab-2 .mdui-row,
-#tab-3 .mdui-row,
-#tab-4 .mdui-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 300px)); /* 自动折行，最小宽度为 250px */
-    gap: 16px; /* 网格间距 */
-    align-items: stretch;
-}
         }
 /* 手机宽度下的样式 */
 
@@ -1509,20 +1677,37 @@ body.dark-mode .layui-table-init{
 
 
 }
-
+.mdui-chip{
+    margin-left: 14px;
+    border: 1px solid #d9d9d9;
+ background-color: #fafafa;
+    border-radius: 4px;
+}
+body.dark-mode .mdui-chip{
+    color: #ffffffd4;
+    border: 1px solid #363636;
+ background-color: #0f0f0f;
+}
 .mdui-select-position-auto{
     width: 95%;
 }
+
+.layui-table-cell .mdui-btn{
+    border-radius: 25px;
+}
 #tab-3 .mdui-card button{
     
-    margin-bottom: 8px;
+    margin-bottom: 0px;
 
 }
 #tab-4 .mdui-card{
     display: flex;
     flex-direction: column;
+    padding: 8px;
 }
+#tab-2 .mdui-card{
 
+}
 
 #tab-4 .mdui-card .mdui-card-content{
     flex: 1 0 auto;
@@ -1533,7 +1718,7 @@ body.dark-mode .layui-table-init{
 
 #tab-4 .mdui-card button{
     
-    margin-bottom: 8px;
+    margin-bottom: 0px;
 
 }
 
@@ -1594,6 +1779,8 @@ body.dark-mode #refreshtk{
     max-width: 46%;
     width: unset !important;
     text-align: left;
+    max-width: min-content;
+    border-bottom: none;
     
 }
 
@@ -1646,8 +1833,41 @@ body.dark-mode .mdui-select-menu{
 }
 }
 
+body.dark-mode .layui-table-header, .layui-table-header th {
+    background-color: #1a1a1a !important;
+}
+body.dark-mode  .layui-table-header th{
+    background-color: #1a1a1a;
+}
+body.dark-mode  .layui-table-header .layui-table-cell{
+    background-color: #1a1a1a;
+    font-weight: 600;
+}
 
 
+
+.layui-table-header, .layui-table-header th {
+    background-color: #fafafa !important;
+}
+.layui-table-header th{
+    background-color: #fafafa;
+}
+.layui-table-header .layui-table-cell{
+    background-color: #fafafa;
+    font-weight: 600;
+}
+a {
+    color: #536dfe;
+}
+a:hover {
+    color: #8d9eff;
+}
+body.dark-mode a {
+    color: #536dfe;
+}
+body.dark-mode a:hover {
+    color: #8d9eff;
+}
 #tab-0 .mdui-list-item {
     padding-left: 6% !important;
   display: flex; /* 使用 flex 布局 */
@@ -1664,9 +1884,10 @@ body.dark-mode .mdui-select-menu{
 #slec1{
     display: flex;
     flex-wrap: wrap;
+    padding: 11px;
 }
 #slec1 .blank{
-    flex: 1 1 auto;
+    flex: 9 1 auto;
 }
 .introjs-button:hover {
     outline: 0;
