@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="青舟vps管理系统mmui">
+    <meta name="description" content="华烛vps管理系统mmui">
     <meta name="keywords" content="vps, 虚拟机, 云计算, 我的世界">
     <meta name="author" content="Danvei">
-    <title>轻舟VPS管理系统 - {$host.host_name}</title>
+    <title>华烛VPS管理系统 - {$host.host_name}</title>
    
      
     <!-- 加载视口配置 -->
@@ -931,6 +931,12 @@ body.dark-mode .mdui-dialog-content{
     <!--弹窗模板区end-->
     <script>
     var loader2 = new MmuiLoading();
+    const rootPath = "/static/component/pear/";
+    layui.config({
+        base: rootPath + "module/"
+    }).extend({
+        autocomplete: "autocomplete"
+    });
         function copyText(text) {
             //生成一个textarea对象
             var textArea = document.createElement('textarea');
