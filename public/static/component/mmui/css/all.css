@@ -1950,3 +1950,26 @@ body.dark-mode .layui-table-body::-webkit-scrollbar-track {
 .layui-table-pageview{
     height: 100% !important;
 }
+
+body.dark-mode .layui-table-header, .layui-table-header th {
+    background-color: #1a1a1a !important;
+}
+body.dark-mode  .layui-table-header th{
+    background-color: #1a1a1a;
+}
+body.dark-mode  .layui-table-header .layui-table-cell{
+    background-color: #1a1a1a;
+    font-weight: 600;
+}
+
+
+.layui-table-header, .layui-table-header th {
+    background-color: #fafafa !important;
+}
+.layui-table-header th{
+    background-color: #fafafa;
+}
+.layui-table-header .layui-table-cell{
+    background-color: #fafafa;
+    font-weight: 600;
+}
