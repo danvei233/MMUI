@@ -931,6 +931,12 @@ body.dark-mode .mdui-dialog-content{
     <!--弹窗模板区end-->
     <script>
     var loader2 = new MmuiLoading();
+    const rootPath = "/static/component/pear/";
+    layui.config({
+        base: rootPath + "module/"
+    }).extend({
+        autocomplete: "autocomplete"
+    });
         function copyText(text) {
             //生成一个textarea对象
             var textArea = document.createElement('textarea');
