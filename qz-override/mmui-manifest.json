@@ -1,0 +1,39 @@
+{
+  "name": "MMUI-V2X Qzsys Override",
+  "version": "V2X 2.0.0",
+  "code": "LightningBoatX",
+  "hooks": [
+    "app/admin/controller/Index.php",
+    "app/common/service/Ecs.php",
+    "app/control/controller/Ecs.php",
+    "app/index/controller/Index.php",
+    "extend/qzcloud/Kvm.php"
+  ],
+  "core": [
+    "extend/mmui/MmuiEcsBridge.php",
+    "extend/mmui/MmuiEcsPayload.php",
+    "extend/mmui/MmuiHealth.php",
+    "extend/mmui/MmuiLoginBridge.php",
+    "extend/mmui/MmuiPatch.php"
+  ],
+  "templates": [
+    "view/admin/mmui/index.html",
+    "view/control/ecs/mmui.html",
+    "view/control/ecs/mmui_analytics.html",
+    "view/control/ecs/mmui_bundle.html",
+    "view/control/ecs/mmui_dev.html",
+    "view/index/index/mmui.html",
+    "view/index/index/mmui_bundle.html"
+  ],
+  "assets": [],
+  "excluded": [
+    ".env",
+    "public/install.lock",
+    "app/install/data/data.sql",
+    "database/mmui-demo-data.sql",
+    "database/mmui-mock-node.sql",
+    ".docker",
+    "public/src/static/mmui",
+    "public/static/component/auroraboat/login"
+  ]
+}

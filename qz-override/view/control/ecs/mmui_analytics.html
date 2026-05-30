@@ -1,0 +1,77 @@
+<?php
+$mmuiAnalyticsWebConfig = config('web');
+$mmuiAnalyticsEnabled = (string)($mmuiAnalyticsWebConfig['mmui_analytics_enable'] ?? '1') !== '0';
+$mmuiAnalyticsPayload = $mmuiVuePayload ?? [];
+$mmuiAnalyticsHost = is_array($mmuiAnalyticsPayload['host'] ?? null) ? $mmuiAnalyticsPayload['host'] : [];
+if ($mmuiAnalyticsEnabled):
+?>
+<script>
+(function () {
+  var payload = <?php echo json_encode([
+    'isNat' => !empty($mmuiAnalyticsHost['isNat']) ? '1' : '0',
+    'virtualType' => $mmuiAnalyticsHost['virtualType'] ?? '',
+    'osName' => $mmuiAnalyticsHost['osName'] ?? '',
+    'version' => $mmuiAnalyticsWebConfig['mmui_version'] ?? 'V2X 2.0.0',
+    'versionCode' => $mmuiAnalyticsWebConfig['mmui_version_code'] ?? 'LightningBoatX',
+  ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+  var trackerBase = "//static.sermc.net/";
+  var currentDomain = window.location.hostname || "unknown";
+  var _paq = window._paq = window._paq || [];
+  var analyticsLoaded = false;
+
+  function currentTheme() {
+    try {
+      if (localStorage.getItem("darkMode") === "enabled") {
+        return "dark";
+      }
+      if (localStorage.getItem("glassMode") === "enabled") {
+        return "glass";
+      }
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "dark";
+      }
+    } catch (e) {}
+    return "light";
+  }
+
+  function loadMatomo(region) {
+    if (analyticsLoaded) {
+      return;
+    }
+    analyticsLoaded = true;
+    _paq.push(["disableCookies"]);
+    _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+    _paq.push(["setCookieDomain", currentDomain]);
+    _paq.push(["setCustomDimension", 4, payload.isNat]);
+    _paq.push(["setCustomDimension", 1, payload.virtualType]);
+    _paq.push(["setCustomDimension", 2, payload.osName]);
+    _paq.push(["setCustomDimension", 3, payload.version]);
+    _paq.push(["setCustomDimension", 6, "NotCollected"]);
+    _paq.push(["setCustomDimension", 5, region || "Unknown"]);
+    _paq.push(["setCustomDimension", 7, payload.versionCode]);
+    _paq.push(["setCustomDimension", 8, currentDomain]);
+    _paq.push(["setCustomDimension", 9, currentTheme()]);
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    _paq.push(["setTrackerUrl", trackerBase + "matomo.php"]);
+    _paq.push(["setSiteId", 1]);
+
+    var d = document;
+    var g = d.createElement("script");
+    var s = d.getElementsByTagName("script")[0];
+    g.async = true;
+    g.src = trackerBase + "matomo.js";
+    s.parentNode.insertBefore(g, s);
+  }
+
+  setTimeout(function () {
+    loadMatomo("Unknown");
+  }, 900);
+
+  fetch("https://ipapi.co/json/", { cache: "no-store" })
+    .then(function (response) { return response.json(); })
+    .then(function (data) { loadMatomo(data && data.region ? data.region : "Unknown"); })
+    .catch(function () { loadMatomo("Unknown"); });
+})();
+</script>
+<?php endif; ?>

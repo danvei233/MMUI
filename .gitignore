@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+release/
+
+# Vite and local logs
+.vite/
+*.log
+.runtime/
+__pycache__/
+*.pyc
+
+# Local editor caches
+.idea/
+.vscode/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Local package binary
+scripts/mmui-packager.exe

@@ -1,0 +1,28 @@
+{
+  "name": "mmui-v2x",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:php": "vite build && node scripts/inject-php-bridge.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
+    "ant-design-vue": "^4.2.6",
+    "echarts": "^5.5.1",
+    "pinia": "^2.1.7",
+    "simple-icons": "^16.21.0",
+    "three": "^0.184.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^5.4.11",
+    "vite-plugin-devtools-json": "^1.0.0"
+  }
+}

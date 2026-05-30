@@ -1,0 +1,43 @@
+<?php
+$mmuiVuePayload = $mmuiVuePayload ?? [];
+$mmuiVueRequestKey = $mmuiVueRequestKey ?? 'mmui_vue_json';
+$mmuiVueUseMock = empty($mmuiVuePayload);
+$mmuiVueRequestUri = $_SERVER['REQUEST_URI'] ?? '';
+$mmuiVueSeparator = strpos($mmuiVueRequestUri, '?') === false ? '?' : '&';
+$mmuiVueJsonUrl = $mmuiVueJsonUrl ?? ($mmuiVueRequestUri . $mmuiVueSeparator . $mmuiVueRequestKey . '=1');
+
+if (isset($_GET[$mmuiVueRequestKey]) && $_GET[$mmuiVueRequestKey] === '1') {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($mmuiVuePayload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+?>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="MMUI V2X homepage migration for Lightboat ECS panel"
+    />
+    <title>轻舟 MMUI V2X</title>
+    <script id="mmui-vue-page-props" type="application/json">
+      <?php echo json_encode($mmuiVuePayload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>
+    </script>
+    <script>
+      window.__MMUI_VUE_CONFIG__ = {
+        embeddedJsonUrl: <?php echo json_encode($mmuiVueJsonUrl, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>,
+        requestKey: <?php echo json_encode($mmuiVueRequestKey, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>,
+        adapter: 'qz-ecs',
+        useMock: <?php echo $mmuiVueUseMock ? "true" : "false"; ?>,
+      };
+    </script>
+    <?php include app()->getRootPath() . 'view/control/ecs/mmui_analytics.html'; ?>
+    <script type="module" crossorigin src="/src/static/mmui/assets/index-BKj_JNEI.js"></script>
+    <link rel="stylesheet" crossorigin href="/src/static/mmui/assets/index-BKB9wCGG.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

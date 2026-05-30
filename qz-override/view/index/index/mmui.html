@@ -1,0 +1,10 @@
+<?php
+$mmuiLoginConfig = $mmuiLoginConfig ?? [];
+$mmuiLoginBundle = app()->getRootPath() . 'view/index/index/mmui_bundle.html';
+
+if (is_file($mmuiLoginBundle)) {
+    include $mmuiLoginBundle;
+} else {
+    echo '<!doctype html><meta charset="utf-8"><title>MMUI Login missing</title><p>MMUI Login build output is missing.</p>';
+}
+?>

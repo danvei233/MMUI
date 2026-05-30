@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="MMUI V2X homepage migration for Lightboat ECS panel"
+    />
+    <title>轻舟 MMUI V2X</title>
+    <script id="mmui-vue-page-props" type="application/json">
+      __MMUI_VUE_EMBEDDED_JSON__
+    </script>
+    <script>
+      window.__MMUI_VUE_CONFIG__ = {
+        embeddedJsonUrl: '__MMUI_VUE_JSON_URL__',
+        requestKey: '__MMUI_VUE_REQUEST_KEY__',
+        adapter: '__MMUI_VUE_ADAPTER__',
+        useMock: true,
+      };
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

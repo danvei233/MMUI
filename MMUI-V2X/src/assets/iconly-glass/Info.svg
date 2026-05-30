@@ -1,0 +1,85 @@
+﻿<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="140.000000" height="140.000000" fill="none" customFrame="#000000">
+	<defs>
+		<linearGradient id="paint_linear_40" x1="71.5000153" x2="71.5000153" y1="18" y2="119" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(68,96,255)" offset="0" stop-opacity="1" />
+			<stop stop-color="rgb(68,96,255)" offset="1" stop-opacity="1" />
+		</linearGradient>
+		<g id="pixso_custom_effect_33">
+			<effect visibility="visible" effectType="gaussianBlur" stdDeviation="18" />
+		</g>
+		<filter id="filter_33" width="83.300537" height="83.300537" x="29.849609" y="26.849609" filterUnits="userSpaceOnUse" customEffect="url(#pixso_custom_effect_33)" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix" />
+			<feBlend result="shape" in="SourceGraphic" in2="BackgroundImageFix" mode="normal" />
+			<feGaussianBlur stdDeviation="6" result="effect_layerBlur_1" />
+		</filter>
+		<g id="pixso_custom_effect_34">
+			<effect visibility="visible" effectType="backgroundBlur" saturation="0" stdDeviation="24" />
+		</g>
+		<filter id="filter_34" width="103.000000" height="103.000000" x="20.000000" y="17.000000" filterUnits="userSpaceOnUse" customEffect="url(#pixso_custom_effect_34)" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix" />
+			<feBlend result="shape" in="SourceGraphic" in2="BackgroundImageFix" mode="normal" />
+		</filter>
+		<clipPath id="outline_mask_23" transform="matrix(1,0,0,1,-20,-17)">
+			<path d="" fill="rgb(255,255,255)" fill-rule="nonzero" />
+		</clipPath>
+		<linearGradient id="paint_linear_41" x1="37.0775604" x2="101.387756" y1="29.7666321" y2="109.655869" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(255,255,255)" offset="0" stop-opacity="0.247058824" />
+			<stop stop-color="rgb(255,255,255)" offset="1" stop-opacity="0" />
+		</linearGradient>
+		<g id="pixso_custom_effect_35">
+			<effect visibility="visible" effectType="backgroundBlur" saturation="0" stdDeviation="15" />
+			<effect x="5.000000" y="5.000000" visibility="visible" fill="rgb(68,96,255)" fill-opacity="0.498039216" effectType="dropShadow" showShadowBehind="1" stdDeviation="10" radius="0" />
+		</g>
+		<filter id="filter_35" width="29.334961" height="66.150635" x="61.600098" y="41.600098" filterUnits="userSpaceOnUse" customEffect="url(#pixso_custom_effect_35)" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix" />
+			<feColorMatrix result="hardAlpha" in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0 " />
+			<feOffset dx="5.000000" dy="5.000000" in="hardAlpha" />
+			<feGaussianBlur stdDeviation="3.33333325" />
+			<feColorMatrix type="matrix" values="0 0 0 0 0.266667 0 0 0 0 0.376471 0 0 0 0 1 0 0 0 0.498039 0 " />
+			<feBlend result="effect_dropShadow_1" in2="BackgroundImageFix" mode="normal" />
+			<feBlend result="shape" in="SourceGraphic" in2="effect_dropShadow_1" mode="normal" />
+		</filter>
+		<clipPath id="outline_mask_24" transform="matrix(1,0,0,1,-61.6001,-41.6001)">
+			<path d="" fill="rgb(255,255,255)" fill-rule="nonzero" />
+			<path d="" fill="rgb(255,255,255)" fill-rule="nonzero" />
+		</clipPath>
+		<linearGradient id="paint_linear_42" x1="71.2684631" x2="59.9847908" y1="49.5581474" y2="92.3638153" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(255,255,255)" offset="0" stop-opacity="0.749019623" />
+			<stop stop-color="rgb(255,255,255)" offset="1" stop-opacity="0.200000003" />
+		</linearGradient>
+		<linearGradient id="paint_linear_43" x1="68.3586426" x2="81.4634399" y1="52.283432" y2="55.347229" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(255,255,255)" offset="0" stop-opacity="0.247058824" />
+			<stop stop-color="rgb(255,255,255)" offset="1" stop-opacity="0" />
+		</linearGradient>
+	</defs>
+	<rect id="Iconly/Glass/Info" width="140.000000" height="140.000000" x="0.000000" y="0.000000" />
+	<g id="Info">
+		<g id="Bg">
+			<path id="Info Circle" d="M71.5 18C43.624 18 21 40.6291 21 68.5C21 96.381 43.624 119 71.5 119C99.4265 119 122 96.381 122 68.5C122 40.6291 99.4265 18 71.5 18Z" fill="url(#paint_linear_40)" fill-rule="evenodd" />
+			<g opacity="0.5" filter="url(#filter_33)">
+				<path id="Info Circle" d="M71.4999 44.8496C58.4449 44.8496 47.8496 55.4473 47.8496 68.4999C47.8496 81.5572 58.4449 92.1502 71.4999 92.1502C84.5785 92.1502 95.1502 81.5572 95.1502 68.4999C95.1502 55.4473 84.5785 44.8496 71.4999 44.8496Z" fill="rgb(68,96,255)" fill-opacity="0.498039216" fill-rule="evenodd" />
+			</g>
+		</g>
+		<g id="Icon">
+			<g data-pixso-skip-parse="true">
+				<foreignObject width="103.000000" height="103.000000" x="20.000000" y="17.000000">
+					<div xmlns="http://www.w3.org/1999/xhtml" style="clip-path:url(#outline_mask_23);height:100%;backdrop-filter:blur(12.000000px);width:100%;-webkit-backdrop-filter:blur(12.000000px);" />
+				</foreignObject>
+			</g>
+			<g filter="url(#filter_34)">
+				<path id="Info Circle" d="M71.5 18C43.624 18 21 40.6291 21 68.5C21 96.381 43.624 119 71.5 119C99.4265 119 122 96.381 122 68.5C122 40.6291 99.4265 18 71.5 18Z" fill="rgb(68,96,255)" fill-opacity="0.349019617" fill-rule="evenodd" />
+				<path id="Info Circle" d="M71.5 17Q77.3425 17 82.9009 18.2567Q87.3212 19.2561 91.5618 21.0503Q95.9056 22.8882 99.7818 25.4373L99.7819 25.4374Q104.153 28.3122 107.93 32.0916Q111.693 35.8571 114.558 40.2133Q117.115 44.1024 118.958 48.4621Q120.767 52.7429 121.766 57.205L121.766 57.2052Q123 62.7144 123 68.5Q123 74.306 121.758 79.833Q120.759 84.2778 118.958 88.5422Q117.114 92.9063 114.553 96.7987Q111.689 101.15 107.93 104.912Q104.159 108.685 99.7953 111.556L99.7951 111.557Q95.9131 114.111 91.5617 115.951Q87.33 117.741 82.9191 118.74L82.919 118.74Q77.3522 120 71.5 120Q65.7475 120 60.2674 118.778L60.2673 118.778Q55.7717 117.776 51.4595 115.951Q47.1319 114.12 43.2675 111.583L43.2674 111.583L43.2672 111.583Q38.8797 108.703 35.0894 104.913Q31.298 101.121 28.4168 96.7325L28.4166 96.7323Q25.8805 92.869 24.0496 88.5427Q22.2262 84.2338 21.2238 79.7418L21.2238 79.7417Q20 74.2574 20 68.5Q20 62.7626 21.2162 57.2957L21.2162 57.2956Q22.2192 52.7866 24.0496 48.4616Q25.8787 44.1399 28.4115 40.28L28.4115 40.2799Q31.2945 35.8864 35.0894 32.0913Q38.8854 28.295 43.2803 25.4111L43.2803 25.4111Q47.1391 22.879 51.4594 21.0504Q55.7807 19.2213 60.286 18.2182Q65.7574 17 71.5 17ZM21 68.5C21 40.6291 43.624 18 71.5 18C99.4265 18 122 40.6291 122 68.5C122 96.381 99.4265 119 71.5 119C43.624 119 21 96.381 21 68.5Z" fill="url(#paint_linear_41)" fill-rule="evenodd" />
+			</g>
+			<g data-pixso-skip-parse="true">
+				<foreignObject width="29.334961" height="66.150635" x="61.600098" y="41.600098">
+					<div xmlns="http://www.w3.org/1999/xhtml" style="clip-path:url(#outline_mask_24);height:100%;backdrop-filter:blur(7.500000px);width:100%;-webkit-backdrop-filter:blur(7.500000px);" />
+				</foreignObject>
+			</g>
+			<g filter="url(#filter_35)">
+				<path id="Union" d="M71.268 47C68.94 47 67 48.9448 67 51.268L67 72.705C67 75.0378 68.94 76.9245 71.268 76.9245C73.596 76.9245 75.4875 75.0378 75.4875 72.705L75.4875 51.268C75.4875 48.9448 73.596 47 71.268 47ZM67.0476 88.0828C67.0476 90.4108 68.9391 92.3508 71.3156 92.3508C73.6436 92.3508 75.5351 90.4108 75.5351 88.0828C75.5351 85.7548 73.6436 83.8633 71.2671 83.8633C68.9391 83.8633 67.0476 85.7548 67.0476 88.0828Z" fill="url(#paint_linear_42)" fill-rule="evenodd" />
+				<path id="Union" d="M67 51.268C67 48.9448 68.94 47 71.268 47C73.596 47 75.4875 48.9448 75.4875 51.268L75.4875 72.705C75.4875 75.0378 73.596 76.9245 71.268 76.9245C68.94 76.9245 67 75.0378 67 72.705L67 51.268ZM71.268 47.4Q70.5457 47.4 69.9142 47.6396Q69.1651 47.9239 68.544 48.5455Q67.9221 49.1679 67.6383 49.9181L67.6383 49.9181Q67.4 50.548 67.4 51.268L67.4 72.705Q67.4 73.4526 67.6567 74.0982L67.6567 74.0982L67.6568 74.0984Q67.9414 74.8141 68.5415 75.4044Q69.1229 75.9762 69.8213 76.2561L69.8213 76.2561Q70.4909 76.5245 71.268 76.5245Q72.0581 76.5245 72.7327 76.2454Q73.4082 75.9659 73.968 75.4066Q74.5272 74.8479 74.8071 74.1732Q75.0875 73.4973 75.0875 72.705L75.0875 51.268Q75.0875 50.5034 74.8261 49.8421L74.8261 49.8421Q74.546 49.1334 73.9656 48.5433Q73.367 47.9347 72.6413 47.6501L72.6413 47.6501L72.6412 47.6501Q72.0037 47.4 71.268 47.4ZM71.3156 92.3508C68.9391 92.3508 67.0476 90.4108 67.0476 88.0828C67.0476 85.7548 68.9391 83.8633 71.2671 83.8633C73.6436 83.8633 75.5351 85.7548 75.5351 88.0828C75.5351 90.4108 73.6436 92.3508 71.3156 92.3508ZM67.4476 88.0828Q67.4476 88.8602 67.717 89.5291L67.7171 89.5291Q67.9986 90.2279 68.5743 90.8081Q69.144 91.3823 69.8332 91.6679Q70.5158 91.9508 71.3156 91.9508Q72.056 91.9508 72.6969 91.6982L72.697 91.6981Q73.4182 91.4137 74.0133 90.8092Q74.5892 90.2241 74.8695 89.5211L74.8695 89.521L74.8697 89.5207Q75.1351 88.8546 75.1351 88.0828Q75.1351 87.293 74.8552 86.6195L74.8551 86.6194L74.8549 86.619Q74.5738 85.9429 74.0105 85.384Q73.4733 84.851 72.8264 84.5715L72.8264 84.5715Q72.1133 84.2633 71.2671 84.2633Q70.4821 84.2633 69.8109 84.5395L69.8107 84.5396Q69.1306 84.8195 68.5672 85.3829Q68.0037 85.9464 67.7238 86.6265L67.7238 86.6266Q67.4476 87.2979 67.4476 88.0828Z" fill="url(#paint_linear_43)" fill-rule="evenodd" />
+			</g>
+		</g>
+	</g>
+</svg>
+

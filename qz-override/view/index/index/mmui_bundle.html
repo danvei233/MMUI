@@ -1,0 +1,66 @@
+<?php
+$mmuiLoginConfig = $mmuiLoginConfig ?? [];
+$mmuiLoginTitle = trim((string)($mmuiLoginConfig['title'] ?? '轻舟云（QZSYSTEM）'));
+$mmuiLoginLogo = trim((string)($mmuiLoginConfig['logo'] ?? ''));
+$mmuiLoginIcon = $mmuiLoginLogo !== '' ? $mmuiLoginLogo : '/static/component/auroraboat/login/favicon.ico';
+?>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="icon" href="<?php echo htmlspecialchars($mmuiLoginIcon, ENT_QUOTES, 'UTF-8'); ?>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?php echo htmlspecialchars($mmuiLoginTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+    <script>
+      window.__MMUI_LOGIN_CONFIG__ = <?php echo json_encode($mmuiLoginConfig, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+    </script>
+    <script type="module" crossorigin src="/static/component/auroraboat/login/assets/index-ClvXGmM-.js?v=mmui-login-20260530"></script>
+    <link rel="stylesheet" crossorigin href="/static/component/auroraboat/login/assets/index-DsZ-4OeY.css?v=mmui-login-20260530">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      (function () {
+        var config = window.__MMUI_LOGIN_CONFIG__ || {};
+        var title = String(config.title || '').trim();
+        var logo = String(config.logo || '').trim();
+        var doneTitle = !title;
+        var doneLogo = !logo;
+
+        function applyBrand() {
+          if (title) {
+            if (document.title !== title) {
+              document.title = title;
+            }
+            var subTitle = document.querySelector('.card-top h3');
+            if (subTitle && subTitle.textContent !== title) {
+              subTitle.textContent = title;
+            }
+            doneTitle = !!subTitle || document.title === title;
+          }
+          if (logo) {
+            var img = document.querySelector('.card-logo img.logo');
+            if (img && img.getAttribute('src') !== logo) {
+              img.setAttribute('src', logo);
+            }
+            doneLogo = !!img;
+          }
+        }
+
+        var attempts = 0;
+        var timer = window.setInterval(function () {
+          attempts += 1;
+          applyBrand();
+          if ((doneTitle && doneLogo) || attempts >= 40) {
+            window.clearInterval(timer);
+          }
+        }, 100);
+        window.addEventListener('load', applyBrand);
+        applyBrand();
+      })();
+    </script>
+  </body>
+</html>

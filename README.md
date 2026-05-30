@@ -1,44 +1,94 @@
+# MMUI  - LightningBoatX
 
+面向轻舟云主机系统的现代化控制台主题。
 
-# 轻舟云主机系统MMUI模板 MMUI Template for Qzsystem - LightingBoat
+MMUI V2X 美化了轻舟 ECS 控制台和机器登录页，让云主机管理更清晰、更顺手，更适合日常高频操作。
 
-欢迎使用轻舟云主机系统MMUI模板！本模板是专为轻舟云系统用户设计的前台界面模板，提供三种不同的主题样式供用户选择：毛玻璃模式、正常模式和黑暗模式。
-快捷下载地址（https://wwsu.lanzouu.com/i9rhH2nn6xtc）
-![image](https://github.com/user-attachments/assets/3e23255e-91eb-4588-a421-04e76efc548a)
-![image](https://github.com/user-attachments/assets/2b5847ce-40e6-43d8-9b5e-295fc15f647c)
+![MMUI](https://github.com/user-attachments/assets/3e23255e-91eb-4588-a421-04e76efc548a)
 
+## 亮点
 
+- 全新的 ECS 控制台：首页、监控、系统、VNC、网络、快照、备份、端口映射、安全策略、挂机宝建站。
+- 更顺手的远程登录：Windows、Linux、桌面端、移动端按场景处理。
+- 轻舟后台可切换 MMUI / 原版界面，出问题可以快速回退。
+- 支持崭新机器登录页，可在后台单独开启或关闭。
+- 支持自定义网站标题、控制台标题、Logo、登录页 Logo。
+- 支持 Dev本地开发 模式，方便前端开发时直接加载本地 Vite 服务便捷开发。
+- 最小破坏安装，支持自动修复。
+- 支持部分字段自定义。
 
-## 特性
+## 安装
 
-- **毛玻璃模式**：现代而典雅，提供半透明效果，增强视觉体验。(lightingboat已经舍弃)
-- **正常模式**：标准的亮色界面，清晰简洁。
-- **黑暗模式**：护眼的暗色主题，适合在低光环境下使用。
+1. 下载 Release 中的 `mmui-v2x-qz-override.zip`。
+2. 备份你的轻舟站点目录。
+3. 将压缩包解压到轻舟 `qzsystem` 根目录。
+4. 登录轻舟后台，打开“系统设置-系统管理-MMUI 配置设置”。
+5. 控制台、机器登录页切换成 MMUI 并保存。
 
-## 安装方法
+覆盖包会把 MMUI 需要的视图、扩展类和静态资源放到正确位置。建议每次轻舟更新后重新覆盖一次 MMUI 包。
 
-1. 下载压缩包文件（右上角绿色下载按钮选择下载zip或者本文档的蓝奏云链接）。
-2. 把压缩包放到您的网站根目录。(`/www/wwwroot/你的网站地址`)
-3. 将下载的文件解压，替换原有文件。
+## 开发
 
-## 自托管静态资源
+ECS 控制台：
 
-新版资源已经完全由用户托管！以下作废：
-如果您不信任外部CDN提供的CSS、JS文件或我的图床的图片，您可以选择将这些资源下载到本地服务器，并更新资源链接以指向这些本地文件。这样可以更好地控制这些资源，确保网站的安全性和可靠性。
+```bash
+cd MMUI-V2X
+npm install
+npm run dev
+```
 
-## 注意事项
+机器登录页：
 
-- 请确保在替换文件前备份原有文件，以防万一需要恢复。
-- 我的QQ号484883303，有问题可以联系我，如果您信任的话我可以免费指导您安装，我们的用户交流QQ群526385986。
+```bash
+cd LoginUI
+npm install
+npm run dev
+```
+
+构建覆盖包：
+
+```bash
+go run ./scripts/package.go -name mmui-v2x-qz-override.zip
+```
+
+输出文件在：
+
+```text
+release/mmui-v2x-qz-override.zip
+```
+
+## 项目结构
+
+```text
+MMUI-V2X/      ECS 控制台 Vue 源码
+LoginUI/       机器登录页 Vue 源码
+qz-override/   轻舟覆盖层
+scripts/       打包脚本
+tools/         调试工具，不进入正式覆盖包
+```
+
+## 关于入门教程
+
+入门教程组件已经保留，但当前版本默认不自动弹出。需要调试时可以在浏览器控制台执行：
+
+```js
+mmuiStartTutorial()
+```
+
+## 统计说明
+
+ECS 页面统计默认开启，可在 MMUI 设置里关闭。统计脚本使用 Matomo，禁用 Cookie，只用于了解 MMUI ECS 页面使用情况。
+
+不会收集系统密码、面板密码、用户名、实例名称、具体 IP 原文或端口映射内容。
+
+## 作者
+
+丁薇  
+GitHub: [@danvei233](https://github.com/danvei233)  
+QQ: 484883303  
+中国石油大学（北京）
+
 ## 许可证
 
-本软件遵循GPLv3许可协议。请不要尝试倒卖本软件，也请不要删除软件中包含的著名信息。虽然这些信息只是作为网页的注释存在，您可以改变它们的位置，但不得删除。
-
-## 贡献
-
-如果您有任何建议或改进，请随时提交Pull Request或开Issue讨论。
-
-感谢您选择MMUI Template for Qzsystem，希望它能为您的轻舟云系统带来更好的用户体验！
-
----
-
+本项目使用 GPLv3 许可证。  
+请不要倒卖本项目，也不要删除项目署名信息。

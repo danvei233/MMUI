@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/component/pear/css/pear.css"/>
+    <script src="/static/component/layui/layui.js"></script>
+    <script src="/static/component/pear/pear.js"></script>
+    <style>
+        body.pear-container {
+            min-height: 100vh;
+            color: #1f2937;
+            background: #f4f7fb;
+        }
+
+        .mmui-shell {
+            padding: 16px;
+        }
+
+        .mmui-hero {
+            position: relative;
+            overflow: hidden;
+            min-height: 210px;
+            padding: 30px 34px;
+            color: #fff;
+            border-radius: 8px;
+            background:
+                linear-gradient(120deg, rgba(13, 48, 84, .96), rgba(23, 112, 191, .88)),
+                url("https://opengraph.githubassets.com/9f8f6b1a6d6d7b9d8e4a/mmui-v2x/lightningboatx");
+            background-size: cover;
+            box-shadow: 0 18px 42px rgba(20, 87, 148, .22);
+        }
+
+        .mmui-hero:after {
+            content: "";
+            position: absolute;
+            inset: auto -8% -42% 44%;
+            height: 210px;
+            background: rgba(255, 255, 255, .13);
+            transform: rotate(-10deg);
+            border: 1px solid rgba(255, 255, 255, .18);
+        }
+
+        .mmui-hero h1 {
+            margin: 20px 0 10px;
+            font-size: 34px;
+            line-height: 1.2;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .mmui-hero p {
+            max-width: 650px;
+            margin: 0;
+            color: rgba(255, 255, 255, .82);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .mmui-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            color: #cae9ff;
+            border: 1px solid rgba(255, 255, 255, .18);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .1);
+            font-size: 12px;
+        }
+
+        .mmui-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(300px, .75fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .mmui-card {
+            border: 1px solid #e7edf5;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 8px 22px rgba(38, 61, 91, .06);
+        }
+
+        .mmui-card + .mmui-card {
+            margin-top: 16px;
+        }
+
+        .mmui-card-head {
+            padding: 16px 18px;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .mmui-card-title {
+            margin: 0;
+            color: #172033;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .mmui-card-subtitle {
+            margin-top: 6px;
+            color: #7b8798;
+            font-size: 12px;
+        }
+
+        .mmui-card-body {
+            padding: 18px;
+        }
+
+        .mmui-settings-card {
+            border: 1px solid #e7edf5;
+            border-radius: 8px;
+            box-shadow: 0 8px 22px rgba(38, 61, 91, .06);
+        }
+
+        .mmui-settings-card .layui-card-header {
+            height: auto;
+            padding: 16px 18px;
+            line-height: 1.5;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .mmui-settings-card .layui-card-header strong {
+            display: block;
+            color: #172033;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .mmui-settings-card .layui-card-header span {
+            display: block;
+            margin-top: 6px;
+            color: #7b8798;
+            font-size: 12px;
+        }
+
+        .mmui-settings-card .layui-card-body {
+            padding: 0 18px 18px;
+        }
+
+        .mmui-status {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+            padding: 14px 0 8px;
+            color: #5d6b82;
+        }
+
+        .mmui-stat {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 24px;
+            padding: 0;
+            background: transparent;
+        }
+
+        .mmui-stat:before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #2f7df6;
+            box-shadow: none;
+        }
+
+        .mmui-stat:nth-child(2):before {
+            background: #16a34a;
+        }
+
+        .mmui-stat:nth-child(3):before {
+            background: #f59e0b;
+        }
+
+        .mmui-stat:nth-child(4):before {
+            background: #6366f1;
+        }
+
+        .mmui-stat span {
+            margin: 0;
+            color: #7b8798;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .mmui-stat strong {
+            color: #1f2937;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .mmui-settings-card .layui-tab {
+            margin: 0;
+        }
+
+        .mmui-settings-card .layui-tab-title {
+            border-color: #eef2f7;
+        }
+
+        .mmui-settings-card .layui-tab-content {
+            padding: 18px 0 0;
+        }
+
+        .mmui-settings-card .layui-form-item {
+            max-width: 760px;
+        }
+
+        .layui-form-label {
+            color: #344054;
+        }
+
+        .layui-input,
+        .mmui-readonly {
+            color: #1f2937;
+            border-color: #e1e7ef;
+            background: #ffffff;
+        }
+
+        .layui-input:focus {
+            border-color: #2f7df6 !important;
+            box-shadow: 0 0 0 2px rgba(47, 125, 246, .12);
+        }
+
+        .mmui-readonly {
+            color: #667085;
+            background: #f8fafc;
+        }
+
+        .mmui-brand-grid {
+            display: block;
+            max-width: 760px;
+            margin-top: 0;
+        }
+
+        .mmui-form-caption {
+            margin: 2px 0 16px;
+            padding-left: 110px;
+            color: #8492a6;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .mmui-section-title {
+            margin: 4px 0 16px;
+            padding: 0 0 8px 110px;
+            border-bottom: 1px solid #eef2f7;
+            color: #172033;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .mmui-section-title span {
+            margin-left: 8px;
+            color: #8492a6;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .mmui-upload-row {
+            display: grid;
+            grid-template-columns: 56px minmax(180px, 1fr) 96px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mmui-logo-preview {
+            width: 48px;
+            height: 48px;
+            border: 1px solid #e1e7ef;
+            border-radius: 8px;
+            object-fit: contain;
+            background: #f8fafc;
+        }
+
+        .mmui-devbox {
+            max-width: 760px;
+            margin-top: 0;
+            padding: 0;
+            border: 0;
+            background: transparent;
+        }
+
+        .mmui-devbox h3 {
+            margin: 0 0 6px;
+            color: #b45309;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .mmui-devbox p {
+            margin: 0 0 12px;
+            color: #8a5a1f;
+            line-height: 1.7;
+        }
+
+        .mmui-actions {
+            max-width: 760px;
+            padding-top: 12px;
+        }
+
+        .mmui-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mmui-avatar {
+            width: 68px;
+            height: 68px;
+            border: 2px solid #dbeafe;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f8fafc;
+        }
+
+        .mmui-author h2 {
+            margin: 0 0 6px;
+            color: #172033;
+            font-size: 20px;
+        }
+
+        .mmui-author p {
+            margin: 0;
+            color: #667085;
+            line-height: 1.7;
+        }
+
+        .mmui-link {
+            color: #2563eb;
+        }
+
+        .mmui-project {
+            display: block;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .mmui-project li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            min-height: 38px;
+            padding: 0;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .mmui-project li:first-child {
+            border-top: 1px solid #eef2f7;
+        }
+
+        .mmui-more-project {
+            padding: 12px;
+            border: 1px solid #e8eef7;
+            border-radius: 8px;
+            background: #f8fbff;
+        }
+
+        .mmui-project span,
+        .mmui-more-project span {
+            display: inline-flex;
+            margin: 0;
+            color: #7b8798;
+            font-size: 12px;
+        }
+
+        .mmui-project strong,
+        .mmui-more-project strong {
+            min-width: 0;
+            color: #1f2937;
+            font-size: 14px;
+            text-align: right;
+            cursor: default;
+        }
+
+        #mmuiVersionEgg {
+            cursor: pointer;
+        }
+
+        .mmui-more-project strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .mmui-more-project p {
+            margin: 0 0 10px;
+            color: #667085;
+            line-height: 1.75;
+        }
+
+        .mmui-more-project a {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .mmui-health-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #166534;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mmui-health-badge:before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #16a34a;
+        }
+
+        .mmui-health-badge.is-warn {
+            color: #b45309;
+        }
+
+        .mmui-health-badge.is-warn:before {
+            background: #f59e0b;
+        }
+
+        .mmui-health-list {
+            margin: 12px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .mmui-health-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            min-height: 32px;
+            border-bottom: 1px solid #eef2f7;
+            color: #667085;
+            font-size: 12px;
+        }
+
+        .mmui-health-list li:last-child {
+            border-bottom: 0;
+        }
+
+        .mmui-health-list strong {
+            color: #172033;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .mmui-health-list .is-bad {
+            color: #b42318;
+        }
+
+        .mmui-egg {
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            display: none;
+            place-items: center;
+            background: rgba(15, 23, 42, .24);
+            backdrop-filter: blur(8px);
+        }
+
+        .mmui-egg.is-open {
+            display: grid;
+        }
+
+        .mmui-egg-card {
+            width: min(520px, calc(100vw - 32px));
+            padding: 28px;
+            border: 1px solid #dce7f5;
+            border-radius: 8px;
+            color: #172033;
+            background: #ffffff;
+            box-shadow: 0 24px 80px rgba(15, 23, 42, .18);
+        }
+
+        .mmui-egg-card h2 {
+            margin: 0 0 12px;
+            font-size: 24px;
+        }
+
+        .mmui-egg-card p {
+            margin: 0 0 18px;
+            color: #607089;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        #mmuiConfetti {
+            position: fixed;
+            z-index: 9998;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        @media (max-width: 1100px) {
+            .mmui-grid,
+            .mmui-brand-grid,
+            .mmui-status {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .mmui-upload-row {
+                grid-template-columns: 1fr;
+            }
+
+            .mmui-form-caption,
+            .mmui-section-title {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body class="pear-container">
+<canvas id="mmuiConfetti" aria-hidden="true"></canvas>
+<div class="mmui-shell">
+    <section class="mmui-hero">
+        <div class="mmui-eyebrow">LightningBoatX · MMUI V2X</div>
+        <h1>感谢使用 MMUI-V2X</h1>
+        <p>这里管理轻舟 ECS 控制台、机器登录页和 MMUI 品牌配置。图标上传会保存到 MMUI 静态资源目录，并限制文件类型与大小。</p>
+    </section>
+
+    <div class="mmui-grid">
+        <div class="layui-card mmui-settings-card">
+            <div class="layui-card-header">
+                <strong>界面与品牌</strong>
+                <span>控制台开关、机器登录页开关、标题与图标统一在这里维护。</span>
+            </div>
+            <div class="layui-card-body">
+                    <div class="mmui-status">
+                        <div class="mmui-stat"><span>控制台界面</span><strong>{$mmui_enabled_label}</strong></div>
+                        <div class="mmui-stat"><span>机器登录页</span><strong>{$mmui_login_label}</strong></div>
+                        <div class="mmui-stat"><span>构建状态</span><strong>{$mmui_index_label}</strong></div>
+                        <div class="mmui-stat"><span>LoginUI</span><strong>{$mmui_login_asset_label}</strong></div>
+                        <div class="mmui-stat"><span>统计</span><strong>{$mmui_analytics_label}</strong></div>
+                    </div>
+
+                <form class="layui-form" method="post" action="">
+                    <div class="layui-tab layui-tab-brief" lay-filter="mmuiConfigTab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">界面开关</li>
+                            <li>品牌设置</li>
+                            <li>隐私统计</li>
+                            <li>开发模式</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">控制台界面</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="mmui_enable" value="1" title="MMUI" {$mmui_enabled_checked}>
+                                        <input type="radio" name="mmui_enable" value="0" title="原版界面" {$mmui_disabled_checked}>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">机器登录页</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="mmui_login_enable" value="1" title="MMUI 登录页" {$mmui_login_checked}>
+                                        <input type="radio" name="mmui_login_enable" value="0" title="原版登录页" {$mmui_login_disabled_checked}>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-tab-item">
+                                <div class="mmui-brand-grid">
+                                    <div class="mmui-section-title">机器登录页品牌<span>影响机器登录入口的标题与 Logo</span></div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">网站标题</label>
+                                        <div class="layui-input-block">
+                                            <input class="layui-input" name="mmui_site_title" value="{$data['mmui_site_title']??($data['title']??'轻舟云（QZSYSTEM）')}" maxlength="80">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">登录 Logo</label>
+                                        <div class="layui-input-block">
+                                            <div class="mmui-upload-row">
+                                                <img id="loginLogoPreview" class="mmui-logo-preview" src="{$data['mmui_login_logo']??'/static/component/pear/images/logo.png'}" alt="">
+                                                <input id="loginLogoInput" class="layui-input" name="mmui_login_logo" value="{$data['mmui_login_logo']??''}" readonly>
+                                                <button type="button" class="pear-btn pear-btn-primary" id="uploadLoginLogo">上传</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mmui-section-title">控制台品牌<span>影响 MMUI 控制台侧栏标题与图标</span></div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">控制台标题</label>
+                                        <div class="layui-input-block">
+                                            <input class="layui-input" name="mmui_console_title" value="{$data['mmui_console_title']??'云管理系统'}" maxlength="40">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">控制台 Logo</label>
+                                        <div class="layui-input-block">
+                                            <div class="mmui-upload-row">
+                                                <img id="consoleLogoPreview" class="mmui-logo-preview" src="{$data['mmui_console_logo']??'/static/component/pear/images/logo.png'}" alt="">
+                                                <input id="consoleLogoInput" class="layui-input" name="mmui_console_logo" value="{$data['mmui_console_logo']??''}" readonly>
+                                                <button type="button" class="pear-btn pear-btn-primary" id="uploadConsoleLogo">上传</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-tab-item">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">统计开关</label>
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="mmui_analytics_enable" value="1" title="启用 ECS 统计" lay-skin="primary" {$mmui_analytics_checked}>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">收集说明</label>
+                                    <div class="layui-input-block">
+                                        <div class="mmui-form-caption">默认开启。统计脚本加载自 static.sermc.net，使用 Matomo 且禁用 Cookie。仅用于了解 MMUI ECS 页面使用情况：页面访问与链接点击、当前域名、NAT 标记、虚拟化类型、操作系统、MMUI 版本/代号、当前主题、通过 ipapi 解析出的地区；不会写入系统密码、面板密码、用户名、实例名称、具体 IP 原文或端口映射内容。</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-tab-item">
+                                <div class="mmui-devbox">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">说明</label>
+                                        <div class="layui-input-block">
+                                            <div class="mmui-form-caption">启用后 ECS 页面会加载本机 Vite 服务：{$data['mmui_dev_server']??'http://127.0.0.1:5173'}。仅当 {$mmui_debug_label} 时允许开启。</div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">Dev 模式</label>
+                                        <div class="layui-input-block">
+                                            <input type="checkbox" name="mmui_dev_enable" value="1" title="{$mmui_dev_label}" lay-skin="primary" {$mmui_dev_checked} {$mmui_dev_disabled}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-input-block mmui-actions">
+                        <button type="submit" class="pear-btn pear-btn-primary">保存设置</button>
+                        <button type="reset" class="pear-btn">重置选择</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <div class="mmui-card">
+                <div class="mmui-card-head">
+                    <h2 class="mmui-card-title">作者</h2>
+                    <div class="mmui-card-subtitle">MMUI-V2X 项目维护信息</div>
+                </div>
+                <div class="mmui-card-body">
+                    <div class="mmui-author">
+                        <img class="mmui-avatar" src="https://github.com/danvei233.png" alt="丁薇">
+                        <div>
+                            <h2>丁薇</h2>
+                            <p>GitHub：<a class="mmui-link" href="https://github.com/danvei233" target="_blank">@danvei233</a></p>
+                            <p>中国石油大学（北京）</p>
+                            <p>联系方式 QQ：484883303</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mmui-card">
+                <div class="mmui-card-head">
+                    <h2 class="mmui-card-title">项目介绍</h2>
+                    <div class="mmui-card-subtitle">快速点击版本号 5 次会有一点小惊喜。</div>
+                </div>
+                <div class="mmui-card-body">
+                    <ul class="mmui-project">
+                        <li><span>项目</span><strong>MMUI</strong></li>
+                        <li><span>版本号</span><strong id="mmuiVersionEgg">V2X 2.0.0</strong></li>
+                        <li><span>版本代号</span><strong>LightningBoatX</strong></li>
+                        <li><span>适配目标</span><strong>轻舟 ECS</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mmui-card">
+                <div class="mmui-card-head">
+                    <h2 class="mmui-card-title">兼容状态</h2>
+                    <div class="mmui-card-subtitle"><span class="mmui-health-badge {$mmui_health_class}">{$mmui_health_label}</span></div>
+                </div>
+                <div class="mmui-card-body">
+                    <ul class="mmui-health-list">
+                        {volist name="mmui_health.items" id="healthItem"}
+                        <li>
+                            <span>{$healthItem.label}</span>
+                            <strong class="{$healthItem.class}">{$healthItem.message}</strong>
+                        </li>
+                        {/volist}
+                    </ul>
+                    <div style="margin-top: 14px;">
+                        <button type="button" class="pear-btn pear-btn-primary pear-btn-sm" id="repairMmuiHooks">修复 Hook</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mmui-card">
+                <div class="mmui-card-head">
+                    <h2 class="mmui-card-title">更多项目</h2>
+                    <div class="mmui-card-subtitle">丁薇的开源项目</div>
+                </div>
+                <div class="mmui-card-body">
+                    <div class="mmui-more-project">
+                        <span>开源项目</span>
+                        <strong>小黑财务</strong>
+                        <p>开源简单财务系统，带 App / Web 全端，采用 Go + Vue 开发，极致性能。</p>
+                        <a href="https://github.com/danvei233/xiaoheifs" target="_blank">github/danvei233/xiaoheifs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mmuiEgg" class="mmui-egg">
+    <div class="mmui-egg-card">
+        <h2>LightningBoatX 已点火</h2>
+        <p id="mmuiEggQuote"></p>
+        <button type="button" class="pear-btn pear-btn-primary" id="mmuiEggClose">继续收尾</button>
+    </div>
+</div>
+
+<script>
+layui.use(['form', 'upload', 'jquery', 'layer'], function () {
+    var upload = layui.upload;
+    var $ = layui.jquery;
+    var layer = layui.layer;
+    var uploadUrl = "{$Request.root}/mmui/uploadIcon";
+    var repairUrl = "{$Request.root}/mmui/repair";
+
+    function bindUpload(button, input, preview) {
+        upload.render({
+            elem: button,
+            url: uploadUrl,
+            accept: 'images',
+            exts: 'png|jpg|jpeg|gif|webp|ico',
+            size: 2048,
+            done: function (res) {
+                if (res.code === 0 && res.data && res.data.url) {
+                    $(input).val(res.data.url);
+                    $(preview).attr('src', res.data.url);
+                    layer.msg('上传成功', {icon: 1});
+                    return;
+                }
+                layer.msg(res.msg || '上传失败', {icon: 2});
+            },
+            error: function () {
+                layer.msg('上传请求失败', {icon: 2});
+            }
+        });
+    }
+
+    bindUpload('#uploadLoginLogo', '#loginLogoInput', '#loginLogoPreview');
+    bindUpload('#uploadConsoleLogo', '#consoleLogoInput', '#consoleLogoPreview');
+
+    $('#repairMmuiHooks').on('click', function () {
+        var button = $(this);
+        button.addClass('layui-btn-disabled').prop('disabled', true);
+        $.post(repairUrl, {}, function (res) {
+            layer.msg(res.msg || '修复完成', {icon: res.code === 0 ? 1 : 2});
+            if (res.code === 0) {
+                setTimeout(function () {
+                    location.reload();
+                }, 700);
+            }
+        }).fail(function () {
+            layer.msg('修复请求失败', {icon: 2});
+        }).always(function () {
+            button.removeClass('layui-btn-disabled').prop('disabled', false);
+        });
+    });
+});
+
+(function () {
+    var canvas = document.getElementById('mmuiConfetti');
+    var ctx = canvas.getContext('2d');
+    var pieces = [];
+    var raf = 0;
+    var colors = ['#2f7df6', '#64c7ff', '#8fb5ff', '#f59e0b', '#10b981'];
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    function burst(count) {
+        resize();
+        pieces = [];
+        for (var i = 0; i < count; i++) {
+            pieces.push({
+                x: canvas.width * (.18 + Math.random() * .64),
+                y: canvas.height * (.12 + Math.random() * .12),
+                vx: (Math.random() - .5) * 8,
+                vy: Math.random() * 2 + 2,
+                size: Math.random() * 7 + 4,
+                rot: Math.random() * 6.28,
+                spin: (Math.random() - .5) * .22,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                life: 90 + Math.random() * 40
+            });
+        }
+        cancelAnimationFrame(raf);
+        tick();
+    }
+
+    function tick() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces = pieces.filter(function (p) { return p.life > 0; });
+        pieces.forEach(function (p) {
+            p.life -= 1;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += .055;
+            p.rot += p.spin;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.globalAlpha = Math.min(1, p.life / 28);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * .52);
+            ctx.restore();
+        });
+        if (pieces.length) {
+            raf = requestAnimationFrame(tick);
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    window.addEventListener('resize', resize);
+    var seenKey = 'mmui-settings-seen-{$data["mmui_first_open_token"]??"default"}';
+    if (!localStorage.getItem(seenKey)) {
+        localStorage.setItem(seenKey, '1');
+        setTimeout(function () { burst(120); }, 300);
+    }
+
+    var clicks = 0;
+    var clickTimer = 0;
+    var quotes = [
+        '界面不是皮肤，是系统给人的第一句回答。',
+        '把复杂留给适配层，把从容留给使用者。',
+        'LightningBoatX：让旧控制台长出新航线。',
+        '好看的按钮不能替代正确的接口，但它能让正确的接口更愿意被使用。',
+        '愿每一次刷新都只刷新数据，不刷新耐心。'
+    ];
+    var version = document.getElementById('mmuiVersionEgg');
+    var egg = document.getElementById('mmuiEgg');
+    var quote = document.getElementById('mmuiEggQuote');
+    var close = document.getElementById('mmuiEggClose');
+    version.addEventListener('click', function () {
+        clicks += 1;
+        clearTimeout(clickTimer);
+        clickTimer = setTimeout(function () { clicks = 0; }, 900);
+        if (clicks >= 5) {
+            clicks = 0;
+            quote.innerText = quotes[Math.floor(Math.random() * quotes.length)];
+            egg.classList.add('is-open');
+            burst(180);
+        }
+    });
+    close.addEventListener('click', function () {
+        egg.classList.remove('is-open');
+    });
+})();
+</script>
+</body>
+</html>

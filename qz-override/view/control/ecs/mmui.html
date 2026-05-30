@@ -1,0 +1,12 @@
+<?php
+$mmuiVuePayload = $mmuiVuePayload ?? [];
+$mmuiVueRequestKey = $mmuiVueRequestKey ?? 'mmui_vue_json';
+$mmuiVueJsonUrl = $mmuiVueJsonUrl ?? '';
+$mmuiVueIndex = app()->getRootPath() . 'view/control/ecs/mmui_bundle.html';
+
+if (is_file($mmuiVueIndex)) {
+    include $mmuiVueIndex;
+} else {
+    echo '<!doctype html><meta charset="utf-8"><title>MMUI missing</title><p>MMUI build output is missing. Run npm run build:php in MMUI-V2X.</p>';
+}
+?>
