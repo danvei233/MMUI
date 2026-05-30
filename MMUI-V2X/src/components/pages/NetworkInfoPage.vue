@@ -253,6 +253,7 @@ import { message } from 'ant-design-vue';
 import { computed, ref, watch } from 'vue';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useDashboardStore } from '@/stores/dashboard';
+import { pinia } from '@/stores/pinia';
 import diskIcon from '@/assets/iconly-glass/Disk.svg';
 import infoIcon from '@/assets/iconly-glass/Info.svg';
 import menuIcon from '@/assets/iconly-glass/Menu.svg';
@@ -267,7 +268,7 @@ const props = defineProps({
 });
 
 const { pageRootRef, compactMode } = useCompactPageMode();
-const store = useDashboardStore();
+const store = useDashboardStore(pinia);
 const activeIpIndex = ref(0);
 const ipTransitionName = ref('network-ip-next');
 const expandedTableKeys = ref([]);

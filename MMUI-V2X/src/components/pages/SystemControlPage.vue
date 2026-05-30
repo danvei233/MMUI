@@ -511,6 +511,7 @@ import { message } from 'ant-design-vue';
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useDashboardStore } from '@/stores/dashboard';
+import { pinia } from '@/stores/pinia';
 import { useActionLocks } from '@/composables/useActionLocks';
 
 const props = defineProps({
@@ -531,7 +532,7 @@ const props = defineProps({
 const emit = defineEmits(['boot-modal-request-consumed']);
 
 const { pageRootRef } = useCompactPageMode();
-const store = useDashboardStore();
+const store = useDashboardStore(pinia);
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 
 const powerState = ref('');

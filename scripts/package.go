@@ -24,6 +24,7 @@ var (
 	projectRoot string
 	outDir      string
 	zipName     string
+	workDir     string
 	keepWork    bool
 	skipBuild   bool
 )
@@ -35,6 +36,7 @@ func main() {
 	flag.StringVar(&projectRoot, "root", defaultRoot, "MMUI-project root")
 	flag.StringVar(&outDir, "out", filepath.Join(defaultRoot, "release"), "release output directory")
 	flag.StringVar(&zipName, "name", "", "output zip file name")
+	flag.StringVar(&workDir, "work", "", "temporary work parent directory")
 	flag.BoolVar(&keepWork, "keep-work", false, "keep temporary package directory")
 	flag.BoolVar(&skipBuild, "skip-build", false, "skip npm builds and package existing dist directories")
 	flag.Parse()
@@ -51,7 +53,13 @@ func main() {
 	requireDir(loginRoot)
 	requireDir(overrideRoot)
 
-	workRoot, err := os.MkdirTemp("", "mmui-qz-package-*")
+	if strings.TrimSpace(workDir) != "" {
+		workDir, err = filepath.Abs(workDir)
+		must(err)
+		must(os.MkdirAll(workDir, 0755))
+	}
+
+	workRoot, err := os.MkdirTemp(workDir, "mmui-qz-package-*")
 	must(err)
 	if keepWork {
 		fmt.Println("work:", workRoot)

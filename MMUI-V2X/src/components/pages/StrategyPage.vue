@@ -540,6 +540,7 @@ import {
 import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { message } from 'ant-design-vue';
 import { useDashboardStore } from '@/stores/dashboard';
+import { pinia } from '@/stores/pinia';
 import ResourcePageHero from '@/components/pages/ResourcePageHero.vue';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useActionLocks } from '@/composables/useActionLocks';
@@ -555,7 +556,7 @@ const props = defineProps({
 const EDIT_CLOSE_DELAY = 220;
 const NOTE_EXIT_LEAD = 120;
 
-const store = useDashboardStore();
+const store = useDashboardStore(pinia);
 const { pageRootRef, compactMode } = useCompactPageMode();
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 const rows = ref([]);

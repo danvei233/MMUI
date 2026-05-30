@@ -265,6 +265,7 @@ import { message } from 'ant-design-vue';
 import { computed, reactive, ref, watch } from 'vue';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useDashboardStore } from '@/stores/dashboard';
+import { pinia } from '@/stores/pinia';
 import { useActionLocks } from '@/composables/useActionLocks';
 import {
   getRemoteActionLabel,
@@ -289,7 +290,7 @@ const props = defineProps({
 });
 
 const { pageRootRef, compactMode } = useCompactPageMode(980);
-const store = useDashboardStore();
+const store = useDashboardStore(pinia);
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 const showPassword = ref(false);
 const visibleCodes = reactive({});

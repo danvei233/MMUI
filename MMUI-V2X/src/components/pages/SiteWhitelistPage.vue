@@ -301,6 +301,7 @@ import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { message } from 'ant-design-vue';
 import ResourcePageHero from '@/components/pages/ResourcePageHero.vue';
 import { useDashboardStore } from '@/stores/dashboard';
+import { pinia } from '@/stores/pinia';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useActionLocks } from '@/composables/useActionLocks';
 import siteHeroImage from '@/assets/page-hero/site-hero.png';
@@ -315,7 +316,7 @@ const props = defineProps({
 const EDIT_CLOSE_DELAY = 220;
 const NOTE_EXIT_LEAD = 120;
 
-const store = useDashboardStore();
+const store = useDashboardStore(pinia);
 const { pageRootRef, compactMode } = useCompactPageMode();
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 

@@ -482,6 +482,7 @@ import {
   TagsOutlined,
 } from '@ant-design/icons-vue';
 import { useDashboardStore } from '@/stores/dashboard';
+import { pinia } from '@/stores/pinia';
 import ResourcePageHero from '@/components/pages/ResourcePageHero.vue';
 import portHeroImage from '@/assets/page-hero/port-hero.png';
 import { useActionLocks } from '@/composables/useActionLocks';
@@ -498,7 +499,7 @@ const props = defineProps({
   },
 });
 
-const store = useDashboardStore();
+const store = useDashboardStore(pinia);
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 const COMPACT_TABLE_BREAKPOINT = 760;
 

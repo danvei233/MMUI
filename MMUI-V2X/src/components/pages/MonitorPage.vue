@@ -132,6 +132,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import * as echarts from 'echarts';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useDashboardStore } from '@/stores/dashboard';
+import { pinia } from '@/stores/pinia';
 import { useActionLocks } from '@/composables/useActionLocks';
 import cpuIcon from '@/assets/iconly-glass/cpu.svg';
 import diskIcon from '@/assets/iconly-glass/Disk.svg';
@@ -139,7 +140,7 @@ import memoryIcon from '@/assets/iconly-glass/memory.svg';
 import networkIcon from '@/assets/iconly-glass/network.svg';
 
 const { pageRootRef, compactMode } = useCompactPageMode(980);
-const store = useDashboardStore();
+const store = useDashboardStore(pinia);
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 const chartElements = new Map();
 const charts = new Map();

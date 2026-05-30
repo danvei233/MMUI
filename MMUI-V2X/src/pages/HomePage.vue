@@ -844,6 +844,7 @@ import MmuiSubpageView from '@/components/pages/MmuiSubpageView.vue';
 import MmuiTutorial from '@/components/tutorial/MmuiTutorial.vue';
 import { mmuiPageMeta } from '@/config/navigation';
 import { useDashboardStore } from '@/stores/dashboard';
+import { pinia } from '@/stores/pinia';
 import {
   getRemoteActionLabel,
   getRemoteUser,
@@ -852,7 +853,7 @@ import {
   triggerHostRemoteAccess,
 } from '@/utils/remoteAccess';
 
-const store = useDashboardStore();
+const store = useDashboardStore(pinia);
 const themeMode = useThemeMode();
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 function extractSimpleIcon(svgRaw) {
