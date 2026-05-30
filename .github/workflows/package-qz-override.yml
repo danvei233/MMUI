@@ -2,10 +2,12 @@ name: Build Qz Override Package
 
 on:
   workflow_dispatch:
+  release:
+    types:
+      - published
   push:
     tags:
-      - "v*"
-      - "V*"
+      - "**"
 
 permissions:
   contents: write
@@ -60,7 +62,7 @@ jobs:
           if-no-files-found: error
 
       - name: Publish GitHub Release
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
           files: |
