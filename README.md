@@ -1,23 +1,27 @@
-# MMUI  - LightningBoatX
 
-面向轻舟云主机系统的现代化控制台主题。
+# 轻舟云主机系统MMUI模板 MMUI Template for Qzsystem - LightningBoatX
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/) 
+[![GitHub Release](https://img.shields.io/github/release/danvei233/mmui.svg?style=flat)]()  
+面向轻舟云主机系统的现代化控制台主题。 
 
+欢迎使用轻舟云主机系统MMUI模板！本模板是专为轻舟云系统用户设计的前台界面模板，提供两种不同的主题样式供用户选择：正常模式和黑暗模式。 快捷下载地址（）
 MMUI V2X 美化了轻舟 ECS 控制台和机器登录页，让云主机管理更清晰、更顺手，更适合日常高频操作。
 
-![MMUI](https://github.com/user-attachments/assets/3e23255e-91eb-4588-a421-04e76efc548a)
+<img width="2492" height="1533" alt="image" src="https://github.com/user-attachments/assets/13c1f7a1-7e36-4a6d-a6cf-563af179e124" />
+<img width="2492" height="1533" alt="image" src="https://github.com/user-attachments/assets/13e1aed8-051c-4b4f-ad56-00857e3cfc82" />
 
-## 亮点
+## 新版亮点
 
 - 全新的 ECS 控制台：首页、监控、系统、VNC、网络、快照、备份、端口映射、安全策略、挂机宝建站。
 - 更顺手的远程登录：Windows、Linux、桌面端、移动端按场景处理。
 - 轻舟后台可切换 MMUI / 原版界面，出问题可以快速回退。
 - 支持崭新机器登录页，可在后台单独开启或关闭。
 - 支持自定义网站标题、控制台标题、Logo、登录页 Logo。
-- 支持 Dev本地开发 模式，方便前端开发时直接加载本地 Vite 服务便捷开发。
+- 支持debug本地开发模式，方便前端开发时直接加载本地 Vite 服务便捷开发。
 - 最小破坏安装，支持自动修复。
 - 支持部分字段自定义。
 
-## 安装
+## 安装方法
 
 1. 下载 Release 中的 `mmui-v2x-qz-override.zip`。
 2. 备份你的轻舟站点目录。
@@ -25,9 +29,14 @@ MMUI V2X 美化了轻舟 ECS 控制台和机器登录页，让云主机管理更
 4. 登录轻舟后台，打开“系统设置-系统管理-MMUI 配置设置”。
 5. 控制台、机器登录页切换成 MMUI 并保存。
 
-覆盖包会把 MMUI 需要的视图、扩展类和静态资源放到正确位置。建议每次轻舟更新后重新覆盖一次 MMUI 包。
+覆盖包会把 MMUI 需要的代码和静态资源放到正确位置。建议每次轻舟更新后重新覆盖一次 MMUI 包。
 
-## 开发
+# 注意事项
+
+1.请确保在替换文件前备份原有文件，以防万一需要恢复。
+2.我的QQ号484883303，有问题可以联系我，如果您信任的话我可以免费指导您安装，我们的用户交流QQ群526385986。
+
+## 步入开发
 
 ECS 控制台：
 
@@ -92,3 +101,8 @@ QQ: 484883303
 
 本项目使用 GPLv3 许可证。  
 请不要倒卖本项目，也不要删除项目署名信息。
+
+# 贡献
+如果您有任何建议或改进，请随时提交Pull Request或开Issue讨论。
+
+感谢您选择MMUI Template for Qzsystem，希望它能为您的轻舟云系统带来更好的用户体验！
