@@ -7,8 +7,10 @@
 欢迎使用轻舟云主机系统MMUI模板！本模板是专为轻舟云系统用户设计的前台界面模板，提供两种不同的主题样式供用户选择：正常模式和黑暗模式。 快捷下载地址（）
 MMUI V2X 美化了轻舟 ECS 控制台和机器登录页，让云主机管理更清晰、更顺手，更适合日常高频操作。
 
-<img width="2492" height="1533" alt="image" src="https://github.com/user-attachments/assets/13c1f7a1-7e36-4a6d-a6cf-563af179e124" />
-<img width="2492" height="1533" alt="image" src="https://github.com/user-attachments/assets/13e1aed8-051c-4b4f-ad56-00857e3cfc82" />
+<img width="2247" height="1219" alt="image" src="https://github.com/user-attachments/assets/39c637f2-ff54-46a1-8daf-23073a04e6ab" />
+
+<img width="2247" height="1219" alt="image" src="https://github.com/user-attachments/assets/0fb5817c-e178-4715-a345-3593b9189ed5" />
+
 
 ## 新版亮点
 
