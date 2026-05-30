@@ -8,7 +8,7 @@
 
 本模板是专为轻舟云系统用户设计的前台界面模板，提供两种不同的主题样式供用户选择：正常模式和黑暗模式。 
 
-快捷下载地址（https://wwbfg.lanzouu.com/iWfzw3qqhebi ）
+快捷下载地址（[https://wwbfg.lanzouu.com/iWfzw3qqhebi](https://wwbfg.lanzouu.com/iInQQ3qqlohi) ）
 
 MMUI V2X 美化了轻舟 ECS 控制台和机器登录页，让云主机管理更清晰、更顺手，更适合日常高频操作。
 
