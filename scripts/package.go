@@ -62,6 +62,8 @@ func main() {
 	stageRoot := filepath.Join(workRoot, "qzsystem")
 	buildEcsRoot := filepath.Join(workRoot, "build", "MMUI-V2X")
 	buildLoginRoot := filepath.Join(workRoot, "build", "LoginUI")
+	buildEcsDist := filepath.Join(buildEcsRoot, "dist-package")
+	buildLoginDist := filepath.Join(buildLoginRoot, "dist-package")
 	ecsDist := filepath.Join(stageRoot, "public", "src", "static", "mmui")
 	loginDist := filepath.Join(stageRoot, "public", "static", "component", "auroraboat", "login")
 	ecsBundle := filepath.Join(stageRoot, "view", "control", "ecs", "mmui_bundle.html")
@@ -79,15 +81,17 @@ func main() {
 
 		fmt.Println("build ECS")
 		must(run(buildEcsRoot, map[string]string{
-			"MMUI_ECS_DIST_DIR":    ecsDist,
+			"MMUI_ECS_DIST_DIR":    buildEcsDist,
 			"MMUI_ECS_BUNDLE_PATH": ecsBundle,
 		}, "npm", "run", "build:php"))
+		must(copyTree(buildEcsDist, ecsDist, nil))
 
 		fmt.Println("build LoginUI")
 		must(run(buildLoginRoot, map[string]string{
-			"MMUI_LOGIN_DIST_DIR": loginDist,
+			"MMUI_LOGIN_DIST_DIR": buildLoginDist,
 			"VITE_ASSET_BASE":     "/static/component/auroraboat/login/",
 		}, "npm", "run", "build"))
+		must(copyTree(buildLoginDist, loginDist, nil))
 	} else {
 		fmt.Println("copy existing ECS dist")
 		must(copyTree(filepath.Join(ecsRoot, "dist"), ecsDist, nil))
