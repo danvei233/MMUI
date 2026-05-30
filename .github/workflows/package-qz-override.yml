@@ -37,6 +37,16 @@ jobs:
             MMUI-V2X/package-lock.json
             LoginUI/package-lock.json
 
+      - name: Cache frontend node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            MMUI-V2X/node_modules
+            LoginUI/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('MMUI-V2X/package-lock.json', 'LoginUI/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
       - name: Build packager
         shell: pwsh
         run: |
@@ -45,7 +55,7 @@ jobs:
       - name: Build qz override package
         shell: pwsh
         run: |
-          .\scripts\mmui-packager.exe -name mmui-v2x-qz-override.zip
+          .\scripts\mmui-packager.exe -source-build -name mmui-v2x-qz-override.zip
 
       - name: Generate checksum
         shell: pwsh

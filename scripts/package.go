@@ -25,6 +25,7 @@ var (
 	outDir      string
 	zipName     string
 	workDir     string
+	sourceBuild bool
 	keepWork    bool
 	skipBuild   bool
 )
@@ -37,6 +38,7 @@ func main() {
 	flag.StringVar(&outDir, "out", filepath.Join(defaultRoot, "release"), "release output directory")
 	flag.StringVar(&zipName, "name", "", "output zip file name")
 	flag.StringVar(&workDir, "work", "", "temporary work parent directory")
+	flag.BoolVar(&sourceBuild, "source-build", false, "build frontend projects in their source directories")
 	flag.BoolVar(&keepWork, "keep-work", false, "keep temporary package directory")
 	flag.BoolVar(&skipBuild, "skip-build", false, "skip npm builds and package existing dist directories")
 	flag.Parse()
@@ -63,8 +65,6 @@ func main() {
 	must(err)
 	if keepWork {
 		fmt.Println("work:", workRoot)
-	} else {
-		defer os.RemoveAll(workRoot)
 	}
 
 	stageRoot := filepath.Join(workRoot, "qzsystem")
@@ -72,6 +72,14 @@ func main() {
 	buildLoginRoot := filepath.Join(workRoot, "build", "LoginUI")
 	buildEcsDist := filepath.Join(buildEcsRoot, "dist-package")
 	buildLoginDist := filepath.Join(buildLoginRoot, "dist-package")
+	if sourceBuild {
+		buildEcsRoot = ecsRoot
+		buildLoginRoot = loginRoot
+		buildEcsDist = filepath.Join(ecsRoot, ".mmui-package-dist")
+		buildLoginDist = filepath.Join(loginRoot, ".mmui-package-dist")
+		must(os.RemoveAll(buildEcsDist))
+		must(os.RemoveAll(buildLoginDist))
+	}
 	ecsDist := filepath.Join(stageRoot, "public", "src", "static", "mmui")
 	loginDist := filepath.Join(stageRoot, "public", "static", "component", "auroraboat", "login")
 	ecsBundle := filepath.Join(stageRoot, "view", "control", "ecs", "mmui_bundle.html")
@@ -81,9 +89,13 @@ func main() {
 	must(copyTree(overrideRoot, stageRoot, nil))
 
 	if !skipBuild {
-		fmt.Println("copy frontend sources")
-		must(copyTree(ecsRoot, buildEcsRoot, skipFrontendTransient))
-		must(copyTree(loginRoot, buildLoginRoot, skipFrontendTransient))
+		if sourceBuild {
+			fmt.Println("use frontend source directories")
+		} else {
+			fmt.Println("copy frontend sources")
+			must(copyTree(ecsRoot, buildEcsRoot, skipFrontendTransient))
+			must(copyTree(loginRoot, buildLoginRoot, skipFrontendTransient))
+		}
 		must(ensureNodeModules(buildEcsRoot))
 		must(ensureNodeModules(buildLoginRoot))
 
@@ -123,6 +135,17 @@ func main() {
 
 	sum, err := fileSHA1(zipPath)
 	must(err)
+
+	if !keepWork {
+		if sourceBuild {
+			fmt.Println("cleanup source build outputs")
+			must(os.RemoveAll(buildEcsDist))
+			must(os.RemoveAll(buildLoginDist))
+		}
+		fmt.Println("cleanup work directory")
+		must(os.RemoveAll(workRoot))
+	}
+
 	fmt.Println("zip:", zipPath)
 	fmt.Println("sha1:", sum)
 }
@@ -131,7 +154,7 @@ func skipFrontendTransient(path string, entry fs.DirEntry) bool {
 	name := entry.Name()
 	if entry.IsDir() {
 		switch name {
-		case "node_modules", "dist", "dist-ssr", ".git", ".idea", ".vscode", ".vite":
+		case "node_modules", "dist", "dist-ssr", ".mmui-package-dist", ".git", ".idea", ".vscode", ".vite":
 			return true
 		}
 	}

@@ -238,9 +238,21 @@
                               'is-light-art': !store.host.image && !isDarkTheme,
                             }"
                           >
-                            <img v-if="store.host.image" :src="store.host.image" :alt="store.host.name || '实例截图'" />
+                            <img
+                              v-if="store.host.image"
+                              :src="store.host.image"
+                              :alt="store.host.name || '实例截图'"
+                              draggable="false"
+                              @dragstart.prevent
+                            />
                             <template v-else>
-                              <img class="dashboard-page__server-art" src="/images/home-server-cloud.png" alt="" />
+                              <img
+                                class="dashboard-page__server-art"
+                                src="/images/home-server-cloud.png"
+                                alt=""
+                                draggable="false"
+                                @dragstart.prevent
+                              />
                             </template>
                           </div>
                         </div>
@@ -939,6 +951,7 @@ const desktopSidebarOpen = ref(true);
 const desktopSidebarCollapsed = ref(false);
 const isDesktopViewport = ref(true);
 const viewportWidth = ref(1440);
+const isPhoneViewport = computed(() => viewportWidth.value <= 640);
 const activePageKey = ref('panel');
 const moreMenuOpen = ref(false);
 const bootModalRequest = ref(0);
@@ -1379,20 +1392,37 @@ const remoteMethodNameMap = {
   ssh: 'SSH',
   vnc: 'VNC',
 };
+function normalizeHomeRemoteMethod(item) {
+  const nextItem = normalizeRemoteLoginMethod(item, store.host);
+  return {
+    ...nextItem,
+    name: remoteMethodNameMap[nextItem.key] || nextItem.name,
+    description: remoteMethodBriefMap[nextItem.key] || nextItem.description,
+    actionLabel: nextItem.key === 'rdp' || nextItem.key === 'ssh'
+      ? getRemoteActionLabel(store.host)
+      : nextItem.actionLabel,
+  };
+}
+
+function createRdpHomeMethod(methods = []) {
+  const rdpMethod = methods.find((item) => item?.key === 'rdp');
+  return normalizeHomeRemoteMethod(rdpMethod || {
+    key: 'rdp',
+    name: 'RDP',
+    description: remoteMethodBriefMap.rdp,
+    primary: true,
+    actionLabel: getRemoteActionLabel(store.host),
+  });
+}
+
 const remotePrimaryMethods = computed(() => {
   const methods = store.pages?.vnc?.primaryMethods;
+  if (isPhoneViewport.value) {
+    return [createRdpHomeMethod(Array.isArray(methods) ? methods : [])];
+  }
+
   if (Array.isArray(methods) && methods.length) {
-    return methods.slice(0, 3).map((item) => {
-      const nextItem = normalizeRemoteLoginMethod(item, store.host);
-      return {
-        ...nextItem,
-        name: remoteMethodNameMap[nextItem.key] || nextItem.name,
-        description: remoteMethodBriefMap[nextItem.key] || nextItem.description,
-        actionLabel: nextItem.key === 'rdp' || nextItem.key === 'ssh'
-          ? getRemoteActionLabel(store.host)
-          : nextItem.actionLabel,
-      };
-    });
+    return methods.slice(0, 3).map(normalizeHomeRemoteMethod);
   }
 
   return [
@@ -3198,6 +3228,8 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .dashboard-page__visual-screen > .dashboard-page__server-art {
