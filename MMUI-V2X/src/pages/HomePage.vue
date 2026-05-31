@@ -951,7 +951,7 @@ const desktopSidebarOpen = ref(true);
 const desktopSidebarCollapsed = ref(false);
 const isDesktopViewport = ref(true);
 const viewportWidth = ref(1440);
-const isPhoneViewport = computed(() => viewportWidth.value <= 640);
+const isNarrowDashboardViewport = computed(() => viewportWidth.value <= 1279);
 const activePageKey = ref('panel');
 const moreMenuOpen = ref(false);
 const bootModalRequest = ref(0);
@@ -1417,7 +1417,7 @@ function createRdpHomeMethod(methods = []) {
 
 const remotePrimaryMethods = computed(() => {
   const methods = store.pages?.vnc?.primaryMethods;
-  if (isPhoneViewport.value) {
+  if (isNarrowDashboardViewport.value) {
     return [createRdpHomeMethod(Array.isArray(methods) ? methods : [])];
   }
 
