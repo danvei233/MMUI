@@ -951,7 +951,7 @@ const desktopSidebarOpen = ref(true);
 const desktopSidebarCollapsed = ref(false);
 const isDesktopViewport = ref(true);
 const viewportWidth = ref(1440);
-const isNarrowDashboardViewport = computed(() => viewportWidth.value <= 1279);
+const isNarrowDashboardViewport = computed(() => viewportWidth.value <= 640);
 const activePageKey = ref('panel');
 const moreMenuOpen = ref(false);
 const bootModalRequest = ref(0);
@@ -1468,7 +1468,7 @@ const expireDaysText = computed(() => {
     return '(今日到期)';
   }
 
-  return `(还有 ${diffDays} 天到期)`;
+  return `(剩余 ${diffDays} 天)`;
 });
 
 function syncSidebarForViewport() {
