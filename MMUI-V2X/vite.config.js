@@ -6,6 +6,7 @@ const devOrigin = (process.env.MMUI_DEV_ORIGIN || 'http://127.0.0.1:5173').repla
 const buildOutDir = process.env.MMUI_ECS_DIST_DIR || process.env.MMUI_OUT_DIR || '../qzsystem/public/src/static/mmui';
 
 export default defineConfig(({ command }) => ({
+  root: __dirname,
   plugins: [vue()],
   resolve: {
     alias: {

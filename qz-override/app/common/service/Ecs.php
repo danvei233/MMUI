@@ -384,6 +384,7 @@ class Ecs
                         'sport'=>implode(',',$sport),
                         'dport'=>implode(',',$dport),
                         'port_type'=>implode(',',$port_type),
+                        'dip'=>$host->ip,
                         'ip'=>$host->ip,
                     ]);
                 }
@@ -497,6 +498,7 @@ class Ecs
                         'sport'=>implode(',',$sport),
                         'dport'=>implode(',',$dport),
                         'port_type'=>implode(',',$port_type),
+                        'dip'=>$host->ip,
                         'ip'=>$host->ip,
                     ]);
                 }

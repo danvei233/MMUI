@@ -482,7 +482,6 @@ import {
   TagsOutlined,
 } from '@ant-design/icons-vue';
 import { useDashboardStore } from '@/stores/dashboard';
-import { pinia } from '@/stores/pinia';
 import ResourcePageHero from '@/components/pages/ResourcePageHero.vue';
 import portHeroImage from '@/assets/page-hero/port-hero.png';
 import { useActionLocks } from '@/composables/useActionLocks';
@@ -499,7 +498,7 @@ const props = defineProps({
   },
 });
 
-const store = useDashboardStore(pinia);
+const store = useDashboardStore();
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 const COMPACT_TABLE_BREAKPOINT = 760;
 
@@ -1783,9 +1782,10 @@ function clampCurrentPage() {
 }
 
 .port-page__mobile-meta {
+  display: grid !important;
+  grid-template-columns: minmax(86px, 0.85fr) minmax(86px, 0.85fr) minmax(118px, 1.15fr);
   width: 100%;
-  align-items: stretch;
-  justify-content: space-between;
+  align-items: center;
 }
 
 .port-page__mobile-meta-item {
@@ -1793,8 +1793,7 @@ function clampCurrentPage() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex: 0.72 1 0;
-  min-width: min-content;
+  min-width: 0;
   gap: 10px;
   padding-right: 12px;
 }
@@ -1816,8 +1815,7 @@ function clampCurrentPage() {
 }
 
 .port-page__mobile-meta-item--ip {
-  flex: 1.8 1 0;
-  min-width: 132px;
+  min-width: 0;
   padding-right: 0;
 }
 
@@ -1847,9 +1845,23 @@ function clampCurrentPage() {
   align-items: center;
   flex-wrap: nowrap;
   min-width: 0;
+  max-width: 100%;
   line-height: 1.2;
   justify-content: flex-end;
   gap: 6px;
+  white-space: nowrap;
+}
+
+.port-page__mobile-value--with-copy :deep(.ant-space-item:first-child) {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.port-page__mobile-value--with-copy span {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 

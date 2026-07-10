@@ -46,10 +46,7 @@
             <div class="remote-page__info-body">
               <div class="remote-page__os-block">
                 <div class="remote-page__os-logo" aria-hidden="true">
-                  <svg v-if="isWindowsHost" viewBox="0 0 48 48">
-                    <path d="M2 7l19-3v19H2V7zm25-4l19-3v22H27V3zM2 25h19v19L2 41V25zm25 0h19v22l-19-3V25z" fill="currentColor" />
-                  </svg>
-                  <CloudServerOutlined v-else />
+                  <component :is="osIcon" />
                 </div>
                 <div class="remote-page__os-copy">
                   <span>系统类型</span>
@@ -262,18 +259,24 @@ import {
   ToolOutlined,
 } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, h, reactive, ref, watch } from 'vue';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useDashboardStore } from '@/stores/dashboard';
-import { pinia } from '@/stores/pinia';
 import { useActionLocks } from '@/composables/useActionLocks';
 import {
   getRemoteActionLabel,
   getRemoteUser,
-  isWindowsHost as checkWindowsHost,
   normalizeRemoteLoginMethod,
   triggerHostRemoteAccess,
 } from '@/utils/remoteAccess';
+import almalinuxIconSvg from 'simple-icons/icons/almalinux.svg?raw';
+import archlinuxIconSvg from 'simple-icons/icons/archlinux.svg?raw';
+import centosIconSvg from 'simple-icons/icons/centos.svg?raw';
+import debianIconSvg from 'simple-icons/icons/debian.svg?raw';
+import fedoraIconSvg from 'simple-icons/icons/fedora.svg?raw';
+import linuxIconSvg from 'simple-icons/icons/linux.svg?raw';
+import rockylinuxIconSvg from 'simple-icons/icons/rockylinux.svg?raw';
+import ubuntuIconSvg from 'simple-icons/icons/ubuntu.svg?raw';
 import remoteConsoleGraphic from '@/assets/iconly-glass/console.svg';
 import remoteFileGraphic from '@/assets/iconly-glass/file.svg';
 import remoteNetworkGraphic from '@/assets/iconly-glass/network.svg';
@@ -290,11 +293,65 @@ const props = defineProps({
 });
 
 const { pageRootRef, compactMode } = useCompactPageMode(980);
-const store = useDashboardStore(pinia);
+const store = useDashboardStore();
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 const showPassword = ref(false);
 const visibleCodes = reactive({});
 const selectedOtherMethodKey = ref('');
+
+function extractSimpleIcon(svgRaw) {
+  return {
+    title: svgRaw.match(/<title>(.*?)<\/title>/)?.[1] || 'Linux',
+    path: svgRaw.match(/<path d="([^"]+)"/)?.[1] || '',
+  };
+}
+
+function createSimpleIconComponent(svgRaw) {
+  const icon = extractSimpleIcon(svgRaw);
+  return (_props, { attrs }) => h(
+    'svg',
+    {
+      ...attrs,
+      viewBox: '0 0 24 24',
+      width: '1em',
+      height: '1em',
+      fill: 'currentColor',
+      role: 'img',
+      'aria-label': icon.title,
+    },
+    [
+      h('title', icon.title),
+      h('path', { d: icon.path }),
+    ],
+  );
+}
+
+const UbuntuIcon = createSimpleIconComponent(ubuntuIconSvg);
+const DebianIcon = createSimpleIconComponent(debianIconSvg);
+const CentosIcon = createSimpleIconComponent(centosIconSvg);
+const LinuxIcon = createSimpleIconComponent(linuxIconSvg);
+const FedoraIcon = createSimpleIconComponent(fedoraIconSvg);
+const ArchlinuxIcon = createSimpleIconComponent(archlinuxIconSvg);
+const RockylinuxIcon = createSimpleIconComponent(rockylinuxIconSvg);
+const AlmalinuxIcon = createSimpleIconComponent(almalinuxIconSvg);
+const FlatWindowsIcon = (_props, { attrs }) => h(
+  'svg',
+  {
+    ...attrs,
+    viewBox: '0 0 24 24',
+    width: '1em',
+    height: '1em',
+    fill: 'currentColor',
+    role: 'img',
+    'aria-label': 'Windows',
+  },
+  [
+    h('rect', { x: 3, y: 4, width: 8, height: 7, rx: 0.9 }),
+    h('rect', { x: 13, y: 4, width: 8, height: 7, rx: 0.9 }),
+    h('rect', { x: 3, y: 13, width: 8, height: 7, rx: 0.9 }),
+    h('rect', { x: 13, y: 13, width: 8, height: 7, rx: 0.9 }),
+  ],
+);
 
 const iconMap = {
   web: GlobalOutlined,
@@ -320,7 +377,7 @@ const methodGraphicMap = {
 };
 
 const host = computed(() => store.host || {});
-const isWindowsHost = computed(() => checkWindowsHost(host.value));
+const osIcon = computed(() => resolveSystemIcon(host.value.osName));
 const remoteAddress = computed(() => host.value.remoteAddress || '-');
 const remoteUser = computed(() => getRemoteUser(host.value));
 const systemPassword = computed(() => host.value.systemPassword || '-');
@@ -358,6 +415,34 @@ const accessGaugeColor = computed(() => {
   if (accessPercent.value > 0) return '#f59e0b';
   return '#ef4444';
 });
+
+function resolveSystemFamilyType(value) {
+  const text = String(value || '').toLowerCase();
+  if (text.includes('windows') || /\bwin/.test(text)) return 'windows';
+  if (text.includes('ubuntu')) return 'ubuntu';
+  if (text.includes('debian')) return 'debian';
+  if (text.includes('centos')) return 'centos';
+  if (text.includes('fedora')) return 'fedora';
+  if (text.includes('arch')) return 'arch';
+  if (text.includes('rocky')) return 'rocky';
+  if (text.includes('alma')) return 'alma';
+  if (text.includes('linux')) return 'linux';
+  return 'generic';
+}
+
+function resolveSystemIcon(value) {
+  const familyType = resolveSystemFamilyType(value);
+  if (familyType === 'windows') return FlatWindowsIcon;
+  if (familyType === 'ubuntu') return UbuntuIcon;
+  if (familyType === 'debian') return DebianIcon;
+  if (familyType === 'centos') return CentosIcon;
+  if (familyType === 'fedora') return FedoraIcon;
+  if (familyType === 'arch') return ArchlinuxIcon;
+  if (familyType === 'rocky') return RockylinuxIcon;
+  if (familyType === 'alma') return AlmalinuxIcon;
+  if (familyType === 'linux') return LinuxIcon;
+  return DesktopOutlined;
+}
 
 function normalizeRemoteMethod(item) {
   return normalizeRemoteLoginMethod(item, host.value);
@@ -566,6 +651,7 @@ async function triggerSelectedMethodSecondary(item) {
   --remote-card-padding-sm: var(--mmui-card-padding-sm);
   --remote-head-height: var(--mmui-card-head-height);
   --remote-row-height: var(--mmui-row-height);
+  --remote-os-icon-size: 28px;
   width: 100%;
   display: grid;
   gap: var(--remote-gap);
@@ -715,7 +801,7 @@ async function triggerSelectedMethodSecondary(item) {
   color: var(--mmui-accent-blue);
   font-size: var(--mmui-font-size-caption);
   font-weight: var(--mmui-font-weight-semibold);
-  line-height: 26px;
+  line-height: var(--mmui-line-height-caption);
   background: rgba(var(--mmui-accent-blue-rgb), 0.12);
 }
 
@@ -772,8 +858,8 @@ async function triggerSelectedMethodSecondary(item) {
   align-items: center;
   gap: var(--mmui-space-2);
   min-width: 0;
-  min-height: 74px;
-  padding: 0;
+  min-height: 70px;
+  padding: 0 0 8px;
   border-bottom: 1px solid var(--mmui-shell-border);
   background: transparent;
 }
@@ -785,16 +871,19 @@ async function triggerSelectedMethodSecondary(item) {
   width: 54px;
   min-width: 54px;
   height: 54px;
-  color: var(--mmui-accent-blue);
-  border-radius: 14px;
-  background: radial-gradient(circle at 50% 50%, rgba(var(--mmui-accent-blue-rgb), 0.14), transparent 68%);
+  color: #ffffff;
+  font-size: var(--remote-os-icon-size);
+  border-radius: 8px;
+  background: var(--mmui-accent-blue);
+  box-shadow: 0 8px 18px rgba(0, 102, 238, 0.22);
 }
 
 .remote-page__os-logo svg,
 .remote-page__os-logo :deep(.anticon) {
-  width: 36px;
-  height: 36px;
-  font-size: 32px;
+  display: block;
+  width: 1em;
+  height: 1em;
+  font-size: var(--remote-os-icon-size);
 }
 
 .remote-page__os-copy {
@@ -896,7 +985,7 @@ async function triggerSelectedMethodSecondary(item) {
   font-size: var(--mmui-font-size-body);
   font-weight: var(--mmui-text-body-emphasis-weight);
   line-height: var(--mmui-line-height-body);
-  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-family: var(--mmui-font-family-mono);
   text-align: right;
   word-break: break-word;
   overflow-wrap: anywhere;
@@ -965,8 +1054,8 @@ async function triggerSelectedMethodSecondary(item) {
 
 .remote-page__access-gauge-score {
   fill: var(--mmui-card-title);
-  font-size: 22px;
-  font-weight: 700;
+  font-size: var(--mmui-font-size-title-2);
+  font-weight: var(--mmui-text-headline-weight);
   dominant-baseline: middle;
 }
 
@@ -1004,7 +1093,11 @@ async function triggerSelectedMethodSecondary(item) {
 
 .remote-page__info-actions :deep(.ant-btn),
 .remote-page__tool-actions :deep(.ant-btn) {
+  height: var(--mmui-control-height);
   min-width: 0;
+  font-size: var(--mmui-font-size-body);
+  font-weight: var(--mmui-text-body-emphasis-weight);
+  line-height: var(--mmui-line-height-body);
 }
 
 .remote-page__info-actions :deep(.ant-space-item),
@@ -1063,6 +1156,7 @@ async function triggerSelectedMethodSecondary(item) {
   min-height: 58px;
   margin: 0;
   padding: 0 12px;
+  border-radius: 0 !important;
   border-bottom: 1px solid var(--mmui-shell-border);
   color: inherit;
   transition:
@@ -1076,6 +1170,7 @@ async function triggerSelectedMethodSecondary(item) {
 
 .remote-page__method-tabs :deep(.ant-tabs-tab-active) {
   color: var(--mmui-accent-blue);
+  border-radius: 0 !important;
   background:
     linear-gradient(90deg, rgba(var(--mmui-accent-blue-rgb), 0.14), rgba(var(--mmui-accent-blue-rgb), 0.03));
   box-shadow: inset 3px 0 0 var(--mmui-accent-blue);
@@ -1314,7 +1409,7 @@ async function triggerSelectedMethodSecondary(item) {
   border-radius: 999px;
   font-size: var(--mmui-font-size-caption);
   font-weight: var(--mmui-font-weight-semibold);
-  line-height: 26px;
+  line-height: var(--mmui-line-height-caption);
 }
 
 .remote-page__tool-state.is-on {
@@ -1399,6 +1494,10 @@ async function triggerSelectedMethodSecondary(item) {
 .remote-page__tool-actions :deep(.ant-btn) {
   width: 100%;
   min-width: 0;
+  height: var(--mmui-control-height);
+  font-size: var(--mmui-font-size-body);
+  font-weight: var(--mmui-text-body-emphasis-weight);
+  line-height: var(--mmui-line-height-body);
 }
 
 @media (max-width: 1180px) {
@@ -1546,7 +1645,7 @@ async function triggerSelectedMethodSecondary(item) {
     flex: 0 0 auto;
     margin: 0;
     padding: 8px 10px 10px;
-    border-radius: 8px 8px 0 0;
+    border-radius: 0 !important;
   }
 
   .remote-page__method-tabs :deep(.ant-tabs-nav-operations) {
@@ -1554,6 +1653,7 @@ async function triggerSelectedMethodSecondary(item) {
   }
 
   .remote-page__method-tabs :deep(.ant-tabs-tab-active) {
+    border-radius: 0 !important;
     background: rgba(var(--mmui-accent-blue-rgb), 0.1);
   }
 
@@ -1579,14 +1679,14 @@ async function triggerSelectedMethodSecondary(item) {
 
   .remote-page__other-option-name {
     color: var(--mmui-card-title);
-    font-size: 14px;
+    font-size: var(--mmui-font-size-body);
     font-weight: var(--mmui-font-weight-semibold);
     line-height: var(--mmui-line-height-tight);
   }
 
   .remote-page__other-option-desc {
     color: var(--mmui-text-soft);
-    font-size: 12px;
+    font-size: var(--mmui-font-size-caption);
     line-height: var(--mmui-line-height-tight);
   }
 
@@ -1621,21 +1721,21 @@ async function triggerSelectedMethodSecondary(item) {
   }
 
   .remote-page__os-block {
-    min-height: 62px;
+    min-height: 70px;
     gap: 12px;
   }
 
   .remote-page__os-logo {
-    width: 42px;
-    min-width: 42px;
-    height: 42px;
+    width: 54px;
+    min-width: 54px;
+    height: 54px;
   }
 
   .remote-page__os-logo svg,
   .remote-page__os-logo :deep(.anticon) {
-    width: 30px;
-    height: 30px;
-    font-size: 28px;
+    width: 1em;
+    height: 1em;
+    font-size: var(--remote-os-icon-size);
   }
 
   .remote-page__address-card {
@@ -1663,7 +1763,7 @@ async function triggerSelectedMethodSecondary(item) {
   }
 
   .remote-page__info-mono {
-    font-size: 13px;
+    font-size: var(--mmui-font-size-footnote);
     white-space: nowrap;
     word-break: normal;
     overflow-wrap: normal;
@@ -1687,7 +1787,7 @@ async function triggerSelectedMethodSecondary(item) {
   }
 
   .remote-page__access-gauge-score {
-    font-size: 18px;
+    font-size: var(--mmui-font-size-section);
   }
 
   .remote-page__access-gauge-copy {
@@ -1695,11 +1795,11 @@ async function triggerSelectedMethodSecondary(item) {
   }
 
   .remote-page__access-gauge-copy strong {
-    font-size: 16px;
+    font-size: var(--mmui-font-size-title);
   }
 
   .remote-page__access-gauge-copy span {
-    font-size: 12px;
+    font-size: var(--mmui-font-size-caption);
   }
 
   .remote-page__info-actions {
@@ -1714,7 +1814,7 @@ async function triggerSelectedMethodSecondary(item) {
   }
 
   .remote-page__info-actions :deep(.ant-btn) {
-    height: 40px;
+    height: var(--mmui-control-height);
   }
 
   .remote-page__tool-desc {

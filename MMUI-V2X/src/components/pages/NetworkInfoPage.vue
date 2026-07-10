@@ -253,7 +253,6 @@ import { message } from 'ant-design-vue';
 import { computed, ref, watch } from 'vue';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useDashboardStore } from '@/stores/dashboard';
-import { pinia } from '@/stores/pinia';
 import diskIcon from '@/assets/iconly-glass/Disk.svg';
 import infoIcon from '@/assets/iconly-glass/Info.svg';
 import menuIcon from '@/assets/iconly-glass/Menu.svg';
@@ -268,7 +267,7 @@ const props = defineProps({
 });
 
 const { pageRootRef, compactMode } = useCompactPageMode();
-const store = useDashboardStore(pinia);
+const store = useDashboardStore();
 const activeIpIndex = ref(0);
 const ipTransitionName = ref('network-ip-next');
 const expandedTableKeys = ref([]);
@@ -868,6 +867,11 @@ function displayValue(value) {
 
 <style scoped>
 .network-page {
+  --network-page-gap: var(--mmui-space-2);
+  --network-card-padding: var(--mmui-card-padding);
+  --network-card-padding-sm: var(--mmui-card-padding-sm);
+  --network-card-head-height: var(--mmui-card-head-height);
+  --network-row-height: var(--mmui-row-height);
   width: 100%;
 }
 
@@ -933,7 +937,7 @@ function displayValue(value) {
 }
 
 .network-page__focus-shell {
-  margin: 0 8px 12px;
+  margin: 0 8px var(--network-page-gap);
   overflow: hidden;
   border: 0;
   border-radius: 6px;
@@ -952,7 +956,7 @@ function displayValue(value) {
   gap: 16px;
   min-width: 0;
   min-height: 124px;
-  padding: 20px 22px;
+  padding: var(--network-card-padding);
   border-right: 1px solid var(--mmui-shell-border);
 }
 
@@ -1010,7 +1014,8 @@ function displayValue(value) {
 }
 
 .network-page__overview-item--ip .network-page__overview-copy strong {
-  font-size: 25px;
+  font-size: var(--mmui-font-size-page);
+  line-height: var(--mmui-line-height-page);
 }
 
 .network-page__overview-copy small {
@@ -1073,7 +1078,8 @@ function displayValue(value) {
 }
 
 .network-page__focus-card--ip strong {
-  font-size: 24px;
+  font-size: var(--mmui-font-size-page);
+  line-height: var(--mmui-line-height-page);
 }
 
 .network-page__ip-layout {
@@ -1125,7 +1131,7 @@ function displayValue(value) {
 
 .network-page__ip-copy :deep(.anticon),
 .network-page__ip-copy :deep(svg) {
-  font-size: 14px;
+  font-size: var(--mmui-font-size-body);
 }
 
 .network-page__ip-copy:hover {
@@ -1234,7 +1240,7 @@ function displayValue(value) {
 
 .network-page__tables {
   display: grid;
-  gap: 14px;
+  gap: var(--network-page-gap);
   margin: 0 8px 12px;
 }
 
@@ -1252,8 +1258,8 @@ function displayValue(value) {
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  min-height: 56px;
-  padding: 0 16px;
+  min-height: var(--network-card-head-height);
+  padding: 0 var(--network-card-padding);
   color: inherit;
   text-align: left;
   border: 0;
@@ -1271,7 +1277,7 @@ function displayValue(value) {
 
 .network-page__table-toggle {
   color: var(--mmui-text-muted);
-  font-size: 12px;
+  font-size: var(--mmui-font-size-caption);
   transition: transform 0.22s ease, color 0.18s ease;
 }
 
@@ -1316,7 +1322,7 @@ function displayValue(value) {
 }
 
 .network-page__table-title-icon.is-antd :deep(.anticon) {
-  font-size: 16px;
+  font-size: var(--mmui-font-size-title);
 }
 
 .network-page__table-count {
@@ -1339,7 +1345,7 @@ function displayValue(value) {
 }
 
 .network-page__table th {
-  padding: 12px 16px;
+  padding: 12px var(--network-card-padding);
   color: var(--mmui-text-muted);
   font-size: var(--mmui-font-size-footnote);
   font-weight: var(--mmui-text-body-emphasis-weight);
@@ -1349,7 +1355,7 @@ function displayValue(value) {
 }
 
 .network-page__table td {
-  padding: 15px 16px;
+  padding: 14px var(--network-card-padding);
   border-bottom: 1px solid var(--mmui-shell-border);
   vertical-align: top;
 }
@@ -1398,7 +1404,7 @@ function displayValue(value) {
 .network-page__info-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding: 10px 16px;
+  padding: var(--mmui-space-1) var(--network-card-padding);
 }
 
 .network-page__info-tile {
@@ -1444,7 +1450,7 @@ function displayValue(value) {
 }
 
 .network-page__info-icon.is-antd :deep(.anticon) {
-  font-size: 18px;
+  font-size: var(--mmui-font-size-section);
 }
 
 .network-page__table-card--line .network-page__table-title {
@@ -1458,7 +1464,7 @@ function displayValue(value) {
 }
 
 .network-page__table-card--line .network-page__table-title-icon.is-antd :deep(.anticon) {
-  font-size: 14px;
+  font-size: var(--mmui-font-size-body);
 }
 
 .network-page__table-card--line .network-page__info-tile {
@@ -1479,7 +1485,7 @@ function displayValue(value) {
 }
 
 .network-page__table-card--line .network-page__info-icon.is-antd :deep(.anticon) {
-  font-size: 24px;
+  font-size: var(--mmui-font-size-page);
 }
 
 .network-page__info-tile span,
@@ -1515,7 +1521,7 @@ function displayValue(value) {
 
 .network-page__traffic-list {
   display: grid;
-  padding: 0 16px;
+  padding: 0 var(--network-card-padding);
 }
 
 .network-page__traffic-item {
@@ -1524,8 +1530,8 @@ function displayValue(value) {
   grid-template-columns: auto minmax(0, 1fr) minmax(96px, auto);
   align-items: center;
   gap: 14px;
-  min-height: 92px;
-  padding: 18px 0;
+  min-height: var(--network-row-height);
+  padding: 16px 0;
 }
 
 .network-page__traffic-item + .network-page__traffic-item {
@@ -1792,15 +1798,15 @@ function displayValue(value) {
 
   .network-page__summary-label {
     white-space: nowrap;
-    font-size: 12px;
+    font-size: var(--mmui-font-size-caption);
   }
 
   .network-page__summary-value {
-    font-size: 16px;
+    font-size: var(--mmui-font-size-title);
   }
 
   .network-page__focus-shell.is-compact {
-    margin-bottom: 10px;
+    margin-bottom: var(--network-page-gap);
   }
 
   .network-page__focus-shell.is-compact .network-page__overview-grid {
@@ -1809,7 +1815,7 @@ function displayValue(value) {
 
   .network-page__focus-shell.is-compact .network-page__overview-item {
     min-height: 108px;
-    padding: 16px;
+    padding: var(--network-card-padding-sm);
   }
 
   .network-page__focus-shell.is-compact .network-page__overview-icon {
@@ -1825,7 +1831,8 @@ function displayValue(value) {
 
   .network-page__focus-shell.is-compact .network-page__overview-copy strong,
   .network-page__focus-shell.is-compact .network-page__overview-item--ip .network-page__overview-copy strong {
-    font-size: 19px;
+    font-size: var(--mmui-font-size-section);
+    line-height: var(--mmui-line-height-title);
   }
 
   .network-page__focus-shell.is-compact .network-page__focus-grid {
@@ -1836,24 +1843,24 @@ function displayValue(value) {
 
   .network-page__focus-shell.is-compact .network-page__focus-card {
     min-height: 88px;
-    padding: 14px;
+    padding: var(--network-card-padding-sm);
     border-right: 0;
     background: var(--mmui-card-surface);
   }
 
   .network-page__focus-shell.is-compact .network-page__focus-card strong {
     margin-top: 6px;
-    font-size: 18px;
+    font-size: var(--mmui-font-size-section);
   }
 
   .network-page__focus-shell.is-compact .network-page__focus-card--ip strong {
-    font-size: 21px;
+    font-size: var(--mmui-font-size-title-2);
   }
 
   .network-page__focus-shell.is-compact .network-page__focus-card small {
     margin-top: 4px;
-    font-size: 11px;
-    line-height: 1.45;
+    font-size: var(--mmui-font-size-caption);
+    line-height: var(--mmui-line-height-caption);
   }
 
   .network-page__focus-shell.is-compact .network-page__focus-card-head {
@@ -1915,6 +1922,24 @@ function displayValue(value) {
 
   .network-page__info-grid {
     grid-template-columns: minmax(0, 1fr);
+    padding-right: var(--network-card-padding-sm);
+    padding-left: var(--network-card-padding-sm);
+  }
+
+  .network-page__table-head {
+    padding-right: var(--network-card-padding-sm);
+    padding-left: var(--network-card-padding-sm);
+  }
+
+  .network-page__table th,
+  .network-page__table td {
+    padding-right: var(--network-card-padding-sm);
+    padding-left: var(--network-card-padding-sm);
+  }
+
+  .network-page__traffic-list {
+    padding-right: var(--network-card-padding-sm);
+    padding-left: var(--network-card-padding-sm);
   }
 
   .network-page__info-tile:nth-child(odd)::after {
@@ -1942,15 +1967,15 @@ function displayValue(value) {
 
   .network-page__focus-shell.is-compact .network-page__focus-card {
     min-height: 84px;
-    padding: 12px 13px;
+    padding: var(--network-card-padding-sm);
   }
 
   .network-page__focus-shell.is-compact .network-page__focus-card strong {
-    font-size: 17px;
+    font-size: var(--mmui-font-size-title);
   }
 
   .network-page__focus-shell.is-compact .network-page__focus-card--ip strong {
-    font-size: 19px;
+    font-size: var(--mmui-font-size-section);
   }
 
   .network-page__focus-shell.is-compact .network-page__summary {
@@ -1965,7 +1990,7 @@ function displayValue(value) {
   }
 
   .network-page__ip-mobile-head strong {
-    font-size: 17px;
+    font-size: var(--mmui-font-size-title);
   }
 
   .network-page__mobile-cell {

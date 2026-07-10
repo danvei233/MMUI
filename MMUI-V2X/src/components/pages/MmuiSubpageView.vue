@@ -6,6 +6,7 @@
         :pages="pages"
         :boot-modal-request="bootModalRequest"
         @boot-modal-request-consumed="emit('boot-modal-request-consumed')"
+        @reinstall-modal-request="emit('reinstall-modal-request')"
       />
     </template>
 
@@ -65,7 +66,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['boot-modal-request-consumed']);
+const emit = defineEmits(['boot-modal-request-consumed', 'reinstall-modal-request']);
 
 const currentTablePage = computed(() => {
   if (props.pageKey === 'snapshot') {

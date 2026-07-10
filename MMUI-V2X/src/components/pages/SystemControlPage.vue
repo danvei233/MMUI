@@ -75,7 +75,7 @@
               </a-button>
               <a-button
                 :disabled="isAnyPowerActionLoading"
-                @click="handlePowerAction('reboot')"
+                @click="confirmPowerAction('reboot')"
               >
                 <LoadingOutlined v-if="isActionLoading('system:power:reboot')" />
                 <ReloadOutlined v-else />
@@ -84,7 +84,7 @@
               <a-button
                 danger
                 :disabled="isAnyPowerActionLoading"
-                @click="handlePowerAction('shutdown')"
+                @click="confirmPowerAction('shutdown')"
               >
                 <LoadingOutlined v-if="isActionLoading('system:power:shutdown')" />
                 <PoweroffOutlined v-else />
@@ -139,7 +139,7 @@
               </div>
             </div>
 
-            <div class="system-page__action-buttons system-page__action-buttons--footer">
+            <div class="system-page__action-buttons system-page__action-buttons--footer system-page__action-buttons--block">
               <a-button type="primary" @click="openReinstallModal">
                 <CloudSyncOutlined />
                 开始重装
@@ -243,9 +243,9 @@
                   </div>
                 </div>
               </div>
-              <div class="system-page__overview-row">
+              <div class="system-page__overview-row system-page__overview-row--sync">
                 <span>时间同步</span>
-                <div class="system-page__overview-value">
+                <div class="system-page__overview-value system-page__overview-value--sync">
                   <strong>{{ syncTimeSupportText }}</strong>
                   <a-button
                     class="system-page__sync-inline-btn"
@@ -265,150 +265,6 @@
         </div>
       </a-col>
     </a-row>
-
-    <a-modal
-      v-model:open="reinstallModalOpen"
-      :title="null"
-      :closable="false"
-      :footer="null"
-      :destroyOnClose="false"
-      :width="720"
-      wrap-class-name="system-page__modal-wrap"
-      centered
-      class="system-page__modal"
-    >
-      <div class="system-page__modal-body system-page__reinstall-modal">
-        <div class="system-page__modal-head">
-          <span class="system-page__modal-icon" aria-hidden="true">
-            <CloudSyncOutlined />
-          </span>
-          <div class="system-page__modal-title-block">
-            <strong>{{ reinstallStep === 0 ? '重装系统' : '设置新密码' }}</strong>
-            <small>{{ reinstallStep === 0 ? '选择系统类型和具体镜像' : '确认目标系统并设置登录密码' }}</small>
-          </div>
-          <a-button class="system-page__modal-close" type="text" shape="circle" aria-label="关闭重装弹窗" @click="closeReinstallModal">
-            <CloseOutlined />
-          </a-button>
-        </div>
-
-        <div class="system-page__step-line" aria-label="重装步骤">
-          <div class="system-page__step-node" :class="{ 'is-active': reinstallStep === 0, 'is-done': reinstallStep > 0 }">
-            <span>1</span>
-            <strong>选择系统</strong>
-          </div>
-          <i aria-hidden="true"></i>
-          <div class="system-page__step-node" :class="{ 'is-active': reinstallStep === 1 }">
-            <span>2</span>
-            <strong>设置密码</strong>
-          </div>
-        </div>
-
-        <template v-if="reinstallStep === 0">
-          <div class="system-page__reinstall-picker">
-            <div class="system-page__family-tabs" aria-label="系统类型">
-              <button
-                v-for="family in reinstallFamilies"
-                :key="family.title"
-                type="button"
-                class="system-page__family-tab"
-                :class="{ 'is-active': family.title === selectedReinstallFamilyTitle }"
-                :aria-pressed="family.title === selectedReinstallFamilyTitle"
-                @click="selectReinstallFamily(family.title)"
-              >
-                <span
-                  class="system-page__family-glyph"
-                  :class="{ 'is-windows': resolveReinstallFamilyType(family) === 'windows' }"
-                  aria-hidden="true"
-                >
-                  <svg v-if="resolveReinstallFamilyType(family) === 'windows'" viewBox="0 0 24 24" role="img" aria-label="Windows">
-                    <rect x="3" y="4" width="8" height="7" rx="0.9" />
-                    <rect x="13" y="4" width="8" height="7" rx="0.9" />
-                    <rect x="3" y="13" width="8" height="7" rx="0.9" />
-                    <rect x="13" y="13" width="8" height="7" rx="0.9" />
-                  </svg>
-                  <template v-else>{{ family.glyph || family.title.slice(0, 1) }}</template>
-                </span>
-                <span class="system-page__family-copy">
-                  <strong>{{ family.title }}</strong>
-                  <small>{{ family.subtitle || `${family.options?.length || 0} 个镜像` }}</small>
-                </span>
-                <CheckCircleFilled v-if="family.title === selectedReinstallFamilyTitle" class="system-page__family-check" />
-              </button>
-            </div>
-
-            <div class="system-page__image-panel">
-              <div class="system-page__image-panel-head">
-                <span>具体系统</span>
-                <strong>{{ activeReinstallFamily?.title || '-' }}</strong>
-              </div>
-
-              <div v-if="activeReinstallOptions.length" class="system-page__option-list" aria-label="具体系统镜像">
-                <button
-                  v-for="option in activeReinstallOptions"
-                  :key="option"
-                  type="button"
-                  class="system-page__option-item"
-                  :class="{ 'is-active': option === selectedReinstallOption }"
-                  :aria-pressed="option === selectedReinstallOption"
-                  @click="selectReinstallOption(option)"
-                >
-                  <span class="system-page__option-main">
-                    <strong>{{ option }}</strong>
-                    <small>{{ activeReinstallFamily?.description || '选择后将进入密码设置' }}</small>
-                  </span>
-                  <span class="system-page__option-check" aria-hidden="true">
-                    <CheckCircleFilled v-if="option === selectedReinstallOption" />
-                  </span>
-                </button>
-              </div>
-
-              <a-empty v-else class="system-page__option-empty" description="暂无可选镜像" />
-            </div>
-          </div>
-        </template>
-
-        <template v-else>
-          <div class="system-page__confirm">
-            <div class="system-page__confirm-row">
-              <span>目标系统</span>
-              <strong>{{ selectedReinstallOption || '-' }}</strong>
-            </div>
-            <div class="system-page__confirm-row">
-              <span>新密码</span>
-              <a-input-password
-                v-model:value="reinstallPassword"
-                class="system-page__password-field"
-                placeholder="请输入新的系统密码"
-              />
-            </div>
-            <div class="system-page__confirm-help">
-              默认已带入当前系统密码，你可以直接使用，也可以在这里改成新的密码。
-            </div>
-          </div>
-        </template>
-
-        <div class="system-page__modal-actions">
-          <a-button :disabled="isActionLoading('system:reinstall')" @click="closeReinstallModal">取消</a-button>
-          <a-button v-if="reinstallStep === 1" @click="reinstallStep = 0">上一步</a-button>
-          <a-button
-            v-if="reinstallStep === 0"
-            type="primary"
-            @click="goReinstallNextStep"
-          >
-            下一步
-          </a-button>
-          <a-button
-            v-else
-            type="primary"
-            :loading="isActionLoading('system:reinstall')"
-            :disabled="isActionLoading('system:reinstall')"
-            @click="submitReinstall"
-          >
-            确认重装
-          </a-button>
-        </div>
-      </div>
-    </a-modal>
 
     <a-modal
       v-model:open="bootModalOpen"
@@ -491,10 +347,8 @@
 
 <script setup>
 import {
-  CheckCircleFilled,
   ClockCircleOutlined,
   CloudSyncOutlined,
-  CloseOutlined,
   CopyOutlined,
   EditOutlined,
   EyeInvisibleOutlined,
@@ -507,11 +361,10 @@ import {
   SwapOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
+import { message, Modal } from 'ant-design-vue';
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useDashboardStore } from '@/stores/dashboard';
-import { pinia } from '@/stores/pinia';
 import { useActionLocks } from '@/composables/useActionLocks';
 
 const props = defineProps({
@@ -529,18 +382,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['boot-modal-request-consumed']);
+const emit = defineEmits(['boot-modal-request-consumed', 'reinstall-modal-request']);
 
 const { pageRootRef } = useCompactPageMode();
-const store = useDashboardStore(pinia);
+const store = useDashboardStore();
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 
 const powerState = ref('');
-const reinstallModalOpen = ref(false);
-const reinstallStep = ref(0);
-const selectedReinstallFamilyTitle = ref('');
-const selectedReinstallOption = ref('');
-const reinstallPassword = ref('');
 const bootModalOpen = ref(false);
 const currentBootType = ref('');
 const currentIsoName = ref('');
@@ -569,10 +417,6 @@ const bootTypeOptions = computed(() => (
 const isoOptions = computed(() => (
   Array.isArray(props.pages?.iso?.isoOptions) ? props.pages.iso.isoOptions : []
 ));
-const activeReinstallFamily = computed(() => (
-  reinstallFamilies.value.find((family) => family.title === selectedReinstallFamilyTitle.value) || reinstallFamilies.value[0] || null
-));
-const activeReinstallOptions = computed(() => activeReinstallFamily.value?.options || []);
 const requiresIsoSelection = computed(() => draftBootType.value !== 'IDE');
 const powerStatusText = computed(() => {
   const status = String(powerState.value || host.value.status || '').trim();
@@ -613,19 +457,6 @@ const maskedSystemPassword = computed(() => maskValue(host.value.systemPassword)
 const maskedPanelPassword = computed(() => maskValue(host.value.panelPassword));
 const isKvmHost = computed(() => String(host.value.virtualType || '').toLowerCase().includes('kvm'));
 const syncTimeSupportText = computed(() => (isKvmHost.value ? 'KVM 未提供' : '按需执行'));
-
-function resolveReinstallFamilyType(family) {
-  const text = [
-    family?.type,
-    family?.key,
-    family?.title,
-    family?.subtitle,
-    family?.glyph,
-  ].filter(Boolean).join(' ').toLowerCase();
-
-  if (text.includes('windows') || text.includes('win')) return 'windows';
-  return 'generic';
-}
 
 function resolveHostStatusKind(hostInfo) {
   const stateCode = Number(hostInfo?.state);
@@ -809,58 +640,23 @@ async function handlePowerAction(action) {
   });
 }
 
-function openReinstallModal() {
-  reinstallModalOpen.value = true;
-  reinstallStep.value = 0;
-  selectedReinstallFamilyTitle.value = reinstallFamilies.value[0]?.title || '';
-  selectedReinstallOption.value = reinstallFamilies.value[0]?.options?.[0] || '';
-  reinstallPassword.value = host.value.systemPassword || '';
-}
-
-function closeReinstallModal() {
-  reinstallModalOpen.value = false;
-  reinstallStep.value = 0;
-}
-
-function selectReinstallFamily(title) {
-  selectedReinstallFamilyTitle.value = title;
-  const target = reinstallFamilies.value.find((family) => family.title === title);
-  selectedReinstallOption.value = target?.options?.[0] || '';
-}
-
-function selectReinstallOption(option) {
-  selectedReinstallOption.value = option;
-}
-
-function goReinstallNextStep() {
-  if (!selectedReinstallOption.value) {
-    message.warning('请先选择系统镜像');
-    return;
-  }
-
-  reinstallStep.value = 1;
-}
-
-async function submitReinstall() {
-  const errorMessage = validateSystemPassword(reinstallPassword.value);
-  if (errorMessage) {
-    message.warning(errorMessage);
-    return;
-  }
-
-  await runWithActionLoading('system:reinstall', async () => {
-    try {
-      await store.reinstallSystem({
-        image: selectedReinstallOption.value,
-        password: reinstallPassword.value,
-      });
-      message.success(`已提交重装请求：${selectedReinstallOption.value}`);
-      reinstallModalOpen.value = false;
-      reinstallStep.value = 0;
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '提交重装请求失败');
-    }
+function confirmPowerAction(action) {
+  const isShutdown = action === 'shutdown';
+  Modal.confirm({
+    title: isShutdown ? '确认关机实例？' : '确认重启实例？',
+    content: isShutdown
+      ? '关机会中断当前业务连接，实例关闭后需要手动启动。'
+      : '重启会短暂中断当前业务连接，请确认后继续。',
+    okText: isShutdown ? '确认关机' : '确认重启',
+    okType: isShutdown ? 'danger' : 'primary',
+    cancelText: '取消',
+    centered: true,
+    onOk: () => handlePowerAction(action),
   });
+}
+
+function openReinstallModal() {
+  emit('reinstall-modal-request');
 }
 
 function openBootModal() {
@@ -1127,10 +923,13 @@ async function submitSyncTime() {
 }
 
 .system-page__status-tag.ant-tag {
+  display: inline-flex !important;
+  align-items: center;
   margin: 0 !important;
   padding: 0 10px !important;
   font-size: var(--mmui-font-size-caption);
-  line-height: 22px;
+  line-height: var(--mmui-line-height-caption);
+  min-height: calc(var(--mmui-line-height-caption) + 6px);
   border-radius: 999px;
 }
 
@@ -1314,7 +1113,7 @@ async function submitSyncTime() {
 }
 
 .system-page__mono {
-  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-family: var(--mmui-font-family-mono);
 }
 
 .system-page__inline-link.ant-btn {
@@ -1340,6 +1139,16 @@ async function submitSyncTime() {
 .system-page__action-buttons--footer {
   margin-top: auto;
   padding-top: 18px;
+}
+
+.system-page__action-buttons--block {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.system-page__action-buttons--block .ant-btn {
+  width: 100%;
+  justify-content: center;
 }
 
 .system-page__boot-copy {
@@ -1736,6 +1545,30 @@ async function submitSyncTime() {
   .system-page__overview-value {
     justify-content: flex-start;
     width: 100%;
+  }
+
+  .system-page__overview-value--sync {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .system-page__overview-value--sync strong {
+    text-align: left;
+  }
+
+  .system-page__sync-inline-btn.ant-btn {
+    width: 100%;
+    height: var(--mmui-control-height);
+    justify-content: center;
+  }
+
+  .system-page__status-indicator {
+    align-self: flex-start;
+    justify-content: flex-start;
+    margin-left: 0;
+    text-align: left;
   }
 
   .system-page__overview-actions {

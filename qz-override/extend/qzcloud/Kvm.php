@@ -1645,7 +1645,11 @@ class Kvm{
         $post_data = [];
         // $post_data['sport'] = $param['sport'];
         //$post_data['dport'] = $param['dport'];
-        $post_data['dip'] = $param['ip'];
+        $dip = isset($param['dip']) ? $param['dip'] : (isset($param['ip']) ? $param['ip'] : '');
+        if($dip===''){
+            return ['code'=>0,'msg'=>'批量删除端口缺少目标IP'];
+        }
+        $post_data['dip'] = $dip;
         //$post_data['type_'] = $param['port_type'];
         //$post_data['vm_name'] =$param['host_name'];
 

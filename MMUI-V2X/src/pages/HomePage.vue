@@ -169,7 +169,12 @@
                               <EnvironmentOutlined class="dashboard-page__server-key-icon" />
                               <span>区域线路</span>
                             </span>
-                            <strong>{{ store.host.areaName || '-' }}｜{{ store.host.lineName || '-' }}</strong>
+                            <a-popover trigger="click" placement="topLeft">
+                              <template #content>
+                                <span class="dashboard-page__text-popover">{{ store.host.areaName || '-' }}｜{{ store.host.lineName || '-' }}</span>
+                              </template>
+                              <strong class="dashboard-page__server-pop-text">{{ store.host.areaName || '-' }}｜{{ store.host.lineName || '-' }}</strong>
+                            </a-popover>
                           </div>
                           <div class="dashboard-page__server-row dashboard-page__server-row--os">
                             <span class="dashboard-page__server-key">
@@ -177,7 +182,12 @@
                               <span>操作系统</span>
                             </span>
                             <div class="dashboard-page__server-value">
-                              <strong>{{ store.host.osName || '-' }}</strong>
+                              <a-popover trigger="click" placement="topLeft">
+                                <template #content>
+                                  <span class="dashboard-page__text-popover">{{ store.host.osName || '-' }}</span>
+                                </template>
+                                <strong class="dashboard-page__server-pop-text">{{ store.host.osName || '-' }}</strong>
+                              </a-popover>
                               <a-button type="link" class="dashboard-page__inline-link" @click="openReinstallModal">
                                 重装
                               </a-button>
@@ -198,24 +208,31 @@
                               </a-tag>
                             </div>
                           </div>
-                          <div class="dashboard-page__server-row">
+                          <div class="dashboard-page__server-row dashboard-page__server-row--password">
                             <span class="dashboard-page__server-key">
                               <KeyOutlined class="dashboard-page__server-key-icon" />
                               <span>系统密码</span>
                             </span>
-                            <div class="dashboard-page__server-value">
-                              <strong class="dashboard-page__mono">{{ showSystemPassword ? (store.host.systemPassword || '-') : maskedSystemPassword }}</strong>
-                              <a-button class="dashboard-page__copy-btn" type="text" size="small" @click="showSystemPassword = !showSystemPassword">
-                                <component :is="showSystemPassword ? EyeInvisibleOutlined : EyeOutlined" />
-                              </a-button>
-                              <a-tooltip title="修改系统密码">
-                                <a-button class="dashboard-page__copy-btn" type="text" size="small" @click="openPasswordModal('system')">
-                                  <EditOutlined />
+                            <div class="dashboard-page__server-value dashboard-page__server-value--password">
+                              <strong
+                                class="dashboard-page__mono"
+                                :class="{ 'is-password-visible': showSystemPassword }"
+                              >
+                                {{ showSystemPassword ? (store.host.systemPassword || '-') : maskedSystemPassword }}
+                              </strong>
+                              <div class="dashboard-page__server-actions">
+                                <a-button class="dashboard-page__copy-btn" type="text" size="small" @click="showSystemPassword = !showSystemPassword">
+                                  <component :is="showSystemPassword ? EyeInvisibleOutlined : EyeOutlined" />
                                 </a-button>
-                              </a-tooltip>
-                              <a-button class="dashboard-page__copy-btn" type="text" size="small" @click="copyValue(store.host.systemPassword, '系统密码')">
-                                <CopyOutlined />
-                              </a-button>
+                                <a-tooltip title="修改系统密码">
+                                  <a-button class="dashboard-page__copy-btn" type="text" size="small" @click="openPasswordModal('system')">
+                                    <EditOutlined />
+                                  </a-button>
+                                </a-tooltip>
+                                <a-button class="dashboard-page__copy-btn" type="text" size="small" @click="copyValue(store.host.systemPassword, '系统密码')">
+                                  <CopyOutlined />
+                                </a-button>
+                              </div>
                             </div>
                           </div>
                           <div class="dashboard-page__server-row">
@@ -224,8 +241,16 @@
                               <span>到期时间</span>
                             </span>
                             <div class="dashboard-page__server-value dashboard-page__server-value--expire">
-                              <strong>{{ store.host.expireDate || '-' }}</strong>
-                              <small v-if="expireDaysText">{{ expireDaysText }}</small>
+                              <a-popover trigger="click" placement="topLeft">
+                                <template #content>
+                                  <span class="dashboard-page__text-popover">
+                                    {{ store.host.expireDate || '-' }}
+                                    <template v-if="expireDaysText"> {{ expireDaysText }}</template>
+                                  </span>
+                                </template>
+                                <strong class="dashboard-page__server-pop-text">{{ store.host.expireDate || '-' }}</strong>
+                              </a-popover>
+                              <small v-if="expireDaysText" class="dashboard-page__server-pop-text">{{ expireDaysText }}</small>
                             </div>
                           </div>
                         </div>
@@ -408,7 +433,14 @@
                             <span>远程地址</span>
                           </span>
                           <div class="dashboard-page__account-main">
-                            <strong class="dashboard-page__account-text dashboard-page__mono">{{ store.host.remoteAddress || '-' }}</strong>
+                            <a-popover trigger="click" placement="topLeft">
+                              <template #content>
+                                <span class="dashboard-page__text-popover">{{ store.host.remoteAddress || '-' }}</span>
+                              </template>
+                              <strong class="dashboard-page__account-text dashboard-page__mono dashboard-page__account-pop-text">
+                                {{ store.host.remoteAddress || '-' }}
+                              </strong>
+                            </a-popover>
                           </div>
                           <div class="dashboard-page__account-actions">
                             <a-button class="dashboard-page__copy-btn" type="text" size="small" @click="copyValue(store.host.remoteAddress, '远程地址')">
@@ -579,6 +611,7 @@
                 :pages="store.pages"
                 :boot-modal-request="bootModalRequest"
                 @boot-modal-request-consumed="bootModalRequest = 0"
+                @reinstall-modal-request="openReinstallModal"
               />
             </Transition>
           </div>
@@ -856,7 +889,6 @@ import MmuiSubpageView from '@/components/pages/MmuiSubpageView.vue';
 import MmuiTutorial from '@/components/tutorial/MmuiTutorial.vue';
 import { mmuiPageMeta } from '@/config/navigation';
 import { useDashboardStore } from '@/stores/dashboard';
-import { pinia } from '@/stores/pinia';
 import {
   getRemoteActionLabel,
   getRemoteUser,
@@ -865,7 +897,7 @@ import {
   triggerHostRemoteAccess,
 } from '@/utils/remoteAccess';
 
-const store = useDashboardStore(pinia);
+const store = useDashboardStore();
 const themeMode = useThemeMode();
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 function extractSimpleIcon(svgRaw) {
@@ -1328,11 +1360,12 @@ const homeNetworkSummary = computed(() => {
   const bandwidth = upstreamBandwidthText.value || findNetworkValue(['带宽']);
   const upstream = findNetworkRelatedValue(['上行流量']);
   const downstream = findNetworkRelatedValue(['下行流量']);
-  const trafficLimit = findNetworkValue(['流量上限', '月流量上限', '月上限']) || store.pages?.network?.trafficLimit;
+  const trafficLimit = findNetworkValue(['流量上限', '月流量上限', '月上限', '总流量上限', '流量限制', '月流量限制', '总流量限制']) || readTrafficLimit();
   const hasTrafficUsageData = hasNetworkValue(upstream) || hasNetworkValue(downstream);
   const trafficUsedMb = (parseDataSize(upstream) || 0) + (parseDataSize(downstream) || 0);
   const trafficLimitMb = parseTrafficLimitSize(trafficLimit);
   const trafficPercent = hasTrafficUsageData && trafficLimitMb > 0 ? Math.round((trafficUsedMb / trafficLimitMb) * 100) : null;
+  const hasTrafficLimit = trafficLimitMb > 0;
 
   return {
     publicIp: displayNetworkValue(publicIp),
@@ -1342,7 +1375,7 @@ const homeNetworkSummary = computed(() => {
     peakBandwidth: buildBandwidthPeakText(),
     trafficUsed: hasTrafficUsageData ? formatDataSize(trafficUsedMb) : '未知',
     trafficLimit: displayTrafficLimitValue(trafficLimit),
-    trafficPercentText: trafficPercent === null ? (hasTrafficUsageData ? '未配置' : '未知') : `${trafficPercent}%`,
+    trafficPercentText: trafficPercent === null ? (hasTrafficUsageData ? (hasTrafficLimit ? '未配置' : '无限制') : '未知') : `${trafficPercent}%`,
     trafficPercentWidth: trafficPercent === null ? '0%' : `${Math.min(trafficPercent, 100)}%`,
   };
 });
@@ -1929,6 +1962,23 @@ function normalizeNetworkText(value) {
   return String(value || '').replace(/^[^：:]+[：:]\s*/, '').trim();
 }
 
+function splitNetworkCell(input, fallbackLabel = '') {
+  const text = String(input ?? '').trim();
+  const match = text.match(/^([^：:]+)[：:]\s*(.*)$/);
+
+  if (match) {
+    return {
+      label: match[1].trim(),
+      value: match[2].trim(),
+    };
+  }
+
+  return {
+    label: fallbackLabel,
+    value: text,
+  };
+}
+
 function displayNetworkValue(value) {
   const text = String(value || '').trim();
   return text || '-';
@@ -1943,18 +1993,55 @@ function networkTables() {
   return Array.isArray(store.pages?.network?.tables) ? store.pages.network.tables : [];
 }
 
-function findNetworkValue(labels) {
-  const normalizedLabels = labels.map((label) => String(label).toLowerCase());
+function networkCells() {
+  const cells = [];
 
   for (const table of networkTables()) {
-    for (const row of table.rows || []) {
-      for (const value of Object.values(row || {})) {
-        const text = String(value || '').trim();
-        const lowerText = text.toLowerCase();
+    const rows = Array.isArray(table.rows) ? table.rows : [];
+    const columns = Array.isArray(table.columns) && table.columns.length
+      ? table.columns
+      : Object.keys(rows[0] || {});
 
-        if (normalizedLabels.some((label) => lowerText.startsWith(`${label.toLowerCase()}：`) || lowerText.startsWith(`${label.toLowerCase()}:`))) {
-          return normalizeNetworkText(text);
-        }
+    for (const row of rows) {
+      for (const column of columns) {
+        cells.push(splitNetworkCell(row?.[column], column));
+      }
+    }
+  }
+
+  return cells;
+}
+
+function matchesNetworkLabel(input, labels) {
+  const text = String(input || '').toLowerCase();
+  return labels.some((label) => text.includes(String(label).toLowerCase()));
+}
+
+function findNetworkValue(labels) {
+  const cell = networkCells().find((item) => (
+    matchesNetworkLabel(item.label, labels) && hasNetworkValue(item.value)
+  ));
+
+  if (cell) {
+    return normalizeNetworkText(cell.value);
+  }
+
+  return '';
+}
+
+function findNetworkRelatedValue(labels) {
+  for (const table of networkTables()) {
+    const columns = Array.isArray(table.columns) && table.columns.length
+      ? table.columns
+      : Object.keys((table.rows || [])[0] || {});
+
+    for (const row of table.rows || []) {
+      const cells = columns.map((column) => splitNetworkCell(row?.[column], column));
+      const matched = cells.some((cell) => matchesNetworkLabel(cell.label, labels));
+
+      if (matched) {
+        const usageCell = cells.find((cell) => matchesNetworkLabel(cell.label, ['月使用', '使用', '已用']) && hasNetworkValue(cell.value));
+        return normalizeNetworkText(usageCell?.value || cells[1]?.value || cells[0]?.value);
       }
     }
   }
@@ -1962,25 +2049,18 @@ function findNetworkValue(labels) {
   return '';
 }
 
-function findNetworkRelatedValue(labels) {
-  const normalizedLabels = labels.map((label) => String(label).toLowerCase());
-
-  for (const table of networkTables()) {
-    for (const row of table.rows || []) {
-      const values = Object.values(row || {}).map((value) => String(value || '').trim());
-      const matched = values.some((value) => {
-        const lowerValue = value.toLowerCase();
-        return normalizedLabels.some((label) => lowerValue.startsWith(`${label}：`) || lowerValue.startsWith(`${label}:`));
-      });
-
-      if (matched) {
-        const usageValue = values.find((value) => /使用|已用|月使用/i.test(value));
-        return normalizeNetworkText(usageValue || values[1] || values[0]);
-      }
-    }
-  }
-
-  return '';
+function readTrafficLimit() {
+  const host = store.host || {};
+  const page = store.pages?.network || {};
+  return page.trafficLimit
+    ?? page.traffic?.limit
+    ?? page.flowLimit
+    ?? page.flow?.limit
+    ?? host.trafficLimit
+    ?? host.traffic
+    ?? host.flowLimit
+    ?? host.flow_limit
+    ?? '';
 }
 
 function parseDataSize(value) {
@@ -2006,7 +2086,7 @@ function parseDataSize(value) {
 function parseTrafficLimitSize(value) {
   const text = String(value || '').trim().replace(/,/g, '');
   if (!text || text === '-') {
-    return 0;
+    return null;
   }
 
   if (/^\d+(\.\d+)?$/.test(text)) {
@@ -2018,8 +2098,8 @@ function parseTrafficLimitSize(value) {
 
 function displayTrafficLimitValue(value) {
   const text = String(value || '').trim();
-  if (!text || text === '-') {
-    return '-';
+  if (!text || text === '-' || Number(text) === 0 || parseTrafficLimitSize(text) === 0) {
+    return '无限制';
   }
 
   if (/^\d+(\.\d+)?$/.test(text)) {
@@ -2150,7 +2230,7 @@ function getLastMetric(values) {
 
 function maskValue(value) {
   const text = String(value || '');
-  return text ? '•'.repeat(8) : '-';
+  return text ? '•'.repeat(5) : '-';
 }
 
 watch(
@@ -3095,6 +3175,25 @@ onBeforeUnmount(() => {
   line-height: var(--mmui-text-body-line-height);
 }
 
+.dashboard-page__server-pop-text {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dashboard-page__text-popover {
+  display: block;
+  max-width: min(320px, 72vw);
+  color: var(--mmui-card-title);
+  font-size: var(--mmui-font-size-body);
+  line-height: var(--mmui-line-height-body);
+  overflow-wrap: anywhere;
+}
+
 .dashboard-page__server-value {
   display: inline-flex;
   align-items: center;
@@ -3103,9 +3202,24 @@ onBeforeUnmount(() => {
   min-width: 0;
 }
 
+.dashboard-page__server-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex: 0 0 auto;
+  min-width: max-content;
+}
+
 .dashboard-page__server-row--os {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
+}
+
+.dashboard-page__server-row--password {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--mmui-space-2);
 }
 
 .dashboard-page__server-row--os .dashboard-page__server-value {
@@ -3114,11 +3228,31 @@ onBeforeUnmount(() => {
   max-width: 100%;
 }
 
+.dashboard-page__server-row--password .dashboard-page__server-value {
+  justify-self: stretch;
+}
+
+.dashboard-page__server-value--password {
+  justify-content: flex-start;
+}
+
+.dashboard-page__server-value--password > strong {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-page__server-value--password > strong.is-password-visible {
+  max-width: 128px;
+}
+
 .dashboard-page__server-row--os strong {
   min-width: 0;
   text-align: right;
-  white-space: normal;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .dashboard-page__server-row--os .dashboard-page__inline-link {
@@ -3130,6 +3264,10 @@ onBeforeUnmount(() => {
   gap: var(--mmui-space-1);
 }
 
+.dashboard-page__server-value--expire strong {
+  white-space: nowrap;
+}
+
 .dashboard-page__server-value--expire small {
   color: color-mix(in srgb, #2f9a43 88%, #ffffff);
   font-size: var(--mmui-font-size-caption);
@@ -3138,18 +3276,28 @@ onBeforeUnmount(() => {
 }
 
 .dashboard-page__server-row--stack {
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--mmui-space-2);
   padding: 12px 0;
 }
 
 .dashboard-page__server-tags {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 6px;
   min-width: 0;
-  margin-left: auto;
-  justify-content: flex-end;
-  overflow: visible;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dashboard-page__server-tags::-webkit-scrollbar {
+  display: none;
 }
 
 .dashboard-page__server-tags :deep(.dashboard-page__server-spec-tag) {
@@ -3270,22 +3418,52 @@ onBeforeUnmount(() => {
   }
 
   .dashboard-page__server-value {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    column-gap: var(--mmui-space-1);
     width: 100%;
+    align-items: center;
     justify-content: flex-start;
   }
 
+  .dashboard-page__server-value > strong {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .dashboard-page__server-row--os .dashboard-page__server-value {
-    justify-content: flex-start;
     justify-self: stretch;
   }
 
   .dashboard-page__server-row--os strong {
     text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .dashboard-page__server-value .dashboard-page__inline-link,
   .dashboard-page__server-value .dashboard-page__copy-btn {
-    margin-left: auto;
+    margin-left: 0;
+  }
+
+  .dashboard-page__server-actions {
+    flex: 0 0 auto;
+  }
+
+  .dashboard-page__server-value--expire {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+
+  .dashboard-page__server-value--expire strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .dashboard-page__server-tags {
@@ -3293,10 +3471,24 @@ onBeforeUnmount(() => {
     flex-wrap: nowrap;
     justify-content: flex-start;
     margin-left: 0;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dashboard-page__server-tags::-webkit-scrollbar {
+    display: none;
   }
 
   .dashboard-page__visual {
+    display: none;
+  }
+}
+
+@container dashboard-overview (max-width: 354px) {
+  .dashboard-page__server-value--expire small {
     display: none;
   }
 }
@@ -3348,8 +3540,8 @@ onBeforeUnmount(() => {
 
 .dashboard-page__account-card {
   grid-area: account;
-  align-self: start;
-  height: auto;
+  align-self: stretch;
+  height: 100%;
 }
 
 .dashboard-page__status-list,
@@ -3555,6 +3747,15 @@ onBeforeUnmount(() => {
   text-align: right;
 }
 
+.dashboard-page__account-pop-text {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
 .dashboard-page__mono {
   font-family: ui-monospace, Menlo, Consolas, monospace;
 }
@@ -3685,6 +3886,7 @@ onBeforeUnmount(() => {
   color: var(--mmui-card-title);
   font-size: var(--mmui-font-size-title);
   font-weight: var(--mmui-font-weight-semibold);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
   line-height: 1.1;
   white-space: nowrap;
 }
@@ -3892,15 +4094,6 @@ onBeforeUnmount(() => {
   height: 88px;
   border-radius: 16px;
   background: radial-gradient(circle at 50% 50%, rgba(var(--mmui-accent-blue-rgb), 0.14), transparent 62%);
-}
-
-.dashboard-page__quick-graphic::before {
-  position: absolute;
-  content: '';
-  inset: 8px;
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
-  opacity: 0.4;
 }
 
 .dashboard-page__quick-icon {

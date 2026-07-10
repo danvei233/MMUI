@@ -132,7 +132,6 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import * as echarts from 'echarts';
 import { useCompactPageMode } from '@/components/pages/useCompactPageMode';
 import { useDashboardStore } from '@/stores/dashboard';
-import { pinia } from '@/stores/pinia';
 import { useActionLocks } from '@/composables/useActionLocks';
 import cpuIcon from '@/assets/iconly-glass/cpu.svg';
 import diskIcon from '@/assets/iconly-glass/Disk.svg';
@@ -140,7 +139,7 @@ import memoryIcon from '@/assets/iconly-glass/memory.svg';
 import networkIcon from '@/assets/iconly-glass/network.svg';
 
 const { pageRootRef, compactMode } = useCompactPageMode(980);
-const store = useDashboardStore(pinia);
+const store = useDashboardStore();
 const { isActionLoading, runWithActionLoading } = useActionLocks();
 const chartElements = new Map();
 const charts = new Map();
@@ -374,12 +373,25 @@ function renderMetricChart(item) {
     },
     tooltip: {
       trigger: 'axis',
-      appendToBody: true,
+      appendToBody: false,
+      confine: true,
       backgroundColor: readThemeVar('--mmui-card-surface', '#161616'),
       borderColor: readThemeVar('--mmui-shell-border', '#2a2a2a'),
       textStyle: {
         color: readThemeVar('--mmui-card-title', '#d0d0d0'),
         fontSize: 12,
+      },
+      position(point, params, dom, rect, size) {
+        const gap = 10;
+        const viewWidth = size.viewSize[0];
+        const viewHeight = size.viewSize[1];
+        const boxWidth = size.contentSize[0];
+        const boxHeight = size.contentSize[1];
+        const preferredY = point[1] - boxHeight - gap;
+        const nextY = preferredY >= gap ? preferredY : point[1] + gap;
+        const x = Math.min(Math.max(gap, point[0] + gap), Math.max(gap, viewWidth - boxWidth - gap));
+        const y = Math.min(Math.max(gap, nextY), Math.max(gap, viewHeight - boxHeight - gap));
+        return [x, y];
       },
     },
     xAxis: {
@@ -577,6 +589,11 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .monitor-page {
+  --monitor-page-gap: var(--mmui-space-2);
+  --monitor-card-padding: var(--mmui-card-padding);
+  --monitor-card-padding-sm: var(--mmui-card-padding-sm);
+  --monitor-card-head-height: var(--mmui-card-head-height);
+  --monitor-row-height: var(--mmui-row-height);
   width: 100%;
   min-width: 0;
   overflow-x: hidden;
@@ -665,7 +682,7 @@ onBeforeUnmount(() => {
 .monitor-page__aurora-grid {
   display: grid;
   grid-template-columns: repeat(24, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--monitor-page-gap);
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
@@ -688,7 +705,7 @@ onBeforeUnmount(() => {
 .monitor-page__remote-panel {
   grid-column: span 16;
   position: relative;
-  padding: 24px 32px;
+  padding: var(--monitor-card-padding);
 }
 
 .monitor-page__chart-card {
@@ -696,7 +713,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   width: 100%;
-  --monitor-chart-x-padding: 18px;
+  --monitor-chart-x-padding: var(--monitor-card-padding);
 }
 
 .monitor-page__panel-title {
@@ -709,10 +726,10 @@ onBeforeUnmount(() => {
 .monitor-page__remote-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 248px;
-  gap: 28px;
+  gap: var(--monitor-card-padding);
   align-items: center;
   min-width: 0;
-  margin-top: 18px;
+  margin-top: var(--monitor-page-gap);
 }
 
 .monitor-page__remote-list {
@@ -727,7 +744,7 @@ onBeforeUnmount(() => {
   grid-template-columns: 96px minmax(0, 1fr);
   align-items: center;
   gap: 16px;
-  min-height: 42px;
+  min-height: var(--monitor-row-height);
 }
 
 .monitor-page__remote-row span {
@@ -747,7 +764,7 @@ onBeforeUnmount(() => {
 }
 
 .monitor-page__remote-row strong.is-mono {
-  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-family: var(--mmui-font-family-mono);
 }
 
 .monitor-page__remote-status {
@@ -824,8 +841,8 @@ onBeforeUnmount(() => {
 
 .monitor-page__gauge-score {
   fill: var(--mmui-card-title);
-  font-size: 24px;
-  font-weight: 700;
+  font-size: var(--mmui-font-size-page);
+  font-weight: var(--mmui-text-headline-weight);
   dominant-baseline: middle;
 }
 
@@ -860,7 +877,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 62px;
+  min-height: var(--monitor-card-head-height);
   padding: 0 var(--monitor-chart-x-padding);
   background: transparent;
 }
@@ -884,15 +901,25 @@ onBeforeUnmount(() => {
   width: 36px;
   flex: 0 0 36px;
   height: 36px;
-  border-radius: 12px;
-  background: rgba(var(--mmui-accent-blue-rgb), 0.1);
+  min-width: 36px;
+  max-width: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .monitor-page__chart-icon img {
   display: block;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  min-width: 32px;
+  max-width: 32px;
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
   object-fit: contain;
+  flex: 0 0 32px;
 }
 
 .monitor-page__chart-title span {
@@ -913,7 +940,7 @@ onBeforeUnmount(() => {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px var(--monitor-chart-x-padding) 4px;
+  padding: 0 var(--monitor-chart-x-padding) 4px;
 }
 
 .monitor-page__chart-meta strong {
@@ -939,7 +966,7 @@ onBeforeUnmount(() => {
   height: 212px;
   min-height: 0;
   margin: 0 var(--monitor-chart-x-padding);
-  padding: 0 0 12px;
+  padding: 0 0 var(--monitor-card-padding);
 }
 
 @media (max-width: 1180px) {
@@ -974,11 +1001,11 @@ onBeforeUnmount(() => {
   .monitor-page__summary-label,
   .monitor-page__summary-hint {
     white-space: nowrap;
-    font-size: 12px;
+    font-size: var(--mmui-font-size-caption);
   }
 
   .monitor-page__summary-value {
-    font-size: 16px;
+    font-size: var(--mmui-font-size-title);
   }
 
   .monitor-page__remote-layout {
@@ -1011,26 +1038,26 @@ onBeforeUnmount(() => {
   }
 
   .monitor-page__chart-card {
-    --monitor-chart-x-padding: 14px;
+    --monitor-chart-x-padding: var(--monitor-card-padding-sm);
     min-height: 252px;
   }
 
   .monitor-page__chart-head {
-    min-height: 56px;
+    min-height: var(--monitor-card-head-height);
   }
 
   .monitor-page__chart-meta {
-    padding-top: 10px;
+    padding-top: 0;
   }
 
   .monitor-page__chart-canvas {
     height: 168px;
-    padding-bottom: 10px;
+    padding-bottom: var(--monitor-card-padding-sm);
   }
 
   .monitor-page__remote-panel {
     min-height: 252px;
-    padding: 16px 18px;
+    padding: var(--monitor-card-padding-sm);
   }
 
   .monitor-page__remote-layout {
@@ -1050,7 +1077,7 @@ onBeforeUnmount(() => {
   .monitor-page__remote-row {
     grid-template-columns: 78px minmax(0, 1fr);
     gap: 10px;
-    min-height: 34px;
+    min-height: 38px;
   }
 
   .monitor-page__gauge-copy {
@@ -1058,11 +1085,11 @@ onBeforeUnmount(() => {
   }
 
   .monitor-page__gauge-copy strong {
-    font-size: 16px;
+    font-size: var(--mmui-font-size-title);
   }
 
   .monitor-page__gauge-copy span {
-    font-size: 12px;
+    font-size: var(--mmui-font-size-caption);
   }
 }
 
@@ -1071,37 +1098,37 @@ onBeforeUnmount(() => {
   background: var(--mmui-card-surface);
 }
 
-.mmui-theme-root[data-mmui-theme='dark'] .monitor-page__chart-head,
-.mmui-theme-root[data-mmui-theme='dark'] .monitor-page__chart-icon {
+.mmui-theme-root[data-mmui-theme='dark'] .monitor-page__chart-head {
   background-image: none;
 }
 
 .mmui-theme-root[data-mmui-theme='dark'] .monitor-page__chart-icon {
-  background-color: rgba(var(--mmui-accent-blue-rgb), 0.12);
+  background: transparent;
+  box-shadow: none;
 }
 
 @media (max-width: 420px) {
   .monitor-page__chart-card {
-    --monitor-chart-x-padding: 12px;
+    --monitor-chart-x-padding: var(--monitor-card-padding-sm);
     min-height: 228px;
   }
 
   .monitor-page__chart-head {
-    min-height: 52px;
+    min-height: 56px;
   }
 
   .monitor-page__chart-meta {
-    padding-top: 8px;
+    padding-top: 0;
   }
 
   .monitor-page__chart-canvas {
     height: 148px;
-    padding-bottom: 8px;
+    padding-bottom: var(--monitor-card-padding-sm);
   }
 
   .monitor-page__remote-panel {
     min-height: 226px;
-    padding: 14px;
+    padding: var(--monitor-card-padding-sm);
   }
 
   .monitor-page__remote-layout {
@@ -1121,17 +1148,17 @@ onBeforeUnmount(() => {
   .monitor-page__remote-row {
     grid-template-columns: 64px minmax(0, 1fr);
     gap: 8px;
-    min-height: 30px;
+    min-height: 34px;
   }
 
   .monitor-page__remote-row span,
   .monitor-page__remote-row strong,
   .monitor-page__gauge-copy span {
-    font-size: 12px;
+    font-size: var(--mmui-font-size-caption);
   }
 
   .monitor-page__gauge-copy strong {
-    font-size: 14px;
+    font-size: var(--mmui-font-size-body);
   }
 }
 </style>

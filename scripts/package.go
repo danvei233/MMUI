@@ -72,11 +72,15 @@ func main() {
 	buildLoginRoot := filepath.Join(workRoot, "build", "LoginUI")
 	buildEcsDist := filepath.Join(buildEcsRoot, "dist-package")
 	buildLoginDist := filepath.Join(buildLoginRoot, "dist-package")
+	buildEcsDistEnv := buildEcsDist
+	buildLoginDistEnv := buildLoginDist
 	if sourceBuild {
 		buildEcsRoot = ecsRoot
 		buildLoginRoot = loginRoot
 		buildEcsDist = filepath.Join(ecsRoot, ".mmui-package-dist")
 		buildLoginDist = filepath.Join(loginRoot, ".mmui-package-dist")
+		buildEcsDistEnv = ".mmui-package-dist"
+		buildLoginDistEnv = ".mmui-package-dist"
 		must(os.RemoveAll(buildEcsDist))
 		must(os.RemoveAll(buildLoginDist))
 	}
@@ -101,14 +105,14 @@ func main() {
 
 		fmt.Println("build ECS")
 		must(run(buildEcsRoot, map[string]string{
-			"MMUI_ECS_DIST_DIR":    buildEcsDist,
+			"MMUI_ECS_DIST_DIR":    buildEcsDistEnv,
 			"MMUI_ECS_BUNDLE_PATH": ecsBundle,
 		}, "npm", "run", "build:php"))
 		must(copyTree(buildEcsDist, ecsDist, nil))
 
 		fmt.Println("build LoginUI")
 		must(run(buildLoginRoot, map[string]string{
-			"MMUI_LOGIN_DIST_DIR": buildLoginDist,
+			"MMUI_LOGIN_DIST_DIR": buildLoginDistEnv,
 			"VITE_ASSET_BASE":     "/static/component/auroraboat/login/",
 		}, "npm", "run", "build"))
 		must(copyTree(buildLoginDist, loginDist, nil))

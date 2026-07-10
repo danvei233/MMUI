@@ -16,6 +16,7 @@
   --mmui-sidebar-width-collapsed: 96px;
   --mmui-header-height: 56px;
   --mmui-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Compact Text", "SF Compact Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --mmui-font-family-mono: ui-monospace, Menlo, Consolas, "SF Mono", "Liberation Mono", monospace;
   --mmui-text-caption-size: 12px;
   --mmui-text-caption-line-height: 16px;
   --mmui-text-footnote-size: 13px;
