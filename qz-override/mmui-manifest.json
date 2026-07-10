@@ -1,6 +1,6 @@
 {
   "name": "MMUI-V2X Qzsys Override",
-  "version": "V2X 2.0.0",
+  "version": "V2X 2.0.1",
   "code": "LightningBoatX",
   "hooks": [
     "app/admin/controller/Index.php",

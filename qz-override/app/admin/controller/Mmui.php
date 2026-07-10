@@ -66,7 +66,7 @@ class Mmui extends Base
             $data['mmui_console_title'] = $this->textValue('mmui_console_title', $data['mmui_console_title'] ?? '云管理系统', 40);
             $data['mmui_console_logo'] = $this->assetValue('mmui_console_logo', $data['mmui_console_logo'] ?? '');
             $data['mmui_author'] = '丁薇';
-            $data['mmui_version'] = 'V2X 2.0.0';
+            $data['mmui_version'] = 'V2X 2.0.1';
             $data['mmui_version_code'] = 'LightningBoatX';
             set_web($data);
             return $this->success('保存成功', Request::root() . '/mmui/index');

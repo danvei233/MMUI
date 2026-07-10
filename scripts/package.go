@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"crypto/sha1"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -28,6 +29,7 @@ var (
 	sourceBuild bool
 	keepWork    bool
 	skipBuild   bool
+	versionFlag string
 )
 
 func main() {
@@ -41,6 +43,7 @@ func main() {
 	flag.BoolVar(&sourceBuild, "source-build", false, "build frontend projects in their source directories")
 	flag.BoolVar(&keepWork, "keep-work", false, "keep temporary package directory")
 	flag.BoolVar(&skipBuild, "skip-build", false, "skip npm builds and package existing dist directories")
+	flag.StringVar(&versionFlag, "version", "", "package version (for example: V2X 2.0.1, V2X-2.0.1, or 2.0.1)")
 	flag.Parse()
 
 	projectRoot, err = filepath.Abs(projectRoot)
@@ -54,6 +57,9 @@ func main() {
 	requireDir(ecsRoot)
 	requireDir(loginRoot)
 	requireDir(overrideRoot)
+	packageVersion, err := resolvePackageVersion(overrideRoot, versionFlag)
+	must(err)
+	fmt.Println("version:", packageVersion)
 
 	if strings.TrimSpace(workDir) != "" {
 		workDir, err = filepath.Abs(workDir)
@@ -124,12 +130,13 @@ func main() {
 	}
 
 	must(writeLoginBundle(filepath.Join(loginDist, "index.html"), loginBundle))
-	must(writePackageReadme(stageRoot))
+	must(applyPackageVersion(stageRoot, packageVersion))
+	must(writePackageReadme(stageRoot, packageVersion))
 
 	must(os.MkdirAll(outDir, 0755))
 	if strings.TrimSpace(zipName) == "" {
 		stamp := time.Now().Format("20060102-150405")
-		zipName = "mmui-v2x-qz-override-" + stamp + ".zip"
+		zipName = "mmui-v2x-qz-override-" + versionSlug(packageVersion) + "-" + stamp + ".zip"
 	}
 	if filepath.Ext(zipName) == "" {
 		zipName += ".zip"
@@ -364,8 +371,10 @@ func loginBrandScript() string {
     </script>`
 }
 
-func writePackageReadme(stageRoot string) error {
+func writePackageReadme(stageRoot, version string) error {
 	text := `# MMUI-V2X Qz Override
+
+Version: ` + version + `
 
 Copy the contents of this package to the qzsystem root.
 
@@ -377,6 +386,72 @@ This package contains:
 It intentionally excludes .env, install.lock, demo SQL, and local debug files.
 `
 	return os.WriteFile(filepath.Join(stageRoot, "MMUI_PACKAGE_README.md"), []byte(text), 0644)
+}
+
+func resolvePackageVersion(overrideRoot, requested string) (string, error) {
+	if strings.TrimSpace(requested) == "" {
+		requested = strings.TrimSpace(os.Getenv("MMUI_VERSION"))
+	}
+	if strings.TrimSpace(requested) == "" {
+		data, err := os.ReadFile(filepath.Join(overrideRoot, "mmui-manifest.json"))
+		if err != nil {
+			return "", err
+		}
+		var manifest struct {
+			Version string `json:"version"`
+		}
+		if err := json.Unmarshal(data, &manifest); err != nil {
+			return "", fmt.Errorf("read manifest version: %w", err)
+		}
+		requested = manifest.Version
+	}
+	return normalizeVersion(requested)
+}
+
+func normalizeVersion(input string) (string, error) {
+	value := strings.TrimSpace(input)
+	value = strings.TrimPrefix(value, "refs/tags/")
+	value = strings.TrimSpace(value)
+
+	prefix := regexp.MustCompile(`(?i)^(?:mmui[-_ ]*)?v2x[-_ ]*`)
+	if prefix.MatchString(value) {
+		value = prefix.ReplaceAllString(value, "")
+	} else {
+		value = regexp.MustCompile(`(?i)^v([0-9])`).ReplaceAllString(value, "$1")
+	}
+	value = strings.TrimSpace(value)
+	if !regexp.MustCompile(`^[0-9][0-9A-Za-z._+-]{0,63}$`).MatchString(value) {
+		return "", fmt.Errorf("invalid MMUI version: %q", input)
+	}
+	return "V2X " + value, nil
+}
+
+func versionSlug(version string) string {
+	slug := strings.ReplaceAll(strings.TrimSpace(version), " ", "-")
+	slug = regexp.MustCompile(`[^0-9A-Za-z._+-]+`).ReplaceAllString(slug, "-")
+	return strings.Trim(slug, "-")
+}
+
+func applyPackageVersion(stageRoot, version string) error {
+	versionPattern := regexp.MustCompile(`V2X\s+[0-9][0-9A-Za-z._+-]*`)
+	allowed := map[string]bool{".html": true, ".json": true, ".md": true, ".php": true}
+	return filepath.WalkDir(stageRoot, func(path string, entry fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if entry.IsDir() || !allowed[strings.ToLower(filepath.Ext(path))] {
+			return nil
+		}
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		updated := versionPattern.ReplaceAll(data, []byte(version))
+		if bytes.Equal(data, updated) {
+			return nil
+		}
+		return os.WriteFile(path, updated, 0644)
+	})
 }
 
 func zipDir(src, zipPath string) error {

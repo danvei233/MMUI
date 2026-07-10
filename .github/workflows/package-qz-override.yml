@@ -2,6 +2,11 @@ name: Build Qz Override Package
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Package version, for example V2X 2.0.1 (defaults to manifest version)"
+        required: false
+        type: string
   release:
     types:
       - published
@@ -47,6 +52,37 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
+      - name: Resolve package version
+        id: package
+        shell: pwsh
+        env:
+          MANUAL_VERSION: ${{ inputs.version }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          REF_NAME: ${{ github.ref_name }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          $version = ([string]$env:MANUAL_VERSION).Trim()
+          if (-not $version -and $env:EVENT_NAME -eq "release") {
+            $version = ([string]$env:RELEASE_TAG).Trim()
+          }
+          if (-not $version -and $env:GITHUB_REF -like "refs/tags/*") {
+            $version = ([string]$env:REF_NAME).Trim()
+          }
+          if (-not $version) {
+            $manifest = Get-Content "qz-override/mmui-manifest.json" -Raw | ConvertFrom-Json
+            $version = [string]$manifest.version
+          }
+
+          $slug = ($version -replace '^refs/tags/', '' -replace '[^0-9A-Za-z._+-]+', '-').Trim('-')
+          if (-not $slug) {
+            throw "Unable to derive package filename from version: $version"
+          }
+          $filename = "mmui-v2x-qz-override-$slug.zip"
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "filename=$filename" >> $env:GITHUB_OUTPUT
+          "artifact=mmui-v2x-qz-override-$slug" >> $env:GITHUB_OUTPUT
+          "Resolved package version: $version"
+
       - name: Build packager
         shell: pwsh
         run: |
@@ -55,22 +91,23 @@ jobs:
       - name: Build qz override package
         shell: pwsh
         run: |
-          .\scripts\mmui-packager.exe -source-build -name mmui-v2x-qz-override.zip
+          .\scripts\mmui-packager.exe -source-build -version "${{ steps.package.outputs.version }}" -name "${{ steps.package.outputs.filename }}"
 
       - name: Generate checksum
         shell: pwsh
         run: |
-          $zip = "release\mmui-v2x-qz-override.zip"
+          $filename = "${{ steps.package.outputs.filename }}"
+          $zip = "release\$filename"
           $sha = (Get-FileHash -Algorithm SHA256 $zip).Hash.ToLower()
-          "$sha  mmui-v2x-qz-override.zip" | Set-Content -Encoding ascii "release\mmui-v2x-qz-override.zip.sha256"
+          "$sha  $filename" | Set-Content -Encoding ascii "$zip.sha256"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mmui-v2x-qz-override
+          name: ${{ steps.package.outputs.artifact }}
           path: |
-            release/mmui-v2x-qz-override.zip
-            release/mmui-v2x-qz-override.zip.sha256
+            release/${{ steps.package.outputs.filename }}
+            release/${{ steps.package.outputs.filename }}.sha256
           if-no-files-found: error
 
       - name: Publish GitHub Release
@@ -78,5 +115,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/mmui-v2x-qz-override.zip
-            release/mmui-v2x-qz-override.zip.sha256
+            release/${{ steps.package.outputs.filename }}
+            release/${{ steps.package.outputs.filename }}.sha256
