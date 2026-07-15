@@ -59,7 +59,10 @@ func main() {
 	requireDir(overrideRoot)
 	packageVersion, err := resolvePackageVersion(overrideRoot, versionFlag)
 	must(err)
+	patchTargets, err := readPatchTargets(overrideRoot)
+	must(err)
 	fmt.Println("version:", packageVersion)
+	fmt.Println("version-aware patch targets:", len(patchTargets))
 
 	if strings.TrimSpace(workDir) != "" {
 		workDir, err = filepath.Abs(workDir)
@@ -96,7 +99,8 @@ func main() {
 	loginBundle := filepath.Join(stageRoot, "view", "index", "index", "mmui_bundle.html")
 
 	fmt.Println("copy override")
-	must(copyTree(overrideRoot, stageRoot, nil))
+	must(copyTree(overrideRoot, stageRoot, skipExactRelativePaths(overrideRoot, patchTargets)))
+	must(validatePatchTargetsExcluded(stageRoot, patchTargets))
 
 	if !skipBuild {
 		if sourceBuild {
@@ -376,16 +380,78 @@ func writePackageReadme(stageRoot, version string) error {
 
 Version: ` + version + `
 
-Copy the contents of this package to the qzsystem root.
+Copy the contents of this package to the qzsystem root, then run:
+
+php mmui-install.php
+
+The installer detects the qzsystem version, backs up target files under
+runtime/mmui-backup, and injects idempotent MMUI hooks. You can also visit
+/admin/mmui/index once to run the same repair from the admin panel.
 
 This package contains:
-- MMUI qz hooks and bridge files
+- MMUI version-aware installer, hooks, and bridge files
 - ECS MMUI built assets under public/src/static/mmui
 - LoginUI built assets under public/static/component/auroraboat/login
 
-It intentionally excludes .env, install.lock, demo SQL, and local debug files.
+It intentionally excludes qzsystem core patch targets, .env, install.lock,
+demo SQL, and local debug files. Existing qzsystem core files are preserved.
 `
 	return os.WriteFile(filepath.Join(stageRoot, "MMUI_PACKAGE_README.md"), []byte(text), 0644)
+}
+
+func readPatchTargets(overrideRoot string) ([]string, error) {
+	data, err := os.ReadFile(filepath.Join(overrideRoot, "mmui-manifest.json"))
+	if err != nil {
+		return nil, err
+	}
+	var manifest struct {
+		PatchTargets []string `json:"patch_targets"`
+	}
+	if err := json.Unmarshal(data, &manifest); err != nil {
+		return nil, fmt.Errorf("read manifest patch targets: %w", err)
+	}
+	for index, path := range manifest.PatchTargets {
+		manifest.PatchTargets[index] = filepath.Clean(filepath.FromSlash(path))
+	}
+	return manifest.PatchTargets, nil
+}
+
+func skipExactRelativePaths(root string, paths []string) func(string, fs.DirEntry) bool {
+	excluded := make(map[string]bool, len(paths))
+	for _, path := range paths {
+		excluded[strings.ToLower(filepath.Clean(path))] = true
+	}
+	return func(path string, entry fs.DirEntry) bool {
+		if entry.IsDir() {
+			return false
+		}
+		rel, err := filepath.Rel(root, path)
+		if err != nil {
+			return false
+		}
+		return excluded[strings.ToLower(filepath.Clean(rel))]
+	}
+}
+
+func validatePatchTargetsExcluded(stageRoot string, paths []string) error {
+	for _, path := range paths {
+		staged := filepath.Join(stageRoot, filepath.Clean(path))
+		if _, err := os.Stat(staged); err == nil {
+			return fmt.Errorf("qzsystem core patch target leaked into package: %s", filepath.ToSlash(path))
+		} else if !errors.Is(err, os.ErrNotExist) {
+			return err
+		}
+	}
+	for _, required := range []string{
+		"mmui-install.php",
+		"extend/mmui/MmuiPatch.php",
+		"extend/mmui/MmuiQzVersion.php",
+	} {
+		if _, err := os.Stat(filepath.Join(stageRoot, filepath.FromSlash(required))); err != nil {
+			return fmt.Errorf("missing version-aware installer file %s: %w", required, err)
+		}
+	}
+	return nil
 }
 
 func resolvePackageVersion(overrideRoot, requested string) (string, error) {

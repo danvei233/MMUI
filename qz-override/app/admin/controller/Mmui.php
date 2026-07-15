@@ -45,6 +45,9 @@ class Mmui extends Base
 
     public function index()
     {
+        $mmuiPatchResult = class_exists('\\mmui\\MmuiPatch')
+            ? \mmui\MmuiPatch::repair($this->app)
+            : ['ok' => false, 'message' => 'MMUI 修复模块缺失'];
         $config = config('web');
         if (empty($config['mmui_first_open_token'])) {
             $config['mmui_first_open_token'] = bin2hex(random_bytes(8));
@@ -93,6 +96,9 @@ class Mmui extends Base
             'mmui_health' => $mmuiHealth,
             'mmui_health_label' => $mmuiHealth['label'],
             'mmui_health_class' => $mmuiHealth['ok'] ? 'is-ok' : 'is-warn',
+            'mmui_patch_result' => $mmuiPatchResult,
+            'qz_version_label' => $mmuiHealth['version']['label'] ?? '未识别轻舟版本',
+            'qz_version_class' => ($mmuiHealth['version']['status'] ?? '') === 'supported' ? '' : 'is-bad',
             'mmui_enabled_label' => $enabled ? 'MMUI已启用' : '原版界面',
             'mmui_enabled_checked' => $enabled ? 'checked' : '',
             'mmui_disabled_checked' => $enabled ? '' : 'checked',

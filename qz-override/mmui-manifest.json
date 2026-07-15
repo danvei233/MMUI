@@ -7,14 +7,29 @@
     "app/common/service/Ecs.php",
     "app/control/controller/Ecs.php",
     "app/index/controller/Index.php",
-    "extend/qzcloud/Kvm.php"
+    "extend/qzcloud/Kvm.php",
+    "extend/qzcloud/HyperV.php"
+  ],
+  "qz_compatibility": {
+    "min_tested": "2024083001",
+    "max_tested": "2026070901",
+    "strategy": "version-aware-idempotent-patch"
+  },
+  "patch_targets": [
+    "app/admin/controller/Index.php",
+    "app/common/service/Ecs.php",
+    "app/control/controller/Ecs.php",
+    "app/index/controller/Index.php",
+    "extend/qzcloud/Kvm.php",
+    "extend/qzcloud/HyperV.php"
   ],
   "core": [
     "extend/mmui/MmuiEcsBridge.php",
     "extend/mmui/MmuiEcsPayload.php",
     "extend/mmui/MmuiHealth.php",
     "extend/mmui/MmuiLoginBridge.php",
-    "extend/mmui/MmuiPatch.php"
+    "extend/mmui/MmuiPatch.php",
+    "extend/mmui/MmuiQzVersion.php"
   ],
   "templates": [
     "view/admin/mmui/index.html",

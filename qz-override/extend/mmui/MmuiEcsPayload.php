@@ -280,7 +280,7 @@ class MmuiEcsPayload
                 'vnc' => $rootUrl . 'vnc_host',
                 'reinstall' => $rootUrl . 'reinstall_host',
                 'iso' => [
-                    'list' => $rootUrl . 'iso_list_host?hostid=' . $hostid,
+                    'list' => preg_replace('#ecs/$#', 'mmui/', $rootUrl) . 'iso_list_host?hostid=' . $hostid,
                     'mount' => $rootUrl . 'mountiso_host',
                     'unmount' => $rootUrl . 'unmountiso_host',
                     'bios' => $rootUrl . 'set_bios',
