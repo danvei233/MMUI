@@ -1090,6 +1090,262 @@
             line-height: 1.7;
         }
 
+        .mmui-install-shell {
+            width: min(100% - 32px, 1040px);
+            margin: 0 auto;
+            padding: 28px 0 40px;
+        }
+
+        .mmui-install-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 0 2px 18px;
+            border-bottom: 1px solid #dfe6ee;
+        }
+
+        .mmui-install-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .mmui-install-mark {
+            display: grid;
+            flex: 0 0 42px;
+            width: 42px;
+            height: 42px;
+            place-items: center;
+            color: #fff;
+            border-radius: 6px;
+            background: #1769aa;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .mmui-install-brand h1 {
+            margin: 0 0 3px;
+            color: #172033;
+            font-size: 20px;
+            line-height: 1.2;
+            letter-spacing: 0;
+        }
+
+        .mmui-install-brand p,
+        .mmui-install-version span {
+            margin: 0;
+            color: #6d7887;
+            font-size: 12px;
+        }
+
+        .mmui-install-version {
+            text-align: right;
+        }
+
+        .mmui-install-version strong {
+            display: block;
+            margin-bottom: 3px;
+            color: #1b7a55;
+            font-size: 13px;
+        }
+
+        .mmui-install-version strong.is-bad {
+            color: #a36316;
+        }
+
+        .mmui-install-workbench {
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(250px, .55fr);
+            min-height: 500px;
+            margin-top: 18px;
+            overflow: hidden;
+            border: 1px solid #dfe6ee;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 12px 32px rgba(30, 55, 86, .08);
+        }
+
+        .mmui-install-main {
+            padding: 30px 32px;
+        }
+
+        .mmui-install-kicker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: #1769aa;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mmui-install-kicker:before {
+            width: 22px;
+            height: 2px;
+            background: #24a26f;
+            content: "";
+        }
+
+        .mmui-install-main h2 {
+            margin: 0 0 9px;
+            color: #172033;
+            font-size: 26px;
+            line-height: 1.25;
+            letter-spacing: 0;
+        }
+
+        .mmui-install-lead {
+            max-width: 640px;
+            margin: 0;
+            color: #687587;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .mmui-install-checks {
+            margin: 26px 0 0;
+            border-top: 1px solid #e8edf3;
+        }
+
+        .mmui-install-check {
+            display: grid;
+            grid-template-columns: 34px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 12px;
+            min-height: 66px;
+            border-bottom: 1px solid #e8edf3;
+        }
+
+        .mmui-install-check-index {
+            display: grid;
+            width: 28px;
+            height: 28px;
+            place-items: center;
+            color: #1769aa;
+            border: 1px solid #b8d0e5;
+            border-radius: 50%;
+            background: #f5f9fc;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .mmui-install-check strong,
+        .mmui-install-check span {
+            display: block;
+        }
+
+        .mmui-install-check strong {
+            margin-bottom: 4px;
+            color: #263244;
+            font-size: 13px;
+        }
+
+        .mmui-install-check span {
+            color: #7a8695;
+            font-size: 12px;
+        }
+
+        .mmui-install-check em {
+            color: #1b7a55;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        .mmui-install-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 26px;
+        }
+
+        .mmui-install-actions .pear-btn {
+            min-width: 138px;
+            height: 40px;
+        }
+
+        .mmui-install-actions small {
+            color: #778392;
+            line-height: 1.5;
+        }
+
+        .mmui-install-side {
+            padding: 30px 24px;
+            border-left: 1px solid #dfe6ee;
+            background: #f7f9fc;
+        }
+
+        .mmui-install-side h3 {
+            margin: 0 0 18px;
+            color: #263244;
+            font-size: 14px;
+        }
+
+        .mmui-install-facts {
+            margin: 0;
+        }
+
+        .mmui-install-fact {
+            padding: 13px 0;
+            border-bottom: 1px solid #e1e7ee;
+        }
+
+        .mmui-install-fact dt {
+            margin-bottom: 5px;
+            color: #7a8695;
+            font-size: 11px;
+        }
+
+        .mmui-install-fact dd {
+            margin: 0;
+            overflow-wrap: anywhere;
+            color: #2c394b;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .mmui-install-log {
+            display: none;
+            max-height: 220px;
+            margin-top: 20px;
+            overflow: auto;
+            border: 1px solid #dce4ec;
+            border-radius: 6px;
+            background: #fbfcfe;
+        }
+
+        .mmui-install-log.is-visible {
+            display: block;
+        }
+
+        .mmui-install-log div {
+            display: grid;
+            grid-template-columns: 14px minmax(0, 1fr);
+            gap: 8px;
+            padding: 9px 11px;
+            color: #4d5a6b;
+            border-bottom: 1px solid #e8edf3;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .mmui-install-log div:last-child {
+            border-bottom: 0;
+        }
+
+        .mmui-install-log i {
+            color: #1b7a55;
+            font-style: normal;
+            font-weight: 800;
+        }
+
+        .mmui-install-log .is-failed i {
+            color: #c14343;
+        }
+
         @media (max-width: 1080px) {
             .mmui-statusbar {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1110,6 +1366,47 @@
         }
 
         @media (max-width: 680px) {
+            .mmui-install-shell {
+                width: min(100% - 20px, 1040px);
+                padding-top: 10px;
+            }
+
+            .mmui-install-topbar {
+                align-items: flex-start;
+            }
+
+            .mmui-install-version span {
+                display: none;
+            }
+
+            .mmui-install-workbench {
+                grid-template-columns: 1fr;
+            }
+
+            .mmui-install-main,
+            .mmui-install-side {
+                padding: 22px 18px;
+            }
+
+            .mmui-install-side {
+                border-top: 1px solid #dfe6ee;
+                border-left: 0;
+            }
+
+            .mmui-install-check {
+                grid-template-columns: 30px minmax(0, 1fr);
+                padding: 9px 0;
+            }
+
+            .mmui-install-check em {
+                grid-column: 2;
+            }
+
+            .mmui-install-actions {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
             .mmui-shell {
                 width: min(100% - 20px, 1440px);
                 padding-top: 10px;
@@ -1183,6 +1480,106 @@
     </style>
 </head>
 <body class="pear-container">
+{if $mmui_install_required}
+<div class="mmui-install-shell">
+    <header class="mmui-install-topbar">
+        <div class="mmui-install-brand">
+            <div class="mmui-install-mark">LX</div>
+            <div>
+                <h1>MMUI 初始化</h1>
+                <p>LightningBoatX / V2X 2.0.1</p>
+            </div>
+        </div>
+        <div class="mmui-install-version">
+            <strong class="{$qz_version_class}">{$qz_version_label}</strong>
+            <span>检测来源：{$qz_version_source}</span>
+        </div>
+    </header>
+
+    <main class="mmui-install-workbench">
+        <section class="mmui-install-main">
+            <div class="mmui-install-kicker">首次安装</div>
+            <h2>准备 MMUI 运行环境</h2>
+            <p class="mmui-install-lead">安装会保留轻舟现有核心文件，先创建备份，再按当前代码结构注入必要 Hook。已安装过旧版 MMUI 时会自动执行兼容迁移。</p>
+
+            <div class="mmui-install-checks">
+                <div class="mmui-install-check">
+                    <div class="mmui-install-check-index">01</div>
+                    <div><strong>识别轻舟版本</strong><span>{$qz_version_label}</span></div>
+                    <em>已完成</em>
+                </div>
+                <div class="mmui-install-check">
+                    <div class="mmui-install-check-index">02</div>
+                    <div><strong>保护现有核心文件</strong><span>安装前写入独立备份目录</span></div>
+                    <em>待执行</em>
+                </div>
+                <div class="mmui-install-check">
+                    <div class="mmui-install-check-index">03</div>
+                    <div><strong>注入兼容 Hook</strong><span>登录页、ECS、菜单、KVM 与 Hyper-V</span></div>
+                    <em>待执行</em>
+                </div>
+            </div>
+
+            <div id="mmuiInstallLog" class="mmui-install-log" aria-live="polite"></div>
+            <div class="mmui-install-actions">
+                <button type="button" class="pear-btn pear-btn-primary" id="installMmui"><i class="layui-icon layui-icon-set-fill"></i> 一键安装</button>
+                <small>安装成功后将自动进入配置设置。</small>
+            </div>
+        </section>
+
+        <aside class="mmui-install-side">
+            <h3>安装摘要</h3>
+            <dl class="mmui-install-facts">
+                <div class="mmui-install-fact"><dt>MMUI 版本</dt><dd>V2X 2.0.1</dd></div>
+                <div class="mmui-install-fact"><dt>轻舟版本</dt><dd>{$qz_version_label}</dd></div>
+                <div class="mmui-install-fact"><dt>安装方式</dt><dd>版本感知 · 幂等 Hook</dd></div>
+                <div class="mmui-install-fact"><dt>备份位置</dt><dd>runtime/mmui-backup</dd></div>
+                <div class="mmui-install-fact"><dt>核心文件</dt><dd>解压阶段不直接覆盖</dd></div>
+            </dl>
+        </aside>
+    </main>
+</div>
+<script>
+layui.use(['jquery', 'layer'], function () {
+    var $ = layui.jquery;
+    var layer = layui.layer;
+    var button = $('#installMmui');
+    var log = $('#mmuiInstallLog');
+    var installUrl = "{$Request.root}/mmui/install";
+
+    function renderResults(items) {
+        log.empty().addClass('is-visible');
+        (items || []).forEach(function (item) {
+            var failed = item.ok === false;
+            var row = $('<div>').toggleClass('is-failed', failed);
+            row.append($('<i>').text(failed ? '!' : '✓'));
+            row.append($('<span>').text((item.path || '检查项') + ' · ' + (item.message || '完成')));
+            log.append(row);
+        });
+    }
+
+    button.on('click', function () {
+        if (button.prop('disabled')) return;
+        button.prop('disabled', true).html('<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i> 正在安装');
+        $.post(installUrl, {}, function (res) {
+            renderResults(res.data && res.data.results ? res.data.results : []);
+            if (res.code === 0) {
+                button.html('<i class="layui-icon layui-icon-ok-circle"></i> 安装完成');
+                layer.msg(res.msg || '安装完成', {icon: 1, time: 900}, function () {
+                    window.location.reload();
+                });
+                return;
+            }
+            button.prop('disabled', false).html('<i class="layui-icon layui-icon-refresh"></i> 重新安装');
+            layer.msg(res.msg || '安装失败', {icon: 2});
+        }, 'json').fail(function () {
+            button.prop('disabled', false).html('<i class="layui-icon layui-icon-refresh"></i> 重新安装');
+            layer.msg('安装请求失败，请检查 PHP 日志', {icon: 2});
+        });
+    });
+});
+</script>
+{else}
 <canvas id="mmuiConfetti" aria-hidden="true"></canvas>
 <div class="mmui-shell">
     <header class="mmui-titlebar">
@@ -1685,5 +2082,6 @@ layui.use(['form', 'upload', 'jquery', 'layer'], function () {
     close.addEventListener('click', closeParticleLab);
 })();
 </script>
+{/if}
 </body>
 </html>

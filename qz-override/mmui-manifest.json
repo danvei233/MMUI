@@ -11,7 +11,7 @@
     "extend/qzcloud/HyperV.php"
   ],
   "qz_compatibility": {
-    "min_tested": "2024083001",
+    "min_tested": "2021110101",
     "max_tested": "2026070901",
     "strategy": "version-aware-idempotent-patch"
   },
@@ -27,6 +27,7 @@
     "extend/mmui/MmuiEcsBridge.php",
     "extend/mmui/MmuiEcsPayload.php",
     "extend/mmui/MmuiHealth.php",
+    "extend/mmui/MmuiInstallState.php",
     "extend/mmui/MmuiLoginBridge.php",
     "extend/mmui/MmuiPatch.php",
     "extend/mmui/MmuiQzVersion.php"

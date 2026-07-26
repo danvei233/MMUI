@@ -380,13 +380,10 @@ func writePackageReadme(stageRoot, version string) error {
 
 Version: ` + version + `
 
-Copy the contents of this package to the qzsystem root, then run:
-
-php mmui-install.php
-
-The installer detects the qzsystem version, backs up target files under
-runtime/mmui-backup, and injects idempotent MMUI hooks. You can also visit
-/admin/mmui/index once to run the same repair from the admin panel.
+Copy the contents of this package to the qzsystem root. Sign in to the
+qzsystem admin panel, open /admin/mmui/index, and use the first-run installer.
+It detects the qzsystem version, backs up target files under
+runtime/mmui-backup, and injects idempotent MMUI hooks from the UI.
 
 This package contains:
 - MMUI version-aware installer, hooks, and bridge files

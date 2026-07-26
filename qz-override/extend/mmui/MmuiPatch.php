@@ -212,6 +212,11 @@ class MmuiPatch
             return self::result($path, false, '文件不存在');
         }
         $source = (string)file_get_contents($file);
+        $hasDomainDelete = strpos($source, 'batDeleteDomainHost') !== false;
+        $hasPortDelete = strpos($source, 'batDeletePortHost') !== false;
+        if (!$hasDomainDelete && !$hasPortDelete) {
+            return self::result($path, true, '当前轻舟版本无批量删除接口，已跳过 dip/ip 参数修复');
+        }
         $patched = self::addHostIpKeys($source, 'batDeleteDomainHost');
         $patched = self::addHostIpKeys($patched, 'batDeletePortHost');
         if ($patched === $source) {
@@ -285,15 +290,19 @@ class MmuiPatch
 
     private static function addHostIpKeys($source, $method)
     {
-        $pattern = '/(' . preg_quote($method, '/') . '\s*\(\s*\$node->toArray\(\)\s*,\s*\[)(.*?)(\]\s*\)\s*;)/s';
+        $pattern = '/(' . preg_quote($method, '/') . '\s*\(\s*\$[^,]+?->toArray\(\)\s*,\s*\[)(.*?)(\]\s*\)\s*;)/s';
         return preg_replace_callback($pattern, function ($matches) {
             $body = $matches[2];
+            if (!preg_match('/=>\s*(\$[^\s,\]]+)->host_name/', $body, $hostMatches)) {
+                return $matches[0];
+            }
+            $host = $hostMatches[1];
             $suffix = '';
             if (strpos($body, "'dip'=>") === false && strpos($body, "'dip' =>") === false) {
-                $suffix .= "\r\n                        'dip'=>\$host->ip,";
+                $suffix .= "\r\n                        'dip'=>" . $host . "->ip,";
             }
             if (strpos($body, "'ip'=>") === false && strpos($body, "'ip' =>") === false) {
-                $suffix .= "\r\n                        'ip'=>\$host->ip,";
+                $suffix .= "\r\n                        'ip'=>" . $host . "->ip,";
             }
             $body = rtrim($body);
             if ($suffix !== '' && substr($body, -1) !== ',') {
@@ -306,7 +315,10 @@ class MmuiPatch
     private static function deleteContractReady($source)
     {
         foreach (['batDeleteDomainHost', 'batDeletePortHost'] as $method) {
-            $pattern = '/' . preg_quote($method, '/') . '\s*\(\s*\$node->toArray\(\)\s*,\s*\[(.*?)\]\s*\)\s*;/s';
+            if (strpos($source, $method) === false) {
+                continue;
+            }
+            $pattern = '/' . preg_quote($method, '/') . '\s*\(\s*\$[^,]+?->toArray\(\)\s*,\s*\[(.*?)\]\s*\)\s*;/s';
             if (!preg_match_all($pattern, $source, $matches) || count($matches[1]) < 1) {
                 return false;
             }

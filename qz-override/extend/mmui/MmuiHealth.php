@@ -16,7 +16,7 @@ class MmuiHealth
             self::fileItem($root, 'extend/mmui/MmuiLoginBridge.php', 'Login Bridge'),
             self::fileItem($root, 'extend/mmui/MmuiPatch.php', 'Hook 修复模块'),
             self::fileItem($root, 'extend/mmui/MmuiQzVersion.php', '轻舟版本解析器'),
-            self::fileItem($root, 'mmui-install.php', 'CLI 安装器'),
+            self::fileItem($root, 'extend/mmui/MmuiInstallState.php', '安装状态模块'),
             self::containsItem($root, 'app/control/controller/Ecs.php', 'MmuiEcsBridge::tryHandle', 'ECS 控制器 Hook'),
             self::containsItem($root, 'app/index/controller/Index.php', 'MmuiLoginBridge::tryHandle', '登录页 Hook'),
             self::containsItem($root, 'app/admin/controller/Index.php', '/mmui/index', '后台菜单入口'),

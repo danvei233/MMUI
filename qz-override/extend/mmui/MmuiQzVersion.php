@@ -3,7 +3,7 @@ namespace mmui;
 
 class MmuiQzVersion
 {
-    const MIN_TESTED = 2024083001;
+    const MIN_TESTED = 2021110101;
     const CURRENT_TESTED = 2026070901;
     const HYPERV_DIP_VERSION = 2025111901;
 

@@ -45,16 +45,20 @@ class Mmui extends Base
 
     public function index()
     {
-        $mmuiPatchResult = class_exists('\\mmui\\MmuiPatch')
-            ? \mmui\MmuiPatch::repair($this->app)
-            : ['ok' => false, 'message' => 'MMUI 修复模块缺失'];
+        $root = $this->app->getRootPath();
+        $installState = class_exists('\\mmui\\MmuiInstallState')
+            ? \mmui\MmuiInstallState::read($root)
+            : ['installed' => false, 'data' => []];
         $config = config('web');
-        if (empty($config['mmui_first_open_token'])) {
+        if ($installState['installed'] && empty($config['mmui_first_open_token'])) {
             $config['mmui_first_open_token'] = bin2hex(random_bytes(8));
             set_web($config);
         }
 
         if (Request::isPost()) {
+            if (!$installState['installed']) {
+                return $this->error('请先完成 MMUI 安装');
+            }
             $data = $config;
             $postedEnable = Request::post('mmui_enable', '0', 'strip_tags');
             $postedLoginEnable = Request::post('mmui_login_enable', '0', 'strip_tags');
@@ -90,15 +94,20 @@ class Mmui extends Base
             'label' => 'MMUI 自检模块缺失',
             'items' => [],
         ];
+        $qzVersion = $mmuiHealth['version'] ?? (class_exists('\\mmui\\MmuiQzVersion')
+            ? \mmui\MmuiQzVersion::detect($root)
+            : ['status' => 'unknown', 'label' => '未识别轻舟版本', 'source' => 'unknown']);
 
         return $this->fetch('', [
             'data' => $config,
             'mmui_health' => $mmuiHealth,
             'mmui_health_label' => $mmuiHealth['label'],
             'mmui_health_class' => $mmuiHealth['ok'] ? 'is-ok' : 'is-warn',
-            'mmui_patch_result' => $mmuiPatchResult,
-            'qz_version_label' => $mmuiHealth['version']['label'] ?? '未识别轻舟版本',
-            'qz_version_class' => ($mmuiHealth['version']['status'] ?? '') === 'supported' ? '' : 'is-bad',
+            'mmui_install_required' => !$installState['installed'],
+            'mmui_install_state' => $installState,
+            'qz_version_label' => $qzVersion['label'] ?? '未识别轻舟版本',
+            'qz_version_source' => $qzVersion['source'] ?? 'unknown',
+            'qz_version_class' => ($qzVersion['status'] ?? '') === 'supported' ? '' : 'is-bad',
             'mmui_enabled_label' => $enabled ? 'MMUI已启用' : '原版界面',
             'mmui_enabled_checked' => $enabled ? 'checked' : '',
             'mmui_disabled_checked' => $enabled ? '' : 'checked',
@@ -118,6 +127,38 @@ class Mmui extends Base
             'mmui_login_asset_label' => $loginAssetExists
                 ? '已链接 AuroraBoat LoginUI 构建产物'
                 : '未找到 AuroraBoat LoginUI 构建产物',
+        ]);
+    }
+
+    public function install()
+    {
+        if (!Request::isPost()) {
+            return json(['code' => 201, 'msg' => '请使用 POST 请求']);
+        }
+        if (!class_exists('\\mmui\\MmuiPatch') || !class_exists('\\mmui\\MmuiInstallState')) {
+            return json(['code' => 201, 'msg' => 'MMUI 安装模块缺失']);
+        }
+
+        $result = \mmui\MmuiPatch::repair($this->app);
+        if ($result['ok'] && !\mmui\MmuiInstallState::complete($this->app->getRootPath(), $result, 'V2X 2.0.1')) {
+            $result['ok'] = false;
+            $result['message'] = '兼容补丁已执行，但安装状态写入失败';
+        }
+        if ($result['ok']) {
+            $config = config('web');
+            if (empty($config['mmui_first_open_token'])) {
+                $config['mmui_first_open_token'] = bin2hex(random_bytes(8));
+            }
+            $config['mmui_author'] = '丁薇';
+            $config['mmui_version'] = 'V2X 2.0.1';
+            $config['mmui_version_code'] = 'LightningBoatX';
+            set_web($config);
+        }
+
+        return json([
+            'code' => $result['ok'] ? 0 : 201,
+            'msg' => $result['message'],
+            'data' => $result,
         ]);
     }
 
@@ -182,6 +223,9 @@ class Mmui extends Base
         }
 
         $result = \mmui\MmuiPatch::repair($this->app);
+        if ($result['ok'] && class_exists('\\mmui\\MmuiInstallState')) {
+            \mmui\MmuiInstallState::complete($this->app->getRootPath(), $result, 'V2X 2.0.1');
+        }
         return json([
             'code' => $result['ok'] ? 0 : 201,
             'msg' => $result['message'],
